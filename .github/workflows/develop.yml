@@ -1,0 +1,54 @@
+name: Develop Branch CI
+
+on:
+  push:
+    branches:
+      - develop
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Full Validation
+    runs-on: ubuntu-latest
+    env:
+      NX_CI: 'true'
+      NX_DAEMON: 'false'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Restore Nx Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .nx/cache
+            node_modules/.cache/nx
+          key: ${{ runner.os }}-nx-${{ hashFiles('package-lock.json') }}-develop
+          restore-keys: |
+            ${{ runner.os }}-nx-${{ hashFiles('package-lock.json') }}-
+            ${{ runner.os }}-nx-
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Install Playwright Browsers
+        uses: microsoft/playwright-github-action@v1
+        with:
+          version: 1.36.0
+
+      - name: Typecheck & Build All Projects
+        run: npx nx run-many -t typecheck build --all --parallel=3 --verbose
+
+      - name: Playwright E2E Suite
+        run: npx nx run @bunlar/frontend-e2e:e2e --verbose
