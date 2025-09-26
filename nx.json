@@ -8,9 +8,12 @@
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/src/test-setup.[jt]s"
     ],
-    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
+    "sharedGlobals": [
+      "{workspaceRoot}/.github/workflows/pull-request.yml",
+      "{workspaceRoot}/.github/workflows/develop.yml",
+      "{workspaceRoot}/.github/workflows/main.yml"
+    ]
   },
-  "nxCloudId": "68d6c9c696bf706ca2c61a50",
   "plugins": [
     {
       "plugin": "@nx/js/typescript",
