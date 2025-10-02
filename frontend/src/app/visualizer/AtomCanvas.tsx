@@ -15,7 +15,7 @@ export function AtomCanvas({ element, shells }: AtomCanvasProps) {
   const autoRotate = useAtomStore((state) => state.view.autoRotate);
 
   return (
-    <div className="atom-viewer">
+    <div className="absolute inset-0">
       <Canvas
         shadows
         gl={{ antialias: true, alpha: false }}
@@ -39,7 +39,7 @@ export function AtomCanvas({ element, shells }: AtomCanvasProps) {
           maxDistance={50}
           autoRotate={autoRotate}
           autoRotateSpeed={0.35}
-          enablePan={false}
+          enablePan
         />
       </Canvas>
       <Loader dataInterpolation={(ratio) => `${Math.round(ratio * 100)}%`} />
