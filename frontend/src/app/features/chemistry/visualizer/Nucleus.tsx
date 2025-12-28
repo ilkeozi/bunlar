@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
-import type { NucleusParticle } from '../utils/particle-distribution';
-import { useAtomColors } from '../visualizer/useAtomColors';
+import type { NucleusParticle } from '../../../utils/particle-distribution';
+import { useAtomColors } from './useAtomColors';
 import { createGlowSpriteMaterial } from './glowTextures';
 
 interface NucleusProps {
@@ -14,7 +14,7 @@ export function Nucleus({ particles }: NucleusProps) {
     return Math.max(0.7, Math.cbrt(Math.max(particles.length, 1)) * 0.34);
   }, [particles.length]);
 
-  const sphereGeometry = useMemo(() => new THREE.SphereGeometry(0.26, 16, 16), []);
+  const sphereGeometry = useMemo(() => new THREE.SphereGeometry(0.26, 12, 12), []);
   const protonMaterial = useMemo(() => new THREE.MeshBasicMaterial({ color: colors.proton }), [colors.proton]);
   const neutronMaterial = useMemo(() => new THREE.MeshBasicMaterial({ color: colors.neutron }), [colors.neutron]);
   const protonGlowMaterial = useMemo(() => createGlowSpriteMaterial(colors.proton, 1.1, 0), [colors.proton]);
@@ -50,7 +50,7 @@ export function Nucleus({ particles }: NucleusProps) {
       ))}
 
       <mesh scale={coreRadius * 1.3}>
-        <sphereGeometry args={[1, 20, 20]} />
+        <sphereGeometry args={[1, 16, 16]} />
         <meshBasicMaterial color={colors.nucleusGlow} transparent opacity={0.12} />
       </mesh>
     </group>

@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Loader, OrbitControls, Environment, AdaptiveDpr, AdaptiveEvents } from '@react-three/drei';
-import type { ElementDetails, ElectronShell } from '../data/elements';
-import { useAtomStore } from '../state/useAtomStore';
+import type { ElementDetails, ElectronShell } from '../../../data/elements';
+import { useAtomStore } from '../../../state/useAtomStore';
 import { AtomSystem } from './AtomSystem';
 import { SceneBackdrop } from './SceneBackdrop';
 
@@ -17,7 +17,7 @@ export function AtomCanvas({ element, shells }: AtomCanvasProps) {
   return (
     <div className="absolute inset-0">
       <Canvas
-        shadows
+        dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: false }}
         camera={{ position: [0, 6, 14], fov: 42, near: 0.1, far: 120 }}
       >

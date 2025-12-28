@@ -21,9 +21,6 @@ export function SoftLightRig() {
       <directionalLight
         position={[6, 10, 8]}
         intensity={2.2}
-        castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
       />
       <directionalLight position={[-9, -5, -6]} intensity={1.4} color={0x90aaff} />
       <pointLight position={[0, 5, -10]} intensity={0.7} color={0xff7744} decay={1.5} distance={70} />

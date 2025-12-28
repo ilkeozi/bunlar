@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { Line } from '@react-three/drei';
-import type { ElectronParticle } from '../utils/particle-distribution';
-import type { ElectronShell } from '../data/elements';
+import type { ElectronParticle } from '../../../utils/particle-distribution';
+import type { ElectronShell } from '../../../data/elements';
 import { useFrame } from '@react-three/fiber';
 import { useAtomColors } from './useAtomColors';
 import { createGlowSpriteMaterial } from './glowTextures';
@@ -22,6 +22,7 @@ interface ElectronRuntimeConfig {
   shellIndex: number;
 }
 
+const ORBIT_SEGMENTS = 72;
 
 export function ElectronCloud({ shells, electrons, showTrails }: ElectronCloudProps) {
   const colors = useAtomColors();
@@ -63,8 +64,16 @@ export function ElectronCloud({ shells, electrons, showTrails }: ElectronCloudPr
     return configs;
   }, [shells, electrons, shellOrientations]);
 
+  const orbitPoints = useMemo(() => {
+    const byIndex: Record<number, THREE.Vector3[]> = {};
+    shells.forEach((shell) => {
+      byIndex[shell.index] = buildCirclePoints(shell.radius, ORBIT_SEGMENTS);
+    });
+    return byIndex;
+  }, [shells]);
+
   const tempPosition = useMemo(() => new THREE.Vector3(), []);
-  const electronGeometry = useMemo(() => new THREE.SphereGeometry(0.2, 18, 18), []);
+  const electronGeometry = useMemo(() => new THREE.SphereGeometry(0.2, 12, 12), []);
   const electronMaterial = useMemo(
     () => new THREE.MeshBasicMaterial({ color: colors.electron }),
     [colors.electron]
@@ -113,12 +122,13 @@ export function ElectronCloud({ shells, electrons, showTrails }: ElectronCloudPr
     <group name="electron-cloud">
       {shells.map((shell) => {
         const orientation = shellOrientations[shell.index];
+        const points = orbitPoints[shell.index];
         return (
           <group key={shell.index} rotation={[orientation.tiltX, orientation.tiltY, 0]}>
-            {showTrails && shell.electrons > 0 && (
+            {showTrails && shell.electrons > 0 && points && (
               <Line
-                points={buildCirclePoints(shell.radius)}
-              color={orbitColor}
+                points={points}
+                color={orbitColor}
                 lineWidth={0.95}
                 transparent
                 opacity={0.22 + shell.occupancyRatio * 0.35}
@@ -149,7 +159,7 @@ export function ElectronCloud({ shells, electrons, showTrails }: ElectronCloudPr
   );
 }
 
-function buildCirclePoints(radius: number, segments = 128) {
+function buildCirclePoints(radius: number, segments = ORBIT_SEGMENTS) {
   const points: THREE.Vector3[] = [];
   for (let i = 0; i <= segments; i += 1) {
     const theta = (i / segments) * Math.PI * 2;

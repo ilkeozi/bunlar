@@ -6,8 +6,8 @@ export function SceneBackdrop() {
       <Stars
         radius={120}
         depth={60}
-        count={2500}
-        factor={4}
+        count={1600}
+        factor={3}
         saturation={0.7}
         fade
       />
