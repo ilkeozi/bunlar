@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
-import type { NucleusParticle } from '../../../utils/particle-distribution';
+import type { NucleusParticle } from './utils/particle-distribution';
 import { useAtomColors } from './useAtomColors';
 import { createGlowSpriteMaterial } from './glowTextures';
 

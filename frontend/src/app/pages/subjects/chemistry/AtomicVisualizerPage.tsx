@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ElementSelector } from '../../../components/ElementSelector';
-import { ElementStats } from '../../../components/ElementStats';
-import { ViewControls } from '../../../components/ViewControls';
+import { ElementSelector } from '../../../features/chemistry/components/ElementSelector';
+import { ElementStats } from '../../../features/chemistry/components/ElementStats';
+import { ViewControls } from '../../../features/chemistry/components/ViewControls';
 import { AtomCanvas } from '../../../features/chemistry/visualizer/AtomCanvas';
 import { DEFAULT_ELEMENT, buildElectronShells, estimateNucleusRadius, getElementBySymbol } from '../../../data/elements';
-import { useAtomStore } from '../../../state/useAtomStore';
+import { useAtomStore } from '../../../features/chemistry/state/useAtomStore';
 import { useTranslation } from '../../../i18n/useTranslation';
 
 function LegendItem({ color, label }: { color: string; label: string }) {

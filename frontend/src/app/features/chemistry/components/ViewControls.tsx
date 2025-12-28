@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useAtomStore } from '../state/useAtomStore';
-import { useTranslation } from '../i18n/useTranslation';
+import { useTranslation } from '../../../i18n/useTranslation';
 
 export const ViewControls = memo(function ViewControls() {
   const view = useAtomStore((state) => state.view);

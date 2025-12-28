@@ -6,7 +6,7 @@ import {
   buildElectronShells,
   estimateNucleusRadius,
   getElementBySymbol,
-} from '../data/elements';
+} from '../../../data/elements';
 
 describe('useAtomStore', () => {
   beforeEach(() => {

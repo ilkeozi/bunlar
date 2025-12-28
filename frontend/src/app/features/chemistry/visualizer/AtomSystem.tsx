@@ -5,8 +5,8 @@ import type { ElementDetails, ElectronShell } from '../../../data/elements';
 import { Nucleus } from './Nucleus';
 import { ElectronCloud } from './ElectronCloud';
 import { SoftLightRig } from './SoftLightRig';
-import { useAtomStore } from '../../../state/useAtomStore';
-import { createElectronPhases, generateNucleusLayout } from '../../../utils/particle-distribution';
+import { useAtomStore } from '../state/useAtomStore';
+import { createElectronPhases, generateNucleusLayout } from './utils/particle-distribution';
 
 interface AtomSystemProps {
   element: ElementDetails;
