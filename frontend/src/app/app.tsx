@@ -3,6 +3,7 @@ import { SiteHeader } from './components/SiteHeader';
 import { HomePage } from './pages/HomePage';
 import { ChemistryPage } from './pages/subjects/chemistry/ChemistryPage';
 import { BohrModelPage } from './pages/subjects/chemistry/BohrModelPage';
+import { DaltonModelPage } from './pages/subjects/chemistry/DaltonModelPage';
 import { BiologyPage } from './pages/BiologyPage';
 import { PhysicsPage } from './pages/PhysicsPage';
 import { MathematicsPage } from './pages/MathematicsPage';
@@ -17,6 +18,7 @@ export function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/subjects/chemistry" element={<ChemistryPage />} />
           <Route path="/subjects/chemistry/bohr-atom-model" element={<BohrModelPage />} />
+          <Route path="/subjects/chemistry/dalton-atom-model" element={<DaltonModelPage />} />
           <Route path="/subjects/biology" element={<BiologyPage />} />
           <Route path="/subjects/physics" element={<PhysicsPage />} />
           <Route path="/subjects/mathematics" element={<MathematicsPage />} />

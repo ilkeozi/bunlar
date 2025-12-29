@@ -2,6 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import bohrModelThumb from '@/assets/bohr-model-thumb.svg';
+import daltonModelThumb from '@/assets/dalton-model-thumb.svg';
 import { Link } from 'react-router-dom';
 import { IB_CHEMISTRY_SYLLABUS } from '../../../data/ib/chemistry';
 import { useTranslation } from '../../../i18n/useTranslation';
@@ -9,13 +10,19 @@ import { useTranslation } from '../../../i18n/useTranslation';
 export function ChemistryPage() {
   const { t } = useTranslation();
   const structureSection = IB_CHEMISTRY_SYLLABUS.sections.find((section) => section.id === 'structure-1');
-  const ibLabel = t('chemistry.modules.bohrModel.badge.ib');
-  const structureLabel = structureSection?.label ?? t('chemistry.modules.bohrModel.badge.structure');
+  const bohrIbLabel = t('chemistry.modules.bohrModel.badge.ib');
+  const bohrStructureLabel = structureSection?.label ?? t('chemistry.modules.bohrModel.badge.structure');
+  const daltonIbLabel = t('chemistry.modules.daltonModel.badge.ib');
+  const daltonStructureLabel = structureSection?.label ?? t('chemistry.modules.daltonModel.badge.structure');
   const structureTitle = structureSection?.title ?? 'Models of the particulate nature of matter';
-  const subtopic =
+  const bohrSubtopic =
     structureSection?.topics.find((topic) => topic.id === 'structure-1-2') ?? structureSection?.topics[0];
-  const subtopicLabel = subtopic?.label ?? 'Structure 1.2';
-  const subtopicTitle = subtopic?.title ?? 'The nuclear atom';
+  const bohrSubtopicLabel = bohrSubtopic?.label ?? 'Structure 1.2';
+  const bohrSubtopicTitle = bohrSubtopic?.title ?? 'The nuclear atom';
+  const daltonSubtopic =
+    structureSection?.topics.find((topic) => topic.id === 'structure-1-1') ?? structureSection?.topics[0];
+  const daltonSubtopicLabel = daltonSubtopic?.label ?? 'Structure 1.1';
+  const daltonSubtopicTitle = daltonSubtopic?.title ?? 'Introduction to the particulate nature of matter';
 
   return (
     <div className="space-y-6">
@@ -38,10 +45,10 @@ export function ChemistryPage() {
                       className="w-fit overflow-hidden border-border/60 bg-background/70 p-0 text-[11px] font-semibold"
                     >
                       <span className="bg-primary/20 px-2 py-0.5 text-primary">
-                        {ibLabel}
+                        {bohrIbLabel}
                       </span>
                       <span className="border-l border-border/60 px-2 py-0.5 text-foreground/80">
-                        {structureLabel}
+                        {bohrStructureLabel}
                       </span>
                     </Badge>
                   </TooltipTrigger>
@@ -49,19 +56,19 @@ export function ChemistryPage() {
                     <div className="space-y-1 text-xs">
                       <div className="inline-flex w-fit items-center rounded-full border border-border/60 bg-background/70 text-[11px] font-semibold uppercase tracking-wide">
                         <span className="bg-primary/20 px-2 py-0.5 text-primary">
-                          {ibLabel}
+                          {bohrIbLabel}
                         </span>
                       </div>
                       <div className="text-muted-foreground">
-                        <span className="font-semibold text-foreground/80">{structureLabel}</span> — {structureTitle}
+                        <span className="font-semibold text-foreground/80">{bohrStructureLabel}</span> — {structureTitle}
                       </div>
                       <div className="text-muted-foreground">
-                        <span className="font-semibold text-foreground/80">{subtopicLabel}</span> — {subtopicTitle}
+                        <span className="font-semibold text-foreground/80">{bohrSubtopicLabel}</span> — {bohrSubtopicTitle}
                       </div>
-                    </div>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
               <CardTitle>{t('chemistry.modules.bohrModel.title')}</CardTitle>
               <CardDescription>{t('chemistry.modules.bohrModel.description')}</CardDescription>
             </CardHeader>
@@ -76,6 +83,59 @@ export function ChemistryPage() {
               </div>
               <span className="text-xs font-semibold uppercase tracking-wide text-primary/80">
                 {t('chemistry.modules.bohrModel.cta')}
+              </span>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link to="/subjects/chemistry/dalton-atom-model" className="group">
+          <Card className="h-full transition group-hover:-translate-y-1 group-hover:border-primary/50 group-hover:shadow-2xl">
+            <CardHeader>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Badge
+                      variant="outline"
+                      className="w-fit overflow-hidden border-border/60 bg-background/70 p-0 text-[11px] font-semibold"
+                    >
+                      <span className="bg-primary/20 px-2 py-0.5 text-primary">
+                        {daltonIbLabel}
+                      </span>
+                      <span className="border-l border-border/60 px-2 py-0.5 text-foreground/80">
+                        {daltonStructureLabel}
+                      </span>
+                    </Badge>
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <div className="space-y-1 text-xs">
+                      <div className="inline-flex w-fit items-center rounded-full border border-border/60 bg-background/70 text-[11px] font-semibold uppercase tracking-wide">
+                        <span className="bg-primary/20 px-2 py-0.5 text-primary">
+                          {daltonIbLabel}
+                        </span>
+                      </div>
+                      <div className="text-muted-foreground">
+                        <span className="font-semibold text-foreground/80">{daltonStructureLabel}</span> — {structureTitle}
+                      </div>
+                      <div className="text-muted-foreground">
+                        <span className="font-semibold text-foreground/80">{daltonSubtopicLabel}</span> — {daltonSubtopicTitle}
+                      </div>
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <CardTitle>{t('chemistry.modules.daltonModel.title')}</CardTitle>
+              <CardDescription>{t('chemistry.modules.daltonModel.description')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-4 overflow-hidden rounded-2xl border border-border/60 bg-background/80">
+                <img
+                  src={daltonModelThumb}
+                  alt={t('chemistry.modules.daltonModel.title')}
+                  className="h-40 w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <span className="text-xs font-semibold uppercase tracking-wide text-primary/80">
+                {t('chemistry.modules.daltonModel.cta')}
               </span>
             </CardContent>
           </Card>
