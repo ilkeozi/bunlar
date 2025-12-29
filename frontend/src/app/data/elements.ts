@@ -223,10 +223,13 @@ export const ELEMENTS: ElementDetails[] = RAW_ELEMENTS.map((element) => {
 
 export const DEFAULT_ELEMENT = ELEMENTS[0];
 
-export const SHELL_CAPACITIES = [2, 8, 18, 32, 32, 18, 8] as const;
+export const SHELL_LABELS = ['K', 'L', 'M', 'N', 'O', 'P', 'Q'] as const;
+export const SHELL_CAPACITIES = [2, 8, 18, 32, 50, 72, 98] as const;
 
 export interface ElectronShell {
   index: number;
+  n: number;
+  label: string;
   capacity: number;
   electrons: number;
   occupancyRatio: number;
@@ -259,12 +262,16 @@ export function buildElectronShells(totalElectrons: number, nucleusRadius: numbe
   const distribution = distributeElectrons(totalElectrons);
 
   return distribution.map((count, index) => {
+    const n = index + 1;
+    const label = SHELL_LABELS[index] ?? `Shell ${n}`;
     const capacity = SHELL_CAPACITIES[index] ?? SHELL_CAPACITIES[SHELL_CAPACITIES.length - 1];
     const occupancyRatio = capacity ? count / capacity : 0;
-    const radius = nucleusRadius + 1.4 + index * 1.05 + occupancyRatio * 0.35;
+    const radius = nucleusRadius + 1.2 + 0.2 * n * n;
 
     return {
       index,
+      n,
+      label,
       capacity,
       electrons: count,
       occupancyRatio,

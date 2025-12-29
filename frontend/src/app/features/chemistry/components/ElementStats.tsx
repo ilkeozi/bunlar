@@ -61,7 +61,12 @@ export const ElementStats = memo(function ElementStats({ element, shells }: Elem
             {shells.map((shell) => (
               <li key={shell.index} className="space-y-2">
                 <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
-                  <span>n = {shell.index + 1}</span>
+                  <span className="flex items-center gap-2">
+                    <span className="rounded-md bg-muted px-2 py-1 text-[10px] font-semibold text-foreground">
+                      {shell.label}
+                    </span>
+                    <span>n = {shell.n}</span>
+                  </span>
                   <span className="text-sm font-semibold text-foreground">
                     {shell.electrons}
                     <span className="ml-1 text-xs text-muted-foreground">/{shell.capacity}</span>

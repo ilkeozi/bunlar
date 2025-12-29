@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react';
-import type { Group } from 'three';
 import { useFrame } from '@react-three/fiber';
+import type { Group } from 'three';
 import type { ElementDetails, ElectronShell } from '../../../data/elements';
 import { Nucleus } from './Nucleus';
 import { ElectronCloud } from './ElectronCloud';
@@ -15,6 +15,10 @@ interface AtomSystemProps {
 
 export function AtomSystem({ element, shells }: AtomSystemProps) {
   const showTrails = useAtomStore((state) => state.view.showElectronTrails);
+  const rotateAtom = useAtomStore((state) => state.view.rotateAtom);
+  const tiltedOrbits = useAtomStore((state) => state.view.tiltedOrbits);
+  const freezeMotion = useAtomStore((state) => state.view.freezeMotion);
+  const groupRef = useRef<Group>(null);
 
   const nucleusParticles = useMemo(() => {
     return generateNucleusLayout(element.protons, element.neutrons);
@@ -25,21 +29,25 @@ export function AtomSystem({ element, shells }: AtomSystemProps) {
     return createElectronPhases(distribution);
   }, [shells]);
 
-  const groupRef = useRef<Group>(null);
-
-  useFrame((_state, delta) => {
-    const group = groupRef.current;
-    if (!group) {
+  useFrame((_, delta) => {
+    if (!rotateAtom || freezeMotion || !groupRef.current) {
       return;
     }
-    group.rotation.y += delta * 0.05;
+
+    groupRef.current.rotation.y += delta * 0.25;
   });
 
   return (
     <group ref={groupRef}>
       <SoftLightRig />
       <Nucleus particles={nucleusParticles} />
-      <ElectronCloud shells={shells} electrons={electronPhases} showTrails={showTrails} />
+      <ElectronCloud
+        shells={shells}
+        electrons={electronPhases}
+        showTrails={showTrails}
+        tiltedOrbits={tiltedOrbits}
+        freezeMotion={freezeMotion}
+      />
     </group>
   );
 }

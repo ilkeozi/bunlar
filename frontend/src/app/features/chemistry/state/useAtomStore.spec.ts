@@ -41,10 +41,25 @@ describe('useAtomStore', () => {
     useAtomStore.getState().updateView({ autoRotate: false });
     expect(useAtomStore.getState().view.autoRotate).toBe(false);
     expect(useAtomStore.getState().view.showElectronTrails).toBe(initialView.showElectronTrails);
+    expect(useAtomStore.getState().view.rotateAtom).toBe(initialView.rotateAtom);
+    expect(useAtomStore.getState().view.tiltedOrbits).toBe(initialView.tiltedOrbits);
+    expect(useAtomStore.getState().view.freezeMotion).toBe(initialView.freezeMotion);
 
-    useAtomStore.getState().updateView({ showElectronTrails: false });
+    useAtomStore.getState().updateView({ rotateAtom: true });
+    const updatedView = useAtomStore.getState().view;
+    expect(updatedView.autoRotate).toBe(false);
+    expect(updatedView.rotateAtom).toBe(true);
+
+    useAtomStore.getState().updateView({
+      showElectronTrails: false,
+      tiltedOrbits: true,
+      freezeMotion: true,
+    });
     const currentView = useAtomStore.getState().view;
     expect(currentView.autoRotate).toBe(false);
     expect(currentView.showElectronTrails).toBe(false);
+    expect(currentView.rotateAtom).toBe(true);
+    expect(currentView.tiltedOrbits).toBe(true);
+    expect(currentView.freezeMotion).toBe(true);
   });
 });

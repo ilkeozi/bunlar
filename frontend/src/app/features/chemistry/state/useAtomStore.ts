@@ -4,6 +4,9 @@ import { DEFAULT_ELEMENT, ELEMENTS } from '../../../data/elements';
 export interface AtomViewSettings {
   showElectronTrails: boolean;
   autoRotate: boolean;
+  rotateAtom: boolean;
+  tiltedOrbits: boolean;
+  freezeMotion: boolean;
 }
 
 interface AtomState {
@@ -16,6 +19,9 @@ interface AtomState {
 const DEFAULT_VIEW: AtomViewSettings = {
   showElectronTrails: true,
   autoRotate: true,
+  rotateAtom: false,
+  tiltedOrbits: false,
+  freezeMotion: false,
 };
 
 const DEFAULT_SYMBOL = DEFAULT_ELEMENT.symbol;

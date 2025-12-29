@@ -11,6 +11,8 @@ interface ElectronCloudProps {
   shells: ElectronShell[];
   electrons: ElectronParticle[];
   showTrails: boolean;
+  tiltedOrbits: boolean;
+  freezeMotion: boolean;
 }
 
 interface ElectronRuntimeConfig {
@@ -24,28 +26,35 @@ interface ElectronRuntimeConfig {
 
 const ORBIT_SEGMENTS = 72;
 
-export function ElectronCloud({ shells, electrons, showTrails }: ElectronCloudProps) {
+export function ElectronCloud({
+  shells,
+  electrons,
+  showTrails,
+  tiltedOrbits,
+  freezeMotion,
+}: ElectronCloudProps) {
   const colors = useAtomColors();
   const orbitColor = colors.electronOrbit;
   const electronRefs = useRef<THREE.Group[]>([]);
+  const motionTime = useRef(0);
 
   const shellOrientations = useMemo(() => {
     return shells.map((shell) => {
-      const baseTilt = 0.18 + shell.index * 0.07;
-      const tiltX = (shell.index % 2 === 0 ? 1 : -1) * baseTilt;
-      const tiltY = shell.index * 0.28;
-      const quaternion = new THREE.Quaternion().setFromEuler(new THREE.Euler(tiltX, tiltY, 0));
-      return { tiltX, tiltY, quaternion };
+      const tilt = tiltedOrbits ? getOrbitTilt(shell.index) : { tiltX: 0, tiltY: 0 };
+      const quaternion = new THREE.Quaternion();
+      quaternion.setFromEuler(new THREE.Euler(tilt.tiltX, tilt.tiltY, 0));
+      return { ...tilt, quaternion };
     });
-  }, [shells]);
+  }, [shells, tiltedOrbits]);
 
   const runtimeConfig = useMemo<ElectronRuntimeConfig[]>(() => {
     const configs: ElectronRuntimeConfig[] = [];
 
     shells.forEach((shell) => {
       const orientation = shellOrientations[shell.index];
-      const baseSpeed = 0.55 + shell.index * 0.22;
-      const verticalAmplitude = shell.radius * 0.075;
+      const n = shell.n ?? shell.index + 1;
+      const baseSpeed = Math.max(0.18, 1.1 / n);
+      const verticalAmplitude = 0;
 
       electrons
         .filter((electron) => electron.shellIndex === shell.index)
@@ -95,8 +104,12 @@ export function ElectronCloud({ shells, electrons, showTrails }: ElectronCloudPr
     electronRefs.current.length = runtimeConfig.length;
   }, [runtimeConfig.length]);
 
-  useFrame((state, delta) => {
-    const time = state.clock.elapsedTime + delta;
+  useFrame((_, delta) => {
+    if (!freezeMotion) {
+      motionTime.current += delta;
+    }
+
+    const time = motionTime.current;
 
     runtimeConfig.forEach((config, index) => {
       const holder = electronRefs.current[index];
@@ -108,7 +121,7 @@ export function ElectronCloud({ shells, electrons, showTrails }: ElectronCloudPr
 
       tempPosition.set(
         Math.cos(angle) * config.radius,
-        Math.sin(angle * 0.65 + config.phase * 0.45) * config.verticalAmplitude,
+        0,
         Math.sin(angle) * config.radius
       );
 
@@ -166,4 +179,12 @@ function buildCirclePoints(radius: number, segments = ORBIT_SEGMENTS) {
     points.push(new THREE.Vector3(Math.cos(theta) * radius, 0, Math.sin(theta) * radius));
   }
   return points;
+}
+
+function getOrbitTilt(shellIndex: number) {
+  const tiltBase = 0.18 + shellIndex * 0.07;
+  return {
+    tiltX: Math.sin(shellIndex * 1.35 + 0.4) * tiltBase,
+    tiltY: Math.cos(shellIndex * 1.8 + 0.2) * tiltBase,
+  };
 }

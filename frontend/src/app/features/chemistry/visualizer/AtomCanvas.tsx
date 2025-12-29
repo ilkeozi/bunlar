@@ -13,6 +13,7 @@ interface AtomCanvasProps {
 
 export function AtomCanvas({ element, shells }: AtomCanvasProps) {
   const autoRotate = useAtomStore((state) => state.view.autoRotate);
+  const freezeMotion = useAtomStore((state) => state.view.freezeMotion);
 
   return (
     <div className="absolute inset-0">
@@ -37,7 +38,7 @@ export function AtomCanvas({ element, shells }: AtomCanvasProps) {
           dampingFactor={0.08}
           minDistance={4}
           maxDistance={50}
-          autoRotate={autoRotate}
+          autoRotate={autoRotate && !freezeMotion}
           autoRotateSpeed={0.35}
           enablePan
         />

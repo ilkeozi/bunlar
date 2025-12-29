@@ -24,6 +24,36 @@ export const ViewControls = memo(function ViewControls() {
           />
         </div>
         <div className="flex items-center justify-between gap-4">
+          <Label htmlFor="freeze-motion" className="flex-1 text-sm text-muted-foreground">
+            {t('controls.freezeMotion')}
+          </Label>
+          <Switch
+            id="freeze-motion"
+            checked={view.freezeMotion}
+            onCheckedChange={(checked) => updateView({ freezeMotion: checked })}
+          />
+        </div>
+        <div className="flex items-center justify-between gap-4">
+          <Label htmlFor="rotate-atom" className="flex-1 text-sm text-muted-foreground">
+            {t('controls.rotateAtom')}
+          </Label>
+          <Switch
+            id="rotate-atom"
+            checked={view.rotateAtom}
+            onCheckedChange={(checked) => updateView({ rotateAtom: checked })}
+          />
+        </div>
+        <div className="flex items-center justify-between gap-4">
+          <Label htmlFor="tilted-orbits" className="flex-1 text-sm text-muted-foreground">
+            {t('controls.tiltedOrbits')}
+          </Label>
+          <Switch
+            id="tilted-orbits"
+            checked={view.tiltedOrbits}
+            onCheckedChange={(checked) => updateView({ tiltedOrbits: checked })}
+          />
+        </div>
+        <div className="flex items-center justify-between gap-4">
           <Label htmlFor="show-trails" className="flex-1 text-sm text-muted-foreground">
             {t('controls.showTrails')}
           </Label>
