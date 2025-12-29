@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import type { ElementDetails, ElectronShell } from '../../../data/elements';
-import { useTranslation } from '../../../i18n/useTranslation';
+import type { ElementDetails, ElectronShell } from '../../../../data/elements';
+import { useTranslation } from '../../../../i18n/useTranslation';
 
 interface ElementStatsProps {
   element: ElementDetails;

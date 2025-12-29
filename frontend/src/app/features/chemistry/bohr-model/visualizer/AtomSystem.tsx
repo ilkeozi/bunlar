@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import type { Group } from 'three';
-import type { ElementDetails, ElectronShell } from '../../../data/elements';
+import type { ElementDetails, ElectronShell } from '../../../../data/elements';
 import { Nucleus } from './Nucleus';
 import { ElectronCloud } from './ElectronCloud';
 import { SoftLightRig } from './SoftLightRig';

@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { SiteHeader } from './components/SiteHeader';
 import { HomePage } from './pages/HomePage';
 import { ChemistryPage } from './pages/subjects/chemistry/ChemistryPage';
-import { AtomicVisualizerPage } from './pages/subjects/chemistry/AtomicVisualizerPage';
+import { BohrModelPage } from './pages/subjects/chemistry/BohrModelPage';
 import { BiologyPage } from './pages/BiologyPage';
 import { PhysicsPage } from './pages/PhysicsPage';
 import { MathematicsPage } from './pages/MathematicsPage';
@@ -16,7 +16,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/subjects/chemistry" element={<ChemistryPage />} />
-          <Route path="/subjects/chemistry/atom-visualizer" element={<AtomicVisualizerPage />} />
+          <Route path="/subjects/chemistry/bohr-atom-model" element={<BohrModelPage />} />
           <Route path="/subjects/biology" element={<BiologyPage />} />
           <Route path="/subjects/physics" element={<PhysicsPage />} />
           <Route path="/subjects/mathematics" element={<MathematicsPage />} />

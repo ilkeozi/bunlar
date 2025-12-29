@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { DEFAULT_ELEMENT, ELEMENTS } from '../../../data/elements';
+import { DEFAULT_ELEMENT, ELEMENTS } from '../../../../data/elements';
 
 export interface AtomViewSettings {
   showElectronTrails: boolean;

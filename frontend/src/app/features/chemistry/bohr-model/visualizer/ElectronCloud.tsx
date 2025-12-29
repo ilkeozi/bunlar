@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { Line } from '@react-three/drei';
 import type { ElectronParticle } from './utils/particle-distribution';
-import type { ElectronShell } from '../../../data/elements';
+import type { ElectronShell } from '../../../../data/elements';
 import { useFrame } from '@react-three/fiber';
 import { useAtomColors } from './useAtomColors';
 import { createGlowSpriteMaterial } from './glowTextures';

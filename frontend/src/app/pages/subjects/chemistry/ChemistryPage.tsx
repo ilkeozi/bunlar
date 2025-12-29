@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import atomVisualizerThumb from '@/assets/atomic-visualizer-thumb.svg';
+import bohrModelThumb from '@/assets/bohr-model-thumb.svg';
 import { Link } from 'react-router-dom';
 import { IB_CHEMISTRY_SYLLABUS } from '../../../data/ib/chemistry';
 import { useTranslation } from '../../../i18n/useTranslation';
@@ -9,8 +9,8 @@ import { useTranslation } from '../../../i18n/useTranslation';
 export function ChemistryPage() {
   const { t } = useTranslation();
   const structureSection = IB_CHEMISTRY_SYLLABUS.sections.find((section) => section.id === 'structure-1');
-  const ibLabel = t('chemistry.modules.atomicVisualizer.badge.ib');
-  const structureLabel = structureSection?.label ?? t('chemistry.modules.atomicVisualizer.badge.structure');
+  const ibLabel = t('chemistry.modules.bohrModel.badge.ib');
+  const structureLabel = structureSection?.label ?? t('chemistry.modules.bohrModel.badge.structure');
   const structureTitle = structureSection?.title ?? 'Models of the particulate nature of matter';
   const subtopic =
     structureSection?.topics.find((topic) => topic.id === 'structure-1-2') ?? structureSection?.topics[0];
@@ -27,7 +27,7 @@ export function ChemistryPage() {
       </header>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <Link to="/subjects/chemistry/atom-visualizer" className="group">
+        <Link to="/subjects/chemistry/bohr-atom-model" className="group">
           <Card className="h-full transition group-hover:-translate-y-1 group-hover:border-primary/50 group-hover:shadow-2xl">
             <CardHeader>
               <TooltipProvider>
@@ -62,20 +62,20 @@ export function ChemistryPage() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <CardTitle>{t('chemistry.modules.atomicVisualizer.title')}</CardTitle>
-              <CardDescription>{t('chemistry.modules.atomicVisualizer.description')}</CardDescription>
+              <CardTitle>{t('chemistry.modules.bohrModel.title')}</CardTitle>
+              <CardDescription>{t('chemistry.modules.bohrModel.description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="mb-4 overflow-hidden rounded-2xl border border-border/60 bg-background/80">
                 <img
-                  src={atomVisualizerThumb}
-                  alt={t('chemistry.modules.atomicVisualizer.title')}
+                  src={bohrModelThumb}
+                  alt={t('chemistry.modules.bohrModel.title')}
                   className="h-40 w-full object-cover"
                   loading="lazy"
                 />
               </div>
               <span className="text-xs font-semibold uppercase tracking-wide text-primary/80">
-                {t('chemistry.modules.atomicVisualizer.cta')}
+                {t('chemistry.modules.bohrModel.cta')}
               </span>
             </CardContent>
           </Card>

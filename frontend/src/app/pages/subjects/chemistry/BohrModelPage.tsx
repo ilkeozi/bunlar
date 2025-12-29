@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ElementSelector } from '../../../features/chemistry/components/ElementSelector';
-import { ElementStats } from '../../../features/chemistry/components/ElementStats';
-import { ViewControls } from '../../../features/chemistry/components/ViewControls';
-import { AtomCanvas } from '../../../features/chemistry/visualizer/AtomCanvas';
+import { ElementSelector } from '../../../features/chemistry/bohr-model/components/ElementSelector';
+import { ElementStats } from '../../../features/chemistry/bohr-model/components/ElementStats';
+import { ViewControls } from '../../../features/chemistry/bohr-model/components/ViewControls';
+import { AtomCanvas } from '../../../features/chemistry/bohr-model/visualizer/AtomCanvas';
 import { DEFAULT_ELEMENT, buildElectronShells, estimateNucleusRadius, getElementBySymbol } from '../../../data/elements';
-import { useAtomStore } from '../../../features/chemistry/state/useAtomStore';
+import { useAtomStore } from '../../../features/chemistry/bohr-model/state/useAtomStore';
 import { useTranslation } from '../../../i18n/useTranslation';
 
 function LegendItem({ color, label }: { color: string; label: string }) {
@@ -20,7 +20,7 @@ function LegendItem({ color, label }: { color: string; label: string }) {
   );
 }
 
-export function AtomicVisualizerPage() {
+export function BohrModelPage() {
   const selectedSymbol = useAtomStore((state) => state.selectedSymbol);
   const { t } = useTranslation();
 
@@ -36,11 +36,11 @@ export function AtomicVisualizerPage() {
     <div className="space-y-6">
       <header className="space-y-2">
         <Link to="/subjects/chemistry" className="text-xs font-semibold uppercase tracking-wide text-primary/80">
-          ← {t('atomicVisualizer.back')}
+          ← {t('bohrModel.back')}
         </Link>
-        <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">{t('atomicVisualizer.title')}</h2>
+        <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">{t('bohrModel.title')}</h2>
         <p className="max-w-3xl text-sm text-muted-foreground sm:text-base">
-          {t('atomicVisualizer.subtitle')}
+          {t('bohrModel.subtitle')}
         </p>
       </header>
 

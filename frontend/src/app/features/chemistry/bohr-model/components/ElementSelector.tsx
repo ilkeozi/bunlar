@@ -7,9 +7,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ELEMENTS } from '../../../data/elements';
+import { ELEMENTS } from '../../../../data/elements';
 import { useAtomStore } from '../state/useAtomStore';
-import { useTranslation } from '../../../i18n/useTranslation';
+import { useTranslation } from '../../../../i18n/useTranslation';
 
 export const ElementSelector = memo(function ElementSelector() {
   const selectedSymbol = useAtomStore((state) => state.selectedSymbol);
