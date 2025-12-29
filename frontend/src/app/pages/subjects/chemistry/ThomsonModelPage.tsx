@@ -1,0 +1,64 @@
+import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { ElementSelector } from '../../../features/chemistry/thomson-model/components/ElementSelector';
+import { ElementStats } from '../../../features/chemistry/thomson-model/components/ElementStats';
+import { ViewControls } from '../../../features/chemistry/thomson-model/components/ViewControls';
+import { ThomsonCanvas } from '../../../features/chemistry/thomson-model/visualizer/ThomsonCanvas';
+import { DEFAULT_ELEMENT, getElementBySymbol } from '../../../data/elements';
+import { useThomsonStore } from '../../../features/chemistry/thomson-model/state/useThomsonStore';
+import { useTranslation } from '../../../i18n/useTranslation';
+
+function LegendItem({ color, label }: { color: string; label: string }) {
+  return (
+    <span className="flex items-center gap-2 text-xs font-medium">
+      <span
+        className="h-3 w-3 rounded-full"
+        style={{ backgroundColor: color, boxShadow: `0 0 12px ${color}` }}
+      />
+      {label}
+    </span>
+  );
+}
+
+export function ThomsonModelPage() {
+  const selectedSymbol = useThomsonStore((state) => state.selectedSymbol);
+  const { t } = useTranslation();
+
+  const element = useMemo(() => {
+    return getElementBySymbol(selectedSymbol) ?? DEFAULT_ELEMENT;
+  }, [selectedSymbol]);
+
+  return (
+    <div className="space-y-6">
+      <header className="space-y-2">
+        <Link to="/subjects/chemistry" className="text-xs font-semibold uppercase tracking-wide text-primary/80">
+          ← {t('thomsonModel.back')}
+        </Link>
+        <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">{t('thomsonModel.title')}</h2>
+        <p className="max-w-3xl text-sm text-muted-foreground sm:text-base">
+          {t('thomsonModel.subtitle')}
+        </p>
+      </header>
+
+      <div className="space-y-6">
+        <div className="rounded-2xl border border-border/60 bg-background/70 p-4 backdrop-blur">
+          <ElementSelector />
+        </div>
+
+        <div className="flex flex-1 flex-col gap-7 xl:flex-row">
+          <aside className="flex w-full flex-shrink-0 flex-col gap-6 xl:max-w-sm">
+            <ElementStats element={element} />
+            <ViewControls />
+          </aside>
+          <section className="relative flex flex-1 min-h-[540px] overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-slate-900/70 via-slate-950/80 to-slate-950/95 shadow-[inset_0_12px_35px_rgba(5,8,15,0.45)]">
+            <ThomsonCanvas element={element} />
+            <footer className="pointer-events-none absolute bottom-6 left-6 flex flex-wrap items-center gap-6 text-slate-200/90">
+              <LegendItem color="var(--color-proton)" label={t('legend.positiveSphere')} />
+              <LegendItem color="var(--color-electron)" label={t('legend.electron')} />
+            </footer>
+          </section>
+        </div>
+      </div>
+    </div>
+  );
+}
