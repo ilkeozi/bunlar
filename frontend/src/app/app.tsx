@@ -5,6 +5,7 @@ import { ChemistryPage } from './pages/subjects/chemistry/ChemistryPage';
 import { BohrModelPage } from './pages/subjects/chemistry/BohrModelPage';
 import { DaltonModelPage } from './pages/subjects/chemistry/DaltonModelPage';
 import { ThomsonModelPage } from './pages/subjects/chemistry/ThomsonModelPage';
+import { RutherfordModelPage } from './pages/subjects/chemistry/RutherfordModelPage';
 import { BiologyPage } from './pages/BiologyPage';
 import { PhysicsPage } from './pages/PhysicsPage';
 import { MathematicsPage } from './pages/MathematicsPage';
@@ -21,6 +22,7 @@ export function App() {
           <Route path="/subjects/chemistry/bohr-atom-model" element={<BohrModelPage />} />
           <Route path="/subjects/chemistry/dalton-atom-model" element={<DaltonModelPage />} />
           <Route path="/subjects/chemistry/thomson-atom-model" element={<ThomsonModelPage />} />
+          <Route path="/subjects/chemistry/rutherford-atom-model" element={<RutherfordModelPage />} />
           <Route path="/subjects/biology" element={<BiologyPage />} />
           <Route path="/subjects/physics" element={<PhysicsPage />} />
           <Route path="/subjects/mathematics" element={<MathematicsPage />} />
