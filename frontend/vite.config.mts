@@ -15,6 +15,7 @@ export default defineConfig({
     host: 'localhost',
   },
   plugins: [react()],
+  assetsInclude: ['**/*.glb'],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
