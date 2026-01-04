@@ -17,7 +17,7 @@ export function ClimateTechPage() {
       </header>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <Link to="/subjects/climate-tech/carbon-aware-motor-assembly" className="group">
+        <Link to="/subjects/climate-tech/planetary-gearbox-assembly" className="group">
           <Card className="h-full transition group-hover:-translate-y-1 group-hover:border-primary/50 group-hover:shadow-2xl">
             <CardHeader>
               <CardTitle>{t('climateTech.modules.carbonAware.title')}</CardTitle>

@@ -9,13 +9,21 @@ import {
   OrbitControls,
 } from '@react-three/drei';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
-import type { AssemblyGroup, HierarchyItem, PartGroup } from '../types';
+import type {
+  AssemblyGroup,
+  HierarchyItem,
+  PartGroup,
+  PcfOverlayMode,
+} from '../types';
 import { GearboxModel } from './GearboxModel';
 
 interface GearboxCanvasProps {
   explode: number;
   autoRotate: boolean;
   debugMaterials: boolean;
+  pcfOverlay: boolean;
+  pcfOverlayMode: PcfOverlayMode;
+  pcfMaxByMode: Record<PcfOverlayMode, number>;
   controlsRef: RefObject<OrbitControlsImpl | null>;
   onPartsCount?: (count: number) => void;
   onHierarchy?: (items: HierarchyItem[]) => void;
@@ -27,6 +35,9 @@ export function GearboxCanvas({
   explode,
   autoRotate,
   debugMaterials,
+  pcfOverlay,
+  pcfOverlayMode,
+  pcfMaxByMode,
   controlsRef,
   onPartsCount,
   onHierarchy,
@@ -51,6 +62,9 @@ export function GearboxCanvas({
         <GearboxModel
           explode={explode}
           debugMaterials={debugMaterials}
+          pcfOverlay={pcfOverlay}
+          pcfOverlayMode={pcfOverlayMode}
+          pcfMaxByMode={pcfMaxByMode}
           onPartsCount={onPartsCount}
           onHierarchy={onHierarchy}
           onPartGroups={onPartGroups}

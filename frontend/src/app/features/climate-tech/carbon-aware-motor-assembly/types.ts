@@ -12,10 +12,21 @@ export type PartGroup = {
 };
 
 export type PartMaterialMeta = {
+  id?: string;
   key: string;
   name: string;
   material_guess?: string;
+  pcf?: {
+    kgco2e_est?: number;
+    breakdown?: {
+      material?: number;
+      manufacturing?: number;
+      transport?: number;
+    };
+  };
 };
+
+export type PcfOverlayMode = 'total' | 'material' | 'manufacturing' | 'transport';
 
 export type HierarchyItem = {
   name: string;

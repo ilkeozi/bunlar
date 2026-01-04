@@ -29,7 +29,7 @@ export function App() {
           <Route path="/subjects/chemistry/rutherford-atom-model" element={<RutherfordModelPage />} />
           <Route path="/subjects/climate-tech" element={<ClimateTechPage />} />
           <Route
-            path="/subjects/climate-tech/carbon-aware-motor-assembly"
+            path="/subjects/climate-tech/planetary-gearbox-assembly"
             element={<CarbonAwareMotorAssemblyPage />}
           />
           <Route path="/subjects/biology" element={<BiologyPage />} />

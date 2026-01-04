@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import {
@@ -14,8 +14,10 @@ import type {
   AssemblyGroup,
   HierarchyItem,
   PartGroup,
+  PcfOverlayMode,
 } from '../../../features/climate-tech/carbon-aware-motor-assembly/types';
 import { GearboxCanvas } from '../../../features/climate-tech/carbon-aware-motor-assembly/visualizer/GearboxCanvas';
+import partsCatalog from '../../../data/climate-tech/partsCatalog.json';
 import { useTranslation } from '../../../i18n/useTranslation';
 
 export function CarbonAwareMotorAssemblyPage() {
@@ -23,11 +25,34 @@ export function CarbonAwareMotorAssemblyPage() {
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
   const [autoRotate, setAutoRotate] = useState(false);
   const [debugMaterials, setDebugMaterials] = useState(false);
+  const [pcfOverlay, setPcfOverlay] = useState(false);
+  const [pcfOverlayMode, setPcfOverlayMode] =
+    useState<PcfOverlayMode>('total');
   const [explode, setExplode] = useState(0);
   const [partsCount, setPartsCount] = useState<number | null>(null);
   const [hierarchy, setHierarchy] = useState<HierarchyItem[]>([]);
   const [partGroups, setPartGroups] = useState<PartGroup[]>([]);
   const [assemblyGroups, setAssemblyGroups] = useState<AssemblyGroup[]>([]);
+  const pcfMaxByMode = useMemo(() => {
+    const max: Record<PcfOverlayMode, number> = {
+      total: 0,
+      material: 0,
+      manufacturing: 0,
+      transport: 0,
+    };
+    (partsCatalog.parts ?? []).forEach((part) => {
+      const breakdown = part?.pcf?.breakdown;
+      const material = breakdown?.material ?? 0;
+      const manufacturing = breakdown?.manufacturing ?? 0;
+      const transport = breakdown?.transport ?? 0;
+      const total = material + manufacturing + transport;
+      max.total = Math.max(max.total, total);
+      max.material = Math.max(max.material, material);
+      max.manufacturing = Math.max(max.manufacturing, manufacturing);
+      max.transport = Math.max(max.transport, transport);
+    });
+    return max;
+  }, []);
 
   const handleResetView = () => {
     controlsRef.current?.reset();
@@ -71,6 +96,11 @@ export function CarbonAwareMotorAssemblyPage() {
             onAutoRotateChange={setAutoRotate}
             debugMaterials={debugMaterials}
             onDebugMaterialsChange={setDebugMaterials}
+            pcfOverlay={pcfOverlay}
+            onPcfOverlayChange={setPcfOverlay}
+            pcfOverlayMode={pcfOverlayMode}
+            onPcfOverlayModeChange={setPcfOverlayMode}
+            pcfMaxByMode={pcfMaxByMode}
             explode={explode}
             onExplodeChange={setExplode}
             partsCount={partsCount}
@@ -82,6 +112,9 @@ export function CarbonAwareMotorAssemblyPage() {
             explode={explode}
             autoRotate={autoRotate}
             debugMaterials={debugMaterials}
+            pcfOverlay={pcfOverlay}
+            pcfOverlayMode={pcfOverlayMode}
+            pcfMaxByMode={pcfMaxByMode}
             controlsRef={controlsRef}
             onPartsCount={setPartsCount}
             onHierarchy={setHierarchy}

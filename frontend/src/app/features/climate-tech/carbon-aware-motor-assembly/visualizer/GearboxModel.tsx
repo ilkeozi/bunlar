@@ -3,7 +3,12 @@ import { useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import partsCatalog from '../../../../data/climate-tech/partsCatalog.json';
-import type { AssemblyGroup, HierarchyItem, PartGroup } from '../types';
+import type {
+  AssemblyGroup,
+  HierarchyItem,
+  PartGroup,
+  PcfOverlayMode,
+} from '../types';
 import {
   applyMaterial,
   createDebugMaterial,
@@ -28,6 +33,9 @@ const DEBUG_MATERIAL_GUESS = 'steel_fastener_12_9';
 export function GearboxModel({
   explode,
   debugMaterials,
+  pcfOverlay,
+  pcfOverlayMode,
+  pcfMaxByMode,
   onPartsCount,
   onHierarchy,
   onPartGroups,
@@ -35,6 +43,9 @@ export function GearboxModel({
 }: {
   explode: number;
   debugMaterials: boolean;
+  pcfOverlay: boolean;
+  pcfOverlayMode: PcfOverlayMode;
+  pcfMaxByMode: Record<PcfOverlayMode, number>;
   onPartsCount?: (count: number) => void;
   onHierarchy?: (items: HierarchyItem[]) => void;
   onPartGroups?: (groups: PartGroup[]) => void;
@@ -71,6 +82,7 @@ export function GearboxModel({
     []
   );
   const debugMaterial = useMemo(() => createDebugMaterial(), []);
+  const overlayCache = useRef(new Map<string, THREE.MeshStandardMaterial>());
   const hasLoggedUnmatched = useRef(false);
   const model = useMemo(() => {
     const cloned = scene.clone(true);
@@ -115,6 +127,11 @@ export function GearboxModel({
           enabled: debugMaterials,
           material: debugMaterial,
           targetMaterialGuess: DEBUG_MATERIAL_GUESS,
+        }, {
+          enabled: pcfOverlay,
+          mode: pcfOverlayMode,
+          maxPcf: pcfMaxByMode[pcfOverlayMode] ?? 0,
+          cache: overlayCache.current,
         })
       );
     });
@@ -139,6 +156,9 @@ export function GearboxModel({
     materialLibrary,
     model,
     normalizePartName,
+    pcfMaxByMode,
+    pcfOverlay,
+    pcfOverlayMode,
     resolveMaterial,
   ]);
 

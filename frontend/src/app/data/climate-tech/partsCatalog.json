@@ -4,6 +4,65 @@
   "normalization": {
     "strategy": "Trim whitespace, strip trailing separators, and collapse numeric suffixes >= 4 digits (e.g. name0004 -> name0)."
   },
+  "pcf_assumptions": {
+    "envelope": {
+      "shape": "cylindrical",
+      "length_cm": 100,
+      "max_diameter_cm": 75
+    },
+    "mass_estimation_basis": {
+      "case_or_cover_kg": "22-30",
+      "shaft_kg": "6-10",
+      "ring_gear_kg": "6-10",
+      "sun_gear_kg": "3-5",
+      "planet_gear_kg": "2-4",
+      "bearing_kg": "1-2",
+      "fasteners_by_diameter_kg": {
+        "M16": 0.25,
+        "M12": 0.12,
+        "M10": 0.08,
+        "M8": 0.05,
+        "M6": 0.02
+      },
+      "washer_by_diameter_kg": {
+        "16mm": 0.03,
+        "12mm": 0.02,
+        "10mm": 0.015,
+        "8mm": 0.01
+      },
+      "circlip_by_diameter_kg": {
+        "80mm": 0.03,
+        "75mm": 0.03,
+        "60mm": 0.02,
+        "50mm": 0.015,
+        "35mm": 0.01,
+        "30mm": 0.008,
+        "20mm": 0.005
+      },
+      "pin_and_key_kg": "0.05-0.15",
+      "seal_kg": "0.1-0.2"
+    },
+    "material_factors_kgco2e_per_kg": {
+      "steel_8620_carburized": 2.1,
+      "steel_4140_qt": 2.0,
+      "steel_52100_bearing": 2.3,
+      "steel_fastener_12_9": 2.0,
+      "steel_fastener_10_9": 2.0,
+      "steel_washer_hardened": 2.0,
+      "spring_steel_circlip": 2.0,
+      "steel_1045_key": 2.0,
+      "elastomer_nbr_with_steel_shell": 3.0
+    },
+    "process_multipliers": {
+      "gears_and_bearings": "1.7",
+      "shafts": "1.3",
+      "housings": "1.1",
+      "fasteners_and_washers": "1.0",
+      "generic_machined_steel": "1.2"
+    },
+    "transport_factor": 0.05,
+    "notes": "Estimates are per part. Total assembly PCF is sum of part count multiplied by per-part estimates."
+  },
   "assemblies": [
     {
       "name": "Gear Box",
@@ -133,11 +192,6 @@
       "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
       "count": 30,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -145,7 +199,20 @@
         }
       ],
       "category": "washer",
-      "material_guess": "steel_washer_hardened"
+      "material_guess": "steel_washer_hardened",
+      "pcf": {
+        "kgco2e_est": 0.063,
+        "mass_kg_est": 0.03,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.06,
+          "manufacturing": 0.0,
+          "transport": 0.003
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "flat-washer-narrow-am-b18-22m-plain-washer-10-mm-narrow",
@@ -153,11 +220,6 @@
       "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
       "count": 20,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box",
@@ -165,7 +227,20 @@
         }
       ],
       "category": "washer",
-      "material_guess": "steel_washer_hardened"
+      "material_guess": "steel_washer_hardened",
+      "pcf": {
+        "kgco2e_est": 0.032,
+        "mass_kg_est": 0.015,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.03,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-30-hex-shcs",
@@ -173,11 +248,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS .",
       "count": 17,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut",
@@ -189,7 +259,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "heavy-hex-bolt-am-b18-2-3-6m-heavy-hex-bolt-m16-x-2-0-x-6",
@@ -197,11 +280,6 @@
       "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 6.",
       "count": 15,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -209,7 +287,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regul",
@@ -217,11 +308,6 @@
       "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regul.",
       "count": 14,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -233,7 +319,20 @@
         }
       ],
       "category": "washer",
-      "material_guess": "steel_washer_hardened"
+      "material_guess": "steel_washer_hardened",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-60-hex-shcs",
@@ -241,11 +340,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS .",
       "count": 13,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -253,7 +347,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-207k-d-faut",
@@ -261,11 +368,6 @@
       "name": "Timken - 207K_DÃ©faut",
       "count": 12,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST2 Planet ASM_DÃ©faut",
@@ -293,7 +395,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "flat-washer-narrow-am-b18-22m-plain-washer-8-mm-narrow",
@@ -301,11 +416,6 @@
       "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
       "count": 10,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -313,7 +423,20 @@
         }
       ],
       "category": "washer",
-      "material_guess": "steel_washer_hardened"
+      "material_guess": "steel_washer_hardened",
+      "pcf": {
+        "kgco2e_est": 0.021,
+        "mass_kg_est": 0.01,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.02,
+          "manufacturing": 0.0,
+          "transport": 0.001
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m12-x-1-75-x-4",
@@ -321,11 +444,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 4.",
       "count": 10,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -333,7 +451,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.252,
+        "mass_kg_est": 0.12,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.24,
+          "manufacturing": 0.0,
+          "transport": 0.012
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "schs-m6-b18-3-5m-6-x-1-0-x-20-socket-fchs-20n",
@@ -341,11 +472,6 @@
       "name": "SCHS M6_B18.3.5M - 6 x 1.0 x 20 Socket FCHS -- 20N",
       "count": 8,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut",
@@ -353,7 +479,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 5.0,
+        "mass_kg_est": 2.0,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.2,
+        "breakdown": {
+          "material": 4.0,
+          "manufacturing": 0.8,
+          "transport": 0.2
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-12-x-1-75-x-35-hex-shcs",
@@ -361,11 +500,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS.",
       "count": 7,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut",
@@ -373,7 +507,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.252,
+        "mass_kg_est": 0.12,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.24,
+          "manufacturing": 0.0,
+          "transport": 0.012
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-9305k-d-faut",
@@ -381,11 +528,6 @@
       "name": "Timken -9305K_DÃ©faut",
       "count": 6,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST1 Planet ASM_DÃ©faut",
@@ -401,7 +543,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-215k-d-faut",
@@ -409,11 +564,6 @@
       "name": "Timken - 215K_DÃ©faut",
       "count": 6,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / ST4 Planet ASM_DÃ©faut",
@@ -429,7 +579,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-nut-style-2-am-b18-2-4-2m-hex-nut-style-2-m10-x-1",
@@ -437,11 +600,6 @@
       "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.",
       "count": 6,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box",
@@ -449,7 +607,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m8-x-1-25-x-25",
@@ -457,11 +628,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25.",
       "count": 5,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -469,7 +635,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.105,
+        "mass_kg_est": 0.05,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.1,
+          "manufacturing": 0.0,
+          "transport": 0.005
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m16-x-2-0-x-45",
@@ -477,11 +656,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45.",
       "count": 5,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -489,7 +663,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-35-hex-shcs",
@@ -497,11 +684,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS .",
       "count": 5,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -509,7 +691,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-50-hex-shcs",
@@ -517,11 +712,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS .",
       "count": 5,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / Output Shaft_DÃ©faut",
@@ -529,7 +719,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m10-x-1-5-x-45",
@@ -537,11 +740,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45.",
       "count": 5,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box",
@@ -549,7 +747,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-6-x-1-0-x-25-hex-shcs",
@@ -557,11 +768,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS ",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -569,7 +775,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-6-x-1-0-x-25-hex-shcs",
@@ -577,11 +796,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -.",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -589,7 +803,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-bolt-am-b18-2-3-5m-hex-bolt-m12-x-1-75-x-70-30n",
@@ -597,11 +824,6 @@
       "name": "Hex Bolt_AM_B18.2.3.5M - Hex bolt M12 x 1.75 x 70 --30N",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut",
@@ -609,7 +831,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.252,
+        "mass_kg_est": 0.12,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.24,
+          "manufacturing": 0.0,
+          "transport": 0.012
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st1-planet-shaft-spacer-d-faut",
@@ -617,11 +852,6 @@
       "name": "ST1 Planet Shaft-Spacer_DÃ©faut",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST1 Planet ASM_DÃ©faut",
@@ -637,7 +867,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 29.4,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 16.8,
+          "manufacturing": 11.76,
+          "transport": 0.84
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-35-hex-shcs",
@@ -645,11 +888,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS ",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -657,7 +895,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-25-hex-shcs",
@@ -665,11 +916,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS ",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST 2-3 Shaft ASM_DÃ©faut",
@@ -677,7 +923,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-25-hex-shcs",
@@ -685,11 +944,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS .",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST 2-3 Shaft ASM_DÃ©faut",
@@ -697,7 +951,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st2-planet-shaft-spacer-d-faut",
@@ -705,11 +972,6 @@
       "name": "ST2 Planet Shaft-Spacer_DÃ©faut",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST2 Planet ASM_DÃ©faut",
@@ -725,7 +987,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 29.4,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 16.8,
+          "manufacturing": 11.76,
+          "transport": 0.84
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st2-spacer-d-faut",
@@ -733,11 +1008,6 @@
       "name": "ST2 Spacer_DÃ©faut",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut",
@@ -745,7 +1015,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 1.5,
+        "mass_kg_est": 0.6,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.2,
+        "breakdown": {
+          "material": 1.2,
+          "manufacturing": 0.24,
+          "transport": 0.06
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-12-x-1-75-x-35-hex-shcs",
@@ -753,11 +1036,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS ",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut",
@@ -765,7 +1043,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.252,
+        "mass_kg_est": 0.12,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.24,
+          "manufacturing": 0.0,
+          "transport": 0.012
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-30-hex-shcs",
@@ -773,11 +1064,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS ",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST 3-4 Shaft ASM_DÃ©faut",
@@ -785,7 +1071,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st3-planet-shaft-spacer-d-faut",
@@ -793,11 +1092,6 @@
       "name": "ST3 Planet Shaft-Spacer_DÃ©faut",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST3 Planet ASM_DÃ©faut",
@@ -813,7 +1107,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 29.4,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 16.8,
+          "manufacturing": 11.76,
+          "transport": 0.84
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st3-spacer-d-faut",
@@ -821,11 +1128,6 @@
       "name": "ST3 Spacer_DÃ©faut",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut",
@@ -833,7 +1135,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 1.5,
+        "mass_kg_est": 0.6,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.2,
+        "breakdown": {
+          "material": 1.2,
+          "manufacturing": 0.24,
+          "transport": 0.06
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-50-hex-shcs",
@@ -841,11 +1156,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS ",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / Output Shaft_DÃ©faut",
@@ -853,7 +1163,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-60-hex-shcs",
@@ -861,11 +1184,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS ",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -873,7 +1191,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "circlip-75mm-98541a",
@@ -881,11 +1212,6 @@
       "name": "CirClip - 75mm_98541A",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / ST4 Planet ASM_DÃ©faut",
@@ -901,7 +1227,20 @@
         }
       ],
       "category": "retainer",
-      "material_guess": "spring_steel_circlip"
+      "material_guess": "spring_steel_circlip",
+      "pcf": {
+        "kgco2e_est": 0.063,
+        "mass_kg_est": 0.03,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.06,
+          "manufacturing": 0.0,
+          "transport": 0.003
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st4-planet-shaft-spacer-d-faut",
@@ -909,11 +1248,6 @@
       "name": "ST4 Planet Shaft-Spacer_DÃ©faut",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / ST4 Planet ASM_DÃ©faut",
@@ -929,7 +1263,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 29.4,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 16.8,
+          "manufacturing": 11.76,
+          "transport": 0.84
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st4-spacer-d-faut",
@@ -937,11 +1284,6 @@
       "name": "ST4 Spacer_DÃ©faut",
       "count": 3,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -949,7 +1291,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 1.5,
+        "mass_kg_est": 0.6,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.2,
+        "breakdown": {
+          "material": 1.2,
+          "manufacturing": 0.24,
+          "transport": 0.06
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m8-x-1-25-x-25",
@@ -957,11 +1312,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -969,7 +1319,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.105,
+        "mass_kg_est": 0.05,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.1,
+          "manufacturing": 0.0,
+          "transport": 0.005
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m8-x-1-25-x-25",
@@ -977,11 +1340,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 ",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -989,7 +1347,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.105,
+        "mass_kg_est": 0.05,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.1,
+          "manufacturing": 0.0,
+          "transport": 0.005
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-205k-d-faut",
@@ -997,11 +1368,6 @@
       "name": "Timken - 205K_DÃ©faut",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Imput Shaft_DÃ©faut001",
@@ -1009,7 +1375,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-206k-d-faut",
@@ -1017,11 +1396,6 @@
       "name": "Timken - 206K_DÃ©faut",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Imput Shaft_DÃ©faut001",
@@ -1033,7 +1407,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-nut-style-1-am-b18-2-4-1m-hex-nut-style-1-m12-x-1-75",
@@ -1041,11 +1428,6 @@
       "name": "Hex Nut Style 1_AM_B18.2.4.1M - Hex nut, Style 1, M12 x 1.75",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut",
@@ -1053,7 +1435,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.252,
+        "mass_kg_est": 0.12,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.24,
+          "manufacturing": 0.0,
+          "transport": 0.012
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st1-planet-clip-3dm1-25-b27-8m-3dm1",
@@ -1061,11 +1456,6 @@
       "name": "ST1 Planet Clip - 3DM1-25_B27.8M - 3DM1",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST1 Planet ASM_DÃ©faut001",
@@ -1077,7 +1467,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "heavy-hex-bolt-am-b18-2-3-6m-heavy-hex-bolt-m16-x-2-0-x-60",
@@ -1085,11 +1488,6 @@
       "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -1097,7 +1495,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "heavy-hex-bolt-am-b18-2-3-6m-heavy-hex-bolt-m16-x-2-0-x-60",
@@ -1105,11 +1516,6 @@
       "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 ",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -1117,7 +1523,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m12-x-1-75-x-45",
@@ -1125,11 +1544,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -1137,7 +1551,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.252,
+        "mass_kg_est": 0.12,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.24,
+          "manufacturing": 0.0,
+          "transport": 0.012
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m12-x-1-75-x-45",
@@ -1145,11 +1572,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 ",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -1157,7 +1579,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.252,
+        "mass_kg_est": 0.12,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.24,
+          "manufacturing": 0.0,
+          "transport": 0.012
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m16-x-2-0-x-45",
@@ -1165,11 +1600,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -1177,7 +1607,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m16-x-2-0-x-45",
@@ -1185,11 +1628,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 ",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -1197,7 +1635,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "key-stock-5-d-faut",
@@ -1205,11 +1656,6 @@
       "name": "Key Stock - .5_DÃ©faut",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST 2-3 Shaft ASM_DÃ©faut",
@@ -1217,7 +1663,20 @@
         }
       ],
       "category": "key",
-      "material_guess": "steel_1045_key"
+      "material_guess": "steel_1045_key",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st2-planet-clip-3dm1-35-b27-8m-3dm1",
@@ -1225,11 +1684,6 @@
       "name": "ST2 Planet Clip - 3DM1-35_B27.8M - 3DM1",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST2 Planet ASM_DÃ©faut001",
@@ -1241,7 +1695,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-12-x-1-75-x-35-hex-shcs",
@@ -1249,11 +1716,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut",
@@ -1261,7 +1723,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.252,
+        "mass_kg_est": 0.12,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.24,
+          "manufacturing": 0.0,
+          "transport": 0.012
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "circlip-35mm-b27-8m-3dm1",
@@ -1269,11 +1744,6 @@
       "name": "CirClip - 35mm_B27.8M - 3DM1",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST3 Planet ASM_DÃ©faut001",
@@ -1285,7 +1755,20 @@
         }
       ],
       "category": "retainer",
-      "material_guess": "spring_steel_circlip"
+      "material_guess": "spring_steel_circlip",
+      "pcf": {
+        "kgco2e_est": 0.021,
+        "mass_kg_est": 0.01,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.02,
+          "manufacturing": 0.0,
+          "transport": 0.001
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-16-x-40",
@@ -1293,11 +1776,6 @@
       "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 16 x 40 ",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -1305,7 +1783,20 @@
         }
       ],
       "category": "pin",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 0.336,
+        "mass_kg_est": 0.16,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.32,
+          "manufacturing": 0.0,
+          "transport": 0.016
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-16-x-40-a",
@@ -1313,11 +1804,6 @@
       "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 16 x 40 - A",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -1325,7 +1811,20 @@
         }
       ],
       "category": "pin",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 0.336,
+        "mass_kg_est": 0.16,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.32,
+          "manufacturing": 0.0,
+          "transport": 0.016
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m10-x-1-5-x-45",
@@ -1333,11 +1832,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box",
@@ -1345,7 +1839,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m10-x-1-5-x-45",
@@ -1353,11 +1860,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 ",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box",
@@ -1365,7 +1867,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-nut-style-2-am-b18-2-4-2m-hex-nut-style-2-m10-x-1-5",
@@ -1373,11 +1888,6 @@
       "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5,",
       "count": 2,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box",
@@ -1385,7 +1895,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "circlip-60mm-int-98455a",
@@ -1393,11 +1916,6 @@
       "name": "CirClip - 60mm Int_98455A",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -1405,7 +1923,20 @@
         }
       ],
       "category": "retainer",
-      "material_guess": "spring_steel_circlip"
+      "material_guess": "spring_steel_circlip",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "cr-8786-d-faut",
@@ -1413,11 +1944,6 @@
       "name": "CR-8786_DÃ©faut",
       "count": 1,
       "material": "composite",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -1425,7 +1951,20 @@
         }
       ],
       "category": "seal",
-      "material_guess": "elastomer_nbr_with_steel_shell"
+      "material_guess": "elastomer_nbr_with_steel_shell",
+      "pcf": {
+        "kgco2e_est": 0.517,
+        "mass_kg_est": 0.15,
+        "material_factor_kgco2e_per_kg": 3.0,
+        "process_multiplier": 1.1,
+        "breakdown": {
+          "material": 0.45,
+          "manufacturing": 0.045,
+          "transport": 0.022
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m8-x-1-25-x-25-2",
@@ -1433,11 +1972,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --2",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -1445,7 +1979,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.105,
+        "mass_kg_est": 0.05,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.1,
+          "manufacturing": 0.0,
+          "transport": 0.005
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "high-speed-case-d-faut",
@@ -1453,11 +2000,6 @@
       "name": "High Speed Case_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -1465,7 +2007,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 69.0,
+        "mass_kg_est": 30.0,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.1,
+        "breakdown": {
+          "material": 60.0,
+          "manufacturing": 6.0,
+          "transport": 3.0
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "high-speed-cover-d-faut",
@@ -1473,11 +2028,6 @@
       "name": "High Speed Cover_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -1485,7 +2035,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 50.6,
+        "mass_kg_est": 22.0,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.1,
+        "breakdown": {
+          "material": 44.0,
+          "manufacturing": 4.4,
+          "transport": 2.2
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "circlip-20mm-98541a",
@@ -1493,11 +2056,6 @@
       "name": "Circlip - 20mm_98541A",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Imput Shaft_DÃ©faut001",
@@ -1505,7 +2063,20 @@
         }
       ],
       "category": "retainer",
-      "material_guess": "spring_steel_circlip"
+      "material_guess": "spring_steel_circlip",
+      "pcf": {
+        "kgco2e_est": 0.011,
+        "mass_kg_est": 0.005,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.01,
+          "manufacturing": 0.0,
+          "transport": 0.001
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "imput-shaft-d-faut",
@@ -1513,11 +2084,6 @@
       "name": "Imput Shaft_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Imput Shaft_DÃ©faut001",
@@ -1525,7 +2091,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 21.6,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.3,
+        "breakdown": {
+          "material": 16.0,
+          "manufacturing": 4.8,
+          "transport": 0.8
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "key-stock-14-d-faut",
@@ -1533,11 +2112,6 @@
       "name": "Key Stock - 14_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Imput Shaft_DÃ©faut001",
@@ -1545,7 +2119,20 @@
         }
       ],
       "category": "key",
-      "material_guess": "steel_1045_key"
+      "material_guess": "steel_1045_key",
+      "pcf": {
+        "kgco2e_est": 0.315,
+        "mass_kg_est": 0.15,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.3,
+          "manufacturing": 0.0,
+          "transport": 0.015
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "sun-st1-3m-80t-metric-spur-gear-3m-80t-20pa-10fw-s80n75h50",
@@ -1553,11 +2140,6 @@
       "name": "Sun ST1 3M 80T_Metric - Spur gear 3M 80T 20PA 10FW ---S80N75H50",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Imput Shaft_DÃ©faut001",
@@ -1565,7 +2147,20 @@
         }
       ],
       "category": "gear_sun",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 14.7,
+        "mass_kg_est": 4.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 8.4,
+          "manufacturing": 5.88,
+          "transport": 0.42
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-204k-d-faut",
@@ -1573,11 +2168,6 @@
       "name": "Timken - 204K_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Imput Shaft_DÃ©faut001",
@@ -1585,7 +2175,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-10-x-24-a",
@@ -1593,11 +2196,6 @@
       "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 10 x 24 - A",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -1605,7 +2203,20 @@
         }
       ],
       "category": "pin",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 0.101,
+        "mass_kg_est": 0.048,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.096,
+          "manufacturing": 0.0,
+          "transport": 0.005
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-10-x-24-a",
@@ -1613,11 +2224,6 @@
       "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 10 x 24 - A ",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -1625,7 +2231,20 @@
         }
       ],
       "category": "pin",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 0.101,
+        "mass_kg_est": 0.048,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.096,
+          "manufacturing": 0.0,
+          "transport": 0.005
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-6-x-1-0-x-25-hex-shcs-2",
@@ -1633,11 +2252,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -- 2",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -1645,7 +2259,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-6-x-1-0-x-25-hex-shcs-25",
@@ -1653,11 +2280,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -- 25",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut",
@@ -1665,7 +2287,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regular02",
@@ -1673,11 +2308,6 @@
       "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular02",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut",
@@ -1685,7 +2315,20 @@
         }
       ],
       "category": "washer",
-      "material_guess": "steel_washer_hardened"
+      "material_guess": "steel_washer_hardened",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-nut-style-1-am-b18-2-4-1m-hex-nut-style-1-m12-x-1-75",
@@ -1693,11 +2336,6 @@
       "name": "Hex Nut Style 1_AM_B18.2.4.1M - Hex nut, Style 1, M12 x 1.75 ",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut",
@@ -1705,7 +2343,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.252,
+        "mass_kg_est": 0.12,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.24,
+          "manufacturing": 0.0,
+          "transport": 0.012
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "ring-gear-st1-3m-120t-metric-internal-spur-gear-3m-120t-20pa",
@@ -1713,11 +2364,6 @@
       "name": "Ring gear ST1 3M 120T_Metric - Internal spur gear 3M 120T 20PA",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut",
@@ -1725,7 +2371,20 @@
         }
       ],
       "category": "gear_ring",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 29.4,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 16.8,
+          "manufacturing": 11.76,
+          "transport": 0.84
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "circlip-30mm-98541a",
@@ -1733,11 +2392,6 @@
       "name": "CirClip - 30mm_98541A",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST 1-2 Shaft ASM_DÃ©faut",
@@ -1745,7 +2399,20 @@
         }
       ],
       "category": "retainer",
-      "material_guess": "spring_steel_circlip"
+      "material_guess": "spring_steel_circlip",
+      "pcf": {
+        "kgco2e_est": 0.017,
+        "mass_kg_est": 0.008,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.016,
+          "manufacturing": 0.0,
+          "transport": 0.001
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "key-stock-516-d-faut",
@@ -1753,11 +2420,6 @@
       "name": "Key Stock - 516_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST 1-2 Shaft ASM_DÃ©faut",
@@ -1765,7 +2427,20 @@
         }
       ],
       "category": "key",
-      "material_guess": "steel_1045_key"
+      "material_guess": "steel_1045_key",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st-1-2-shaft-d-faut",
@@ -1773,11 +2448,6 @@
       "name": "ST 1-2 Shaft_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST 1-2 Shaft ASM_DÃ©faut",
@@ -1785,7 +2455,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 21.6,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.3,
+        "breakdown": {
+          "material": 16.0,
+          "manufacturing": 4.8,
+          "transport": 0.8
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "sun-st2-4m-20t-metric-spur-gear-4m-20t-20pa-25fw-s20n75h50",
@@ -1793,11 +2476,6 @@
       "name": "Sun ST2 4M 20T_Metric - Spur gear 4M 20T 20PA 25FW ---S20N75H50",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST 1-2 Shaft ASM_DÃ©faut",
@@ -1805,7 +2483,20 @@
         }
       ],
       "category": "gear_sun",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 14.7,
+        "mass_kg_est": 4.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 8.4,
+          "manufacturing": 5.88,
+          "transport": 0.42
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-208k-d-faut",
@@ -1813,11 +2504,6 @@
       "name": "Timken - 208K_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST 1-2 Shaft ASM_DÃ©faut",
@@ -1825,7 +2511,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st1-3m-20t-metric-spur-gear-3m-20t-20pa-10fw-s20n75",
@@ -1833,11 +2532,6 @@
       "name": "Planet ST1 3M 20T_Metric - Spur gear 3M 20T 20PA 10FW ---S20N75",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST1 Planet ASM_DÃ©faut",
@@ -1845,7 +2539,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st1-planet-clip-3dm1-25-b27-8m-3dm1-25",
@@ -1853,11 +2560,6 @@
       "name": "ST1 Planet Clip - 3DM1-25_B27.8M - 3DM1-25",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST1 Planet ASM_DÃ©faut",
@@ -1865,7 +2567,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st1-3m-20t-metric-spur-gear-3m-20t-20pa-10fw-s20n7",
@@ -1873,11 +2588,6 @@
       "name": "Planet ST1 3M 20T_Metric - Spur gear 3M 20T 20PA 10FW ---S20N7",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST1 Planet ASM_DÃ©faut001",
@@ -1885,7 +2595,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st1-3m-20t-metric-spur-gear-3m-20t-20pa-10fw-s20n",
@@ -1893,11 +2616,6 @@
       "name": "Planet ST1 3M 20T_Metric - Spur gear 3M 20T 20PA 10FW ---S20N",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut / ST1 Planet ASM_DÃ©faut002",
@@ -1905,7 +2623,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st1-planet-carrier-plate-in-d-faut",
@@ -1913,11 +2644,6 @@
       "name": "ST1 Planet Carrier Plate In_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut",
@@ -1925,7 +2651,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 22.05,
+        "mass_kg_est": 6.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 12.6,
+          "manufacturing": 8.82,
+          "transport": 0.63
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st1-planet-carrier-plate-out-d-faut",
@@ -1933,11 +2672,6 @@
       "name": "ST1 Planet Carrier Plate Out_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - High Speed - ASM_DÃ©faut / Stage 1_DÃ©faut",
@@ -1945,7 +2679,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 22.05,
+        "mass_kg_est": 6.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 12.6,
+          "manufacturing": 8.82,
+          "transport": 0.63
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "cr-51800-d-faut",
@@ -1953,11 +2700,6 @@
       "name": "CR-51800_DÃ©faut",
       "count": 1,
       "material": "composite",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -1965,7 +2707,20 @@
         }
       ],
       "category": "seal",
-      "material_guess": "elastomer_nbr_with_steel_shell"
+      "material_guess": "elastomer_nbr_with_steel_shell",
+      "pcf": {
+        "kgco2e_est": 0.517,
+        "mass_kg_est": 0.15,
+        "material_factor_kgco2e_per_kg": 3.0,
+        "process_multiplier": 1.1,
+        "breakdown": {
+          "material": 0.45,
+          "manufacturing": 0.045,
+          "transport": 0.022
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regul",
@@ -1973,11 +2728,6 @@
       "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regul",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -1985,7 +2735,20 @@
         }
       ],
       "category": "washer",
-      "material_guess": "steel_washer_hardened"
+      "material_guess": "steel_washer_hardened",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regula",
@@ -1993,11 +2756,6 @@
       "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regula",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2005,7 +2763,20 @@
         }
       ],
       "category": "washer",
-      "material_guess": "steel_washer_hardened"
+      "material_guess": "steel_washer_hardened",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regular",
@@ -2013,11 +2784,6 @@
       "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2025,7 +2791,20 @@
         }
       ],
       "category": "washer",
-      "material_guess": "steel_washer_hardened"
+      "material_guess": "steel_washer_hardened",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regular0",
@@ -2033,11 +2812,6 @@
       "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular0",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2045,7 +2819,20 @@
         }
       ],
       "category": "washer",
-      "material_guess": "steel_washer_hardened"
+      "material_guess": "steel_washer_hardened",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regular00",
@@ -2053,11 +2840,6 @@
       "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular00",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2065,7 +2847,20 @@
         }
       ],
       "category": "washer",
-      "material_guess": "steel_washer_hardened"
+      "material_guess": "steel_washer_hardened",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regular01",
@@ -2073,11 +2868,6 @@
       "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular01",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2085,7 +2875,20 @@
         }
       ],
       "category": "washer",
-      "material_guess": "steel_washer_hardened"
+      "material_guess": "steel_washer_hardened",
+      "pcf": {
+        "kgco2e_est": 0.042,
+        "mass_kg_est": 0.02,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.04,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "heavy-hex-bolt-am-b18-2-3-6m-heavy-hex-bolt-m16-x-2-0-x-6",
@@ -2093,11 +2896,6 @@
       "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 6",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2105,7 +2903,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m12-x-1-75-x-4",
@@ -2113,11 +2924,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 4",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2125,7 +2931,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.252,
+        "mass_kg_est": 0.12,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.24,
+          "manufacturing": 0.0,
+          "transport": 0.012
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m16-x-2-0-x-45-4",
@@ -2133,11 +2952,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --4",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2145,7 +2959,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "low-speed-case-d-faut",
@@ -2153,11 +2980,6 @@
       "name": "Low Speed Case_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2165,7 +2987,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 69.0,
+        "mass_kg_est": 30.0,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.1,
+        "breakdown": {
+          "material": 60.0,
+          "manufacturing": 6.0,
+          "transport": 3.0
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "low-speed-cover-d-faut",
@@ -2173,11 +3008,6 @@
       "name": "Low Speed Cover_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2185,7 +3015,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 50.6,
+        "mass_kg_est": 22.0,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.1,
+        "breakdown": {
+          "material": 44.0,
+          "manufacturing": 4.4,
+          "transport": 2.2
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-35-hex-shcs",
@@ -2193,11 +3036,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2205,7 +3043,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-35-hex-shcs-3",
@@ -2213,11 +3064,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 3",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut",
@@ -2225,7 +3071,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "ring-gear-st2-4m-80t-metric-internal-spur-gear-4m-80t-20pa-25",
@@ -2233,11 +3092,6 @@
       "name": "Ring gear ST2 4M 80T_Metric - Internal spur gear 4M 80T 20PA 25",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut",
@@ -2245,7 +3099,20 @@
         }
       ],
       "category": "gear_ring",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 29.4,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 16.8,
+          "manufacturing": 11.76,
+          "transport": 0.84
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "circlip-50mm-98541a",
@@ -2253,11 +3120,6 @@
       "name": "CirClip - 50mm_98541A",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST 2-3 Shaft ASM_DÃ©faut",
@@ -2265,7 +3127,20 @@
         }
       ],
       "category": "retainer",
-      "material_guess": "spring_steel_circlip"
+      "material_guess": "spring_steel_circlip",
+      "pcf": {
+        "kgco2e_est": 0.032,
+        "mass_kg_est": 0.015,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.03,
+          "manufacturing": 0.0,
+          "transport": 0.002
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-25-hex-shcs",
@@ -2273,11 +3148,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST 2-3 Shaft ASM_DÃ©faut",
@@ -2285,7 +3155,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-25-hex-shcs-2",
@@ -2293,11 +3176,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS -- 2",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST 2-3 Shaft ASM_DÃ©faut",
@@ -2305,7 +3183,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st-2-3-shaft-d-faut",
@@ -2313,11 +3204,6 @@
       "name": "ST 2-3 Shaft_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST 2-3 Shaft ASM_DÃ©faut",
@@ -2325,7 +3211,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 21.6,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.3,
+        "breakdown": {
+          "material": 16.0,
+          "manufacturing": 4.8,
+          "transport": 0.8
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "sun-st3-8m-20t-metric-spur-gear-8m-20t-20pa-30fw-s20n75h50",
@@ -2333,11 +3232,6 @@
       "name": "Sun ST3 8M 20T_Metric - Spur gear 8M 20T 20PA 30FW ---S20N75H50",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST 2-3 Shaft ASM_DÃ©faut",
@@ -2345,7 +3239,20 @@
         }
       ],
       "category": "gear_sun",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 14.7,
+        "mass_kg_est": 4.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 8.4,
+          "manufacturing": 5.88,
+          "transport": 0.42
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-210k-d-faut",
@@ -2353,11 +3260,6 @@
       "name": "Timken - 210K_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST 2-3 Shaft ASM_DÃ©faut",
@@ -2365,7 +3267,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-214k-d-faut",
@@ -2373,11 +3288,6 @@
       "name": "Timken - 214K_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST 2-3 Shaft ASM_DÃ©faut",
@@ -2385,7 +3295,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st2-4m-30t-metric-spur-gear-4m-30t-20pa-25fw-s30n75",
@@ -2393,11 +3316,6 @@
       "name": "Planet ST2 4M 30T_Metric - Spur gear 4M 30T 20PA 25FW ---S30N75",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST2 Planet ASM_DÃ©faut",
@@ -2405,7 +3323,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st2-planet-clip-3dm1-35-b27-8m-3dm1-35",
@@ -2413,11 +3344,6 @@
       "name": "ST2 Planet Clip - 3DM1-35_B27.8M - 3DM1-35",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST2 Planet ASM_DÃ©faut",
@@ -2425,7 +3351,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st2-4m-30t-metric-spur-gear-4m-30t-20pa-25fw-s30n7",
@@ -2433,11 +3372,6 @@
       "name": "Planet ST2 4M 30T_Metric - Spur gear 4M 30T 20PA 25FW ---S30N7",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST2 Planet ASM_DÃ©faut001",
@@ -2445,7 +3379,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st2-4m-30t-metric-spur-gear-4m-30t-20pa-25fw-s30n",
@@ -2453,11 +3400,6 @@
       "name": "Planet ST2 4M 30T_Metric - Spur gear 4M 30T 20PA 25FW ---S30N",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut / ST2 Planet ASM_DÃ©faut002",
@@ -2465,7 +3407,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st2-planet-carrier-plate-in-d-faut",
@@ -2473,11 +3428,6 @@
       "name": "ST2 Planet Carrier Plate In_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut",
@@ -2485,7 +3435,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 22.05,
+        "mass_kg_est": 6.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 12.6,
+          "manufacturing": 8.82,
+          "transport": 0.63
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st2-planet-carrier-plate-out-d-faut",
@@ -2493,11 +3456,6 @@
       "name": "ST2 Planet Carrier Plate Out_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 2_DÃ©faut",
@@ -2505,7 +3463,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 22.05,
+        "mass_kg_est": 6.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 12.6,
+          "manufacturing": 8.82,
+          "transport": 0.63
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "ring-gear-st3-8m-60t-metric-internal-spur-gear-8m-60t-20pa-30",
@@ -2513,11 +3484,6 @@
       "name": "Ring gear ST3 8M 60T_Metric - Internal spur gear 8M 60T 20PA 30",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut",
@@ -2525,7 +3491,20 @@
         }
       ],
       "category": "gear_ring",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 29.4,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 16.8,
+          "manufacturing": 11.76,
+          "transport": 0.84
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "circlip-80mm-98541a",
@@ -2533,11 +3512,6 @@
       "name": "CirClip - 80mm_98541A",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST 3-4 Shaft ASM_DÃ©faut",
@@ -2545,7 +3519,20 @@
         }
       ],
       "category": "retainer",
-      "material_guess": "spring_steel_circlip"
+      "material_guess": "spring_steel_circlip",
+      "pcf": {
+        "kgco2e_est": 0.063,
+        "mass_kg_est": 0.03,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.06,
+          "manufacturing": 0.0,
+          "transport": 0.003
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "key-stock-875-d-faut",
@@ -2553,11 +3540,6 @@
       "name": "Key Stock - .875_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST 3-4 Shaft ASM_DÃ©faut",
@@ -2565,7 +3547,20 @@
         }
       ],
       "category": "key",
-      "material_guess": "steel_1045_key"
+      "material_guess": "steel_1045_key",
+      "pcf": {
+        "kgco2e_est": 0.252,
+        "mass_kg_est": 0.12,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.24,
+          "manufacturing": 0.0,
+          "transport": 0.012
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-30-hex-shcs",
@@ -2573,11 +3568,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST 3-4 Shaft ASM_DÃ©faut",
@@ -2585,7 +3575,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-30-hex-shcs-3",
@@ -2593,11 +3596,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 3",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST 3-4 Shaft ASM_DÃ©faut",
@@ -2605,7 +3603,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st-3-4-shaft-d-faut",
@@ -2613,11 +3624,6 @@
       "name": "ST 3-4 Shaft_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST 3-4 Shaft ASM_DÃ©faut",
@@ -2625,7 +3631,20 @@
         }
       ],
       "category": "steel_component",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 21.6,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.3,
+        "breakdown": {
+          "material": 16.0,
+          "manufacturing": 4.8,
+          "transport": 0.8
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "sun-st4-10m-20t-metric-spur-gear-10m-20t-20pa-90fw-s20n75h",
@@ -2633,11 +3652,6 @@
       "name": "Sun ST4 10M 20T_Metric - Spur gear 10M 20T 20PA 90FW ---S20N75H",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST 3-4 Shaft ASM_DÃ©faut",
@@ -2645,7 +3659,20 @@
         }
       ],
       "category": "gear_sun",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 14.7,
+        "mass_kg_est": 4.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 8.4,
+          "manufacturing": 5.88,
+          "transport": 0.42
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-216k-d-faut",
@@ -2653,11 +3680,6 @@
       "name": "Timken - 216K_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST 3-4 Shaft ASM_DÃ©faut",
@@ -2665,7 +3687,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-220k-d-faut",
@@ -2673,11 +3708,6 @@
       "name": "Timken - 220K_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST 3-4 Shaft ASM_DÃ©faut",
@@ -2685,7 +3715,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "circlip-35mm-b27-8m-3dm1-35",
@@ -2693,11 +3736,6 @@
       "name": "CirClip - 35mm_B27.8M - 3DM1-35",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST3 Planet ASM_DÃ©faut",
@@ -2705,7 +3743,20 @@
         }
       ],
       "category": "retainer",
-      "material_guess": "spring_steel_circlip"
+      "material_guess": "spring_steel_circlip",
+      "pcf": {
+        "kgco2e_est": 0.021,
+        "mass_kg_est": 0.01,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.02,
+          "manufacturing": 0.0,
+          "transport": 0.001
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st3-8m-20t-metric-spur-gear-8m-20t-20pa-30fw-s20n75",
@@ -2713,11 +3764,6 @@
       "name": "Planet ST3 8M 20T_Metric - Spur gear 8M 20T 20PA 30FW ---S20N75",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST3 Planet ASM_DÃ©faut",
@@ -2725,7 +3771,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st3-8m-20t-metric-spur-gear-8m-20t-20pa-30fw-s20n7",
@@ -2733,11 +3792,6 @@
       "name": "Planet ST3 8M 20T_Metric - Spur gear 8M 20T 20PA 30FW ---S20N7",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST3 Planet ASM_DÃ©faut001",
@@ -2745,7 +3799,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st3-8m-20t-metric-spur-gear-8m-20t-20pa-30fw-s20n",
@@ -2753,11 +3820,6 @@
       "name": "Planet ST3 8M 20T_Metric - Spur gear 8M 20T 20PA 30FW ---S20N",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut / ST3 Planet ASM_DÃ©faut002",
@@ -2765,7 +3827,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st3-planet-carrier-plate-in-d-faut",
@@ -2773,11 +3848,6 @@
       "name": "ST3 Planet Carrier Plate In_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut",
@@ -2785,7 +3855,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 22.05,
+        "mass_kg_est": 6.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 12.6,
+          "manufacturing": 8.82,
+          "transport": 0.63
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st3-planet-carrier-plate-out-d-faut",
@@ -2793,11 +3876,6 @@
       "name": "ST3 Planet Carrier Plate Out_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 3_DÃ©faut",
@@ -2805,7 +3883,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 22.05,
+        "mass_kg_est": 6.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 12.6,
+          "manufacturing": 8.82,
+          "transport": 0.63
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "output-drive-d-faut",
@@ -2813,11 +3904,6 @@
       "name": "Output Drive_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / Output Shaft_DÃ©faut",
@@ -2825,7 +3911,20 @@
         }
       ],
       "category": "shaft",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 15.0,
+        "mass_kg_est": 6.0,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.2,
+        "breakdown": {
+          "material": 12.0,
+          "manufacturing": 2.4,
+          "transport": 0.6
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-50-hex-shcs",
@@ -2833,11 +3932,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / Output Shaft_DÃ©faut",
@@ -2845,7 +3939,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-50-hex-shcs-5",
@@ -2853,11 +3960,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 5",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / Output Shaft_DÃ©faut",
@@ -2865,7 +3967,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "timken-228k-d-faut",
@@ -2873,11 +3988,6 @@
       "name": "Timken - 228K_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / Output Shaft_DÃ©faut",
@@ -2885,7 +3995,20 @@
         }
       ],
       "category": "bearing",
-      "material_guess": "steel_52100_bearing"
+      "material_guess": "steel_52100_bearing",
+      "pcf": {
+        "kgco2e_est": 6.037,
+        "mass_kg_est": 1.5,
+        "material_factor_kgco2e_per_kg": 2.3,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 3.45,
+          "manufacturing": 2.415,
+          "transport": 0.172
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-16-x-40-a",
@@ -2893,11 +4016,6 @@
       "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 16 x 40 - A ",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -2905,7 +4023,20 @@
         }
       ],
       "category": "pin",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 0.336,
+        "mass_kg_est": 0.16,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.32,
+          "manufacturing": 0.0,
+          "transport": 0.016
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-16-x-40",
@@ -2913,11 +4044,6 @@
       "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 16 x 40 -.",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -2925,7 +4051,20 @@
         }
       ],
       "category": "pin",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 0.336,
+        "mass_kg_est": 0.16,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.32,
+          "manufacturing": 0.0,
+          "transport": 0.016
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "ring-gear-st4-10m-60t-metric-internal-spur-gear-10m-60t-20pa",
@@ -2933,11 +4072,6 @@
       "name": "Ring gear ST4 10M 60T_Metric - Internal spur gear 10M 60T 20PA",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -2945,7 +4079,20 @@
         }
       ],
       "category": "gear_ring",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 29.4,
+        "mass_kg_est": 8.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 16.8,
+          "manufacturing": 11.76,
+          "transport": 0.84
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-60-hex-shcs",
@@ -2953,11 +4100,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -2965,7 +4107,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-60-hex-shcs-6",
@@ -2973,11 +4128,6 @@
       "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 6",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -2985,7 +4135,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_12_9"
+      "material_guess": "steel_fastener_12_9",
+      "pcf": {
+        "kgco2e_est": 0.525,
+        "mass_kg_est": 0.25,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.5,
+          "manufacturing": 0.0,
+          "transport": 0.025
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st4-10m-20t-metric-spur-gear-10m-20t-20pa-90fw-s20n",
@@ -2993,11 +4156,6 @@
       "name": "Planet ST4 10M 20T_Metric - Spur gear 10M 20T 20PA 90FW ---S20N",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / ST4 Planet ASM_DÃ©faut",
@@ -3005,7 +4163,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st4-10m-20t-metric-spur-gear-10m-20t-20pa-90fw-s20",
@@ -3013,11 +4184,6 @@
       "name": "Planet ST4 10M 20T_Metric - Spur gear 10M 20T 20PA 90FW ---S20",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / ST4 Planet ASM_DÃ©faut001",
@@ -3025,7 +4191,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "planet-st4-10m-20t-metric-spur-gear-10m-20t-20pa-90fw-s2",
@@ -3033,11 +4212,6 @@
       "name": "Planet ST4 10M 20T_Metric - Spur gear 10M 20T 20PA 90FW ---S2",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut / ST4 Planet ASM_DÃ©faut002",
@@ -3045,7 +4219,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 11.025,
+        "mass_kg_est": 3.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 6.3,
+          "manufacturing": 4.41,
+          "transport": 0.315
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st4-planet-carrier-plate-in-d-faut",
@@ -3053,11 +4240,6 @@
       "name": "ST4 Planet Carrier Plate In_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -3065,7 +4247,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 22.05,
+        "mass_kg_est": 6.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 12.6,
+          "manufacturing": 8.82,
+          "transport": 0.63
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "st4-planet-carrier-plate-out-d-faut",
@@ -3073,11 +4268,6 @@
       "name": "ST4 Planet Carrier Plate Out_DÃ©faut",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box / Gear Box - Low Speed - ASM_DÃ©faut / Stage 4_DÃ©faut",
@@ -3085,7 +4275,20 @@
         }
       ],
       "category": "gear_planet",
-      "material_guess": "steel_8620_carburized"
+      "material_guess": "steel_8620_carburized",
+      "pcf": {
+        "kgco2e_est": 22.05,
+        "mass_kg_est": 6.0,
+        "material_factor_kgco2e_per_kg": 2.1,
+        "process_multiplier": 1.7,
+        "breakdown": {
+          "material": 12.6,
+          "manufacturing": 8.82,
+          "transport": 0.63
+        },
+        "confidence": "low",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m10-x-1-5-x-45-2",
@@ -3093,11 +4296,6 @@
       "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --2",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box",
@@ -3105,7 +4303,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-nut-style-2-am-b18-2-4-2m-hex-nut-style-2-m10-x-1-5",
@@ -3113,11 +4324,6 @@
       "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box",
@@ -3125,7 +4331,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "hex-nut-style-2-am-b18-2-4-2m-hex-nut-style-2-m10-x-1-5-w",
@@ -3133,11 +4352,6 @@
       "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, w",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box",
@@ -3145,7 +4359,20 @@
         }
       ],
       "category": "fastener",
-      "material_guess": "steel_fastener_10_9"
+      "material_guess": "steel_fastener_10_9",
+      "pcf": {
+        "kgco2e_est": 0.168,
+        "mass_kg_est": 0.08,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.16,
+          "manufacturing": 0.0,
+          "transport": 0.008
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-10-x-30-a",
@@ -3153,11 +4380,6 @@
       "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 10 x 30 - A",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box",
@@ -3165,7 +4387,20 @@
         }
       ],
       "category": "pin",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 0.126,
+        "mass_kg_est": 0.06,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.12,
+          "manufacturing": 0.0,
+          "transport": 0.006
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-10-x-30-a",
@@ -3173,11 +4408,6 @@
       "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 10 x 30 - A ",
       "count": 1,
       "material": "steel",
-      "ghg": {
-        "scope1": 0,
-        "scope2": 0,
-        "scope3": 0
-      },
       "assemblies": [
         {
           "path": "Gear Box",
@@ -3185,7 +4415,20 @@
         }
       ],
       "category": "pin",
-      "material_guess": "steel_4140_qt"
+      "material_guess": "steel_4140_qt",
+      "pcf": {
+        "kgco2e_est": 0.126,
+        "mass_kg_est": 0.06,
+        "material_factor_kgco2e_per_kg": 2.0,
+        "process_multiplier": 1.0,
+        "breakdown": {
+          "material": 0.12,
+          "manufacturing": 0.0,
+          "transport": 0.006
+        },
+        "confidence": "medium",
+        "notes": "Estimated from part type and assembly size; per-part value."
+      }
     }
   ],
   "materials": {
