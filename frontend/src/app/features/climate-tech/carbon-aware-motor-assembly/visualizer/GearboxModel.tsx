@@ -33,7 +33,6 @@ const DEBUG_MATERIAL_GUESS = 'steel_fastener_12_9';
 export function GearboxModel({
   explode,
   debugMaterials,
-  pcfOverlay,
   pcfOverlayMode,
   pcfMaxByMode,
   onPartsCount,
@@ -43,7 +42,6 @@ export function GearboxModel({
 }: {
   explode: number;
   debugMaterials: boolean;
-  pcfOverlay: boolean;
   pcfOverlayMode: PcfOverlayMode;
   pcfMaxByMode: Record<PcfOverlayMode, number>;
   onPartsCount?: (count: number) => void;
@@ -52,6 +50,7 @@ export function GearboxModel({
   onAssemblyGroups?: (groups: AssemblyGroup[]) => void;
 }) {
   const { scene } = useGLTF(GEARBOX_MODEL_URL);
+  const overlayEnabled = pcfOverlayMode !== 'none';
   const isMesh = useCallback(
     (object: THREE.Object3D): object is THREE.Mesh =>
       (object as THREE.Mesh).isMesh === true,
@@ -128,7 +127,7 @@ export function GearboxModel({
           material: debugMaterial,
           targetMaterialGuess: DEBUG_MATERIAL_GUESS,
         }, {
-          enabled: pcfOverlay,
+          enabled: overlayEnabled,
           mode: pcfOverlayMode,
           maxPcf: pcfMaxByMode[pcfOverlayMode] ?? 0,
           cache: overlayCache.current,
@@ -157,7 +156,7 @@ export function GearboxModel({
     model,
     normalizePartName,
     pcfMaxByMode,
-    pcfOverlay,
+    overlayEnabled,
     pcfOverlayMode,
     resolveMaterial,
   ]);

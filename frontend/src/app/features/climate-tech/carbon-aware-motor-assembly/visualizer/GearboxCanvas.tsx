@@ -21,7 +21,6 @@ interface GearboxCanvasProps {
   explode: number;
   autoRotate: boolean;
   debugMaterials: boolean;
-  pcfOverlay: boolean;
   pcfOverlayMode: PcfOverlayMode;
   pcfMaxByMode: Record<PcfOverlayMode, number>;
   controlsRef: RefObject<OrbitControlsImpl | null>;
@@ -35,7 +34,6 @@ export function GearboxCanvas({
   explode,
   autoRotate,
   debugMaterials,
-  pcfOverlay,
   pcfOverlayMode,
   pcfMaxByMode,
   controlsRef,
@@ -62,7 +60,6 @@ export function GearboxCanvas({
         <GearboxModel
           explode={explode}
           debugMaterials={debugMaterials}
-          pcfOverlay={pcfOverlay}
           pcfOverlayMode={pcfOverlayMode}
           pcfMaxByMode={pcfMaxByMode}
           onPartsCount={onPartsCount}

@@ -26,7 +26,12 @@ export type PartMaterialMeta = {
   };
 };
 
-export type PcfOverlayMode = 'total' | 'material' | 'manufacturing' | 'transport';
+export type PcfOverlayMode =
+  | 'none'
+  | 'total'
+  | 'material'
+  | 'manufacturing'
+  | 'transport';
 
 export type HierarchyItem = {
   name: string;
