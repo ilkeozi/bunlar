@@ -107,7 +107,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <div className="hidden md:block">
-            <LanguageSelector />
+            <LanguageSelector variant="inline" />
           </div>
 
           <Sheet>
@@ -163,7 +163,7 @@ export function SiteHeader() {
                     {t('app.language')}
                   </span>
                   <div className="mt-2">
-                    <LanguageSelector />
+                    <LanguageSelector showLabel={false} />
                   </div>
                 </div>
               </div>

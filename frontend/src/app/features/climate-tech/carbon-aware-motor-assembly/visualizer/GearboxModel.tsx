@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import partsCatalog from '../../../../data/climate-tech/partsCatalog.json';
 import type {
   AssemblyGroup,
   HierarchyItem,
+  PartMaterialMeta,
   PartGroup,
   PcfOverlayMode,
+  SelectedPart,
 } from '../types';
 import {
   applyMaterial,
@@ -35,6 +37,8 @@ export function GearboxModel({
   debugMaterials,
   pcfOverlayMode,
   pcfMaxByMode,
+  selectedMesh,
+  onPartSelect,
   onPartsCount,
   onHierarchy,
   onPartGroups,
@@ -44,6 +48,8 @@ export function GearboxModel({
   debugMaterials: boolean;
   pcfOverlayMode: PcfOverlayMode;
   pcfMaxByMode: Record<PcfOverlayMode, number>;
+  selectedMesh?: THREE.Mesh | null;
+  onPartSelect?: (selection: SelectedPart | null) => void;
   onPartsCount?: (count: number) => void;
   onHierarchy?: (items: HierarchyItem[]) => void;
   onPartGroups?: (groups: PartGroup[]) => void;
@@ -51,6 +57,8 @@ export function GearboxModel({
 }) {
   const { scene } = useGLTF(GEARBOX_MODEL_URL);
   const overlayEnabled = pcfOverlayMode !== 'none';
+  const currentMaxPcf = pcfMaxByMode[pcfOverlayMode] ?? 0;
+  const outlineRef = useRef<THREE.LineSegments | null>(null);
   const isMesh = useCallback(
     (object: THREE.Object3D): object is THREE.Mesh =>
       (object as THREE.Mesh).isMesh === true,
@@ -83,6 +91,26 @@ export function GearboxModel({
   const debugMaterial = useMemo(() => createDebugMaterial(), []);
   const overlayCache = useRef(new Map<string, THREE.MeshStandardMaterial>());
   const hasLoggedUnmatched = useRef(false);
+  const currentExplode = useRef(explode);
+  const targetExplode = useRef(explode);
+  const findMetaForMesh = useCallback(
+    (rawName: string): PartMaterialMeta | undefined => {
+      if (!rawName) {
+        return undefined;
+      }
+      const trimmed = rawName.trim();
+      const normalized = normalizePartName(trimmed);
+      const matchKey = normalizeMatchKey(trimmed);
+      const looseKey = normalizeMatchKeyLoose(trimmed);
+      return (
+        materialIndex.get(normalized.toLowerCase()) ??
+        materialIndex.get(trimmed.toLowerCase()) ??
+        materialIndex.get(matchKey) ??
+        materialIndex.get(looseKey)
+      );
+    },
+    [materialIndex]
+  );
   const model = useMemo(() => {
     const cloned = scene.clone(true);
     const lights: THREE.Light[] = [];
@@ -101,6 +129,14 @@ export function GearboxModel({
 
     return cloned;
   }, [isLight, scene]);
+
+  useEffect(() => {
+    overlayCache.current.clear();
+  }, [pcfOverlayMode, currentMaxPcf]);
+
+  useEffect(() => {
+    targetExplode.current = explode;
+  }, [explode]);
 
   useEffect(() => {
     const unmatched = new Set<string>();
@@ -129,7 +165,7 @@ export function GearboxModel({
         }, {
           enabled: overlayEnabled,
           mode: pcfOverlayMode,
-          maxPcf: pcfMaxByMode[pcfOverlayMode] ?? 0,
+          maxPcf: currentMaxPcf,
           cache: overlayCache.current,
         })
       );
@@ -155,7 +191,7 @@ export function GearboxModel({
     materialLibrary,
     model,
     normalizePartName,
-    pcfMaxByMode,
+    currentMaxPcf,
     overlayEnabled,
     pcfOverlayMode,
     resolveMaterial,
@@ -191,14 +227,77 @@ export function GearboxModel({
     parts.length,
   ]);
 
-  useFrame(() => {
-    const distance = explode * 2;
+  useFrame((_, delta) => {
+    const nextExplode = THREE.MathUtils.damp(
+      currentExplode.current,
+      targetExplode.current,
+      10,
+      delta
+    );
+    currentExplode.current = nextExplode;
+    const distance = nextExplode * 2;
     parts.forEach(({ object, base, dir, magnitude }) => {
       object.position.copy(base).addScaledVector(dir, distance * magnitude);
     });
   });
 
-  return <primitive object={model} />;
+  const handlePointerDown = useCallback(
+    (event: ThreeEvent<PointerEvent>) => {
+      event.stopPropagation();
+      if (!isMesh(event.object)) {
+        return;
+      }
+      const meta = findMetaForMesh(event.object.name ?? '');
+      onPartSelect?.({
+        mesh: event.object,
+        meta,
+      });
+    },
+    [findMetaForMesh, isMesh, onPartSelect]
+  );
+
+  useEffect(() => {
+    if (outlineRef.current?.parent) {
+      outlineRef.current.parent.remove(outlineRef.current);
+      outlineRef.current.geometry.dispose();
+      const previousMaterial = outlineRef.current.material;
+      if (Array.isArray(previousMaterial)) {
+        previousMaterial.forEach((mat) => mat.dispose());
+      } else {
+        previousMaterial.dispose();
+      }
+      outlineRef.current = null;
+    }
+
+    if (!selectedMesh) {
+      return;
+    }
+
+    const edges = new THREE.EdgesGeometry(selectedMesh.geometry, 35);
+    const material = new THREE.LineBasicMaterial({
+      color: '#7dd3fc',
+      transparent: true,
+      opacity: 1,
+    });
+    material.depthTest = false;
+    material.depthWrite = false;
+    const outline = new THREE.LineSegments(edges, material);
+    outline.name = 'selected-part-outline';
+    outline.raycast = () => {};
+    outline.scale.setScalar(1.03);
+    selectedMesh.add(outline);
+    outlineRef.current = outline;
+
+    return () => {
+      if (outline.parent) {
+        outline.parent.remove(outline);
+      }
+      outline.geometry.dispose();
+      material.dispose();
+    };
+  }, [selectedMesh]);
+
+  return <primitive object={model} onPointerDown={handlePointerDown} />;
 }
 
 useGLTF.preload(GEARBOX_MODEL_URL);

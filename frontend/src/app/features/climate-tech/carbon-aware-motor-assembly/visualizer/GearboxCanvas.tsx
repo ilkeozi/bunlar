@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { RefObject } from 'react';
 import { Canvas } from '@react-three/fiber';
 import {
@@ -14,7 +14,9 @@ import type {
   HierarchyItem,
   PartGroup,
   PcfOverlayMode,
+  SelectedPart,
 } from '../types';
+import { PartTooltip } from '../components/PartTooltip';
 import { GearboxModel } from './GearboxModel';
 
 interface GearboxCanvasProps {
@@ -42,6 +44,7 @@ export function GearboxCanvas({
   onPartGroups,
   onAssemblyGroups,
 }: GearboxCanvasProps) {
+  const [selectedPart, setSelectedPart] = useState<SelectedPart | null>(null);
   useEffect(() => {
     if (!controlsRef.current) {
       return;
@@ -52,9 +55,16 @@ export function GearboxCanvas({
     controlsRef.current.saveState();
   }, [controlsRef]);
 
+  const handlePointerMissed = useCallback(() => {
+    setSelectedPart(null);
+  }, []);
+
   return (
     <div className="absolute inset-0">
-      <Canvas camera={{ position: [5, 5, 5], fov: 40, near: 0.1, far: 500 }}>
+      <Canvas
+        camera={{ position: [5, 5, 5], fov: 40, near: 0.1, far: 500 }}
+        onPointerMissed={handlePointerMissed}
+      >
         <Environment preset="warehouse" />
 
         <GearboxModel
@@ -62,10 +72,20 @@ export function GearboxCanvas({
           debugMaterials={debugMaterials}
           pcfOverlayMode={pcfOverlayMode}
           pcfMaxByMode={pcfMaxByMode}
+          selectedMesh={selectedPart?.mesh ?? null}
+          onPartSelect={(selection) =>
+            setSelectedPart((prev) =>
+              prev?.mesh === selection?.mesh ? prev : selection
+            )
+          }
           onPartsCount={onPartsCount}
           onHierarchy={onHierarchy}
           onPartGroups={onPartGroups}
           onAssemblyGroups={onAssemblyGroups}
+        />
+        <PartTooltip
+          selection={selectedPart}
+          showEmissions={pcfOverlayMode !== 'none'}
         />
         <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
           <GizmoViewport
