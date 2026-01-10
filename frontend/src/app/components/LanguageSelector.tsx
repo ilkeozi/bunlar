@@ -18,7 +18,7 @@ interface LanguageSelectorProps {
 
 const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
   en: 'English',
-  tr: 'Turkce',
+  tr: 'Türkçe',
 };
 
 export function LanguageSelector({
