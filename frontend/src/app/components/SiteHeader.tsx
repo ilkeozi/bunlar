@@ -1,4 +1,4 @@
-import { Menu } from 'lucide-react';
+import { Brain, Github, Linkedin, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -37,11 +37,11 @@ export function SiteHeader() {
           className="flex items-center gap-3 text-lg font-semibold tracking-tight text-foreground"
           aria-label={t('app.title')}
         >
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-            b
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <Brain className="h-5 w-5" aria-hidden="true" />
           </span>
           <span className="hidden sm:flex flex-col leading-tight">
-            <span className="flex items-baseline gap-1 text-foreground">
+            <span className="flex items-baseline gap-0.5 text-foreground">
               <span>{t('app.title')}</span>
               <span className="text-primary">.org</span>
             </span>
@@ -64,6 +64,26 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <div className="hidden items-center gap-2 md:flex">
+            <a
+              href="https://github.com/ilkeozi"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+            >
+              <Github className="h-4 w-4" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/ilkeozi/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+            >
+              <Linkedin className="h-4 w-4" />
+            </a>
+          </div>
           <div className="hidden md:block">
             <LanguageSelector variant="inline" />
           </div>

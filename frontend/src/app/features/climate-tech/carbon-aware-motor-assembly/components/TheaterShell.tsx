@@ -6,7 +6,9 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { Brain } from 'lucide-react';
 import { ControlsToggle } from './ControlsToggle';
+import { useTranslation } from '../../../../i18n/useTranslation';
 
 type AvoidRect = {
   left: number;
@@ -32,6 +34,7 @@ export function TheaterShell({
   onExit,
   children,
 }: TheaterShellProps) {
+  const { t } = useTranslation();
   const viewControlsRef = useRef<HTMLDivElement | null>(null);
   const [tooltipAvoidRect, setTooltipAvoidRect] = useState<AvoidRect | null>(
     null
@@ -94,6 +97,15 @@ export function TheaterShell({
         {overlayLegend}
         {children(tooltipAvoidRect)}
       </section>
+      <div className="absolute right-6 top-6 z-30 hidden items-center gap-2 rounded-full border border-border/60 bg-slate-950/70 px-3 py-1.5 text-sm font-semibold text-foreground sm:flex">
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/15 text-primary">
+          <Brain className="h-4 w-4" aria-hidden="true" />
+        </span>
+        <span className="flex items-baseline gap-0.5">
+          <span>{t('app.title')}</span>
+          <span className="text-primary">.org</span>
+        </span>
+      </div>
       <div className="absolute right-6 top-6 z-30 sm:hidden">
         <ControlsToggle controlsOpen={controlsOpen} onToggle={onControlsToggle} />
       </div>

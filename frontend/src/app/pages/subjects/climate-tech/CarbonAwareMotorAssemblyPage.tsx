@@ -19,7 +19,7 @@ import { useTranslation } from '../../../i18n/useTranslation';
 export function CarbonAwareMotorAssemblyPage() {
   const { t } = useTranslation();
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
-  const [autoRotate, setAutoRotate] = useState(false);
+  const [autoRotate, setAutoRotate] = useState(true);
   const [debugMaterials, setDebugMaterials] = useState(false);
   const [pcfOverlayMode, setPcfOverlayMode] =
     useState<PcfOverlayMode>('none');
@@ -193,11 +193,11 @@ export function CarbonAwareMotorAssemblyPage() {
         </section>
       </div>
 
-      <ModelMetadataGrid
+      {/* <ModelMetadataGrid
         hierarchy={hierarchy}
         partGroups={partGroups}
         assemblyGroups={assemblyGroups}
-      />
+      /> */}
     </div>
   );
 }

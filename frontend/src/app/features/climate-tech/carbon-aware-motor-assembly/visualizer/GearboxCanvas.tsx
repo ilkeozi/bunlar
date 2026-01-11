@@ -69,7 +69,7 @@ export function GearboxCanvas({
   return (
     <div className="absolute inset-0">
       <Canvas
-        camera={{ position: [5, 5, 5], fov: 40, near: 0.1, far: 500 }}
+        camera={{ position: [2.1, 2.1, 2.1], fov: 40, near: 0.1, far: 500 }}
         onPointerMissed={handlePointerMissed}
       >
         <Environment preset="warehouse" />
@@ -104,7 +104,12 @@ export function GearboxCanvas({
 
         <OrbitControls ref={controlsRef} autoRotate={autoRotate} />
       </Canvas>
-      <Loader dataInterpolation={(ratio) => `${Math.round(ratio * 100)}%`} />
+      <Loader
+        dataInterpolation={(ratio) => {
+          const percent = ratio > 1 ? ratio : ratio * 100;
+          return `${Math.min(100, Math.round(percent))}%`;
+        }}
+      />
     </div>
   );
 }
