@@ -21,6 +21,11 @@ export type PartMaterialMeta = {
   material?: string;
   category?: string;
   material_guess?: string;
+  part_number?: string;
+  supplier_name?: string;
+  plant_name?: string;
+  country_of_origin?: string;
+  sourcing?: 'manufactured' | 'supplier';
   pcf?: {
     kgco2e_est?: number;
     mass_kg_est?: number;

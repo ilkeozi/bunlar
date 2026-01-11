@@ -173,6 +173,38 @@ export function PartTooltip({
     t('climateTech.tooltip.unknownValue');
   const category =
     selection.meta?.category ?? t('climateTech.tooltip.unknownValue');
+  const partNumber = selection.meta?.part_number;
+  const supplierName = selection.meta?.supplier_name;
+  const plantName = selection.meta?.plant_name;
+  const origin = selection.meta?.country_of_origin;
+  const sourcing = selection.meta?.sourcing;
+  const supplierLabel =
+    sourcing === 'manufactured'
+      ? t('climateTech.tooltip.plantLabel')
+      : t('climateTech.tooltip.supplierLabel');
+  const sourcingValue =
+    sourcing === 'manufactured'
+      ? t('climateTech.tooltip.sourcingManufactured')
+      : sourcing === 'supplier'
+        ? t('climateTech.tooltip.sourcingSupplier')
+        : t('climateTech.tooltip.unknownValue');
+  const sourcingChipClass =
+    sourcing === 'manufactured'
+      ? 'border-emerald-400/40 bg-emerald-500/15 text-emerald-200'
+      : 'border-sky-400/40 bg-sky-500/15 text-sky-200';
+  const originFlagMap: Record<string, string> = {
+    Germany: '🇩🇪',
+    Netherlands: '🇳🇱',
+    Sweden: '🇸🇪',
+    'United States': '🇺🇸',
+    Japan: '🇯🇵',
+    Turkey: '🇹🇷',
+    Ukraine: '🇺🇦',
+  };
+  const originFlag = origin ? originFlagMap[origin] : undefined;
+  const originLabel = origin
+    ? `${originFlag ? `${originFlag} ` : ''}${origin}`
+    : undefined;
 
   const renderName = (value: string) => {
     const normalized = value.replace(/\s+/g, ' ').trim();
@@ -212,6 +244,38 @@ export function PartTooltip({
         >
           <div className="text-xs font-semibold leading-snug text-slate-50">
             {renderName(name)}
+          </div>
+          {partNumber && (
+            <div className="mt-1 text-[11px] text-slate-300">
+              {t('climateTech.tooltip.partNumberLabel')}:{' '}
+              <span className="text-slate-100">{partNumber}</span>
+            </div>
+          )}
+          {sourcing && (
+            <div className="mt-1 flex items-center gap-2 text-[11px] text-slate-300">
+              <span>{t('climateTech.tooltip.sourcingLabel')}:</span>
+              <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${sourcingChipClass}`}>
+                {sourcingValue}
+              </span>
+            </div>
+          )}
+          <div className="mt-3 text-[10px] uppercase tracking-wide text-slate-400">
+            {t('climateTech.tooltip.sourcingSection')}
+          </div>
+          {(plantName || supplierName) && (
+            <div className="mt-1 text-[11px] text-slate-300">
+              {supplierLabel}:{' '}
+              <span className="text-slate-100">{plantName ?? supplierName}</span>
+            </div>
+          )}
+          {originLabel && (
+            <div className="mt-1 text-[11px] text-slate-300">
+              {t('climateTech.tooltip.originLabel')}:{' '}
+              <span className="text-slate-100">{originLabel}</span>
+            </div>
+          )}
+          <div className="mt-3 text-[10px] uppercase tracking-wide text-slate-400">
+            {t('climateTech.tooltip.materialSection')}
           </div>
           <div className="mt-1 text-[11px] text-slate-300">
             {t('climateTech.tooltip.materialLabel')}:{' '}

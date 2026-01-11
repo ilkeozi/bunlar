@@ -213,7 +213,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Flat Washer Narrow AM B18.22M - Plain washer, 16 mm, narrow"
+      "label": "Flat Washer Narrow AM B18.22M - Plain washer, 16 mm, narrow",
+      "part_number": "BOLLH-WSH-0001",
+      "supplier_name": "Bollhoff Washers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "flat-washer-narrow-am-b18-22m-plain-washer-10-mm-narrow",
@@ -242,7 +246,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Flat Washer Narrow AM B18.22M - Plain washer, 10 mm, narrow"
+      "label": "Flat Washer Narrow AM B18.22M - Plain washer, 10 mm, narrow",
+      "part_number": "BOLLH-WSH-0002",
+      "supplier_name": "Bollhoff Washers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-30-hex-shcs",
@@ -275,7 +283,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 30 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 30 Hex SHCS",
+      "part_number": "DNEPR-FST-0001",
+      "supplier_name": "Dneprometiz Fasteners",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "heavy-hex-bolt-am-b18-2-3-6m-heavy-hex-bolt-m16-x-2-0-x-6",
@@ -304,7 +316,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Heavy Hex Bolt AM B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 6"
+      "label": "Heavy Hex Bolt AM B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 6",
+      "part_number": "WURTH-FST-0001",
+      "supplier_name": "Wurth Fasteners",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regul",
@@ -337,7 +353,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regul"
+      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regul",
+      "part_number": "BOLLH-WSH-0003",
+      "supplier_name": "Bollhoff Washers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-60-hex-shcs",
@@ -366,7 +386,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 60 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 60 Hex SHCS",
+      "part_number": "FABOR-FST-0001",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "timken-207k-d-faut",
@@ -415,7 +439,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken - 207K"
+      "label": "Timken - 207K",
+      "part_number": "NSK-BRG-0001",
+      "supplier_name": "NSK Bearings",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier"
     },
     {
       "id": "flat-washer-narrow-am-b18-22m-plain-washer-8-mm-narrow",
@@ -444,7 +472,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Flat Washer Narrow AM B18.22M - Plain washer, 8 mm, narrow"
+      "label": "Flat Washer Narrow AM B18.22M - Plain washer, 8 mm, narrow",
+      "part_number": "BOLLH-WSH-0004",
+      "supplier_name": "Bollhoff Washers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m12-x-1-75-x-4",
@@ -473,7 +505,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M12 x 1.75 x 4"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M12 x 1.75 x 4",
+      "part_number": "NORM-FST-0001",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "schs-m6-b18-3-5m-6-x-1-0-x-20-socket-fchs-20n",
@@ -502,7 +538,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "SCHS M6 B18.3.5M - 6 x 1.0 x 20 Socket FCHS 20N"
+      "label": "SCHS M6 B18.3.5M - 6 x 1.0 x 20 Socket FCHS 20N",
+      "part_number": "METIN-STL-0001",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Metinvest Casings"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-12-x-1-75-x-35-hex-shcs",
@@ -531,7 +571,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 12 x 1.75 x 35 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 12 x 1.75 x 35 Hex SHCS",
+      "part_number": "FABOR-FST-0002",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "timken-9305k-d-faut",
@@ -568,7 +612,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken -9305K"
+      "label": "Timken -9305K",
+      "part_number": "TIMKE-BRG-0001",
+      "supplier_name": "Timken Bearings",
+      "country_of_origin": "United States",
+      "sourcing": "supplier"
     },
     {
       "id": "timken-215k-d-faut",
@@ -605,7 +653,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken - 215K"
+      "label": "Timken - 215K",
+      "part_number": "NSK-BRG-0002",
+      "supplier_name": "NSK Bearings",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-nut-style-2-am-b18-2-4-2m-hex-nut-style-2-m10-x-1",
@@ -634,7 +686,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Nut Style 2 AM B18.2.4.2M - Hex nut, Style 2, M10 x 1"
+      "label": "Hex Nut Style 2 AM B18.2.4.2M - Hex nut, Style 2, M10 x 1",
+      "part_number": "NORM-FST-0002",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m8-x-1-25-x-25",
@@ -663,7 +719,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25",
+      "part_number": "NORM-FST-0003",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m16-x-2-0-x-45",
@@ -692,7 +752,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45",
+      "part_number": "NORM-FST-0004",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-35-hex-shcs",
@@ -721,7 +785,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 35 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 35 Hex SHCS",
+      "part_number": "FABOR-FST-0003",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-50-hex-shcs",
@@ -750,7 +818,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 50 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 50 Hex SHCS",
+      "part_number": "FABOR-FST-0004",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m10-x-1-5-x-45",
@@ -779,7 +851,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45",
+      "part_number": "NORM-FST-0005",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-6-x-1-0-x-25-hex-shcs",
@@ -808,7 +884,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 6 x 1.0 x 25 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 6 x 1.0 x 25 Hex SHCS",
+      "part_number": "FABOR-FST-0005",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-6-x-1-0-x-25-hex-shcs",
@@ -837,7 +917,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 6 x 1.0 x 25 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 6 x 1.0 x 25 Hex SHCS",
+      "part_number": "FABOR-FST-0006",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-bolt-am-b18-2-3-5m-hex-bolt-m12-x-1-75-x-70-30n",
@@ -866,7 +950,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Bolt AM B18.2.3.5M - Hex bolt M12 x 1.75 x 70 30N"
+      "label": "Hex Bolt AM B18.2.3.5M - Hex bolt M12 x 1.75 x 70 30N",
+      "part_number": "NORM-FST-0006",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "st1-planet-shaft-spacer-d-faut",
@@ -903,7 +991,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST1 Planet Shaft-Spacer"
+      "label": "ST1 Planet Shaft-Spacer",
+      "part_number": "SANDV-GPL-0001",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-35-hex-shcs",
@@ -932,7 +1024,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 35 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 35 Hex SHCS",
+      "part_number": "FABOR-FST-0007",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-25-hex-shcs",
@@ -961,7 +1057,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 25 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 25 Hex SHCS",
+      "part_number": "DNEPR-FST-0002",
+      "supplier_name": "Dneprometiz Fasteners",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-25-hex-shcs",
@@ -990,7 +1090,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 25 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 25 Hex SHCS",
+      "part_number": "DNEPR-FST-0003",
+      "supplier_name": "Dneprometiz Fasteners",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "st2-planet-shaft-spacer-d-faut",
@@ -1027,7 +1131,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST2 Planet Shaft-Spacer"
+      "label": "ST2 Planet Shaft-Spacer",
+      "part_number": "SANDV-GPL-0002",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "st2-spacer-d-faut",
@@ -1056,7 +1164,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST2 Spacer"
+      "label": "ST2 Spacer",
+      "part_number": "SSAB-STL-0001",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "SSAB Casings"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-12-x-1-75-x-35-hex-shcs",
@@ -1085,7 +1197,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 12 x 1.75 x 35 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 12 x 1.75 x 35 Hex SHCS",
+      "part_number": "FABOR-FST-0008",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-30-hex-shcs",
@@ -1114,7 +1230,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 30 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 30 Hex SHCS",
+      "part_number": "DNEPR-FST-0004",
+      "supplier_name": "Dneprometiz Fasteners",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "st3-planet-shaft-spacer-d-faut",
@@ -1151,7 +1271,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST3 Planet Shaft-Spacer"
+      "label": "ST3 Planet Shaft-Spacer",
+      "part_number": "SANDV-GPL-0003",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "st3-spacer-d-faut",
@@ -1180,7 +1304,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST3 Spacer"
+      "label": "ST3 Spacer",
+      "part_number": "SSAB-STL-0002",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "SSAB Casings"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-50-hex-shcs",
@@ -1209,7 +1337,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 50 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 50 Hex SHCS",
+      "part_number": "FABOR-FST-0009",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-60-hex-shcs",
@@ -1238,7 +1370,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 60 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 60 Hex SHCS",
+      "part_number": "FABOR-FST-0010",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "circlip-75mm-98541a",
@@ -1275,7 +1411,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "CirClip - 75mm 98541A"
+      "label": "CirClip - 75mm 98541A",
+      "part_number": "SEEGE-RET-0001",
+      "supplier_name": "Seeger Orbis Retainers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "st4-planet-shaft-spacer-d-faut",
@@ -1312,7 +1452,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST4 Planet Shaft-Spacer"
+      "label": "ST4 Planet Shaft-Spacer",
+      "part_number": "KHK-GPL-0001",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier",
+      "supplier_name": "KHK Gears"
     },
     {
       "id": "st4-spacer-d-faut",
@@ -1341,7 +1485,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST4 Spacer"
+      "label": "ST4 Spacer",
+      "part_number": "NIPPO-STL-0001",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier",
+      "supplier_name": "Nippon Steel Casings"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m8-x-1-25-x-25",
@@ -1370,7 +1518,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25",
+      "part_number": "NORM-FST-0007",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m8-x-1-25-x-25",
@@ -1399,7 +1551,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25",
+      "part_number": "NORM-FST-0008",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "timken-205k-d-faut",
@@ -1428,7 +1584,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken - 205K"
+      "label": "Timken - 205K",
+      "part_number": "NSK-BRG-0003",
+      "supplier_name": "NSK Bearings",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier"
     },
     {
       "id": "timken-206k-d-faut",
@@ -1461,7 +1621,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken - 206K"
+      "label": "Timken - 206K",
+      "part_number": "NSK-BRG-0004",
+      "supplier_name": "NSK Bearings",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-nut-style-1-am-b18-2-4-1m-hex-nut-style-1-m12-x-1-75",
@@ -1490,7 +1654,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Nut Style 1 AM B18.2.4.1M - Hex nut, Style 1, M12 x 1.75"
+      "label": "Hex Nut Style 1 AM B18.2.4.1M - Hex nut, Style 1, M12 x 1.75",
+      "part_number": "NORM-FST-0009",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "st1-planet-clip-3dm1-25-b27-8m-3dm1",
@@ -1523,7 +1691,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST1 Planet Clip - 3DM1-25 B27.8M - 3DM1"
+      "label": "ST1 Planet Clip - 3DM1-25 B27.8M - 3DM1",
+      "part_number": "SANDV-GPL-0004",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "heavy-hex-bolt-am-b18-2-3-6m-heavy-hex-bolt-m16-x-2-0-x-60",
@@ -1552,7 +1724,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Heavy Hex Bolt AM B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60"
+      "label": "Heavy Hex Bolt AM B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60",
+      "part_number": "NORM-FST-0010",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "heavy-hex-bolt-am-b18-2-3-6m-heavy-hex-bolt-m16-x-2-0-x-60",
@@ -1581,7 +1757,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Heavy Hex Bolt AM B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60"
+      "label": "Heavy Hex Bolt AM B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60",
+      "part_number": "NORM-FST-0011",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m12-x-1-75-x-45",
@@ -1610,7 +1790,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45",
+      "part_number": "NORM-FST-0012",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m12-x-1-75-x-45",
@@ -1639,7 +1823,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45",
+      "part_number": "NORM-FST-0013",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m16-x-2-0-x-45",
@@ -1668,7 +1856,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45",
+      "part_number": "NORM-FST-0014",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m16-x-2-0-x-45",
@@ -1697,7 +1889,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45",
+      "part_number": "NORM-FST-0015",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "key-stock-5-d-faut",
@@ -1726,7 +1922,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Key Stock - .5"
+      "label": "Key Stock - .5",
+      "part_number": "NORM-KEY-0001",
+      "supplier_name": "Norm Civata Keys",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "st2-planet-clip-3dm1-35-b27-8m-3dm1",
@@ -1759,7 +1959,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST2 Planet Clip - 3DM1-35 B27.8M - 3DM1"
+      "label": "ST2 Planet Clip - 3DM1-35 B27.8M - 3DM1",
+      "part_number": "SANDV-GPL-0005",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-12-x-1-75-x-35-hex-shcs",
@@ -1788,7 +1992,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 12 x 1.75 x 35 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 12 x 1.75 x 35 Hex SHCS",
+      "part_number": "FABOR-FST-0011",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "circlip-35mm-b27-8m-3dm1",
@@ -1821,7 +2029,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "CirClip - 35mm B27.8M - 3DM1"
+      "label": "CirClip - 35mm B27.8M - 3DM1",
+      "part_number": "SEEGE-RET-0002",
+      "supplier_name": "Seeger Orbis Retainers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-16-x-40",
@@ -1850,7 +2062,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 16 x 40"
+      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 16 x 40",
+      "part_number": "DNEPR-PIN-0001",
+      "supplier_name": "Dneprometiz Pins",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-16-x-40-a",
@@ -1879,7 +2095,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 16 x 40 - A"
+      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 16 x 40 - A",
+      "part_number": "DNEPR-PIN-0002",
+      "supplier_name": "Dneprometiz Pins",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m10-x-1-5-x-45",
@@ -1908,7 +2128,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45",
+      "part_number": "NORM-FST-0016",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m10-x-1-5-x-45",
@@ -1937,7 +2161,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45",
+      "part_number": "NORM-FST-0017",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-nut-style-2-am-b18-2-4-2m-hex-nut-style-2-m10-x-1-5",
@@ -1966,7 +2194,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Nut Style 2 AM B18.2.4.2M - Hex nut, Style 2, M10 x 1.5,"
+      "label": "Hex Nut Style 2 AM B18.2.4.2M - Hex nut, Style 2, M10 x 1.5,",
+      "part_number": "NORM-FST-0018",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "circlip-60mm-int-98455a",
@@ -1995,7 +2227,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "CirClip - 60mm Int 98455A"
+      "label": "CirClip - 60mm Int 98455A",
+      "part_number": "SEEGE-RET-0003",
+      "supplier_name": "Seeger Orbis Retainers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "cr-8786-d-faut",
@@ -2024,7 +2260,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "CR-8786"
+      "label": "CR-8786",
+      "part_number": "FREUD-SEAL-0001",
+      "supplier_name": "Freudenberg Seals",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m8-x-1-25-x-25-2",
@@ -2053,7 +2293,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 2"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 2",
+      "part_number": "NORM-FST-0019",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "high-speed-case-d-faut",
@@ -2082,7 +2326,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "High Speed Case"
+      "label": "High Speed Case",
+      "part_number": "METIN-STL-0002",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Metinvest Casings"
     },
     {
       "id": "high-speed-cover-d-faut",
@@ -2111,7 +2359,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "High Speed Cover"
+      "label": "High Speed Cover",
+      "part_number": "HEINR-STL-0001",
+      "country_of_origin": "Germany",
+      "sourcing": "manufactured",
+      "plant_name": "Heinrich Plant"
     },
     {
       "id": "circlip-20mm-98541a",
@@ -2140,7 +2392,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Circlip - 20mm 98541A"
+      "label": "Circlip - 20mm 98541A",
+      "part_number": "SEEGE-RET-0004",
+      "supplier_name": "Seeger Orbis Retainers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "imput-shaft-d-faut",
@@ -2169,7 +2425,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Imput Shaft"
+      "label": "Imput Shaft",
+      "part_number": "ERDEM-STL-0001",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier",
+      "supplier_name": "Erdemir Casings"
     },
     {
       "id": "key-stock-14-d-faut",
@@ -2198,7 +2458,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Key Stock - 14"
+      "label": "Key Stock - 14",
+      "part_number": "NORM-KEY-0002",
+      "supplier_name": "Norm Civata Keys",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "sun-st1-3m-80t-metric-spur-gear-3m-80t-20pa-10fw-s80n75h50",
@@ -2227,7 +2491,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Sun ST1 3M 80T Metric - Spur gear 3M 80T 20PA 10FW S80N75H50"
+      "label": "Sun ST1 3M 80T Metric - Spur gear 3M 80T 20PA 10FW S80N75H50",
+      "part_number": "KHK-GSN-0001",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier",
+      "supplier_name": "KHK Gears"
     },
     {
       "id": "timken-204k-d-faut",
@@ -2256,7 +2524,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken - 204K"
+      "label": "Timken - 204K",
+      "part_number": "NSK-BRG-0005",
+      "supplier_name": "NSK Bearings",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier"
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-10-x-24-a",
@@ -2285,7 +2557,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 10 x 24 - A"
+      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 10 x 24 - A",
+      "part_number": "DNEPR-PIN-0003",
+      "supplier_name": "Dneprometiz Pins",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-10-x-24-a",
@@ -2314,7 +2590,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 10 x 24 - A"
+      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 10 x 24 - A",
+      "part_number": "DNEPR-PIN-0004",
+      "supplier_name": "Dneprometiz Pins",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-6-x-1-0-x-25-hex-shcs-2",
@@ -2343,7 +2623,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 6 x 1.0 x 25 Hex SHCS 2"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 6 x 1.0 x 25 Hex SHCS 2",
+      "part_number": "FABOR-FST-0012",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-6-x-1-0-x-25-hex-shcs-25",
@@ -2372,7 +2656,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 6 x 1.0 x 25 Hex SHCS 25"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 6 x 1.0 x 25 Hex SHCS 25",
+      "part_number": "FABOR-FST-0013",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regular02",
@@ -2401,7 +2689,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regular02"
+      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regular02",
+      "part_number": "BOLLH-WSH-0005",
+      "supplier_name": "Bollhoff Washers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-nut-style-1-am-b18-2-4-1m-hex-nut-style-1-m12-x-1-75",
@@ -2430,7 +2722,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Nut Style 1 AM B18.2.4.1M - Hex nut, Style 1, M12 x 1.75"
+      "label": "Hex Nut Style 1 AM B18.2.4.1M - Hex nut, Style 1, M12 x 1.75",
+      "part_number": "NORM-FST-0020",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "ring-gear-st1-3m-120t-metric-internal-spur-gear-3m-120t-20pa",
@@ -2459,7 +2755,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Ring gear ST1 3M 120T Metric - Internal spur gear 3M 120T 20PA"
+      "label": "Ring gear ST1 3M 120T Metric - Internal spur gear 3M 120T 20PA",
+      "part_number": "SPICK-GRN-0001",
+      "country_of_origin": "Germany",
+      "sourcing": "manufactured",
+      "plant_name": "Spickers Plant"
     },
     {
       "id": "circlip-30mm-98541a",
@@ -2488,7 +2788,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "CirClip - 30mm 98541A"
+      "label": "CirClip - 30mm 98541A",
+      "part_number": "SEEGE-RET-0005",
+      "supplier_name": "Seeger Orbis Retainers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "key-stock-516-d-faut",
@@ -2517,7 +2821,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Key Stock - 516"
+      "label": "Key Stock - 516",
+      "part_number": "NORM-KEY-0003",
+      "supplier_name": "Norm Civata Keys",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "st-1-2-shaft-d-faut",
@@ -2546,7 +2854,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST 1-2 Shaft"
+      "label": "ST 1-2 Shaft",
+      "part_number": "TATA-STL-0001",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier",
+      "supplier_name": "Tata Steel IJmuiden Casings"
     },
     {
       "id": "sun-st2-4m-20t-metric-spur-gear-4m-20t-20pa-25fw-s20n75h50",
@@ -2575,7 +2887,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Sun ST2 4M 20T Metric - Spur gear 4M 20T 20PA 25FW S20N75H50"
+      "label": "Sun ST2 4M 20T Metric - Spur gear 4M 20T 20PA 25FW S20N75H50",
+      "part_number": "KHK-GSN-0002",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier",
+      "supplier_name": "KHK Gears"
     },
     {
       "id": "timken-208k-d-faut",
@@ -2604,7 +2920,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken - 208K"
+      "label": "Timken - 208K",
+      "part_number": "NSK-BRG-0006",
+      "supplier_name": "NSK Bearings",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier"
     },
     {
       "id": "planet-st1-3m-20t-metric-spur-gear-3m-20t-20pa-10fw-s20n75",
@@ -2633,7 +2953,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST1 3M 20T Metric - Spur gear 3M 20T 20PA 10FW S20N75"
+      "label": "Planet ST1 3M 20T Metric - Spur gear 3M 20T 20PA 10FW S20N75",
+      "part_number": "MOTOR-GPL-0001",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "st1-planet-clip-3dm1-25-b27-8m-3dm1-25",
@@ -2662,7 +2986,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST1 Planet Clip - 3DM1-25 B27.8M - 3DM1-25"
+      "label": "ST1 Planet Clip - 3DM1-25 B27.8M - 3DM1-25",
+      "part_number": "SANDV-GPL-0006",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "planet-st1-3m-20t-metric-spur-gear-3m-20t-20pa-10fw-s20n7",
@@ -2691,7 +3019,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST1 3M 20T Metric - Spur gear 3M 20T 20PA 10FW S20N7"
+      "label": "Planet ST1 3M 20T Metric - Spur gear 3M 20T 20PA 10FW S20N7",
+      "part_number": "MOTOR-GPL-0002",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "planet-st1-3m-20t-metric-spur-gear-3m-20t-20pa-10fw-s20n",
@@ -2720,7 +3052,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST1 3M 20T Metric - Spur gear 3M 20T 20PA 10FW S20N"
+      "label": "Planet ST1 3M 20T Metric - Spur gear 3M 20T 20PA 10FW S20N",
+      "part_number": "MOTOR-GPL-0003",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "st1-planet-carrier-plate-in-d-faut",
@@ -2749,7 +3085,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST1 Planet Carrier Plate In"
+      "label": "ST1 Planet Carrier Plate In",
+      "part_number": "STORK-GPL-0001",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier",
+      "supplier_name": "Stork Gears"
     },
     {
       "id": "st1-planet-carrier-plate-out-d-faut",
@@ -2778,7 +3118,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST1 Planet Carrier Plate Out"
+      "label": "ST1 Planet Carrier Plate Out",
+      "part_number": "SANDV-GPL-0007",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "cr-51800-d-faut",
@@ -2807,7 +3151,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "CR-51800"
+      "label": "CR-51800",
+      "part_number": "FREUD-SEAL-0002",
+      "supplier_name": "Freudenberg Seals",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regul",
@@ -2836,7 +3184,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regul"
+      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regul",
+      "part_number": "BOLLH-WSH-0006",
+      "supplier_name": "Bollhoff Washers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regula",
@@ -2865,7 +3217,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regula"
+      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regula",
+      "part_number": "BOLLH-WSH-0007",
+      "supplier_name": "Bollhoff Washers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regular",
@@ -2894,7 +3250,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regular"
+      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regular",
+      "part_number": "BOLLH-WSH-0008",
+      "supplier_name": "Bollhoff Washers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regular0",
@@ -2923,7 +3283,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regular0"
+      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regular0",
+      "part_number": "BOLLH-WSH-0009",
+      "supplier_name": "Bollhoff Washers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regular00",
@@ -2952,7 +3316,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regular00"
+      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regular00",
+      "part_number": "BOLLH-WSH-0010",
+      "supplier_name": "Bollhoff Washers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "flat-washer-regular-am-b18-22m-plain-washer-12-mm-regular01",
@@ -2981,7 +3349,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regular01"
+      "label": "Flat Washer Regular AM B18.22M - Plain washer, 12 mm, regular01",
+      "part_number": "BOLLH-WSH-0011",
+      "supplier_name": "Bollhoff Washers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "heavy-hex-bolt-am-b18-2-3-6m-heavy-hex-bolt-m16-x-2-0-x-6",
@@ -3010,7 +3382,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Heavy Hex Bolt AM B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 6"
+      "label": "Heavy Hex Bolt AM B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 6",
+      "part_number": "NORM-FST-0021",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m12-x-1-75-x-4",
@@ -3039,7 +3415,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M12 x 1.75 x 4"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M12 x 1.75 x 4",
+      "part_number": "NORM-FST-0022",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m16-x-2-0-x-45-4",
@@ -3068,7 +3448,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 4"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 4",
+      "part_number": "NORM-FST-0023",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "low-speed-case-d-faut",
@@ -3097,7 +3481,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Low Speed Case"
+      "label": "Low Speed Case",
+      "part_number": "SPICK-STL-0001",
+      "country_of_origin": "Germany",
+      "sourcing": "manufactured",
+      "plant_name": "Spickers Plant"
     },
     {
       "id": "low-speed-cover-d-faut",
@@ -3126,7 +3514,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Low Speed Cover"
+      "label": "Low Speed Cover",
+      "part_number": "HEINR-STL-0002",
+      "country_of_origin": "Germany",
+      "sourcing": "manufactured",
+      "plant_name": "Heinrich Plant"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-35-hex-shcs",
@@ -3155,7 +3547,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 35 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 35 Hex SHCS",
+      "part_number": "FABOR-FST-0014",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-35-hex-shcs-3",
@@ -3184,7 +3580,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 35 Hex SHCS 3"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 35 Hex SHCS 3",
+      "part_number": "FABOR-FST-0015",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "ring-gear-st2-4m-80t-metric-internal-spur-gear-4m-80t-20pa-25",
@@ -3213,7 +3613,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Ring gear ST2 4M 80T Metric - Internal spur gear 4M 80T 20PA 25"
+      "label": "Ring gear ST2 4M 80T Metric - Internal spur gear 4M 80T 20PA 25",
+      "part_number": "HEINR-GRN-0001",
+      "country_of_origin": "Germany",
+      "sourcing": "manufactured",
+      "plant_name": "Heinrich Plant"
     },
     {
       "id": "circlip-50mm-98541a",
@@ -3242,7 +3646,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "CirClip - 50mm 98541A"
+      "label": "CirClip - 50mm 98541A",
+      "part_number": "SEEGE-RET-0006",
+      "supplier_name": "Seeger Orbis Retainers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-25-hex-shcs",
@@ -3271,7 +3679,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 25 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 25 Hex SHCS",
+      "part_number": "DNEPR-FST-0005",
+      "supplier_name": "Dneprometiz Fasteners",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-25-hex-shcs-2",
@@ -3300,7 +3712,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 25 Hex SHCS 2"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 25 Hex SHCS 2",
+      "part_number": "DNEPR-FST-0006",
+      "supplier_name": "Dneprometiz Fasteners",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "st-2-3-shaft-d-faut",
@@ -3329,7 +3745,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST 2-3 Shaft"
+      "label": "ST 2-3 Shaft",
+      "part_number": "TATA-STL-0002",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier",
+      "supplier_name": "Tata Steel IJmuiden Casings"
     },
     {
       "id": "sun-st3-8m-20t-metric-spur-gear-8m-20t-20pa-30fw-s20n75h50",
@@ -3358,7 +3778,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Sun ST3 8M 20T Metric - Spur gear 8M 20T 20PA 30FW S20N75H50"
+      "label": "Sun ST3 8M 20T Metric - Spur gear 8M 20T 20PA 30FW S20N75H50",
+      "part_number": "KHK-GSN-0003",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier",
+      "supplier_name": "KHK Gears"
     },
     {
       "id": "timken-210k-d-faut",
@@ -3387,7 +3811,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken - 210K"
+      "label": "Timken - 210K",
+      "part_number": "NSK-BRG-0007",
+      "supplier_name": "NSK Bearings",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier"
     },
     {
       "id": "timken-214k-d-faut",
@@ -3416,7 +3844,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken - 214K"
+      "label": "Timken - 214K",
+      "part_number": "NSK-BRG-0008",
+      "supplier_name": "NSK Bearings",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier"
     },
     {
       "id": "planet-st2-4m-30t-metric-spur-gear-4m-30t-20pa-25fw-s30n75",
@@ -3445,7 +3877,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST2 4M 30T Metric - Spur gear 4M 30T 20PA 25FW S30N75"
+      "label": "Planet ST2 4M 30T Metric - Spur gear 4M 30T 20PA 25FW S30N75",
+      "part_number": "MOTOR-GPL-0004",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "st2-planet-clip-3dm1-35-b27-8m-3dm1-35",
@@ -3474,7 +3910,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST2 Planet Clip - 3DM1-35 B27.8M - 3DM1-35"
+      "label": "ST2 Planet Clip - 3DM1-35 B27.8M - 3DM1-35",
+      "part_number": "SANDV-GPL-0008",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "planet-st2-4m-30t-metric-spur-gear-4m-30t-20pa-25fw-s30n7",
@@ -3503,7 +3943,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST2 4M 30T Metric - Spur gear 4M 30T 20PA 25FW S30N7"
+      "label": "Planet ST2 4M 30T Metric - Spur gear 4M 30T 20PA 25FW S30N7",
+      "part_number": "MOTOR-GPL-0005",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "planet-st2-4m-30t-metric-spur-gear-4m-30t-20pa-25fw-s30n",
@@ -3532,7 +3976,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST2 4M 30T Metric - Spur gear 4M 30T 20PA 25FW S30N"
+      "label": "Planet ST2 4M 30T Metric - Spur gear 4M 30T 20PA 25FW S30N",
+      "part_number": "MOTOR-GPL-0006",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "st2-planet-carrier-plate-in-d-faut",
@@ -3561,7 +4009,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST2 Planet Carrier Plate In"
+      "label": "ST2 Planet Carrier Plate In",
+      "part_number": "SANDV-GPL-0009",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "st2-planet-carrier-plate-out-d-faut",
@@ -3590,7 +4042,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST2 Planet Carrier Plate Out"
+      "label": "ST2 Planet Carrier Plate Out",
+      "part_number": "SANDV-GPL-0010",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "ring-gear-st3-8m-60t-metric-internal-spur-gear-8m-60t-20pa-30",
@@ -3619,7 +4075,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Ring gear ST3 8M 60T Metric - Internal spur gear 8M 60T 20PA 30"
+      "label": "Ring gear ST3 8M 60T Metric - Internal spur gear 8M 60T 20PA 30",
+      "part_number": "SPICK-GRN-0002",
+      "country_of_origin": "Germany",
+      "sourcing": "manufactured",
+      "plant_name": "Spickers Plant"
     },
     {
       "id": "circlip-80mm-98541a",
@@ -3648,7 +4108,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "CirClip - 80mm 98541A"
+      "label": "CirClip - 80mm 98541A",
+      "part_number": "SEEGE-RET-0007",
+      "supplier_name": "Seeger Orbis Retainers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "key-stock-875-d-faut",
@@ -3677,7 +4141,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Key Stock - .875"
+      "label": "Key Stock - .875",
+      "part_number": "DNEPR-KEY-0001",
+      "supplier_name": "Dneprometiz Keys",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-30-hex-shcs",
@@ -3706,7 +4174,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 30 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 30 Hex SHCS",
+      "part_number": "DNEPR-FST-0007",
+      "supplier_name": "Dneprometiz Fasteners",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-10-x-1-5-x-30-hex-shcs-3",
@@ -3735,7 +4207,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 30 Hex SHCS 3"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 10 x 1.5 x 30 Hex SHCS 3",
+      "part_number": "FABOR-FST-0016",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "st-3-4-shaft-d-faut",
@@ -3764,7 +4240,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST 3-4 Shaft"
+      "label": "ST 3-4 Shaft",
+      "part_number": "TATA-STL-0003",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier",
+      "supplier_name": "Tata Steel IJmuiden Casings"
     },
     {
       "id": "sun-st4-10m-20t-metric-spur-gear-10m-20t-20pa-90fw-s20n75h",
@@ -3793,7 +4273,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Sun ST4 10M 20T Metric - Spur gear 10M 20T 20PA 90FW S20N75H"
+      "label": "Sun ST4 10M 20T Metric - Spur gear 10M 20T 20PA 90FW S20N75H",
+      "part_number": "KHK-GSN-0004",
+      "country_of_origin": "Japan",
+      "sourcing": "supplier",
+      "supplier_name": "KHK Gears"
     },
     {
       "id": "timken-216k-d-faut",
@@ -3822,7 +4306,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken - 216K"
+      "label": "Timken - 216K",
+      "part_number": "TIMKE-BRG-0002",
+      "supplier_name": "Timken Bearings",
+      "country_of_origin": "United States",
+      "sourcing": "supplier"
     },
     {
       "id": "timken-220k-d-faut",
@@ -3851,7 +4339,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken - 220K"
+      "label": "Timken - 220K",
+      "part_number": "TIMKE-BRG-0003",
+      "supplier_name": "Timken Bearings",
+      "country_of_origin": "United States",
+      "sourcing": "supplier"
     },
     {
       "id": "circlip-35mm-b27-8m-3dm1-35",
@@ -3880,7 +4372,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "CirClip - 35mm B27.8M - 3DM1-35"
+      "label": "CirClip - 35mm B27.8M - 3DM1-35",
+      "part_number": "SEEGE-RET-0008",
+      "supplier_name": "Seeger Orbis Retainers",
+      "country_of_origin": "Germany",
+      "sourcing": "supplier"
     },
     {
       "id": "planet-st3-8m-20t-metric-spur-gear-8m-20t-20pa-30fw-s20n75",
@@ -3909,7 +4405,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST3 8M 20T Metric - Spur gear 8M 20T 20PA 30FW S20N75"
+      "label": "Planet ST3 8M 20T Metric - Spur gear 8M 20T 20PA 30FW S20N75",
+      "part_number": "MOTOR-GPL-0007",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "planet-st3-8m-20t-metric-spur-gear-8m-20t-20pa-30fw-s20n7",
@@ -3938,7 +4438,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST3 8M 20T Metric - Spur gear 8M 20T 20PA 30FW S20N7"
+      "label": "Planet ST3 8M 20T Metric - Spur gear 8M 20T 20PA 30FW S20N7",
+      "part_number": "MOTOR-GPL-0008",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "planet-st3-8m-20t-metric-spur-gear-8m-20t-20pa-30fw-s20n",
@@ -3967,7 +4471,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST3 8M 20T Metric - Spur gear 8M 20T 20PA 30FW S20N"
+      "label": "Planet ST3 8M 20T Metric - Spur gear 8M 20T 20PA 30FW S20N",
+      "part_number": "MOTOR-GPL-0009",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "st3-planet-carrier-plate-in-d-faut",
@@ -3996,7 +4504,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST3 Planet Carrier Plate In"
+      "label": "ST3 Planet Carrier Plate In",
+      "part_number": "SANDV-GPL-0011",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "st3-planet-carrier-plate-out-d-faut",
@@ -4025,7 +4537,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST3 Planet Carrier Plate Out"
+      "label": "ST3 Planet Carrier Plate Out",
+      "part_number": "SANDV-GPL-0012",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "output-drive-d-faut",
@@ -4054,7 +4570,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Output Drive"
+      "label": "Output Drive",
+      "part_number": "HEMA-SHF-0001",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier",
+      "supplier_name": "HEMA Shafts"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-50-hex-shcs",
@@ -4083,7 +4603,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 50 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 50 Hex SHCS",
+      "part_number": "FABOR-FST-0017",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-50-hex-shcs-5",
@@ -4112,7 +4636,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 50 Hex SHCS 5"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 50 Hex SHCS 5",
+      "part_number": "FABOR-FST-0018",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "timken-228k-d-faut",
@@ -4141,7 +4669,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Timken - 228K"
+      "label": "Timken - 228K",
+      "part_number": "TIMKE-BRG-0004",
+      "supplier_name": "Timken Bearings",
+      "country_of_origin": "United States",
+      "sourcing": "supplier"
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-16-x-40-a",
@@ -4170,7 +4702,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 16 x 40 - A"
+      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 16 x 40 - A",
+      "part_number": "DNEPR-PIN-0005",
+      "supplier_name": "Dneprometiz Pins",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-16-x-40",
@@ -4199,7 +4735,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 16 x 40"
+      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 16 x 40",
+      "part_number": "DNEPR-PIN-0006",
+      "supplier_name": "Dneprometiz Pins",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "ring-gear-st4-10m-60t-metric-internal-spur-gear-10m-60t-20pa",
@@ -4228,7 +4768,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Ring gear ST4 10M 60T Metric - Internal spur gear 10M 60T 20PA"
+      "label": "Ring gear ST4 10M 60T Metric - Internal spur gear 10M 60T 20PA",
+      "part_number": "HEINR-GRN-0002",
+      "country_of_origin": "Germany",
+      "sourcing": "manufactured",
+      "plant_name": "Heinrich Plant"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-60-hex-shcs",
@@ -4257,7 +4801,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 60 Hex SHCS"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 60 Hex SHCS",
+      "part_number": "FABOR-FST-0019",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "socket-head-cap-screw-am-b18-3-1m-16-x-2-0-x-60-hex-shcs-6",
@@ -4286,7 +4834,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 60 Hex SHCS 6"
+      "label": "Socket Head Cap Screw AM B18.3.1M - 16 x 2.0 x 60 Hex SHCS 6",
+      "part_number": "FABOR-FST-0020",
+      "supplier_name": "Fabory Fasteners",
+      "country_of_origin": "Netherlands",
+      "sourcing": "supplier"
     },
     {
       "id": "planet-st4-10m-20t-metric-spur-gear-10m-20t-20pa-90fw-s20n",
@@ -4315,7 +4867,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST4 10M 20T Metric - Spur gear 10M 20T 20PA 90FW S20N"
+      "label": "Planet ST4 10M 20T Metric - Spur gear 10M 20T 20PA 90FW S20N",
+      "part_number": "MOTOR-GPL-0010",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "planet-st4-10m-20t-metric-spur-gear-10m-20t-20pa-90fw-s20",
@@ -4344,7 +4900,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST4 10M 20T Metric - Spur gear 10M 20T 20PA 90FW S20"
+      "label": "Planet ST4 10M 20T Metric - Spur gear 10M 20T 20PA 90FW S20",
+      "part_number": "MOTOR-GPL-0011",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "planet-st4-10m-20t-metric-spur-gear-10m-20t-20pa-90fw-s2",
@@ -4373,7 +4933,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Planet ST4 10M 20T Metric - Spur gear 10M 20T 20PA 90FW S2"
+      "label": "Planet ST4 10M 20T Metric - Spur gear 10M 20T 20PA 90FW S2",
+      "part_number": "MOTOR-GPL-0012",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier",
+      "supplier_name": "Motor Sich Gears"
     },
     {
       "id": "st4-planet-carrier-plate-in-d-faut",
@@ -4402,7 +4966,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST4 Planet Carrier Plate In"
+      "label": "ST4 Planet Carrier Plate In",
+      "part_number": "SANDV-GPL-0013",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "st4-planet-carrier-plate-out-d-faut",
@@ -4431,7 +4999,11 @@
         "confidence": "low",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "ST4 Planet Carrier Plate Out"
+      "label": "ST4 Planet Carrier Plate Out",
+      "part_number": "SANDV-GPL-0014",
+      "country_of_origin": "Sweden",
+      "sourcing": "supplier",
+      "supplier_name": "Sandvik Gears"
     },
     {
       "id": "hex-cap-screw-am-b18-2-3-1m-hex-cap-screw-m10-x-1-5-x-45-2",
@@ -4460,7 +5032,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 2"
+      "label": "Hex Cap Screw AM B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 2",
+      "part_number": "NORM-FST-0024",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-nut-style-2-am-b18-2-4-2m-hex-nut-style-2-m10-x-1-5",
@@ -4489,7 +5065,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Nut Style 2 AM B18.2.4.2M - Hex nut, Style 2, M10 x 1.5"
+      "label": "Hex Nut Style 2 AM B18.2.4.2M - Hex nut, Style 2, M10 x 1.5",
+      "part_number": "NORM-FST-0025",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "hex-nut-style-2-am-b18-2-4-2m-hex-nut-style-2-m10-x-1-5-w",
@@ -4518,7 +5098,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Hex Nut Style 2 AM B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, w"
+      "label": "Hex Nut Style 2 AM B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, w",
+      "part_number": "NORM-FST-0026",
+      "supplier_name": "Norm Civata Fasteners",
+      "country_of_origin": "Turkey",
+      "sourcing": "supplier"
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-10-x-30-a",
@@ -4547,7 +5131,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 10 x 30 - A"
+      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 10 x 30 - A",
+      "part_number": "DNEPR-PIN-0007",
+      "supplier_name": "Dneprometiz Pins",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     },
     {
       "id": "parallel-pin-hardened-din-parallel-pin-iso-8734-10-x-30-a",
@@ -4576,7 +5164,11 @@
         "confidence": "medium",
         "notes": "Estimated from part type and assembly size; per-part value."
       },
-      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 10 x 30 - A"
+      "label": "Parallel Pin Hardened DIN Parallel Pin ISO 8734 - 10 x 30 - A",
+      "part_number": "DNEPR-PIN-0008",
+      "supplier_name": "Dneprometiz Pins",
+      "country_of_origin": "Ukraine",
+      "sourcing": "supplier"
     }
   ],
   "materials": {
