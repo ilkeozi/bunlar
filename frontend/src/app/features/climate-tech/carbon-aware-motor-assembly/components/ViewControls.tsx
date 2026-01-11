@@ -23,6 +23,8 @@ interface ViewControlsProps {
   onExplodeChange: (value: number) => void;
   partsCount: number | null;
   onResetView: () => void;
+  isTheater: boolean;
+  onTheaterChange: (value: boolean) => void;
 }
 
 export function ViewControls({
@@ -36,6 +38,8 @@ export function ViewControls({
   onExplodeChange,
   partsCount,
   onResetView,
+  isTheater,
+  onTheaterChange,
 }: ViewControlsProps) {
   const { t } = useTranslation();
   const showDebugMaterials = false;
@@ -138,9 +142,18 @@ export function ViewControls({
             </p>
           )}
         </div>
-        <Button variant="secondary" className="w-full" onClick={onResetView}>
-          {t('controls.resetView')}
-        </Button>
+        <div className="space-y-2">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => onTheaterChange(!isTheater)}
+          >
+            {isTheater ? t('controls.exitTheater') : t('controls.enterTheater')}
+          </Button>
+          <Button variant="secondary" className="w-full" onClick={onResetView}>
+            {t('controls.resetView')}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

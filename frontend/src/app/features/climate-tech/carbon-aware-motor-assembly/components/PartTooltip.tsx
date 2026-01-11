@@ -9,9 +9,19 @@ import type { SelectedPart } from '../types';
 interface PartTooltipProps {
   selection: SelectedPart | null;
   showEmissions: boolean;
+  avoidRect?: {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+  } | null;
 }
 
-export function PartTooltip({ selection, showEmissions }: PartTooltipProps) {
+export function PartTooltip({
+  selection,
+  showEmissions,
+  avoidRect,
+}: PartTooltipProps) {
   const { t } = useTranslation();
   const { camera, size } = useThree();
   const groupRef = useRef<Group | null>(null);
@@ -53,10 +63,10 @@ export function PartTooltip({ selection, showEmissions }: PartTooltipProps) {
     tooltipPosition.current.copy(meshPosition.current);
     tooltipPosition.current.addScaledVector(
       cameraRight.current,
-      0.55 * horizontalSign
+      0.85 * horizontalSign
     );
-    tooltipPosition.current.addScaledVector(cameraUp.current, 0.28);
-    tooltipPosition.current.addScaledVector(cameraForward.current, -0.18);
+    tooltipPosition.current.addScaledVector(cameraUp.current, 0.4);
+    tooltipPosition.current.addScaledVector(cameraForward.current, -0.32);
     screenPosition.current.copy(tooltipPosition.current).project(camera);
     const screenX = (screenPosition.current.x * 0.5 + 0.5) * size.width;
     const screenY = (-screenPosition.current.y * 0.5 + 0.5) * size.height;
@@ -67,10 +77,44 @@ export function PartTooltip({ selection, showEmissions }: PartTooltipProps) {
     const maxX = size.width - margin - halfWidth;
     const minY = margin + halfHeight;
     const maxY = size.height - margin - halfHeight;
-    const clampedX =
+    let clampedX =
       minX > maxX ? size.width / 2 : Math.min(Math.max(screenX, minX), maxX);
-    const clampedY =
+    let clampedY =
       minY > maxY ? size.height / 2 : Math.min(Math.max(screenY, minY), maxY);
+
+    if (avoidRect) {
+      const tooltipLeft = clampedX - halfWidth;
+      const tooltipRight = clampedX + halfWidth;
+      const tooltipTop = clampedY - halfHeight;
+      const tooltipBottom = clampedY + halfHeight;
+      const overlaps =
+        tooltipRight > avoidRect.left &&
+        tooltipLeft < avoidRect.right &&
+        tooltipBottom > avoidRect.top &&
+        tooltipTop < avoidRect.bottom;
+
+      if (overlaps) {
+        const rightCandidate = avoidRect.right + margin + halfWidth;
+        const leftCandidate = avoidRect.left - margin - halfWidth;
+        const belowCandidate = avoidRect.bottom + margin + halfHeight;
+        const aboveCandidate = avoidRect.top - margin - halfHeight;
+
+        if (rightCandidate <= maxX) {
+          clampedX = rightCandidate;
+        } else if (leftCandidate >= minX) {
+          clampedX = leftCandidate;
+        } else if (belowCandidate <= maxY) {
+          clampedY = belowCandidate;
+        } else if (aboveCandidate >= minY) {
+          clampedY = aboveCandidate;
+        }
+      }
+    }
+
+    clampedX =
+      minX > maxX ? size.width / 2 : Math.min(Math.max(clampedX, minX), maxX);
+    clampedY =
+      minY > maxY ? size.height / 2 : Math.min(Math.max(clampedY, minY), maxY);
 
     if (clampedX !== screenX || clampedY !== screenY) {
       screenPosition.current.x = (clampedX / size.width) * 2 - 1;

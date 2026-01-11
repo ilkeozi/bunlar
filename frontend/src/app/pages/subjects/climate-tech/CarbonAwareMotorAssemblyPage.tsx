@@ -1,7 +1,10 @@
 import { useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
+import { ControlsToggle } from '../../../features/climate-tech/carbon-aware-motor-assembly/components/ControlsToggle';
 import { ModelMetadataGrid } from '../../../features/climate-tech/carbon-aware-motor-assembly/components/ModelMetadataGrid';
+import { OverlayLegend } from '../../../features/climate-tech/carbon-aware-motor-assembly/components/OverlayLegend';
+import { TheaterShell } from '../../../features/climate-tech/carbon-aware-motor-assembly/components/TheaterShell';
 import { ViewControls } from '../../../features/climate-tech/carbon-aware-motor-assembly/components/ViewControls';
 import type {
   AssemblyGroup,
@@ -25,6 +28,8 @@ export function CarbonAwareMotorAssemblyPage() {
   const [hierarchy, setHierarchy] = useState<HierarchyItem[]>([]);
   const [partGroups, setPartGroups] = useState<PartGroup[]>([]);
   const [assemblyGroups, setAssemblyGroups] = useState<AssemblyGroup[]>([]);
+  const [isTheater, setIsTheater] = useState(false);
+  const [controlsOpen, setControlsOpen] = useState(false);
   const pcfMaxByMode = useMemo(() => {
     const max: Record<PcfOverlayMode, number> = {
       none: 0,
@@ -69,6 +74,57 @@ export function CarbonAwareMotorAssemblyPage() {
     controlsRef.current?.update();
   };
 
+  if (isTheater) {
+    return (
+      <TheaterShell
+        controlsOpen={controlsOpen}
+        onControlsToggle={() => setControlsOpen((open) => !open)}
+        onExit={() => setIsTheater(false)}
+        overlayLegend={
+          <OverlayLegend
+            enabled={overlayEnabled}
+            overlayModeLabel={overlayModeLabel}
+            maxValue={pcfMaxByMode[pcfOverlayMode]}
+            mode={pcfOverlayMode}
+            className="absolute bottom-6 left-6 z-10 w-56 sm:w-64"
+          />
+        }
+        controls={
+          <ViewControls
+            autoRotate={autoRotate}
+            onAutoRotateChange={setAutoRotate}
+            debugMaterials={debugMaterials}
+            onDebugMaterialsChange={setDebugMaterials}
+            pcfOverlayMode={pcfOverlayMode}
+            onPcfOverlayModeChange={setPcfOverlayMode}
+            explode={explode}
+            onExplodeChange={setExplode}
+            partsCount={partsCount}
+            onResetView={handleResetView}
+            isTheater={isTheater}
+            onTheaterChange={setIsTheater}
+          />
+        }
+      >
+        {(tooltipAvoidRect) => (
+          <GearboxCanvas
+            explode={explode}
+            autoRotate={autoRotate}
+            debugMaterials={debugMaterials}
+            pcfOverlayMode={pcfOverlayMode}
+            pcfMaxByMode={pcfMaxByMode}
+            tooltipAvoidRect={tooltipAvoidRect}
+            controlsRef={controlsRef}
+            onPartsCount={setPartsCount}
+            onHierarchy={setHierarchy}
+            onPartGroups={setPartGroups}
+            onAssemblyGroups={setAssemblyGroups}
+          />
+        )}
+      </TheaterShell>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <header className="space-y-2">
@@ -87,7 +143,17 @@ export function CarbonAwareMotorAssemblyPage() {
       </header>
 
       <div className="flex flex-1 flex-col gap-7 xl:flex-row">
-        <aside className="flex w-full flex-shrink-0 flex-col gap-6 xl:max-w-sm">
+        <div className="flex items-center justify-between xl:hidden">
+          <ControlsToggle
+            controlsOpen={controlsOpen}
+            onToggle={() => setControlsOpen((open) => !open)}
+          />
+        </div>
+        <aside
+          className={`flex w-full flex-shrink-0 flex-col gap-6 xl:max-w-sm ${
+            controlsOpen ? 'flex' : 'hidden'
+          } xl:flex`}
+        >
           <ViewControls
             autoRotate={autoRotate}
             onAutoRotateChange={setAutoRotate}
@@ -99,36 +165,25 @@ export function CarbonAwareMotorAssemblyPage() {
             onExplodeChange={setExplode}
             partsCount={partsCount}
             onResetView={handleResetView}
+            isTheater={isTheater}
+            onTheaterChange={setIsTheater}
           />
         </aside>
         <section className="relative flex flex-1 min-h-[720px] overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-slate-900/70 via-slate-950/80 to-slate-950/95 shadow-[inset_0_12px_35px_rgba(5,8,15,0.45)]">
-          {overlayEnabled && (
-            <div className="pointer-events-none absolute bottom-4 left-4 z-10 w-56 rounded-xl border border-border/50 bg-slate-950/60 p-3 text-xs text-muted-foreground shadow-lg backdrop-blur sm:w-64">
-              <div>
-                {t('controls.pcfOverlayMode')}: {overlayModeLabel} (
-                {t('controls.pcfLegendUnit')})
-              </div>
-              <div className="mt-2 flex items-center justify-between text-[11px]">
-                <span>{t('controls.pcfLegendLow')}</span>
-                <span>
-                  {t('controls.pcfLegendHigh')} {pcfMaxByMode[pcfOverlayMode].toFixed(2)}
-                </span>
-              </div>
-              <div
-                className="mt-2 h-2 w-full rounded-full"
-                style={{
-                  background:
-                    'linear-gradient(90deg, #2563eb 0%, #22c55e 45%, #f59e0b 70%, #ef4444 100%)',
-                }}
-              />
-            </div>
-          )}
+          <OverlayLegend
+            enabled={overlayEnabled}
+            overlayModeLabel={overlayModeLabel}
+            maxValue={pcfMaxByMode[pcfOverlayMode]}
+            mode={pcfOverlayMode}
+            className="absolute bottom-4 left-4 z-10 w-56 sm:w-64"
+          />
           <GearboxCanvas
             explode={explode}
             autoRotate={autoRotate}
             debugMaterials={debugMaterials}
             pcfOverlayMode={pcfOverlayMode}
             pcfMaxByMode={pcfMaxByMode}
+            tooltipAvoidRect={null}
             controlsRef={controlsRef}
             onPartsCount={setPartsCount}
             onHierarchy={setHierarchy}

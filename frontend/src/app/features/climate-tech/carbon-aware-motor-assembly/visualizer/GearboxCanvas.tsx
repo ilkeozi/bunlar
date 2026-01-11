@@ -26,6 +26,12 @@ interface GearboxCanvasProps {
   pcfOverlayMode: PcfOverlayMode;
   pcfMaxByMode: Record<PcfOverlayMode, number>;
   controlsRef: RefObject<OrbitControlsImpl | null>;
+  tooltipAvoidRect?: {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+  } | null;
   onPartsCount?: (count: number) => void;
   onHierarchy?: (items: HierarchyItem[]) => void;
   onPartGroups?: (groups: PartGroup[]) => void;
@@ -39,6 +45,7 @@ export function GearboxCanvas({
   pcfOverlayMode,
   pcfMaxByMode,
   controlsRef,
+  tooltipAvoidRect,
   onPartsCount,
   onHierarchy,
   onPartGroups,
@@ -86,6 +93,7 @@ export function GearboxCanvas({
         <PartTooltip
           selection={selectedPart}
           showEmissions={pcfOverlayMode !== 'none'}
+          avoidRect={tooltipAvoidRect ?? null}
         />
         <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
           <GizmoViewport
