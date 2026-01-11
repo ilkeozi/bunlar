@@ -1,18 +1,18 @@
 export const TRANSLATIONS = {
   en: {
-    'app.title': 'Bunlar',
-    'app.subtitle': 'Things That Cross My Mind',
+    'app.title': 'bunlar',
+    'app.subtitle': 'things that cross my mind',
     'app.language': 'Language',
     'nav.home': 'Home',
     'nav.visualizations': 'Visualizations',
     'nav.articles': 'Articles',
     'nav.about': 'About',
     'nav.openMenu': 'Open navigation',
-    'home.start.title': 'Start exploring',
-    'home.start.description':
-      'Choose a visualization from the header menu to open a module.',
-    'home.start.note':
-      'Chemistry currently includes the Dalton, Thomson, Rutherford, and Bohr atom models. Other subjects will appear here as they are built.',
+    'visualizations.title': 'Visualizations',
+    'visualizations.subtitle': 'Interactive modules and experiments, all in one place.',
+    'visualizations.filter.all': 'All',
+    'home.featured.title': 'Featured visualization',
+    'visualizations.back': 'Visualizations',
     'subjects.chemistry.title': 'Chemistry',
     'subjects.chemistry.subtitle':
       'Explore atomic structure and electron shells in 3D.',
@@ -71,26 +71,22 @@ export const TRANSLATIONS = {
     'modules.more.title': 'More visualizations',
     'modules.more.description': 'Coming soon.',
     'modules.more.note': 'Add more visualizations here as you build them.',
-    'bohrModel.back': 'Back to Chemistry',
     'bohrModel.title': 'Bohr Atom Model',
     'bohrModel.subtitle': 'Visualize electron shells using the Bohr model.',
     'bohrModel.card.title': 'Explorer',
     'bohrModel.card.description':
       'Pick an element to update the visualization in real time.',
-    'daltonModel.back': 'Back to Chemistry',
     'daltonModel.title': 'Dalton Atom Model',
     'daltonModel.subtitle': "Explore Dalton's solid-sphere model of the atom.",
     'daltonModel.card.title': 'Explorer',
     'daltonModel.card.description':
       'Pick an element to update the visualization in real time.',
-    'thomsonModel.back': 'Back to Chemistry',
     'thomsonModel.title': 'Thomson Atom Model',
     'thomsonModel.subtitle':
       'See electrons embedded in a positively charged sphere.',
     'thomsonModel.card.title': 'Explorer',
     'thomsonModel.card.description':
       'Pick an element to update the visualization in real time.',
-    'rutherfordModel.back': 'Back to Chemistry',
     'rutherfordModel.title': 'Rutherford Atom Model',
     'rutherfordModel.subtitle':
       'Explore the nuclear model with electrons orbiting a dense center.',
@@ -175,19 +171,19 @@ export const TRANSLATIONS = {
     'category.Actinide': 'Actinide',
   },
   tr: {
-    'app.title': 'Bunlar',
-    'app.subtitle': 'Aklımdan Geçenler',
+    'app.title': 'bunlar',
+    'app.subtitle': 'aklımdan geçenler',
     'app.language': 'Dil',
     'nav.home': 'Ana Sayfa',
     'nav.visualizations': 'Görselleştirmeler',
     'nav.articles': 'Yazılar',
     'nav.about': 'Hakkında',
     'nav.openMenu': 'Menüyü aç',
-    'home.start.title': 'Keşfe başla',
-    'home.start.description':
-      'Üst menüden bir görselleştirme seçerek modülü açın.',
-    'home.start.note':
-      'Kimya şu anda Dalton, Thomson, Rutherford ve Bohr atom modellerini içeriyor. Diğer konular hazırlandıkça burada görünecek.',
+    'visualizations.title': 'Görselleştirmeler',
+    'visualizations.subtitle': 'Etkileşimli modüller ve deneyler tek yerde.',
+    'visualizations.filter.all': 'Tümü',
+    'home.featured.title': 'Öne çıkan görselleştirme',
+    'visualizations.back': 'Görselleştirmeler',
     'subjects.chemistry.title': 'Kimya',
     'subjects.chemistry.subtitle':
       'Atom yapısını ve elektron katmanlarını 3B olarak inceleyin.',
@@ -246,26 +242,22 @@ export const TRANSLATIONS = {
     'modules.more.title': 'Daha fazla görselleştirme',
     'modules.more.description': 'Yakında.',
     'modules.more.note': 'Ürettikçe yeni görselleştirmeleri buraya ekleyin.',
-    'bohrModel.back': 'Kimyaya geri dön',
     'bohrModel.title': 'Bohr Atom Modeli',
     'bohrModel.subtitle':
       'Bohr modelini kullanarak elektron katmanlarını görselleştirin.',
     'bohrModel.card.title': 'Keşif',
     'bohrModel.card.description':
       'Görselleştirmeyi anında güncellemek için bir element seçin.',
-    'daltonModel.back': 'Kimyaya geri dön',
     'daltonModel.title': 'Dalton Atom Modeli',
     'daltonModel.subtitle': "Dalton'un katı küre atom modelini keşfedin.",
     'daltonModel.card.title': 'Keşif',
     'daltonModel.card.description':
       'Görselleştirmeyi anında güncellemek için bir element seçin.',
-    'thomsonModel.back': 'Kimyaya geri dön',
     'thomsonModel.title': 'Thomson Atom Modeli',
     'thomsonModel.subtitle': 'Pozitif yüklü küre içinde elektronları görün.',
     'thomsonModel.card.title': 'Keşif',
     'thomsonModel.card.description':
       'Görselleştirmeyi anında güncellemek için bir element seçin.',
-    'rutherfordModel.back': 'Kimyaya geri dön',
     'rutherfordModel.title': 'Rutherford Atom Modeli',
     'rutherfordModel.subtitle':
       'Yoğun bir merkezin etrafında elektronların yörüngelerini keşfedin.',

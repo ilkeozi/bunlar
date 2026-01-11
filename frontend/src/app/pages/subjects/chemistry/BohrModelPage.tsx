@@ -35,8 +35,8 @@ export function BohrModelPage() {
   return (
     <div className="space-y-6">
       <header className="space-y-2">
-        <Link to="/subjects/chemistry" className="text-xs font-semibold uppercase tracking-wide text-primary/80">
-          ← {t('bohrModel.back')}
+        <Link to="/visualizations" className="text-xs font-semibold uppercase tracking-wide text-primary/80">
+          ← {t('visualizations.back')}
         </Link>
         <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">{t('bohrModel.title')}</h2>
         <p className="max-w-3xl text-sm text-muted-foreground sm:text-base">

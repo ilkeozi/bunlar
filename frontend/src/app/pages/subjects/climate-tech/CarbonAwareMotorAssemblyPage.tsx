@@ -129,10 +129,10 @@ export function CarbonAwareMotorAssemblyPage() {
     <div className="space-y-6">
       <header className="space-y-2">
         <Link
-          to="/subjects/climate-tech"
+          to="/visualizations"
           className="text-xs font-semibold uppercase tracking-wide text-primary/80"
         >
-          ← {t('subjects.climateTech.title')}
+          ← {t('visualizations.back')}
         </Link>
         <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
           {t('climateTech.modules.carbonAware.title')}
