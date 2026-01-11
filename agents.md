@@ -68,3 +68,19 @@ The app is a Vite project configured via `vite.config.mts` and TypeScript `tscon
 - Keep Node.js ≥20.19 around to satisfy the Vite engine check; older runtimes will build but emit warnings.
 
 Keep this guide handy when orienting new contributors or wiring up automation agents.
+
+## Codex automation
+
+- Codex discovers this file as `AGENTS.md` at the repo root; add `AGENTS.override.md` in subdirectories for scoped overrides.
+- Codex uses the global config by default; set `CODEX_HOME` only when you need a repo-specific profile.
+- Update `AGENTS.md` or scoped overrides when changes affect workflows, project layout, or automation expectations.
+- MCP servers: `openaiDeveloperDocs` for OpenAI/Codex docs; `nx-mcp` for Nx graph/tasks; `shadcn` for UI primitives under `frontend/src/components/ui`.
+- If a Codex skill is available, open its `SKILL.md` and follow the prescribed workflow or scripts.
+- Always use the OpenAI developer documentation MCP server if you need to work with the OpenAI API, ChatGPT Apps SDK, Codex, or related docs without me having to explicitly ask.
+- Prefer the `openaiDeveloperDocs` MCP server for documentation lookups whenever possible, and mention when a source could not be reached.
+- When MCP servers exist for a task (for example `shadcn` or `nx-mcp`), use them as the primary source of truth before falling back to manual lookups.
+
+## Codex verification
+
+- Run `codex mcp list` to confirm MCP servers are registered.
+- Run `codex exec "Summarize the current instructions."` from the repo root to verify instruction discovery order.
