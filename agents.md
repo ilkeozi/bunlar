@@ -1,10 +1,10 @@
 # Agents Guide
 
-This workspace is an Nx monorepo centered on an interactive atomic visualizer built with React (Vite) and Playwright end-to-end tests. The key folders you will work with are outlined below.
+This workspace is an Nx monorepo centered on interactive science visualizations (chemistry + climate tech) built with React (Vite) and Playwright end-to-end tests. The key folders you will work with are outlined below.
 
 ## Top-Level Layout
 
-- `frontend/` – Vite/React application that renders the atom visualizer experience.
+- `frontend/` – Vite/React application that renders the chemistry + climate-tech visualizations.
 - `frontend-e2e/` – Playwright configuration and specs that exercise `frontend` end-to-end.
 - `docs/` – Markdown references for the product (e.g. `atoms-visualizer.md`).
 - `packages/` – Reserved for shareable Nx libraries (currently empty).
@@ -17,13 +17,17 @@ The app is a Vite project configured via `vite.config.mts` and TypeScript `tscon
 ### `src/app`
 
 - `app.tsx` – Composes the overall UI shell with Tailwind utility classes and shadcn components.
-- `components/` – Feature-facing UI pieces (element selector, stats, subject selector, etc.) built on Radix + shadcn primitives.
-- `data/` – Static data sources such as the periodic element definitions.
+- `components/` – Shared app UI (site header, language selector, subject cards).
+- `data/` – Static data sources (periodic elements, climate-tech parts catalog).
+- `features/` – Domain modules (see below).
 - `i18n/` – Lightweight translation helpers and copy tables.
-- `lessons/` – Views and layouts tailored to educational content (e.g. periodic table scene).
-- `state/` – Zustand stores that manage atom selection and learning state.
-- `utils/` – Simulation helpers like particle distribution math.
-- `visualizer/` – Three.js scene graph pieces: atom canvas, nucleus, electron cloud, lighting rigs, and associated color/texture hooks.
+- `pages/` – Route-level pages (subjects, module pages).
+- `state/` – Global Zustand stores (language, app state).
+
+### `src/app/features`
+
+- `chemistry/<model>/` – Each model (bohr, dalton, rutherford, thomson) keeps its own `components/`, `state/`, and `visualizer/` folders.
+- `climate-tech/carbon-aware-motor-assembly/` – Feature-specific `components/`, `visualizer/`, and `types` for the gearbox assembly experience. Theater mode is implemented via `TheaterShell` and uses a tooltip avoid-rect to keep callouts off the controls; if tooltips still overlap the panel (see recent screenshots), adjust the avoid-rect logic or controls layout.
 
 ### Other notable folders
 
@@ -42,9 +46,9 @@ The app is a Vite project configured via `vite.config.mts` and TypeScript `tscon
 ### Code generation & conventions
 
 - Generate new UI primitives with `npx shadcn@latest add <component>` from the `frontend/` directory; output lands in `src/components/ui` and respects the alias config.
-- Prefer colocating feature-specific components under `src/app/components` or `src/app/lessons` so that shared primitives stay focused.
+- Prefer colocating feature-specific components under `src/app/features/<domain>/<module>/components` so that shared primitives stay focused.
 - Zustand stores in `src/app/state` should expose selectors for components to avoid unnecessary rerenders; follow the pattern used by `useAtomStore` and `useLearningStore`.
-- Three.js systems live under `src/app/visualizer`; keep React Three Fiber hooks out of generic UI directories to preserve tree shaking.
+- Three.js systems live under each feature's `visualizer/` folder (e.g., `features/chemistry/*/visualizer`, `features/climate-tech/*/visualizer`). Keep React Three Fiber hooks out of generic UI directories to preserve tree shaking.
 
 ## End-to-End Tests (`frontend-e2e/`)
 

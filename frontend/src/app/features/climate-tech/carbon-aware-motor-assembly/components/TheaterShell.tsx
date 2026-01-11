@@ -56,7 +56,7 @@ export function TheaterShell({
   }, [onExit]);
 
   const updateTooltipAvoidRect = useCallback(() => {
-    if (!viewControlsRef.current || !controlsOpen) {
+    if (!viewControlsRef.current) {
       setTooltipAvoidRect(null);
       return;
     }
@@ -71,13 +71,9 @@ export function TheaterShell({
       top: rect.top,
       bottom: rect.bottom,
     });
-  }, [controlsOpen]);
+  }, []);
 
   useLayoutEffect(() => {
-    if (!controlsOpen) {
-      setTooltipAvoidRect(null);
-      return;
-    }
     updateTooltipAvoidRect();
     const element = viewControlsRef.current;
     if (!element) {
