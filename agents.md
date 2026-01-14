@@ -5,6 +5,7 @@ This workspace is an Nx monorepo centered on interactive science visualizations 
 ## Top-Level Layout
 
 - `frontend/` – Vite/React application that renders the chemistry + climate-tech visualizations.
+- `cad-converter/` – Dockerized FreeCAD-based STEP/IGES → glTF/GLB converter.
 - `frontend-e2e/` – Playwright configuration and specs that exercise `frontend` end-to-end.
 - `docs/` – Markdown references for the product (e.g. `atoms-visualizer.md`).
 - `packages/` – Reserved for shareable Nx libraries (currently empty).
@@ -64,6 +65,8 @@ The app is a Vite project configured via `vite.config.mts` and TypeScript `tscon
 
 - Run app locally with `npx nx serve frontend`.
 - Execute unit tests via `npx nx test frontend` and Playwright specs with `npx nx e2e frontend-e2e`.
+- Build the CAD converter image with `npx nx run cad-converter:docker-build`.
+- Run the converter with `npx nx run cad-converter:convert`.
 - Generate additional libraries in `packages/` using Nx generators when you need shared logic.
 - Keep Node.js ≥20.19 around to satisfy the Vite engine check; older runtimes will build but emit warnings.
 

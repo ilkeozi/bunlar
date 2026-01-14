@@ -1,0 +1,8 @@
+*.step
+*.stp
+*.iges
+*.igs
+*.obj
+*.glb
+*.gltf
+*.debug.txt

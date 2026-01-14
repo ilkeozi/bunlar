@@ -48,3 +48,4 @@ vitest.config.*.timestamp*
 test-output
 .npm-cache
 .npx-cache
+cad-converter/config/
