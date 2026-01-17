@@ -1,0 +1,14 @@
+{
+  "name": "occt-api",
+  "projectType": "application",
+  "root": "packages/occt-api",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx run opencascade-convert:build && node --preserve-symlinks -r @swc-node/register -r reflect-metadata src/main.ts",
+        "cwd": "packages/occt-api"
+      }
+    }
+  }
+}

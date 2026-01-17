@@ -8,6 +8,9 @@
     },
     {
       "path": "./frontend"
+    },
+    {
+      "path": "./packages/occt-api"
     }
   ]
 }

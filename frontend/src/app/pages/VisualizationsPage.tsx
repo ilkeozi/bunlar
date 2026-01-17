@@ -19,7 +19,7 @@ type VisualizationItem = {
   image?: string;
 };
 
-type VisualizationSubject = 'chemistry' | 'climateTech';
+type VisualizationSubject = 'chemistry' | 'climateTech' | 'tools';
 
 type VisualizationFilter = 'all' | VisualizationSubject;
 
@@ -37,14 +37,23 @@ const SUBJECT_FILTERS: SubjectFilterOption[] = [
   { id: 'all', labelKey: 'visualizations.filter.all' },
   { id: 'chemistry', labelKey: 'subjects.chemistry.title' },
   { id: 'climateTech', labelKey: 'subjects.climateTech.title' },
+  { id: 'tools', labelKey: 'subjects.tools.title' },
 ];
 
 const SUBJECT_LABELS: VisualizationSubjectLabel[] = [
   { id: 'chemistry', labelKey: 'subjects.chemistry.title' },
   { id: 'climateTech', labelKey: 'subjects.climateTech.title' },
+  { id: 'tools', labelKey: 'subjects.tools.title' },
 ];
 
 const VISUALIZATIONS: Array<VisualizationItem & { subject: VisualizationSubject }> = [
+  {
+    subject: 'tools',
+    to: '/tools/step-converter',
+    titleKey: 'tools.stepConverter.title',
+    descriptionKey: 'tools.stepConverter.description',
+    ctaKey: 'tools.stepConverter.cta',
+  },
   {
     subject: 'climateTech',
     to: '/subjects/climate-tech/planetary-gearbox-assembly',
