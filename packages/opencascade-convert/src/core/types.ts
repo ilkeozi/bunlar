@@ -47,10 +47,12 @@ export type ConvertBufferFileOptions = ConvertBufferOptions & {
   loader?: LoaderOptions;
 };
 
+export type BinaryData = Uint8Array;
+
 export type ConvertBufferResult =
-  | { outputFormat: 'glb'; glb: Buffer }
-  | { outputFormat: 'gltf'; gltf: Buffer; bin: Buffer }
-  | { outputFormat: 'obj'; obj: Buffer };
+  | { outputFormat: 'glb'; glb: BinaryData }
+  | { outputFormat: 'gltf'; gltf: BinaryData; bin: BinaryData }
+  | { outputFormat: 'obj'; obj: BinaryData };
 
 export type ConvertResult = {
   inputPath: string;

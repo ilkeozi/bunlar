@@ -1,5 +1,5 @@
 import type { TriangulateOptions } from '../core/types';
-import type { OpenCascadeInstance } from './loader';
+import type { OpenCascadeInstance } from './types';
 
 export type OcctDocument = any;
 

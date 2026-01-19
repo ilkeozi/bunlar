@@ -1,6 +1,6 @@
 # opencascade-convert
 
-Node-only STEP/IGES → glTF/GLB/OBJ converter built on `opencascade.js`.
+STEP/IGES → glTF/GLB/OBJ converter built on `opencascade.js` (Node + browser buffer API).
 
 ## Why this package
 
@@ -98,7 +98,7 @@ const nodeMap = converter.createNodeMap(docHandle);
 const bom = converter.createBom(docHandle);
 ```
 
-### Buffer API
+### Buffer API (Node + Browser)
 
 ```ts
 import { convertBuffer } from 'opencascade-convert';
@@ -113,6 +113,23 @@ const result = await convertBuffer({
 
 fs.writeFileSync('/path/to/model.glb', result.glb);
 ```
+
+### Browser usage
+
+Use the browser entry point and bundle `opencascade.js`'s WASM asset:
+
+```ts
+import { convertBuffer } from 'opencascade-convert/browser';
+
+const result = await convertBuffer({
+  input: myStepBytes,
+  inputFormat: 'step',
+  outputFormat: 'glb',
+});
+```
+
+When bundling for the browser, make sure your bundler is configured to handle `opencascade.js`'s
+`.wasm` asset (see the OpenCascade.js "Configuring Your Bundler" guide on ocjs.org).
 
 ## Name preservation notes
 

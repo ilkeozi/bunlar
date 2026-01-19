@@ -1,4 +1,3 @@
-import path from 'node:path';
 import type { InputFormat, OutputFormat } from './types';
 
 const INPUT_EXTENSIONS: Record<InputFormat, string[]> = {
@@ -13,7 +12,7 @@ const OUTPUT_EXTENSIONS: Record<OutputFormat, string[]> = {
 };
 
 export function resolveInputFormat(inputPath: string): InputFormat | null {
-  const ext = path.extname(inputPath).toLowerCase();
+  const ext = getExtension(inputPath);
   for (const [format, extensions] of Object.entries(INPUT_EXTENSIONS)) {
     if (extensions.includes(ext)) {
       return format as InputFormat;
@@ -26,11 +25,20 @@ export function resolveOutputFormat(outputPath: string, format?: OutputFormat): 
   if (format) {
     return format;
   }
-  const ext = path.extname(outputPath).toLowerCase();
+  const ext = getExtension(outputPath);
   for (const [candidate, extensions] of Object.entries(OUTPUT_EXTENSIONS)) {
     if (extensions.includes(ext)) {
       return candidate as OutputFormat;
     }
   }
   return null;
+}
+
+function getExtension(filePath: string) {
+  const name = filePath.split(/[\\/]/).pop() ?? '';
+  const dotIndex = name.lastIndexOf('.');
+  if (dotIndex === -1) {
+    return '';
+  }
+  return name.slice(dotIndex).toLowerCase();
 }

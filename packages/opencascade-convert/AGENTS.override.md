@@ -6,8 +6,6 @@ Applies to `packages/opencascade-convert`.
 
 ## Key notes
 
-- Node-only library; do not add browser-specific code or bundler configs.
-- `opencascade.js` is ESM; keep dynamic `import('opencascade.js/dist/node.js')` in the library.
 - Preserve metadata defaults (names, colors, layers, materials) unless explicitly asked.
 - Use Nx targets for local workflow:
   - `npx nx run opencascade-convert:build`

@@ -4,7 +4,7 @@ const GLB_JSON_CHUNK = 0x4e4f534a;
 
 export type NameOverrideMap = Record<string, string>;
 
-export function extractNameOverridesFromGlb(glb: Buffer): NameOverrideMap {
+export function extractNameOverridesFromGlb(glb: Uint8Array): NameOverrideMap {
   const json = parseGlbJson(glb);
   if (!json || !Array.isArray(json.nodes)) {
     return {};
@@ -31,26 +31,27 @@ export function extractNameOverridesFromGlb(glb: Buffer): NameOverrideMap {
   return overrides;
 }
 
-function parseGlbJson(glb: Buffer) {
-  if (glb.length < GLB_HEADER_LENGTH + GLB_CHUNK_HEADER_LENGTH) {
+function parseGlbJson(glb: Uint8Array) {
+  if (glb.byteLength < GLB_HEADER_LENGTH + GLB_CHUNK_HEADER_LENGTH) {
     return null;
   }
-  if (glb.toString('ascii', 0, 4) !== 'glTF') {
+  if (!isGlbMagic(glb)) {
     return null;
   }
 
+  const view = new DataView(glb.buffer, glb.byteOffset, glb.byteLength);
   let offset = GLB_HEADER_LENGTH;
-  while (offset + GLB_CHUNK_HEADER_LENGTH <= glb.length) {
-    const chunkLength = glb.readUInt32LE(offset);
-    const chunkType = glb.readUInt32LE(offset + 4);
+  while (offset + GLB_CHUNK_HEADER_LENGTH <= glb.byteLength) {
+    const chunkLength = view.getUint32(offset, true);
+    const chunkType = view.getUint32(offset + 4, true);
     const chunkStart = offset + GLB_CHUNK_HEADER_LENGTH;
     const chunkEnd = chunkStart + chunkLength;
-    if (chunkEnd > glb.length) {
+    if (chunkEnd > glb.byteLength) {
       return null;
     }
 
     if (chunkType === GLB_JSON_CHUNK) {
-      const jsonText = glb.toString('utf8', chunkStart, chunkEnd);
+      const jsonText = decodeUtf8(glb.subarray(chunkStart, chunkEnd));
       try {
         return JSON.parse(jsonText);
       } catch {
@@ -62,6 +63,27 @@ function parseGlbJson(glb: Buffer) {
   }
 
   return null;
+}
+
+function isGlbMagic(glb: Uint8Array) {
+  if (glb.byteLength < 4) {
+    return false;
+  }
+  return glb[0] === 0x67 && glb[1] === 0x6c && glb[2] === 0x54 && glb[3] === 0x46;
+}
+
+function decodeUtf8(bytes: Uint8Array) {
+  if (typeof TextDecoder !== 'undefined') {
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+  if (typeof Buffer !== 'undefined') {
+    return Buffer.from(bytes).toString('utf8');
+  }
+  let result = '';
+  for (let index = 0; index < bytes.length; index += 1) {
+    result += String.fromCharCode(bytes[index]);
+  }
+  return result;
 }
 
 function extractOcafEntry(name: string) {

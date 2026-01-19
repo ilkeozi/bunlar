@@ -1,5 +1,3 @@
-import { createRequire } from 'node:module';
-import { pathToFileURL } from 'node:url';
 import type { LoaderOptions } from '../core/types';
 import type { OpenCascadeInstance } from './types';
 
@@ -7,13 +5,9 @@ export type { OpenCascadeInstance } from './types';
 
 let cachedPromise: Promise<OpenCascadeInstance> | null = null;
 
-export async function loadOpenCascade({ cwd }: LoaderOptions = {}): Promise<OpenCascadeInstance> {
-  const require = createRequire(__filename);
-  const entryPath = require.resolve('opencascade.js/dist/node.js', {
-    paths: [cwd ?? process.cwd()],
-  });
-  const module = await import(pathToFileURL(entryPath).href);
-  const initOpenCascade = resolveInitOpenCascade(module, entryPath);
+export async function loadOpenCascade(_options: LoaderOptions = {}): Promise<OpenCascadeInstance> {
+  const module = await import('opencascade.js/dist/index.js');
+  const initOpenCascade = resolveInitOpenCascade(module);
   return initOpenCascade();
 }
 
@@ -28,10 +22,7 @@ export async function getOpenCascade(options: LoaderOptions = {}): Promise<OpenC
   return cachedPromise;
 }
 
-function resolveInitOpenCascade(
-  module: unknown,
-  sourcePath: string
-): () => Promise<OpenCascadeInstance> {
+function resolveInitOpenCascade(module: unknown) {
   if (typeof module === 'function') {
     return module as () => Promise<OpenCascadeInstance>;
   }
@@ -44,5 +35,5 @@ function resolveInitOpenCascade(
       return typed.initOpenCascade as () => Promise<OpenCascadeInstance>;
     }
   }
-  throw new Error(`opencascade.js entry ${sourcePath} did not export an init function.`);
+  throw new Error('opencascade.js did not export an init function.');
 }

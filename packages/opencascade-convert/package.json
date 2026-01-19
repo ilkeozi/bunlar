@@ -1,7 +1,7 @@
 {
   "name": "opencascade-convert",
   "version": "0.0.0",
-  "description": "Node-only STEP/IGES to glTF/GLB/OBJ converter built on opencascade.js",
+  "description": "STEP/IGES to glTF/GLB/OBJ converter built on opencascade.js",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,6 +10,25 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "browser": "dist/browser/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "browser": "./dist/browser/index.js",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser/index.d.ts",
+      "default": "./dist/browser/index.js"
+    },
+    "./node": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "bin": {
     "opencascade-convert": "dist/cli.js"
   },
@@ -22,6 +41,6 @@
     "node": ">=20.19"
   },
   "dependencies": {
-    "opencascade.js": "^1.1.1"
+    "opencascade.js": "^2.0.0-beta.b5ff984"
   }
 }

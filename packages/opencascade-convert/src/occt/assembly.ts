@@ -1,6 +1,6 @@
 import type { AssemblyNodeKind, BomExport, BomItem, BomOccurrence, NodeMap } from '../core/types';
 import type { OcctDocumentHandle } from './document';
-import type { OpenCascadeInstance } from './loader';
+import type { OpenCascadeInstance } from './types';
 
 type AssemblyBuildResult = {
   roots: string[];

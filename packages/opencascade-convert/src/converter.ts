@@ -15,12 +15,14 @@ import type {
 } from './core/types';
 import { resolveInputFormat, resolveOutputFormat } from './core/formats';
 import { ValidationError } from './core/errors';
-import { readCadBuffer, readCadFile, type OcctDocumentHandle } from './occt/document';
+import { readCadBuffer, type OcctDocumentHandle } from './occt/document';
+import { readCadFile } from './occt/document-node';
 import { triangulateDocument } from './occt/triangulation';
-import { writeDocument, writeDocumentToBuffer } from './occt/writer';
+import { writeDocumentToBuffer } from './occt/writer';
+import { writeDocument } from './occt/writer-node';
 import { buildBom, buildNodeMap } from './occt/assembly';
 import { extractNameOverridesFromGlb } from './occt/gltf-names';
-import type { OpenCascadeInstance } from './occt/loader';
+import type { OpenCascadeInstance } from './occt/types';
 import { getOpenCascade, loadOpenCascade } from './occt/loader';
 import type { NameFormat } from './core/types';
 

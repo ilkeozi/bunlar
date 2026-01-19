@@ -1,8 +1,6 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import type { InputFormat, ReadOptions } from '../core/types';
 import { ConversionError } from '../core/errors';
-import type { OpenCascadeInstance } from './loader';
+import type { OpenCascadeInstance } from './types';
 
 export type OcctDocumentHandle = any;
 
@@ -12,16 +10,6 @@ const DEFAULT_READ_OPTIONS: Required<ReadOptions> = {
   preserveLayers: true,
   preserveMaterials: true,
 };
-
-export function readCadFile(
-  oc: OpenCascadeInstance,
-  inputPath: string,
-  format: InputFormat,
-  options: ReadOptions = {}
-): OcctDocumentHandle {
-  const payload = fs.readFileSync(inputPath);
-  return readCadBuffer(oc, payload, format, options);
-}
 
 export function readCadBuffer(
   oc: OpenCascadeInstance,
@@ -58,7 +46,7 @@ function transferDocument(
   fileName: string
 ): OcctDocumentHandle {
   const base = '.';
-  const filePath = path.posix.join(base, fileName);
+  const filePath = `./${fileName}`;
   oc.FS.createDataFile(base, fileName, data, true, true, true);
 
   const result = reader.ReadFile(filePath);
