@@ -22,6 +22,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { labelKey: 'nav.home', to: '/' },
   { labelKey: 'nav.visualizations', to: '/visualizations' },
+  { labelKey: 'nav.tools', to: '/tools' },
   // { labelKey: 'nav.articles', to: '/articles' },
   // { labelKey: 'nav.about', to: '/about' },
 ];

@@ -10,5 +10,10 @@
     "strict": true,
     "outDir": "../../dist/occt-api"
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "references": [
+    {
+      "path": "../opencascade-convert"
+    }
+  ]
 }

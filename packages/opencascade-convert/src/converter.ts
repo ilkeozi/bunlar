@@ -26,6 +26,20 @@ import type { OpenCascadeInstance } from './occt/types';
 import { getOpenCascade, loadOpenCascade } from './occt/loader';
 import type { NameFormat } from './core/types';
 
+const DEBUG_CONVERT = process.env.OCCT_CONVERT_DEBUG === '1';
+const SKIP_TRIANGULATION = process.env.OCCT_SKIP_TRIANGULATION === '1';
+
+function logDebug(label: string, meta?: Record<string, unknown>) {
+  if (!DEBUG_CONVERT) {
+    return;
+  }
+  if (meta) {
+    console.log(`[opencascade-convert] ${label}`, meta);
+  } else {
+    console.log(`[opencascade-convert] ${label}`);
+  }
+}
+
 export class OpenCascadeConverter {
   constructor(private readonly oc: OpenCascadeInstance) {}
 
@@ -74,9 +88,26 @@ export class OpenCascadeConverter {
       throw new ValidationError('outputFormat is required for buffer conversion.');
     }
 
+    const overallStart = Date.now();
+    const readStart = Date.now();
     const docHandle = readCadBuffer(this.oc, options.input, options.inputFormat, options.read);
-    this.triangulate(docHandle.get(), options.triangulate);
-    return writeDocumentToBuffer(this.oc, docHandle, options.outputFormat, options.write);
+    logDebug('buffer.read', { ms: Date.now() - readStart, format: options.inputFormat });
+
+    if (SKIP_TRIANGULATION) {
+      logDebug('buffer.triangulate.skip');
+    } else {
+      logDebug('buffer.triangulate.start');
+      const triangulateStart = Date.now();
+      this.triangulate(docHandle.get(), options.triangulate);
+      logDebug('buffer.triangulate', { ms: Date.now() - triangulateStart });
+    }
+
+    const writeStart = Date.now();
+    const result = writeDocumentToBuffer(this.oc, docHandle, options.outputFormat, options.write);
+    logDebug('buffer.write', { ms: Date.now() - writeStart, format: options.outputFormat });
+    logDebug('buffer.convert', { ms: Date.now() - overallStart });
+
+    return result;
   }
 
   convert(options: ConvertOptions): ConvertResult {
@@ -97,9 +128,34 @@ export class OpenCascadeConverter {
       throw new ValidationError('Output must be .obj, .gltf, or .glb (or specify format).');
     }
 
+    const overallStart = Date.now();
+
+    const readStart = Date.now();
     const docHandle = this.read(inputPath, inputFormat, options.read);
-    this.triangulate(docHandle.get(), options.triangulate);
+    logDebug('file.read', {
+      ms: Date.now() - readStart,
+      input: path.basename(inputPath),
+      format: inputFormat,
+    });
+
+    if (SKIP_TRIANGULATION) {
+      logDebug('file.triangulate.skip');
+    } else {
+      logDebug('file.triangulate.start');
+      const triangulateStart = Date.now();
+      this.triangulate(docHandle.get(), options.triangulate);
+      logDebug('file.triangulate', { ms: Date.now() - triangulateStart });
+    }
+
+    const writeStart = Date.now();
     this.write(docHandle, outputPath, outputFormat, options.write);
+    logDebug('file.write', {
+      ms: Date.now() - writeStart,
+      output: path.basename(outputPath),
+      format: outputFormat,
+    });
+
+    logDebug('file.convert', { ms: Date.now() - overallStart });
 
     return { inputPath, outputPath, format: outputFormat };
   }

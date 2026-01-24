@@ -3,11 +3,13 @@ import type { OpenCascadeInstance } from './types';
 
 export type OcctDocument = any;
 
+const DEBUG_TRIANGULATION = process.env.OCCT_CONVERT_DEBUG === '1';
+
 const DEFAULT_TRIANGULATE_OPTIONS: Required<TriangulateOptions> = {
-  linearDeflection: 0.1,
-  angularDeflection: 0.1,
+  linearDeflection: 1,
+  angularDeflection: 0.5,
   relative: false,
-  parallel: false,
+  parallel: true,
 };
 
 export function triangulateDocument(
@@ -15,7 +17,17 @@ export function triangulateDocument(
   doc: OcctDocument,
   options: TriangulateOptions = {}
 ) {
-  const settings = { ...DEFAULT_TRIANGULATE_OPTIONS, ...options };
+  const settings = {
+    linearDeflection:
+      options.linearDeflection ?? DEFAULT_TRIANGULATE_OPTIONS.linearDeflection,
+    angularDeflection:
+      options.angularDeflection ?? DEFAULT_TRIANGULATE_OPTIONS.angularDeflection,
+    relative: options.relative ?? DEFAULT_TRIANGULATE_OPTIONS.relative,
+    parallel: options.parallel ?? DEFAULT_TRIANGULATE_OPTIONS.parallel,
+  };
+  if (DEBUG_TRIANGULATION) {
+    console.log('[opencascade-convert] triangulation.settings', settings);
+  }
   const tool = oc.XCAFDoc_DocumentTool.ShapeTool(doc.Main()).get();
   const builder = new oc.BRep_Builder();
   const compound = new oc.TopoDS_Compound();

@@ -8,12 +8,24 @@ export type { OpenCascadeInstance } from './types';
 let cachedPromise: Promise<OpenCascadeInstance> | null = null;
 
 export async function loadOpenCascade({ cwd }: LoaderOptions = {}): Promise<OpenCascadeInstance> {
-  const require = createRequire(__filename);
-  const entryPath = require.resolve('opencascade.js/dist/node.js', {
-    paths: [cwd ?? process.cwd()],
-  });
-  const module = await import(pathToFileURL(entryPath).href);
-  const initOpenCascade = resolveInitOpenCascade(module, entryPath);
+  const specifier = 'opencascade.js/dist/node.js';
+  if (cwd) {
+    try {
+      const require = createRequire(__filename);
+      const entryPath = require.resolve(specifier, {
+        paths: [cwd],
+      });
+      const module = await import(pathToFileURL(entryPath).href);
+      const initOpenCascade = resolveInitOpenCascade(module, entryPath);
+      return initOpenCascade();
+    } catch (error) {
+      if (!isModuleNotFound(error)) {
+        throw error;
+      }
+    }
+  }
+  const module = await import(specifier);
+  const initOpenCascade = resolveInitOpenCascade(module, specifier);
   return initOpenCascade();
 }
 
@@ -45,4 +57,12 @@ function resolveInitOpenCascade(
     }
   }
   throw new Error(`opencascade.js entry ${sourcePath} did not export an init function.`);
+}
+
+function isModuleNotFound(error: unknown) {
+  if (!error || typeof error !== 'object') {
+    return false;
+  }
+  const code = (error as { code?: string }).code;
+  return code === 'ERR_MODULE_NOT_FOUND' || code === 'MODULE_NOT_FOUND';
 }

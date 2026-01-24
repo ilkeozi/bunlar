@@ -14,6 +14,7 @@ import { MathematicsPage } from './pages/MathematicsPage';
 // import { AboutPage } from './pages/AboutPage';
 // import { ArticlesPage } from './pages/ArticlesPage';
 import { CarbonAwareMotorAssemblyPage } from './pages/subjects/climate-tech/CarbonAwareMotorAssemblyPage';
+import { ToolsPage } from './pages/ToolsPage';
 import { StepConverterPage } from './pages/tools/StepConverterPage';
 
 export function App() {
@@ -37,6 +38,7 @@ export function App() {
           <Route path="/subjects/biology" element={<BiologyPage />} />
           <Route path="/subjects/physics" element={<PhysicsPage />} />
           <Route path="/subjects/mathematics" element={<MathematicsPage />} />
+          <Route path="/tools" element={<ToolsPage />} />
           <Route path="/tools/step-converter" element={<StepConverterPage />} />
         </Routes>
       </main>

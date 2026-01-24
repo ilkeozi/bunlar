@@ -48,9 +48,20 @@ export class ConvertController {
       return res.status(400).json({ ok: false, error: "Missing file upload." });
     }
 
+    const startedAt = Date.now();
     const format = normalizeFormat(body.format) ?? "gltf";
     const baseName = path.parse(file.filename).name;
     const outputPath = path.join(UPLOAD_DIR, `${baseName}.${format}`);
+
+    console.log("[occt-api] convert/upload start", {
+      name: file.originalname,
+      size: file.size,
+      format,
+      linDeflection: body.linDeflection,
+      angDeflection: body.angDeflection,
+      relative: body.relative,
+      parallel: body.parallel
+    });
 
     const result = await this.convertService.convert({
       inputPath: file.path,
@@ -60,6 +71,12 @@ export class ConvertController {
       angDeflection: parseNumber(body.angDeflection),
       relative: parseBool(body.relative),
       parallel: parseBool(body.parallel)
+    });
+
+    console.log("[occt-api] convert/upload done", {
+      ok: result.ok,
+      ms: Date.now() - startedAt,
+      error: result.ok ? undefined : result.error
     });
 
     if (!result.ok) {
@@ -158,7 +175,7 @@ function parseNumber(value: string | undefined) {
 }
 
 function parseBool(value: string | undefined) {
-  if (!value) return false;
+  if (value === undefined || value === "") return undefined;
   return value === "true" || value === "1";
 }
 
