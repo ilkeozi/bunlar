@@ -120,6 +120,13 @@ export const TRANSLATIONS = {
     'tools.stepConverter.output.metadataLabel': 'Metadata exports',
     'tools.stepConverter.output.bomCta': 'Download BOM JSON',
     'tools.stepConverter.output.nodeMapCta': 'Download node map JSON',
+    'tools.stepConverterBrowser.title': 'STEP / IGES Converter (Browser)',
+    'tools.stepConverterBrowser.subtitle':
+      'Run conversions locally in your browser with OpenCascade.',
+    'tools.stepConverterBrowser.description':
+      'No API required. Files are processed on your device.',
+    'tools.stepConverterBrowser.cta': 'Open browser converter',
+    'tools.stepConverterBrowser.badge': 'Browser only',
     'bohrModel.title': 'Bohr Atom Model',
     'bohrModel.subtitle': 'Visualize electron shells using the Bohr model.',
     'bohrModel.card.title': 'Explorer',
@@ -348,6 +355,13 @@ export const TRANSLATIONS = {
     'tools.stepConverter.output.metadataLabel': 'Metadata çıktıları',
     'tools.stepConverter.output.bomCta': 'BOM JSON indir',
     'tools.stepConverter.output.nodeMapCta': 'Düğüm haritası JSON indir',
+    'tools.stepConverterBrowser.title': 'STEP / IGES Dönüştürücü (Tarayıcı)',
+    'tools.stepConverterBrowser.subtitle':
+      'OpenCascade ile tarayıcıda yerel dönüştürme yapın.',
+    'tools.stepConverterBrowser.description':
+      'API gerekmez. Dosyalar cihazınızda işlenir.',
+    'tools.stepConverterBrowser.cta': 'Tarayıcı dönüştürücüyü aç',
+    'tools.stepConverterBrowser.badge': 'Tarayıcı',
     'bohrModel.title': 'Bohr Atom Modeli',
     'bohrModel.subtitle':
       'Bohr modelini kullanarak elektron katmanlarını görselleştirin.',

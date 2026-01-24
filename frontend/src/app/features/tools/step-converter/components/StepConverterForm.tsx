@@ -16,8 +16,12 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import type { ConversionMode, OutputFormat, TranslateFn } from '../types';
-import type { StepConverterController } from '../hooks/useStepConverter';
+import type {
+  ConversionMode,
+  OutputFormat,
+  StepConverterController,
+  TranslateFn,
+} from '../types';
 
 type StepConverterFormProps = {
   t: TranslateFn;

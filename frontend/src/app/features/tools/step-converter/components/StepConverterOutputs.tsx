@@ -6,8 +6,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import type { TranslateFn } from '../types';
-import type { StepConverterController } from '../hooks/useStepConverter';
+import type { StepConverterController, TranslateFn } from '../types';
 
 type StepConverterOutputsProps = {
   t: TranslateFn;

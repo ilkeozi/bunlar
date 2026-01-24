@@ -4,6 +4,7 @@ import type {
   DownloadLink,
   OutputFormat,
   RequestStatus,
+  StepConverterController,
   TranslateFn,
 } from '../types';
 import {
@@ -14,35 +15,7 @@ import {
   resolveDownloadName,
 } from '../utils';
 
-export type StepConverterController = {
-  file: File | null;
-  mode: ConversionMode;
-  format: OutputFormat;
-  linDeflection: string;
-  angDeflection: string;
-  relative: boolean;
-  parallel: boolean;
-  includeBom: boolean;
-  includeNodeMap: boolean;
-  status: RequestStatus;
-  metadataStatus: RequestStatus;
-  download: DownloadLink | null;
-  bom: DownloadLink | null;
-  nodeMap: DownloadLink | null;
-  hasInvalidNumbers: boolean;
-  isAdvanced: boolean;
-  onFileChange: (file: File | null) => void;
-  onModeChange: (mode: ConversionMode) => void;
-  onFormatChange: (format: OutputFormat) => void;
-  onLinDeflectionChange: (value: string) => void;
-  onAngDeflectionChange: (value: string) => void;
-  onRelativeChange: (value: boolean) => void;
-  onParallelChange: (value: boolean) => void;
-  onIncludeBomChange: (value: boolean) => void;
-  onIncludeNodeMapChange: (value: boolean) => void;
-  onSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
-  onReset: () => void;
-};
+export type { StepConverterController };
 
 const HEALTH_TIMEOUT_MS = 3000;
 const REQUEST_TIMEOUT_MS = 60_000;

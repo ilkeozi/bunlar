@@ -16,6 +16,7 @@ import { MathematicsPage } from './pages/MathematicsPage';
 import { CarbonAwareMotorAssemblyPage } from './pages/subjects/climate-tech/CarbonAwareMotorAssemblyPage';
 import { ToolsPage } from './pages/ToolsPage';
 import { StepConverterPage } from './pages/tools/StepConverterPage';
+import { StepConverterBrowserPage } from './pages/tools/StepConverterBrowserPage';
 
 export function App() {
   return (
@@ -40,6 +41,10 @@ export function App() {
           <Route path="/subjects/mathematics" element={<MathematicsPage />} />
           <Route path="/tools" element={<ToolsPage />} />
           <Route path="/tools/step-converter" element={<StepConverterPage />} />
+          <Route
+            path="/tools/step-converter-browser"
+            element={<StepConverterBrowserPage />}
+          />
         </Routes>
       </main>
     </div>

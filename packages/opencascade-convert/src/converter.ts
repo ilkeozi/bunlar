@@ -26,8 +26,12 @@ import type { OpenCascadeInstance } from './occt/types';
 import { getOpenCascade, loadOpenCascade } from './occt/loader';
 import type { NameFormat } from './core/types';
 
-const DEBUG_CONVERT = process.env.OCCT_CONVERT_DEBUG === '1';
-const SKIP_TRIANGULATION = process.env.OCCT_SKIP_TRIANGULATION === '1';
+const env =
+  typeof process !== 'undefined' && typeof process.env !== 'undefined'
+    ? process.env
+    : undefined;
+const DEBUG_CONVERT = env?.OCCT_CONVERT_DEBUG === '1';
+const SKIP_TRIANGULATION = env?.OCCT_SKIP_TRIANGULATION === '1';
 
 function logDebug(label: string, meta?: Record<string, unknown>) {
   if (!DEBUG_CONVERT) {

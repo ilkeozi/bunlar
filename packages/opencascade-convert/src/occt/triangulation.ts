@@ -3,7 +3,11 @@ import type { OpenCascadeInstance } from './types';
 
 export type OcctDocument = any;
 
-const DEBUG_TRIANGULATION = process.env.OCCT_CONVERT_DEBUG === '1';
+const env =
+  typeof process !== 'undefined' && typeof process.env !== 'undefined'
+    ? process.env
+    : undefined;
+const DEBUG_TRIANGULATION = env?.OCCT_CONVERT_DEBUG === '1';
 
 const DEFAULT_TRIANGULATE_OPTIONS: Required<TriangulateOptions> = {
   linearDeflection: 1,
