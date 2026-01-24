@@ -149,6 +149,15 @@ export function useStepConverter(t: TranslateFn): StepConverterController {
     clearDownloads();
   };
 
+  const onCancel = () => {
+    requestIdRef.current += 1;
+    abortRef.current?.abort();
+    abortRef.current = null;
+    setStatus({ state: 'idle' });
+    setMetadataStatus({ state: 'idle' });
+    clearDownloads();
+  };
+
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!file) {
@@ -369,5 +378,6 @@ export function useStepConverter(t: TranslateFn): StepConverterController {
     onIncludeNodeMapChange: setIncludeNodeMap,
     onSubmit,
     onReset,
+    onCancel,
   };
 }

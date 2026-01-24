@@ -59,7 +59,9 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
     onIncludeNodeMapChange,
     onSubmit,
     onReset,
+    onCancel,
   } = converter;
+  const isBusy = status.state === 'loading';
 
   return (
     <Card className="border-border/60 bg-background/90">
@@ -76,15 +78,16 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
               {t('tools.stepConverter.form.fileLabel')}
             </Label>
             <div className="rounded-xl border border-border/60 bg-background/80 px-4 py-3">
-              <input
-                id="step-file"
-                type="file"
-                accept=".step,.stp,.iges,.igs"
-                className="block w-full text-sm text-muted-foreground file:mr-4 file:rounded-full file:border-0 file:bg-primary/10 file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-wide file:text-primary"
-                onChange={(event) =>
-                  onFileChange(event.target.files?.[0] ?? null)
-                }
-              />
+                <input
+                  id="step-file"
+                  type="file"
+                  accept=".step,.stp,.iges,.igs"
+                  disabled={isBusy}
+                  className="block w-full text-sm text-muted-foreground file:mr-4 file:rounded-full file:border-0 file:bg-primary/10 file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-wide file:text-primary"
+                  onChange={(event) =>
+                    onFileChange(event.target.files?.[0] ?? null)
+                  }
+                />
             </div>
             <p className="text-xs text-muted-foreground">
               {t('tools.stepConverter.form.fileHint')}
@@ -104,6 +107,7 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
               <Select
                 value={mode}
                 onValueChange={(value) => onModeChange(value as ConversionMode)}
+                disabled={isBusy}
               >
                 <SelectTrigger id="mode-select">
                   <SelectValue />
@@ -125,6 +129,7 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
               <Select
                 value={format}
                 onValueChange={(value) => onFormatChange(value as OutputFormat)}
+                disabled={isBusy}
               >
                 <SelectTrigger id="format-select">
                   <SelectValue />
@@ -151,6 +156,7 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
                   type="number"
                   step="0.01"
                   value={linDeflection}
+                  disabled={isBusy}
                   onChange={(event) =>
                     onLinDeflectionChange(event.target.value)
                   }
@@ -167,6 +173,7 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
                   type="number"
                   step="0.01"
                   value={angDeflection}
+                  disabled={isBusy}
                   onChange={(event) =>
                     onAngDeflectionChange(event.target.value)
                   }
@@ -189,6 +196,7 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
                 <Switch
                   id="relative-toggle"
                   checked={relative}
+                  disabled={isBusy}
                   onCheckedChange={onRelativeChange}
                 />
               </div>
@@ -202,6 +210,7 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
                 <Switch
                   id="parallel-toggle"
                   checked={parallel}
+                  disabled={isBusy}
                   onCheckedChange={onParallelChange}
                 />
               </div>
@@ -220,6 +229,7 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
                 <Switch
                   id="bom-toggle"
                   checked={includeBom}
+                  disabled={isBusy}
                   onCheckedChange={onIncludeBomChange}
                 />
               </div>
@@ -233,6 +243,7 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
                 <Switch
                   id="node-map-toggle"
                   checked={includeNodeMap}
+                  disabled={isBusy}
                   onCheckedChange={onIncludeNodeMapChange}
                 />
               </div>
@@ -240,16 +251,19 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
           )}
 
           <div className="flex flex-wrap items-center gap-3">
-            <Button
-              type="submit"
-              disabled={!file || status.state === 'loading'}
-            >
-              {status.state === 'loading'
+            <Button type="submit" disabled={!file || isBusy}>
+              {isBusy
                 ? t('tools.stepConverter.status.loading')
                 : t('tools.stepConverter.form.submit')}
             </Button>
-            <Button type="button" variant="outline" onClick={onReset}>
-              {t('tools.stepConverter.form.reset')}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={isBusy ? onCancel : onReset}
+            >
+              {isBusy
+                ? t('tools.stepConverter.form.cancel')
+                : t('tools.stepConverter.form.reset')}
             </Button>
             {isAdvanced && hasInvalidNumbers && (
               <span className="text-xs text-destructive">

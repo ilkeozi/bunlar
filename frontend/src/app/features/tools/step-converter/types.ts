@@ -45,4 +45,5 @@ export type StepConverterController = {
   onIncludeNodeMapChange: (value: boolean) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
   onReset: () => void;
+  onCancel: () => void;
 };

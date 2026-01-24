@@ -1,9 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import type {
-  ConvertBufferResult,
-  InputFormat,
-  OpenCascadeConverter,
-} from 'opencascade-convert/browser';
+import type { InputFormat } from 'opencascade-convert/browser';
 import type {
   ConversionMode,
   DownloadLink,
@@ -19,6 +15,44 @@ const BASIC_TRIANGULATION = {
   angularDeflection: 0.5,
   relative: false,
   parallel: true,
+};
+
+type WorkerSuccess =
+  | {
+      ok: true;
+      outputFormat: 'glb' | 'obj';
+      data: ArrayBuffer;
+      bom?: unknown;
+      nodeMap?: unknown;
+    }
+  | {
+      ok: true;
+      outputFormat: 'gltf';
+      gltf: ArrayBuffer;
+      bin: ArrayBuffer;
+      bom?: unknown;
+      nodeMap?: unknown;
+    };
+
+type WorkerFailure = {
+  ok: false;
+  error: string;
+};
+
+type WorkerResponse = WorkerSuccess | WorkerFailure;
+
+type WorkerPayload = {
+  input: ArrayBuffer;
+  inputFormat: InputFormat;
+  outputFormat: OutputFormat;
+  triangulate: {
+    linearDeflection?: number;
+    angularDeflection?: number;
+    relative?: boolean;
+    parallel?: boolean;
+  };
+  includeBom: boolean;
+  includeNodeMap: boolean;
 };
 
 function resolveInputFormat(fileName: string): InputFormat | null {
@@ -44,13 +78,9 @@ function toBase64(data: Uint8Array) {
   return btoa(binary);
 }
 
-function createDownloadFromResult(
-  result: ConvertBufferResult,
-  sourceName: string,
-  format: OutputFormat
-) {
+function createDownloadFromWorkerResult(result: WorkerSuccess, sourceName: string) {
   if (result.outputFormat === 'glb') {
-    const blob = new Blob([result.glb], { type: 'model/gltf-binary' });
+    const blob = new Blob([result.data], { type: 'model/gltf-binary' });
     return {
       url: URL.createObjectURL(blob),
       name: resolveDownloadName(sourceName, 'glb'),
@@ -58,7 +88,7 @@ function createDownloadFromResult(
   }
 
   if (result.outputFormat === 'obj') {
-    const blob = new Blob([result.obj], { type: 'text/plain' });
+    const blob = new Blob([result.data], { type: 'text/plain' });
     return {
       url: URL.createObjectURL(blob),
       name: resolveDownloadName(sourceName, 'obj'),
@@ -70,7 +100,9 @@ function createDownloadFromResult(
     buffers?: Array<{ uri?: string; byteLength?: number }>;
   };
   if (Array.isArray(gltf.buffers)) {
-    const encoded = `data:application/octet-stream;base64,${toBase64(result.bin)}`;
+    const encoded = `data:application/octet-stream;base64,${toBase64(
+      new Uint8Array(result.bin)
+    )}`;
     gltf.buffers = gltf.buffers.map((buffer) => ({
       ...buffer,
       uri: encoded,
@@ -79,14 +111,19 @@ function createDownloadFromResult(
   const blob = new Blob([JSON.stringify(gltf)], {
     type: 'model/gltf+json',
   });
+  return confirmDownload(sourceName, blob, 'gltf');
+}
+
+function confirmDownload(sourceName: string, blob: Blob, format: OutputFormat) {
   return {
     url: URL.createObjectURL(blob),
-    name: resolveDownloadName(sourceName, 'gltf'),
+    name: resolveDownloadName(sourceName, format),
   };
 }
 
 export function useStepConverterBrowser(t: TranslateFn): StepConverterController {
-  const converterRef = useRef<Promise<OpenCascadeConverter> | null>(null);
+  const workerRef = useRef<Worker | null>(null);
+  const workerRequestIdRef = useRef(0);
   const requestIdRef = useRef(0);
 
   const [file, setFile] = useState<File | null>(null);
@@ -130,11 +167,57 @@ export function useStepConverterBrowser(t: TranslateFn): StepConverterController
     setNodeMap(null);
   };
 
+  const ensureWorker = () => {
+    if (!workerRef.current) {
+      workerRef.current = new Worker(
+        new URL('../workers/stepConverter.worker.ts', import.meta.url),
+        { type: 'module' }
+      );
+    }
+    return workerRef.current;
+  };
+
+  const terminateWorker = () => {
+    if (workerRef.current) {
+      workerRef.current.terminate();
+      workerRef.current = null;
+    }
+  };
+
+  const runWorkerConversion = (payload: WorkerPayload) => {
+    const worker = ensureWorker();
+    const id = workerRequestIdRef.current + 1;
+    workerRequestIdRef.current = id;
+    return new Promise<WorkerSuccess>((resolve, reject) => {
+      const handleMessage = (event: MessageEvent<WorkerResponse & { id: number }>) => {
+        if (event.data.id !== id) return;
+        cleanup();
+        if (!event.data.ok) {
+          reject(new Error(event.data.error));
+          return;
+        }
+        resolve(event.data);
+      };
+      const handleError = (event: ErrorEvent) => {
+        cleanup();
+        reject(event.error instanceof Error ? event.error : new Error(event.message));
+      };
+      const cleanup = () => {
+        worker.removeEventListener('message', handleMessage);
+        worker.removeEventListener('error', handleError);
+      };
+      worker.addEventListener('message', handleMessage);
+      worker.addEventListener('error', handleError);
+      worker.postMessage({ id, ...payload }, [payload.input]);
+    });
+  };
+
   useEffect(() => {
     return () => {
       revokeDownload(download);
       revokeDownload(bom);
       revokeDownload(nodeMap);
+      terminateWorker();
     };
   }, [download, bom, nodeMap]);
 
@@ -152,15 +235,15 @@ export function useStepConverterBrowser(t: TranslateFn): StepConverterController
     setStatus({ state: 'idle' });
     setMetadataStatus({ state: 'idle' });
     clearDownloads();
+    terminateWorker();
   };
 
-  const getConverter = () => {
-    if (!converterRef.current) {
-      converterRef.current = import('opencascade-convert/browser').then(
-        ({ createConverter }) => createConverter()
-      );
-    }
-    return converterRef.current;
+  const onCancel = () => {
+    requestIdRef.current += 1;
+    setStatus({ state: 'idle' });
+    setMetadataStatus({ state: 'idle' });
+    clearDownloads();
+    terminateWorker();
   };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -181,7 +264,10 @@ export function useStepConverterBrowser(t: TranslateFn): StepConverterController
     }
 
     setStatus({ state: 'loading' });
-    setMetadataStatus({ state: 'idle' });
+    setMetadataStatus({
+      state:
+        isAdvanced && (includeBom || includeNodeMap) ? 'loading' : 'idle',
+    });
     clearDownloads();
 
     const requestId = requestIdRef.current + 1;
@@ -196,18 +282,9 @@ export function useStepConverterBrowser(t: TranslateFn): StepConverterController
         });
         return;
       }
-      const converter = await getConverter();
-      if (requestIdRef.current !== requestId) return;
 
-      const inputBuffer = new Uint8Array(await file.arrayBuffer());
+      const inputBuffer = await file.arrayBuffer();
       if (requestIdRef.current !== requestId) return;
-
-      const docHandle = converter.readBuffer(inputBuffer, inputFormat, {
-        preserveNames: true,
-        preserveColors: true,
-        preserveLayers: true,
-        preserveMaterials: true,
-      });
 
       const triangulateOptions = isAdvanced
         ? {
@@ -218,49 +295,35 @@ export function useStepConverterBrowser(t: TranslateFn): StepConverterController
           }
         : BASIC_TRIANGULATION;
 
-      converter.triangulate(docHandle.get(), triangulateOptions);
-
-      const result = converter.writeBuffer(docHandle, format, {
-        nameFormat: 'productOrInstance',
+      const result = await runWorkerConversion({
+        input: inputBuffer,
+        inputFormat,
+        outputFormat: format,
+        triangulate: triangulateOptions,
+        includeBom: isAdvanced && includeBom,
+        includeNodeMap: isAdvanced && includeNodeMap,
       });
       if (requestIdRef.current !== requestId) return;
 
-      const output = createDownloadFromResult(result, file.name, format);
+      const output = createDownloadFromWorkerResult(result, file.name);
       setDownload(output);
       setStatus({ state: 'success' });
 
       if (isAdvanced && (includeBom || includeNodeMap)) {
-        setMetadataStatus({ state: 'loading' });
-        try {
-          const metadata = converter.createMetadataFromGlb(docHandle);
-          if (requestIdRef.current !== requestId) return;
-          if (includeBom) {
-            setBom(
-              createJsonDownload(
-                metadata.bom,
-                buildMetadataName(file.name, 'bom')
-              )
-            );
-          }
-          if (includeNodeMap) {
-            setNodeMap(
-              createJsonDownload(
-                metadata.nodeMap,
-                buildMetadataName(file.name, 'node-map')
-              )
-            );
-          }
-          setMetadataStatus({ state: 'success' });
-        } catch (metadataError) {
-          if (requestIdRef.current !== requestId) return;
-          setMetadataStatus({
-            state: 'error',
-            message:
-              metadataError instanceof Error
-                ? metadataError.message
-                : t('tools.stepConverter.status.metadataError'),
-          });
+        if (result.bom && includeBom) {
+          setBom(
+            createJsonDownload(result.bom, buildMetadataName(file.name, 'bom'))
+          );
         }
+        if (result.nodeMap && includeNodeMap) {
+          setNodeMap(
+            createJsonDownload(
+              result.nodeMap,
+              buildMetadataName(file.name, 'node-map')
+            )
+          );
+        }
+        setMetadataStatus({ state: 'success' });
       }
     } catch (error) {
       if (requestIdRef.current !== requestId) return;
@@ -302,5 +365,6 @@ export function useStepConverterBrowser(t: TranslateFn): StepConverterController
     onIncludeNodeMapChange: setIncludeNodeMap,
     onSubmit,
     onReset,
+    onCancel,
   };
 }
