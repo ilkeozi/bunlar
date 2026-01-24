@@ -6,6 +6,7 @@ import gearboxThumb from '@/assets/gearbox.png';
 import bohrModelThumb from '@/assets/bohr-model-thumb.svg';
 import thomsonModelThumb from '@/assets/thomson-model-thumb.svg';
 import rutherfordModelThumb from '@/assets/rutherford-model-thumb.svg';
+import stepConverterBanner from '@/assets/step-converter-banner.png';
 
 export function HomePage() {
   const { t } = useTranslation();
@@ -128,6 +129,52 @@ export function HomePage() {
                 </div>
                 <span className="text-xs font-semibold uppercase tracking-wide text-primary/80">
                   {t('chemistry.modules.rutherfordModel.cta')}
+                </span>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="space-y-1">
+            <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
+              {t('subjects.tools.title')}
+            </h2>
+            <p className="text-sm text-muted-foreground sm:text-base">
+              {t('subjects.tools.subtitle')}
+            </p>
+          </div>
+          <Link
+            to="/tools"
+            className="text-xs font-semibold uppercase tracking-wide text-primary/80"
+          >
+            {t('nav.tools')}
+          </Link>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <Link to="/tools/step-converter-browser" className="group">
+            <Card className="h-full transition group-hover:-translate-y-1 group-hover:border-primary/50 group-hover:shadow-2xl">
+              <CardHeader>
+                <Badge variant="outline" className="w-fit border-border/60 text-[11px]">
+                  {t('tools.stepConverterBrowser.badge')}
+                </Badge>
+                <CardTitle>{t('tools.stepConverterBrowser.title')}</CardTitle>
+                <CardDescription>{t('tools.stepConverterBrowser.description')}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4 h-36 overflow-hidden rounded-2xl border border-border/60">
+                  <img
+                    src={stepConverterBanner}
+                    alt=""
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <span className="text-xs font-semibold uppercase tracking-wide text-primary/80">
+                  {t('tools.stepConverterBrowser.cta')}
                 </span>
               </CardContent>
             </Card>

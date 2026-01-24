@@ -49,3 +49,6 @@ test-output
 .npm-cache
 .npx-cache
 cad-converter/config/
+.codex
+.agents
+.cursor

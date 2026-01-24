@@ -38,5 +38,10 @@
     "src/**/*.tsx",
     "src/**/*.d.ts",
     "src/**/*.json"
+  ],
+  "references": [
+    {
+      "path": "../packages/opencascade-convert/tsconfig.build.json"
+    }
   ]
 }
