@@ -1,0 +1,5198 @@
+{
+  "roots": [
+    "0:1:1:1"
+  ],
+  "items": [
+    {
+      "productId": "0:1:1:1",
+      "productName": "Gear Box",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1",
+          "instanceId": "0:1:1:1",
+          "name": "Gear Box",
+          "path": [
+            "0:1:1:1"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:2",
+      "productName": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+      "kind": "part",
+      "quantity": 20,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:1",
+          "instanceId": "0:1:1:1:1",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:4",
+          "instanceId": "0:1:1:1:4",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:6",
+          "instanceId": "0:1:1:1:6",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:6"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:7",
+          "instanceId": "0:1:1:1:7",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:7"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:10",
+          "instanceId": "0:1:1:1:10",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:10"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:13",
+          "instanceId": "0:1:1:1:13",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:13"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:14",
+          "instanceId": "0:1:1:1:14",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:14"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:15",
+          "instanceId": "0:1:1:1:15",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:15"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:17",
+          "instanceId": "0:1:1:1:17",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:17"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:18",
+          "instanceId": "0:1:1:1:18",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:18"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:20",
+          "instanceId": "0:1:1:1:20",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:20"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:22",
+          "instanceId": "0:1:1:1:22",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:22"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:23",
+          "instanceId": "0:1:1:1:23",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:23"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:26",
+          "instanceId": "0:1:1:1:26",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:26"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:30",
+          "instanceId": "0:1:1:1:30",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:30"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:31",
+          "instanceId": "0:1:1:1:31",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:31"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:33",
+          "instanceId": "0:1:1:1:33",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:33"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:35",
+          "instanceId": "0:1:1:1:35",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:35"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:39",
+          "instanceId": "0:1:1:1:39",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:39"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:43",
+          "instanceId": "0:1:1:1:43",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 10 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:43"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:3",
+      "productName": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 10 x 30 - A - St",
+      "kind": "part",
+      "quantity": 2,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:2",
+          "instanceId": "0:1:1:1:2",
+          "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 10 x 30 - A - St",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:41",
+          "instanceId": "0:1:1:1:41",
+          "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 10 x 30 - A - St",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:41"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:4",
+      "productName": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --26N",
+      "kind": "part",
+      "quantity": 10,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:3",
+          "instanceId": "0:1:1:1:3",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --26N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:5",
+          "instanceId": "0:1:1:1:5",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --26N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:21",
+          "instanceId": "0:1:1:1:21",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --26N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:21"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:27",
+          "instanceId": "0:1:1:1:27",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --26N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:27"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:29",
+          "instanceId": "0:1:1:1:29",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --26N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:29"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:34",
+          "instanceId": "0:1:1:1:34",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --26N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:34"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:37",
+          "instanceId": "0:1:1:1:37",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --26N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:37"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:38",
+          "instanceId": "0:1:1:1:38",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --26N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:38"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:40",
+          "instanceId": "0:1:1:1:40",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --26N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:40"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:44",
+          "instanceId": "0:1:1:1:44",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M10 x 1.5 x 45 --26N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:44"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:5",
+      "productName": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, with 16mm WAF --D-N",
+      "kind": "part",
+      "quantity": 10,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:8",
+          "instanceId": "0:1:1:1:8",
+          "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, with 16mm WAF --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:8"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:9",
+          "instanceId": "0:1:1:1:9",
+          "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, with 16mm WAF --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:9"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:11",
+          "instanceId": "0:1:1:1:11",
+          "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, with 16mm WAF --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:11"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:12",
+          "instanceId": "0:1:1:1:12",
+          "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, with 16mm WAF --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:12"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:16",
+          "instanceId": "0:1:1:1:16",
+          "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, with 16mm WAF --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:16"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:19",
+          "instanceId": "0:1:1:1:19",
+          "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, with 16mm WAF --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:19"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:24",
+          "instanceId": "0:1:1:1:24",
+          "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, with 16mm WAF --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:24"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:25",
+          "instanceId": "0:1:1:1:25",
+          "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, with 16mm WAF --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:25"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:36",
+          "instanceId": "0:1:1:1:36",
+          "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, with 16mm WAF --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:36"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:42",
+          "instanceId": "0:1:1:1:42",
+          "name": "Hex Nut Style 2_AM_B18.2.4.2M - Hex nut, Style 2, M10 x 1.5, with 16mm WAF --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:42"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:6",
+      "productName": "Gear Box - Low Speed - ASM_D襡ut",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28",
+          "instanceId": "0:1:1:1:28",
+          "name": "Gear Box - Low Speed - ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:7",
+      "productName": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+      "kind": "part",
+      "quantity": 30,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:1",
+          "instanceId": "0:1:1:6:1",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:6",
+          "instanceId": "0:1:1:6:6",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:6"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:10",
+          "instanceId": "0:1:1:6:10",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:10"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:18",
+          "instanceId": "0:1:1:6:18",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:18"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:22",
+          "instanceId": "0:1:1:6:22",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:22"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:23",
+          "instanceId": "0:1:1:6:23",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:23"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:24",
+          "instanceId": "0:1:1:6:24",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:24"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:25",
+          "instanceId": "0:1:1:6:25",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:25"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:30",
+          "instanceId": "0:1:1:6:30",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:30"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:31",
+          "instanceId": "0:1:1:6:31",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:31"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:38",
+          "instanceId": "0:1:1:6:38",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:38"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:39",
+          "instanceId": "0:1:1:6:39",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:39"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:43",
+          "instanceId": "0:1:1:6:43",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:43"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:46",
+          "instanceId": "0:1:1:6:46",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:46"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:52",
+          "instanceId": "0:1:1:6:52",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:52"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:57",
+          "instanceId": "0:1:1:6:57",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:57"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:62",
+          "instanceId": "0:1:1:6:62",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:62"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:63",
+          "instanceId": "0:1:1:6:63",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:63"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:64",
+          "instanceId": "0:1:1:6:64",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:64"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:67",
+          "instanceId": "0:1:1:6:67",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:67"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:70",
+          "instanceId": "0:1:1:6:70",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:70"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:75",
+          "instanceId": "0:1:1:6:75",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:75"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:79",
+          "instanceId": "0:1:1:6:79",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:79"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:80",
+          "instanceId": "0:1:1:6:80",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:80"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:87",
+          "instanceId": "0:1:1:6:87",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:87"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:91",
+          "instanceId": "0:1:1:6:91",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:91"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:92",
+          "instanceId": "0:1:1:6:92",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:92"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:93",
+          "instanceId": "0:1:1:6:93",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:93"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:100",
+          "instanceId": "0:1:1:6:100",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:100"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:101",
+          "instanceId": "0:1:1:6:101",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 16 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:101"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:8",
+      "productName": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+      "kind": "part",
+      "quantity": 20,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:2",
+          "instanceId": "0:1:1:6:2",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:7",
+          "instanceId": "0:1:1:6:7",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:7"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:17",
+          "instanceId": "0:1:1:6:17",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:17"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:19",
+          "instanceId": "0:1:1:6:19",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:19"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:20",
+          "instanceId": "0:1:1:6:20",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:20"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:32",
+          "instanceId": "0:1:1:6:32",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:32"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:40",
+          "instanceId": "0:1:1:6:40",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:40"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:41",
+          "instanceId": "0:1:1:6:41",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:41"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:47",
+          "instanceId": "0:1:1:6:47",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:47"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:48",
+          "instanceId": "0:1:1:6:48",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:48"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:49",
+          "instanceId": "0:1:1:6:49",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:49"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:65",
+          "instanceId": "0:1:1:6:65",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:65"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:66",
+          "instanceId": "0:1:1:6:66",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:66"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:76",
+          "instanceId": "0:1:1:6:76",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:76"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:81",
+          "instanceId": "0:1:1:6:81",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:81"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:88",
+          "instanceId": "0:1:1:6:88",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:88"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:89",
+          "instanceId": "0:1:1:6:89",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:89"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:90",
+          "instanceId": "0:1:1:6:90",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:90"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:94",
+          "instanceId": "0:1:1:6:94",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:94"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:102",
+          "instanceId": "0:1:1:6:102",
+          "name": "Heavy Hex Bolt_AM_B18.2.3.6M - Heavy hex bolt M16 x 2.0 x 60 --60N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:102"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:9",
+      "productName": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+      "kind": "part",
+      "quantity": 15,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:3",
+          "instanceId": "0:1:1:6:3",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:11",
+          "instanceId": "0:1:1:6:11",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:11"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:26",
+          "instanceId": "0:1:1:6:26",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:26"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:33",
+          "instanceId": "0:1:1:6:33",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:33"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:34",
+          "instanceId": "0:1:1:6:34",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:34"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:35",
+          "instanceId": "0:1:1:6:35",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:35"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:53",
+          "instanceId": "0:1:1:6:53",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:53"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:54",
+          "instanceId": "0:1:1:6:54",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:54"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:58",
+          "instanceId": "0:1:1:6:58",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:58"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:59",
+          "instanceId": "0:1:1:6:59",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:59"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:77",
+          "instanceId": "0:1:1:6:77",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:77"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:82",
+          "instanceId": "0:1:1:6:82",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:82"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:95",
+          "instanceId": "0:1:1:6:95",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:95"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:103",
+          "instanceId": "0:1:1:6:103",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:103"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:104",
+          "instanceId": "0:1:1:6:104",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M12 x 1.75 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:104"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:10",
+      "productName": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+      "kind": "part",
+      "quantity": 21,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:4",
+          "instanceId": "0:1:1:6:4",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:12",
+          "instanceId": "0:1:1:6:12",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:12"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:13",
+          "instanceId": "0:1:1:6:13",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:13"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:21",
+          "instanceId": "0:1:1:6:21",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:21"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:27",
+          "instanceId": "0:1:1:6:27",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:27"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:28",
+          "instanceId": "0:1:1:6:28",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:28"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:29",
+          "instanceId": "0:1:1:6:29",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:29"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:50",
+          "instanceId": "0:1:1:6:50",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:50"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:51",
+          "instanceId": "0:1:1:6:51",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:51"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:60",
+          "instanceId": "0:1:1:6:60",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:60"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:71",
+          "instanceId": "0:1:1:6:71",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:71"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:72",
+          "instanceId": "0:1:1:6:72",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:72"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:73",
+          "instanceId": "0:1:1:6:73",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:73"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:74",
+          "instanceId": "0:1:1:6:74",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:74"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:96",
+          "instanceId": "0:1:1:6:96",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:96"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:2",
+          "instanceId": "0:1:1:71:2",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:13",
+          "instanceId": "0:1:1:71:13",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:13"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:14",
+          "instanceId": "0:1:1:71:14",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:14"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:17",
+          "instanceId": "0:1:1:71:17",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:17"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:20",
+          "instanceId": "0:1:1:71:20",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:20"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:26",
+          "instanceId": "0:1:1:71:26",
+          "name": "Flat Washer Regular_AM_B18.22M - Plain washer, 12 mm, regular",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:26"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:11",
+      "productName": "Stage 4_D襡ut",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5",
+          "instanceId": "0:1:1:6:5",
+          "name": "Stage 4_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:12",
+      "productName": "Ring gear ST4 10M 60T_Metric - Internal spur gear 10M 60T 20PA 90FW ---S60S700OD 1.0AF",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:1",
+          "instanceId": "0:1:1:11:1",
+          "name": "Ring gear ST4 10M 60T_Metric - Internal spur gear 10M 60T 20PA 90FW ---S60S700OD 1.0AF",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:1"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:13",
+      "productName": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 16 x 40 - A - St",
+      "kind": "part",
+      "quantity": 6,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:2",
+          "instanceId": "0:1:1:11:2",
+          "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 16 x 40 - A - St",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:6",
+          "instanceId": "0:1:1:11:6",
+          "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 16 x 40 - A - St",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:6"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:19",
+          "instanceId": "0:1:1:11:19",
+          "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 16 x 40 - A - St",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:19"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:23",
+          "instanceId": "0:1:1:11:23",
+          "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 16 x 40 - A - St",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:23"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:26",
+          "instanceId": "0:1:1:11:26",
+          "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 16 x 40 - A - St",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:26"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:31",
+          "instanceId": "0:1:1:11:31",
+          "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 16 x 40 - A - St",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:31"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:14",
+      "productName": "ST4 Spacer_D襡ut",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:3",
+          "instanceId": "0:1:1:11:3",
+          "name": "ST4 Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:8",
+          "instanceId": "0:1:1:11:8",
+          "name": "ST4 Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:8"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:32",
+          "instanceId": "0:1:1:11:32",
+          "name": "ST4 Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:32"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:15",
+      "productName": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+      "kind": "part",
+      "quantity": 18,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:4",
+          "instanceId": "0:1:1:11:4",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:5",
+          "instanceId": "0:1:1:11:5",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:7",
+          "instanceId": "0:1:1:11:7",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:7"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:9",
+          "instanceId": "0:1:1:11:9",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:9"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:11",
+          "instanceId": "0:1:1:11:11",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:11"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:13",
+          "instanceId": "0:1:1:11:13",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:13"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:14",
+          "instanceId": "0:1:1:11:14",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:14"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:16",
+          "instanceId": "0:1:1:11:16",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:16"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:17",
+          "instanceId": "0:1:1:11:17",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:17"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:20",
+          "instanceId": "0:1:1:11:20",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:20"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:21",
+          "instanceId": "0:1:1:11:21",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:21"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:24",
+          "instanceId": "0:1:1:11:24",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:24"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:25",
+          "instanceId": "0:1:1:11:25",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:25"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:27",
+          "instanceId": "0:1:1:11:27",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:27"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:28",
+          "instanceId": "0:1:1:11:28",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:28"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:29",
+          "instanceId": "0:1:1:11:29",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:29"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:33",
+          "instanceId": "0:1:1:11:33",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:33"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:34",
+          "instanceId": "0:1:1:11:34",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 60 Hex SHCS -- 60NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:34"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:16",
+      "productName": "Output Shaft_D襡ut",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10",
+          "instanceId": "0:1:1:11:10",
+          "name": "Output Shaft_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:17",
+      "productName": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 50NHX",
+      "kind": "part",
+      "quantity": 10,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:1",
+          "instanceId": "0:1:1:16:1",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 50NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:2",
+          "instanceId": "0:1:1:16:2",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 50NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:3",
+          "instanceId": "0:1:1:16:3",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 50NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:4",
+          "instanceId": "0:1:1:16:4",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 50NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:5",
+          "instanceId": "0:1:1:16:5",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 50NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:6",
+          "instanceId": "0:1:1:16:6",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 50NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:6"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:7",
+          "instanceId": "0:1:1:16:7",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 50NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:7"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:9",
+          "instanceId": "0:1:1:16:9",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 50NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:9"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:11",
+          "instanceId": "0:1:1:16:11",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 50NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:11"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:12",
+          "instanceId": "0:1:1:16:12",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 16 x 2.0 x 50 Hex SHCS -- 50NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:12"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:18",
+      "productName": "Timken - 228K_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:8",
+          "instanceId": "0:1:1:16:8",
+          "name": "Timken - 228K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:8"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:19",
+      "productName": "Output Drive_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:10/0:1:1:16:10",
+          "instanceId": "0:1:1:16:10",
+          "name": "Output Drive_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:10",
+            "0:1:1:16:10"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:20",
+      "productName": "ST4 Planet Carrier Plate In_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:12",
+          "instanceId": "0:1:1:11:12",
+          "name": "ST4 Planet Carrier Plate In_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:12"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:21",
+      "productName": "ST4 Planet Carrier Plate Out_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:15",
+          "instanceId": "0:1:1:11:15",
+          "name": "ST4 Planet Carrier Plate Out_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:15"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:22",
+      "productName": "ST4 Planet ASM_D襡ut",
+      "kind": "assembly",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:18",
+          "instanceId": "0:1:1:11:18",
+          "name": "ST4 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:18"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:22",
+          "instanceId": "0:1:1:11:22",
+          "name": "ST4 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:22"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:30",
+          "instanceId": "0:1:1:11:30",
+          "name": "ST4 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:30"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:23",
+      "productName": "CirClip - 75mm_98541A185",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:18/0:1:1:22:1",
+          "instanceId": "0:1:1:22:1",
+          "name": "CirClip - 75mm_98541A185",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:18",
+            "0:1:1:22:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:22/0:1:1:22:1",
+          "instanceId": "0:1:1:22:1",
+          "name": "CirClip - 75mm_98541A185",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:22",
+            "0:1:1:22:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:30/0:1:1:22:1",
+          "instanceId": "0:1:1:22:1",
+          "name": "CirClip - 75mm_98541A185",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:30",
+            "0:1:1:22:1"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:24",
+      "productName": "ST4 Planet Shaft-Spacer_D襡ut",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:18/0:1:1:22:2",
+          "instanceId": "0:1:1:22:2",
+          "name": "ST4 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:18",
+            "0:1:1:22:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:22/0:1:1:22:2",
+          "instanceId": "0:1:1:22:2",
+          "name": "ST4 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:22",
+            "0:1:1:22:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:30/0:1:1:22:2",
+          "instanceId": "0:1:1:22:2",
+          "name": "ST4 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:30",
+            "0:1:1:22:2"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:25",
+      "productName": "Timken - 215K_D襡ut",
+      "kind": "part",
+      "quantity": 6,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:18/0:1:1:22:3",
+          "instanceId": "0:1:1:22:3",
+          "name": "Timken - 215K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:18",
+            "0:1:1:22:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:18/0:1:1:22:4",
+          "instanceId": "0:1:1:22:4",
+          "name": "Timken - 215K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:18",
+            "0:1:1:22:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:22/0:1:1:22:3",
+          "instanceId": "0:1:1:22:3",
+          "name": "Timken - 215K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:22",
+            "0:1:1:22:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:22/0:1:1:22:4",
+          "instanceId": "0:1:1:22:4",
+          "name": "Timken - 215K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:22",
+            "0:1:1:22:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:30/0:1:1:22:3",
+          "instanceId": "0:1:1:22:3",
+          "name": "Timken - 215K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:30",
+            "0:1:1:22:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:30/0:1:1:22:4",
+          "instanceId": "0:1:1:22:4",
+          "name": "Timken - 215K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:30",
+            "0:1:1:22:4"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:26",
+      "productName": "Planet ST4 10M 20T_Metric - Spur gear 10M 20T 20PA 90FW ---S20N75H50L10.0N",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:18/0:1:1:22:5",
+          "instanceId": "0:1:1:22:5",
+          "name": "Planet ST4 10M 20T_Metric - Spur gear 10M 20T 20PA 90FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:18",
+            "0:1:1:22:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:22/0:1:1:22:5",
+          "instanceId": "0:1:1:22:5",
+          "name": "Planet ST4 10M 20T_Metric - Spur gear 10M 20T 20PA 90FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:22",
+            "0:1:1:22:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:5/0:1:1:11:30/0:1:1:22:5",
+          "instanceId": "0:1:1:22:5",
+          "name": "Planet ST4 10M 20T_Metric - Spur gear 10M 20T 20PA 90FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:5",
+            "0:1:1:11:30",
+            "0:1:1:22:5"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:27",
+      "productName": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --45N",
+      "kind": "part",
+      "quantity": 10,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:8",
+          "instanceId": "0:1:1:6:8",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:8"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:15",
+          "instanceId": "0:1:1:6:15",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:15"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:16",
+          "instanceId": "0:1:1:6:16",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:16"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:44",
+          "instanceId": "0:1:1:6:44",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:44"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:68",
+          "instanceId": "0:1:1:6:68",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:68"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:69",
+          "instanceId": "0:1:1:6:69",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:69"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:78",
+          "instanceId": "0:1:1:6:78",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:78"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:86",
+          "instanceId": "0:1:1:6:86",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:86"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:98",
+          "instanceId": "0:1:1:6:98",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:98"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:99",
+          "instanceId": "0:1:1:6:99",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M16 x 2.0 x 45 --45N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:99"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:28",
+      "productName": "Stage 3_D襡ut",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9",
+          "instanceId": "0:1:1:6:9",
+          "name": "Stage 3_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:29",
+      "productName": "ST3 Planet Carrier Plate In_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:1",
+          "instanceId": "0:1:1:28:1",
+          "name": "ST3 Planet Carrier Plate In_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:1"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:30",
+      "productName": "ST3 Planet ASM_D襡ut",
+      "kind": "assembly",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:2",
+          "instanceId": "0:1:1:28:2",
+          "name": "ST3 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:15",
+          "instanceId": "0:1:1:28:15",
+          "name": "ST3 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:15"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:19",
+          "instanceId": "0:1:1:28:19",
+          "name": "ST3 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:19"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:31",
+      "productName": "CirClip - 35mm_B27.8M - 3DM1-35",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:2/0:1:1:30:1",
+          "instanceId": "0:1:1:30:1",
+          "name": "CirClip - 35mm_B27.8M - 3DM1-35",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:2",
+            "0:1:1:30:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:15/0:1:1:30:1",
+          "instanceId": "0:1:1:30:1",
+          "name": "CirClip - 35mm_B27.8M - 3DM1-35",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:15",
+            "0:1:1:30:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:19/0:1:1:30:1",
+          "instanceId": "0:1:1:30:1",
+          "name": "CirClip - 35mm_B27.8M - 3DM1-35",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:19",
+            "0:1:1:30:1"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:32",
+      "productName": "ST3 Planet Shaft-Spacer_D襡ut",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:2/0:1:1:30:2",
+          "instanceId": "0:1:1:30:2",
+          "name": "ST3 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:2",
+            "0:1:1:30:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:15/0:1:1:30:2",
+          "instanceId": "0:1:1:30:2",
+          "name": "ST3 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:15",
+            "0:1:1:30:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:19/0:1:1:30:2",
+          "instanceId": "0:1:1:30:2",
+          "name": "ST3 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:19",
+            "0:1:1:30:2"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:33",
+      "productName": "Timken - 207K_D襡ut",
+      "kind": "part",
+      "quantity": 12,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:2/0:1:1:30:3",
+          "instanceId": "0:1:1:30:3",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:2",
+            "0:1:1:30:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:2/0:1:1:30:4",
+          "instanceId": "0:1:1:30:4",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:2",
+            "0:1:1:30:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:15/0:1:1:30:3",
+          "instanceId": "0:1:1:30:3",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:15",
+            "0:1:1:30:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:15/0:1:1:30:4",
+          "instanceId": "0:1:1:30:4",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:15",
+            "0:1:1:30:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:19/0:1:1:30:3",
+          "instanceId": "0:1:1:30:3",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:19",
+            "0:1:1:30:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:19/0:1:1:30:4",
+          "instanceId": "0:1:1:30:4",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:19",
+            "0:1:1:30:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:1/0:1:1:50:1",
+          "instanceId": "0:1:1:50:1",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:1",
+            "0:1:1:50:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:1/0:1:1:50:5",
+          "instanceId": "0:1:1:50:5",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:1",
+            "0:1:1:50:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:6/0:1:1:50:1",
+          "instanceId": "0:1:1:50:1",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:6",
+            "0:1:1:50:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:6/0:1:1:50:5",
+          "instanceId": "0:1:1:50:5",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:6",
+            "0:1:1:50:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:20/0:1:1:50:1",
+          "instanceId": "0:1:1:50:1",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:20",
+            "0:1:1:50:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:20/0:1:1:50:5",
+          "instanceId": "0:1:1:50:5",
+          "name": "Timken - 207K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:20",
+            "0:1:1:50:5"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:34",
+      "productName": "Planet ST3 8M 20T_Metric - Spur gear 8M 20T 20PA 30FW ---S20N75H50L10.0N",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:2/0:1:1:30:5",
+          "instanceId": "0:1:1:30:5",
+          "name": "Planet ST3 8M 20T_Metric - Spur gear 8M 20T 20PA 30FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:2",
+            "0:1:1:30:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:15/0:1:1:30:5",
+          "instanceId": "0:1:1:30:5",
+          "name": "Planet ST3 8M 20T_Metric - Spur gear 8M 20T 20PA 30FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:15",
+            "0:1:1:30:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:19/0:1:1:30:5",
+          "instanceId": "0:1:1:30:5",
+          "name": "Planet ST3 8M 20T_Metric - Spur gear 8M 20T 20PA 30FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:19",
+            "0:1:1:30:5"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:35",
+      "productName": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+      "kind": "part",
+      "quantity": 12,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:3",
+          "instanceId": "0:1:1:28:3",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:5",
+          "instanceId": "0:1:1:28:5",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:7",
+          "instanceId": "0:1:1:28:7",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:7"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:9",
+          "instanceId": "0:1:1:28:9",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:9"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:10",
+          "instanceId": "0:1:1:28:10",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:10"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:11",
+          "instanceId": "0:1:1:28:11",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:11"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:13",
+          "instanceId": "0:1:1:28:13",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:13"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:14",
+          "instanceId": "0:1:1:28:14",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:14"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:16",
+          "instanceId": "0:1:1:28:16",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:16"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:18",
+          "instanceId": "0:1:1:28:18",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:18"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:20",
+          "instanceId": "0:1:1:28:20",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:20"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:22",
+          "instanceId": "0:1:1:28:22",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 12 x 1.75 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:22"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:36",
+      "productName": "ST3 Planet Carrier Plate Out_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:4",
+          "instanceId": "0:1:1:28:4",
+          "name": "ST3 Planet Carrier Plate Out_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:4"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:37",
+      "productName": "ST3 Spacer_D襡ut",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:6",
+          "instanceId": "0:1:1:28:6",
+          "name": "ST3 Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:6"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:8",
+          "instanceId": "0:1:1:28:8",
+          "name": "ST3 Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:8"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:21",
+          "instanceId": "0:1:1:28:21",
+          "name": "ST3 Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:21"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:38",
+      "productName": "ST 3-4 Shaft ASM_D襡ut",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12",
+          "instanceId": "0:1:1:28:12",
+          "name": "ST 3-4 Shaft ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:39",
+      "productName": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+      "kind": "part",
+      "quantity": 22,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:1",
+          "instanceId": "0:1:1:38:1",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:3",
+          "instanceId": "0:1:1:38:3",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:4",
+          "instanceId": "0:1:1:38:4",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:5",
+          "instanceId": "0:1:1:38:5",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:6",
+          "instanceId": "0:1:1:38:6",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:6"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:8",
+          "instanceId": "0:1:1:38:8",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:8"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:10",
+          "instanceId": "0:1:1:38:10",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:10"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:12",
+          "instanceId": "0:1:1:38:12",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:12"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:14",
+          "instanceId": "0:1:1:38:14",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:14"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:16",
+          "instanceId": "0:1:1:38:16",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:16"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:2",
+          "instanceId": "0:1:1:49:2",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:3",
+          "instanceId": "0:1:1:49:3",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:4",
+          "instanceId": "0:1:1:49:4",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:5",
+          "instanceId": "0:1:1:49:5",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:7",
+          "instanceId": "0:1:1:49:7",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:7"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:9",
+          "instanceId": "0:1:1:49:9",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:9"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:12",
+          "instanceId": "0:1:1:49:12",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:12"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:14",
+          "instanceId": "0:1:1:49:14",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:14"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:16",
+          "instanceId": "0:1:1:49:16",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:16"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:19",
+          "instanceId": "0:1:1:49:19",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:19"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:21",
+          "instanceId": "0:1:1:49:21",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:21"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:22",
+          "instanceId": "0:1:1:49:22",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 30 Hex SHCS -- 30NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:22"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:40",
+      "productName": "Key Stock - .875_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:2",
+          "instanceId": "0:1:1:38:2",
+          "name": "Key Stock - .875_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:2"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:41",
+      "productName": "Timken - 220K_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:7",
+          "instanceId": "0:1:1:38:7",
+          "name": "Timken - 220K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:7"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:42",
+      "productName": "CirClip - 80mm_98541A189",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:9",
+          "instanceId": "0:1:1:38:9",
+          "name": "CirClip - 80mm_98541A189",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:9"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:43",
+      "productName": "Timken - 216K_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:11",
+          "instanceId": "0:1:1:38:11",
+          "name": "Timken - 216K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:11"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:44",
+      "productName": "Sun ST4 10M 20T_Metric - Spur gear 10M 20T 20PA 90FW ---S20N75H50L10.0N",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:13",
+          "instanceId": "0:1:1:38:13",
+          "name": "Sun ST4 10M 20T_Metric - Spur gear 10M 20T 20PA 90FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:13"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:45",
+      "productName": "ST 3-4 Shaft_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:12/0:1:1:38:15",
+          "instanceId": "0:1:1:38:15",
+          "name": "ST 3-4 Shaft_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:12",
+            "0:1:1:38:15"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:46",
+      "productName": "Ring gear ST3 8M 60T_Metric - Internal spur gear 8M 60T 20PA 30FW ---S60S550OD 1.0AF",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:9/0:1:1:28:17",
+          "instanceId": "0:1:1:28:17",
+          "name": "Ring gear ST3 8M 60T_Metric - Internal spur gear 8M 60T 20PA 30FW ---S60S550OD 1.0AF",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:9",
+            "0:1:1:28:17"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:47",
+      "productName": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 35NHX",
+      "kind": "part",
+      "quantity": 10,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:14",
+          "instanceId": "0:1:1:6:14",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:14"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:36",
+          "instanceId": "0:1:1:6:36",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:36"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:42",
+          "instanceId": "0:1:1:6:42",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:42"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:55",
+          "instanceId": "0:1:1:6:55",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:55"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:61",
+          "instanceId": "0:1:1:6:61",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:61"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:83",
+          "instanceId": "0:1:1:6:83",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:83"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:84",
+          "instanceId": "0:1:1:6:84",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:84"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:85",
+          "instanceId": "0:1:1:6:85",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:85"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:97",
+          "instanceId": "0:1:1:6:97",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:97"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:105",
+          "instanceId": "0:1:1:6:105",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 35 Hex SHCS -- 35NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:105"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:48",
+      "productName": "CR-51800_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:37",
+          "instanceId": "0:1:1:6:37",
+          "name": "CR-51800_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:37"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:49",
+      "productName": "Stage 2_D襡ut",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45",
+          "instanceId": "0:1:1:6:45",
+          "name": "Stage 2_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:50",
+      "productName": "ST2 Planet ASM_D襡ut",
+      "kind": "assembly",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:1",
+          "instanceId": "0:1:1:49:1",
+          "name": "ST2 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:6",
+          "instanceId": "0:1:1:49:6",
+          "name": "ST2 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:6"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:20",
+          "instanceId": "0:1:1:49:20",
+          "name": "ST2 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:20"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:51",
+      "productName": "Planet ST2 4M 30T_Metric - Spur gear 4M 30T 20PA 25FW ---S30N75H50L10.0N",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:1/0:1:1:50:2",
+          "instanceId": "0:1:1:50:2",
+          "name": "Planet ST2 4M 30T_Metric - Spur gear 4M 30T 20PA 25FW ---S30N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:1",
+            "0:1:1:50:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:6/0:1:1:50:2",
+          "instanceId": "0:1:1:50:2",
+          "name": "Planet ST2 4M 30T_Metric - Spur gear 4M 30T 20PA 25FW ---S30N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:6",
+            "0:1:1:50:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:20/0:1:1:50:2",
+          "instanceId": "0:1:1:50:2",
+          "name": "Planet ST2 4M 30T_Metric - Spur gear 4M 30T 20PA 25FW ---S30N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:20",
+            "0:1:1:50:2"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:52",
+      "productName": "ST2 Planet Clip - 3DM1-35_B27.8M - 3DM1-35",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:1/0:1:1:50:3",
+          "instanceId": "0:1:1:50:3",
+          "name": "ST2 Planet Clip - 3DM1-35_B27.8M - 3DM1-35",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:1",
+            "0:1:1:50:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:6/0:1:1:50:3",
+          "instanceId": "0:1:1:50:3",
+          "name": "ST2 Planet Clip - 3DM1-35_B27.8M - 3DM1-35",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:6",
+            "0:1:1:50:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:20/0:1:1:50:3",
+          "instanceId": "0:1:1:50:3",
+          "name": "ST2 Planet Clip - 3DM1-35_B27.8M - 3DM1-35",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:20",
+            "0:1:1:50:3"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:53",
+      "productName": "ST2 Planet Shaft-Spacer_D襡ut",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:1/0:1:1:50:4",
+          "instanceId": "0:1:1:50:4",
+          "name": "ST2 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:1",
+            "0:1:1:50:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:6/0:1:1:50:4",
+          "instanceId": "0:1:1:50:4",
+          "name": "ST2 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:6",
+            "0:1:1:50:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:20/0:1:1:50:4",
+          "instanceId": "0:1:1:50:4",
+          "name": "ST2 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:20",
+            "0:1:1:50:4"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:54",
+      "productName": "ST2 Spacer_D襡ut",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:8",
+          "instanceId": "0:1:1:49:8",
+          "name": "ST2 Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:8"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:11",
+          "instanceId": "0:1:1:49:11",
+          "name": "ST2 Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:11"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:13",
+          "instanceId": "0:1:1:49:13",
+          "name": "ST2 Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:13"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:55",
+      "productName": "Ring gear ST2 4M 80T_Metric - Internal spur gear 4M 80T 20PA 25FW ---S80S360OD 1.0AF",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:10",
+          "instanceId": "0:1:1:49:10",
+          "name": "Ring gear ST2 4M 80T_Metric - Internal spur gear 4M 80T 20PA 25FW ---S80S360OD 1.0AF",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:10"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:56",
+      "productName": "ST2 Planet Carrier Plate In_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:15",
+          "instanceId": "0:1:1:49:15",
+          "name": "ST2 Planet Carrier Plate In_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:15"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:57",
+      "productName": "ST 2-3 Shaft ASM_D襡ut",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17",
+          "instanceId": "0:1:1:49:17",
+          "name": "ST 2-3 Shaft ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:58",
+      "productName": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS -- 25NHX",
+      "kind": "part",
+      "quantity": 8,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:1",
+          "instanceId": "0:1:1:57:1",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:3",
+          "instanceId": "0:1:1:57:3",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:5",
+          "instanceId": "0:1:1:57:5",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:7",
+          "instanceId": "0:1:1:57:7",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:7"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:9",
+          "instanceId": "0:1:1:57:9",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:9"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:11",
+          "instanceId": "0:1:1:57:11",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:11"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:12",
+          "instanceId": "0:1:1:57:12",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:12"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:14",
+          "instanceId": "0:1:1:57:14",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 10 x 1.5 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:14"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:59",
+      "productName": "Sun ST3 8M 20T_Metric - Spur gear 8M 20T 20PA 30FW ---S20N75H50L10.0N",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:2",
+          "instanceId": "0:1:1:57:2",
+          "name": "Sun ST3 8M 20T_Metric - Spur gear 8M 20T 20PA 30FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:2"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:60",
+      "productName": "Timken - 214K_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:4",
+          "instanceId": "0:1:1:57:4",
+          "name": "Timken - 214K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:4"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:61",
+      "productName": "CirClip - 50mm_98541A167",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:6",
+          "instanceId": "0:1:1:57:6",
+          "name": "CirClip - 50mm_98541A167",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:6"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:62",
+      "productName": "Timken - 210K_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:8",
+          "instanceId": "0:1:1:57:8",
+          "name": "Timken - 210K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:8"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:63",
+      "productName": "ST 2-3 Shaft_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:10",
+          "instanceId": "0:1:1:57:10",
+          "name": "ST 2-3 Shaft_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:10"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:64",
+      "productName": "Key Stock - .5_D襡ut",
+      "kind": "part",
+      "quantity": 2,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:13",
+          "instanceId": "0:1:1:57:13",
+          "name": "Key Stock - .5_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:13"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:17/0:1:1:57:15",
+          "instanceId": "0:1:1:57:15",
+          "name": "Key Stock - .5_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:17",
+            "0:1:1:57:15"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:65",
+      "productName": "ST2 Planet Carrier Plate Out_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:45/0:1:1:49:18",
+          "instanceId": "0:1:1:49:18",
+          "name": "ST2 Planet Carrier Plate Out_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:45",
+            "0:1:1:49:18"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:66",
+      "productName": "Low Speed Case_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:56",
+          "instanceId": "0:1:1:6:56",
+          "name": "Low Speed Case_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:56"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:67",
+      "productName": "Low Speed Cover_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:28/0:1:1:6:106",
+          "instanceId": "0:1:1:6:106",
+          "name": "Low Speed Cover_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:28",
+            "0:1:1:6:106"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:68",
+      "productName": "Gear Box - High Speed - ASM_D襡ut",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32",
+          "instanceId": "0:1:1:1:32",
+          "name": "Gear Box - High Speed - ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:69",
+      "productName": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -- 25NHX",
+      "kind": "part",
+      "quantity": 8,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:1",
+          "instanceId": "0:1:1:68:1",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:5",
+          "instanceId": "0:1:1:68:5",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:9",
+          "instanceId": "0:1:1:68:9",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:9"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:13",
+          "instanceId": "0:1:1:68:13",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:13"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:17",
+          "instanceId": "0:1:1:68:17",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:17"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:21",
+          "instanceId": "0:1:1:68:21",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:21"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:26",
+          "instanceId": "0:1:1:68:26",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:26"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:30",
+          "instanceId": "0:1:1:68:30",
+          "name": "Socket Head Cap Screw_AM_B18.3.1M - 6 x 1.0 x 25 Hex SHCS -- 25NHX",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:30"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:70",
+      "productName": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
+      "kind": "part",
+      "quantity": 10,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:2",
+          "instanceId": "0:1:1:68:2",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:6",
+          "instanceId": "0:1:1:68:6",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:6"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:10",
+          "instanceId": "0:1:1:68:10",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:10"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:14",
+          "instanceId": "0:1:1:68:14",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:14"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:16",
+          "instanceId": "0:1:1:68:16",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:16"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:20",
+          "instanceId": "0:1:1:68:20",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:20"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:22",
+          "instanceId": "0:1:1:68:22",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:22"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:25",
+          "instanceId": "0:1:1:68:25",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:25"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:29",
+          "instanceId": "0:1:1:68:29",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:29"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:34",
+          "instanceId": "0:1:1:68:34",
+          "name": "Flat Washer Narrow_AM_B18.22M - Plain washer, 8 mm, narrow",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:34"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:71",
+      "productName": "Stage 1_D襡ut",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3",
+          "instanceId": "0:1:1:68:3",
+          "name": "Stage 1_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:72",
+      "productName": "ST1 Planet Carrier Plate In_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:1",
+          "instanceId": "0:1:1:71:1",
+          "name": "ST1 Planet Carrier Plate In_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:1"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:73",
+      "productName": "SCHS M6_B18.3.5M - 6 x 1.0 x 20 Socket FCHS -- 20N",
+      "kind": "part",
+      "quantity": 8,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:3",
+          "instanceId": "0:1:1:71:3",
+          "name": "SCHS M6_B18.3.5M - 6 x 1.0 x 20 Socket FCHS -- 20N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:8",
+          "instanceId": "0:1:1:71:8",
+          "name": "SCHS M6_B18.3.5M - 6 x 1.0 x 20 Socket FCHS -- 20N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:8"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:10",
+          "instanceId": "0:1:1:71:10",
+          "name": "SCHS M6_B18.3.5M - 6 x 1.0 x 20 Socket FCHS -- 20N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:10"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:11",
+          "instanceId": "0:1:1:71:11",
+          "name": "SCHS M6_B18.3.5M - 6 x 1.0 x 20 Socket FCHS -- 20N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:11"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:15",
+          "instanceId": "0:1:1:71:15",
+          "name": "SCHS M6_B18.3.5M - 6 x 1.0 x 20 Socket FCHS -- 20N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:15"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:18",
+          "instanceId": "0:1:1:71:18",
+          "name": "SCHS M6_B18.3.5M - 6 x 1.0 x 20 Socket FCHS -- 20N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:18"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:22",
+          "instanceId": "0:1:1:71:22",
+          "name": "SCHS M6_B18.3.5M - 6 x 1.0 x 20 Socket FCHS -- 20N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:22"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:27",
+          "instanceId": "0:1:1:71:27",
+          "name": "SCHS M6_B18.3.5M - 6 x 1.0 x 20 Socket FCHS -- 20N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:27"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:74",
+      "productName": "ST1 Planet ASM_D襡ut",
+      "kind": "assembly",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:4",
+          "instanceId": "0:1:1:71:4",
+          "name": "ST1 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:6",
+          "instanceId": "0:1:1:71:6",
+          "name": "ST1 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:6"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:12",
+          "instanceId": "0:1:1:71:12",
+          "name": "ST1 Planet ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:12"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:75",
+      "productName": "ST1 Planet Shaft-Spacer_D襡ut",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:4/0:1:1:74:1",
+          "instanceId": "0:1:1:74:1",
+          "name": "ST1 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:4",
+            "0:1:1:74:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:6/0:1:1:74:1",
+          "instanceId": "0:1:1:74:1",
+          "name": "ST1 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:6",
+            "0:1:1:74:1"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:12/0:1:1:74:1",
+          "instanceId": "0:1:1:74:1",
+          "name": "ST1 Planet Shaft-Spacer_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:12",
+            "0:1:1:74:1"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:76",
+      "productName": "Planet ST1 3M 20T_Metric - Spur gear 3M 20T 20PA 10FW ---S20N75H50L10.0N",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:4/0:1:1:74:2",
+          "instanceId": "0:1:1:74:2",
+          "name": "Planet ST1 3M 20T_Metric - Spur gear 3M 20T 20PA 10FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:4",
+            "0:1:1:74:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:6/0:1:1:74:2",
+          "instanceId": "0:1:1:74:2",
+          "name": "Planet ST1 3M 20T_Metric - Spur gear 3M 20T 20PA 10FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:6",
+            "0:1:1:74:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:12/0:1:1:74:2",
+          "instanceId": "0:1:1:74:2",
+          "name": "Planet ST1 3M 20T_Metric - Spur gear 3M 20T 20PA 10FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:12",
+            "0:1:1:74:2"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:77",
+      "productName": "ST1 Planet Clip - 3DM1-25_B27.8M - 3DM1-25",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:4/0:1:1:74:3",
+          "instanceId": "0:1:1:74:3",
+          "name": "ST1 Planet Clip - 3DM1-25_B27.8M - 3DM1-25",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:4",
+            "0:1:1:74:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:6/0:1:1:74:3",
+          "instanceId": "0:1:1:74:3",
+          "name": "ST1 Planet Clip - 3DM1-25_B27.8M - 3DM1-25",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:6",
+            "0:1:1:74:3"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:12/0:1:1:74:3",
+          "instanceId": "0:1:1:74:3",
+          "name": "ST1 Planet Clip - 3DM1-25_B27.8M - 3DM1-25",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:12",
+            "0:1:1:74:3"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:78",
+      "productName": "Timken -9305K_D襡ut",
+      "kind": "part",
+      "quantity": 6,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:4/0:1:1:74:4",
+          "instanceId": "0:1:1:74:4",
+          "name": "Timken -9305K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:4",
+            "0:1:1:74:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:4/0:1:1:74:5",
+          "instanceId": "0:1:1:74:5",
+          "name": "Timken -9305K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:4",
+            "0:1:1:74:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:6/0:1:1:74:4",
+          "instanceId": "0:1:1:74:4",
+          "name": "Timken -9305K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:6",
+            "0:1:1:74:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:6/0:1:1:74:5",
+          "instanceId": "0:1:1:74:5",
+          "name": "Timken -9305K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:6",
+            "0:1:1:74:5"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:12/0:1:1:74:4",
+          "instanceId": "0:1:1:74:4",
+          "name": "Timken -9305K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:12",
+            "0:1:1:74:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:12/0:1:1:74:5",
+          "instanceId": "0:1:1:74:5",
+          "name": "Timken -9305K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:12",
+            "0:1:1:74:5"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:79",
+      "productName": "ST1 Planet Carrier Plate Out_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:5",
+          "instanceId": "0:1:1:71:5",
+          "name": "ST1 Planet Carrier Plate Out_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:5"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:80",
+      "productName": "Hex Nut Style 1_AM_B18.2.4.1M - Hex nut, Style 1, M12 x 1.75 --D-N",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:7",
+          "instanceId": "0:1:1:71:7",
+          "name": "Hex Nut Style 1_AM_B18.2.4.1M - Hex nut, Style 1, M12 x 1.75 --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:7"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:9",
+          "instanceId": "0:1:1:71:9",
+          "name": "Hex Nut Style 1_AM_B18.2.4.1M - Hex nut, Style 1, M12 x 1.75 --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:9"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:16",
+          "instanceId": "0:1:1:71:16",
+          "name": "Hex Nut Style 1_AM_B18.2.4.1M - Hex nut, Style 1, M12 x 1.75 --D-N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:16"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:81",
+      "productName": "Ring gear ST1 3M 120T_Metric - Internal spur gear 3M 120T 20PA 10FW ---S120S400OD 1.0AF",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:19",
+          "instanceId": "0:1:1:71:19",
+          "name": "Ring gear ST1 3M 120T_Metric - Internal spur gear 3M 120T 20PA 10FW ---S120S400OD 1.0AF",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:19"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:82",
+      "productName": "Hex Bolt_AM_B18.2.3.5M - Hex bolt M12 x 1.75 x 70 --30N",
+      "kind": "part",
+      "quantity": 3,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:21",
+          "instanceId": "0:1:1:71:21",
+          "name": "Hex Bolt_AM_B18.2.3.5M - Hex bolt M12 x 1.75 x 70 --30N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:21"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:23",
+          "instanceId": "0:1:1:71:23",
+          "name": "Hex Bolt_AM_B18.2.3.5M - Hex bolt M12 x 1.75 x 70 --30N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:23"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:24",
+          "instanceId": "0:1:1:71:24",
+          "name": "Hex Bolt_AM_B18.2.3.5M - Hex bolt M12 x 1.75 x 70 --30N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:24"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:83",
+      "productName": "ST 1-2 Shaft ASM_D襡ut",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:25",
+          "instanceId": "0:1:1:71:25",
+          "name": "ST 1-2 Shaft ASM_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:25"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:84",
+      "productName": "ST 1-2 Shaft_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:25/0:1:1:83:1",
+          "instanceId": "0:1:1:83:1",
+          "name": "ST 1-2 Shaft_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:25",
+            "0:1:1:83:1"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:85",
+      "productName": "Timken - 206K_D襡ut",
+      "kind": "part",
+      "quantity": 2,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:25/0:1:1:83:2",
+          "instanceId": "0:1:1:83:2",
+          "name": "Timken - 206K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:25",
+            "0:1:1:83:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:24/0:1:1:92:1",
+          "instanceId": "0:1:1:92:1",
+          "name": "Timken - 206K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:24",
+            "0:1:1:92:1"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:86",
+      "productName": "Sun ST2 4M 20T_Metric - Spur gear 4M 20T 20PA 25FW ---S20N75H50L10.0N",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:25/0:1:1:83:3",
+          "instanceId": "0:1:1:83:3",
+          "name": "Sun ST2 4M 20T_Metric - Spur gear 4M 20T 20PA 25FW ---S20N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:25",
+            "0:1:1:83:3"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:87",
+      "productName": "Key Stock - 516_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:25/0:1:1:83:4",
+          "instanceId": "0:1:1:83:4",
+          "name": "Key Stock - 516_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:25",
+            "0:1:1:83:4"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:88",
+      "productName": "CirClip - 30mm_98541A134",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:25/0:1:1:83:5",
+          "instanceId": "0:1:1:83:5",
+          "name": "CirClip - 30mm_98541A134",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:25",
+            "0:1:1:83:5"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:89",
+      "productName": "Timken - 208K_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:3/0:1:1:71:25/0:1:1:83:6",
+          "instanceId": "0:1:1:83:6",
+          "name": "Timken - 208K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:3",
+            "0:1:1:71:25",
+            "0:1:1:83:6"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:90",
+      "productName": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --25N",
+      "kind": "part",
+      "quantity": 10,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:4",
+          "instanceId": "0:1:1:68:4",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --25N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:4"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:8",
+          "instanceId": "0:1:1:68:8",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --25N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:8"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:12",
+          "instanceId": "0:1:1:68:12",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --25N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:12"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:15",
+          "instanceId": "0:1:1:68:15",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --25N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:15"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:18",
+          "instanceId": "0:1:1:68:18",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --25N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:18"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:19",
+          "instanceId": "0:1:1:68:19",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --25N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:19"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:23",
+          "instanceId": "0:1:1:68:23",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --25N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:23"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:28",
+          "instanceId": "0:1:1:68:28",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --25N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:28"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:32",
+          "instanceId": "0:1:1:68:32",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --25N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:32"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:36",
+          "instanceId": "0:1:1:68:36",
+          "name": "Hex Cap Screw_AM_B18.2.3.1M - Hex cap screw, M8 x 1.25 x 25 --25N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:36"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:91",
+      "productName": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 10 x 24 - A - St",
+      "kind": "part",
+      "quantity": 2,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:7",
+          "instanceId": "0:1:1:68:7",
+          "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 10 x 24 - A - St",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:7"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:11",
+          "instanceId": "0:1:1:68:11",
+          "name": "Parallel Pin Hardened_DIN_Parallel Pin ISO 8734 - 10 x 24 - A - St",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:11"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:92",
+      "productName": "Imput Shaft_D襡ut",
+      "kind": "assembly",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:24",
+          "instanceId": "0:1:1:68:24",
+          "name": "Imput Shaft_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:24"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:93",
+      "productName": "Timken - 205K_D襡ut",
+      "kind": "part",
+      "quantity": 2,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:24/0:1:1:92:2",
+          "instanceId": "0:1:1:92:2",
+          "name": "Timken - 205K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:24",
+            "0:1:1:92:2"
+          ]
+        },
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:24/0:1:1:92:5",
+          "instanceId": "0:1:1:92:5",
+          "name": "Timken - 205K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:24",
+            "0:1:1:92:5"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:94",
+      "productName": "Imput Shaft_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:24/0:1:1:92:3",
+          "instanceId": "0:1:1:92:3",
+          "name": "Imput Shaft_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:24",
+            "0:1:1:92:3"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:95",
+      "productName": "Key Stock - 14_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:24/0:1:1:92:4",
+          "instanceId": "0:1:1:92:4",
+          "name": "Key Stock - 14_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:24",
+            "0:1:1:92:4"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:96",
+      "productName": "Sun ST1 3M 80T_Metric - Spur gear 3M 80T 20PA 10FW ---S80N75H50L10.0N",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:24/0:1:1:92:6",
+          "instanceId": "0:1:1:92:6",
+          "name": "Sun ST1 3M 80T_Metric - Spur gear 3M 80T 20PA 10FW ---S80N75H50L10.0N",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:24",
+            "0:1:1:92:6"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:97",
+      "productName": "Circlip - 20mm_98541A123",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:24/0:1:1:92:7",
+          "instanceId": "0:1:1:92:7",
+          "name": "Circlip - 20mm_98541A123",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:24",
+            "0:1:1:92:7"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:98",
+      "productName": "Timken - 204K_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:24/0:1:1:92:8",
+          "instanceId": "0:1:1:92:8",
+          "name": "Timken - 204K_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:24",
+            "0:1:1:92:8"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:99",
+      "productName": "CR-8786_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:27",
+          "instanceId": "0:1:1:68:27",
+          "name": "CR-8786_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:27"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:100",
+      "productName": "CirClip - 60mm Int_98455A146",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:31",
+          "instanceId": "0:1:1:68:31",
+          "name": "CirClip - 60mm Int_98455A146",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:31"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:101",
+      "productName": "High Speed Cover_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:33",
+          "instanceId": "0:1:1:68:33",
+          "name": "High Speed Cover_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:33"
+          ]
+        }
+      ]
+    },
+    {
+      "productId": "0:1:1:102",
+      "productName": "High Speed Case_D襡ut",
+      "kind": "part",
+      "quantity": 1,
+      "instances": [
+        {
+          "nodeId": "0:1:1:1/0:1:1:1:32/0:1:1:68:35",
+          "instanceId": "0:1:1:68:35",
+          "name": "High Speed Case_D襡ut",
+          "path": [
+            "0:1:1:1",
+            "0:1:1:1:32",
+            "0:1:1:68:35"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -41,6 +41,36 @@ export const TRANSLATIONS = {
     'climateTech.modules.carbonAware.cta': 'Open visualization',
     'climateTech.modules.carbonAware.placeholder':
       'Prototype loaded. Product carbon footprint overlays, inspection, and exploded view are next.',
+    'climateTech.modules.assemblyViewer.title': 'Assembly Hierarchy Explorer',
+    'climateTech.modules.assemblyViewer.description':
+      'Load a CAD assembly and review its hierarchy with a live 3D view.',
+    'climateTech.modules.assemblyViewer.cta': 'Open visualization',
+    'assemblyViewer.input.title': 'Input File',
+    'assemblyViewer.input.description':
+      'Upload a STEP or IGES file to load the model and generate metadata.',
+    'assemblyViewer.input.label': 'Choose File',
+    'assemblyViewer.input.placeholder': 'No file selected.',
+    'assemblyViewer.input.hint': 'Accepted: .step, .stp, .iges, .igs',
+    'assemblyViewer.input.sample': 'Clear selection',
+    'assemblyViewer.status.idle': 'Waiting for a file.',
+    'assemblyViewer.status.converting': 'Converting CAD...',
+    'assemblyViewer.status.loading': 'Loading model...',
+    'assemblyViewer.status.ready': 'Model ready.',
+    'assemblyViewer.status.error': 'Model failed to load.',
+    'assemblyViewer.status.unsupported':
+      'Unsupported file type. Use STEP or IGES.',
+    'assemblyViewer.status.conversionFailed':
+      'Conversion failed. Please try a different file.',
+    'assemblyViewer.status.metadataMismatch':
+      'Metadata does not match the generated node map.',
+    'assemblyViewer.controls.title': 'Viewer Controls',
+    'assemblyViewer.controls.autoRotate': 'Auto Rotate',
+    'assemblyViewer.controls.autoRotateHint':
+      'Keep the model moving to spot assembly details.',
+    'assemblyViewer.controls.resetView': 'Reset View',
+    'assemblyViewer.stats.title': 'Model Stats',
+    'assemblyViewer.stats.nodes': 'Nodes',
+    'assemblyViewer.stats.meshes': 'Meshes',
     'articles.title': 'Articles',
     'articles.placeholder':
       "Coming soon. We'll publish articles that link to the visualizations.",
@@ -277,6 +307,36 @@ export const TRANSLATIONS = {
     'climateTech.modules.carbonAware.cta': 'Görselleştirmeyi aç',
     'climateTech.modules.carbonAware.placeholder':
       'Prototip hazır. Ürün karbon ayak izi katmanları, inceleme ve patlatılmış görünüm yakında.',
+    'climateTech.modules.assemblyViewer.title': 'Montaj Hiyerarşi Gezgini',
+    'climateTech.modules.assemblyViewer.description':
+      'Bir CAD montajı yükleyin ve hiyerarşiyi canlı 3B görünümle inceleyin.',
+    'climateTech.modules.assemblyViewer.cta': 'Görselleştirmeyi aç',
+    'assemblyViewer.input.title': 'Girdi dosyası',
+    'assemblyViewer.input.description':
+      'STEP veya IGES dosyası yükleyin; model ve metadata otomatik oluşur.',
+    'assemblyViewer.input.label': 'Dosya seçin',
+    'assemblyViewer.input.placeholder': 'Dosya seçilmedi.',
+    'assemblyViewer.input.hint': 'Kabul edilenler: .step, .stp, .iges, .igs',
+    'assemblyViewer.input.sample': 'Seçimi temizle',
+    'assemblyViewer.status.idle': 'Dosya bekleniyor.',
+    'assemblyViewer.status.converting': 'CAD dönüştürülüyor...',
+    'assemblyViewer.status.loading': 'Model yükleniyor...',
+    'assemblyViewer.status.ready': 'Model hazır.',
+    'assemblyViewer.status.error': 'Model yüklenemedi.',
+    'assemblyViewer.status.unsupported':
+      'Desteklenmeyen dosya türü. STEP veya IGES kullanın.',
+    'assemblyViewer.status.conversionFailed':
+      'Dönüşüm başarısız. Başka bir dosya deneyin.',
+    'assemblyViewer.status.metadataMismatch':
+      'Metadata, oluşturulan düğüm haritasıyla eşleşmiyor.',
+    'assemblyViewer.controls.title': 'Görüntüleyici kontrolleri',
+    'assemblyViewer.controls.autoRotate': 'Otomatik döndür',
+    'assemblyViewer.controls.autoRotateHint':
+      'Montaj detaylarını görmek için modeli döndürmeye devam edin.',
+    'assemblyViewer.controls.resetView': 'Görünümü sıfırla',
+    'assemblyViewer.stats.title': 'Model istatistikleri',
+    'assemblyViewer.stats.nodes': 'Düğümler',
+    'assemblyViewer.stats.meshes': 'Mesh sayısı',
     'articles.title': 'Yazılar',
     'articles.placeholder':
       'Yakında. Görselleştirmelere bağlanan yazılar yayınlayacağız.',
