@@ -31,11 +31,13 @@ Decimal phases appear between their surrounding integers in numeric order.
 3. Converted output preserves assembly structure, part names, and correct units/scale.
 4. User can download a GLB output that includes assembly tree, node map, and BOM metadata.
 5. User receives actionable errors for invalid STEP files, size cap violations, or unsupported data.
-   **Plans**: TBD
+   **Plans**: 3 plans
 
 Plans:
 
-- [ ] 01-01: TBD during planning
+- [ ] 01-01-PLAN.md — Add GLB metadata embedding helper (TDD)
+- [ ] 01-02-PLAN.md — Browser conversion: STEP-only + size cap + progress/cancel + bundle download
+- [ ] 01-03-PLAN.md — Human verify: end-to-end conversion + bundle contents
 
 ### Phase 2: Mesh Quality Baseline
 
@@ -75,6 +77,6 @@ Phases execute in numeric order: 2 -> 2.1 -> 2.2 -> 3 -> 3.1 -> 4
 
 | Phase                           | Plans Complete | Status      | Completed |
 | ------------------------------- | -------------- | ----------- | --------- |
-| 1. Browser Conversion + Outputs | 0/TBD          | Not started | -         |
+| 1. Browser Conversion + Outputs | 0/3            | Not started | -         |
 | 2. Mesh Quality Baseline        | 0/TBD          | Not started | -         |
 | 3. Explorer Selection Workflow  | 0/TBD          | Not started | -         |
