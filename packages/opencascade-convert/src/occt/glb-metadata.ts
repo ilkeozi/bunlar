@@ -7,6 +7,9 @@ const GLB_MAGIC = 0x46546c67;
 // Chunk types per GLB spec.
 const GLB_JSON_CHUNK = 0x4e4f534a; // 'JSON'
 
+const UTF8_ENCODER = new TextEncoder();
+const UTF8_DECODER = new TextDecoder('utf-8');
+
 export type AssetExtrasPayload = Record<string, unknown>;
 
 export function injectAssetExtrasIntoGlb(
@@ -169,11 +172,11 @@ function padTo4(bytes: Uint8Array, padByte: number) {
 }
 
 function encodeUtf8(text: string) {
-  return new TextEncoder().encode(text);
+  return UTF8_ENCODER.encode(text);
 }
 
 function decodeUtf8(bytes: Uint8Array) {
-  return new TextDecoder('utf-8').decode(bytes);
+  return UTF8_DECODER.decode(bytes);
 }
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
