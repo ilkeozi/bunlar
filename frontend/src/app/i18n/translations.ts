@@ -116,12 +116,15 @@ export const TRANSLATIONS = {
     'tools.stepConverter.panel.description':
       'Upload a STEP/IGES file and choose an output format. Large models can take a few minutes.',
     'tools.stepConverter.form.fileLabel': 'Input file',
-    'tools.stepConverter.form.fileHint': 'Accepted: .step, .stp, .iges, .igs',
+    'tools.stepConverter.form.fileHint': 'Accepted: .step, .stp (max 15 MB)',
     'tools.stepConverter.form.filePlaceholder': 'Choose a file',
     'tools.stepConverter.form.modeLabel': 'Conversion mode',
     'tools.stepConverter.form.modeBasic': 'Basic',
     'tools.stepConverter.form.modeAdvanced': 'Advanced',
     'tools.stepConverter.form.formatLabel': 'Output format',
+    'tools.stepConverter.form.outputLabel': 'Output',
+    'tools.stepConverter.form.outputBundle':
+      'ZIP bundle (.glb + .metadata.json)',
     'tools.stepConverter.form.linDeflection': 'Linear deflection',
     'tools.stepConverter.form.angDeflection': 'Angular deflection',
     'tools.stepConverter.form.relative': 'Relative deflection',
@@ -133,6 +136,11 @@ export const TRANSLATIONS = {
     'tools.stepConverter.form.cancel': 'Cancel',
     'tools.stepConverter.status.idle': 'Ready to convert.',
     'tools.stepConverter.status.loading': 'Converting...',
+    'tools.stepConverter.status.stage.parsing': 'Parsing STEP...',
+    'tools.stepConverter.status.stage.meshing': 'Meshing geometry...',
+    'tools.stepConverter.status.stage.writing': 'Writing GLB...',
+    'tools.stepConverter.status.stage.metadata': 'Building metadata...',
+    'tools.stepConverter.status.stage.packaging': 'Packaging bundle...',
     'tools.stepConverter.status.success': 'Conversion complete.',
     'tools.stepConverter.status.error': 'Conversion failed.',
     'tools.stepConverter.status.metadataLoading': 'Generating metadata...',
@@ -146,8 +154,30 @@ export const TRANSLATIONS = {
       'Select a STEP or IGES file first.',
     'tools.stepConverter.status.invalidNumbers':
       'Deflection values must be numbers.',
+    'tools.stepConverter.error.FILE_TOO_LARGE':
+      'File is too large. Maximum size is 15 MB.',
+    'tools.stepConverter.error.UNSUPPORTED_EXTENSION':
+      'Unsupported file type. Please choose a .step or .stp file.',
+    'tools.stepConverter.error.INVALID_STEP':
+      'This STEP file looks invalid or corrupt. Try a different export.',
+    'tools.stepConverter.error.UNSUPPORTED_STEP_CONTENT':
+      'This STEP file contains no supported solids/assemblies.',
+    'tools.stepConverter.error.UNITS_SCALE_MISMATCH':
+      'Units scale looks off (possible mm vs m mismatch). Try a different export.',
+    'tools.stepConverter.error.WASM_LOAD_FAILED':
+      'Conversion engine failed to load. Please refresh and try again.',
+    'tools.stepConverter.error.OUT_OF_MEMORY':
+      'Conversion ran out of memory. Try a smaller model or fewer details.',
+    'tools.stepConverter.error.CONVERSION_FAILED':
+      'Conversion failed. Please try again.',
+    'tools.stepConverter.error.METADATA_FAILED':
+      'Metadata generation failed for this file.',
+    'tools.stepConverter.error.GLB_PATCH_FAILED':
+      'Failed to embed metadata into the GLB output.',
+    'tools.stepConverter.error.ZIP_FAILED':
+      'Failed to package outputs into a zip bundle.',
     'tools.stepConverter.output.label': 'Download',
-    'tools.stepConverter.output.cta': 'Download file',
+    'tools.stepConverter.output.cta': 'Download bundle',
     'tools.stepConverter.output.metadataLabel': 'Metadata exports',
     'tools.stepConverter.output.bomCta': 'Download BOM JSON',
     'tools.stepConverter.output.nodeMapCta': 'Download node map JSON',
@@ -383,12 +413,15 @@ export const TRANSLATIONS = {
       'STEP/IGES dosyası yükleyin ve çıktı formatını seçin. Büyük modeller birkaç dakika sürebilir.',
     'tools.stepConverter.form.fileLabel': 'Girdi dosyası',
     'tools.stepConverter.form.fileHint':
-      'Kabul edilen: .step, .stp, .iges, .igs',
+      'Kabul edilen: .step, .stp (maks 15 MB)',
     'tools.stepConverter.form.filePlaceholder': 'Dosya seç',
     'tools.stepConverter.form.modeLabel': 'Dönüşüm modu',
     'tools.stepConverter.form.modeBasic': 'Temel',
     'tools.stepConverter.form.modeAdvanced': 'Gelişmiş',
     'tools.stepConverter.form.formatLabel': 'Çıktı formatı',
+    'tools.stepConverter.form.outputLabel': 'Çıktı',
+    'tools.stepConverter.form.outputBundle':
+      'ZIP paket (.glb + .metadata.json)',
     'tools.stepConverter.form.linDeflection': 'Lineer sapma',
     'tools.stepConverter.form.angDeflection': 'Açı sapması',
     'tools.stepConverter.form.relative': 'Göreceli sapma',
@@ -400,6 +433,11 @@ export const TRANSLATIONS = {
     'tools.stepConverter.form.cancel': 'İptal',
     'tools.stepConverter.status.idle': 'Dönüştürmeye hazır.',
     'tools.stepConverter.status.loading': 'Dönüştürülüyor...',
+    'tools.stepConverter.status.stage.parsing': 'STEP okunuyor...',
+    'tools.stepConverter.status.stage.meshing': 'Mesh oluşturuluyor...',
+    'tools.stepConverter.status.stage.writing': 'GLB yazılıyor...',
+    'tools.stepConverter.status.stage.metadata': 'Metadata hazırlanıyor...',
+    'tools.stepConverter.status.stage.packaging': 'Paket hazırlanıyor...',
     'tools.stepConverter.status.success': 'Dönüştürme tamamlandı.',
     'tools.stepConverter.status.error': 'Dönüştürme başarısız.',
     'tools.stepConverter.status.metadataLoading': 'Metadata hazırlanıyor...',
@@ -412,8 +450,30 @@ export const TRANSLATIONS = {
     'tools.stepConverter.status.missingFile':
       'Önce bir STEP veya IGES dosyası seçin.',
     'tools.stepConverter.status.invalidNumbers': 'Sapma değerleri sayı olmalı.',
+    'tools.stepConverter.error.FILE_TOO_LARGE':
+      'Dosya çok büyük. Maksimum boyut 15 MB.',
+    'tools.stepConverter.error.UNSUPPORTED_EXTENSION':
+      'Desteklenmeyen dosya türü. Lütfen .step veya .stp dosyası seçin.',
+    'tools.stepConverter.error.INVALID_STEP':
+      'STEP dosyası geçersiz veya bozuk görünüyor. Farklı bir dışa aktarma deneyin.',
+    'tools.stepConverter.error.UNSUPPORTED_STEP_CONTENT':
+      'Bu STEP dosyasında desteklenen solid/montaj bulunamadı.',
+    'tools.stepConverter.error.UNITS_SCALE_MISMATCH':
+      'Birim ölçeği hatalı görünüyor (mm vs m). Farklı bir dışa aktarma deneyin.',
+    'tools.stepConverter.error.WASM_LOAD_FAILED':
+      'Dönüştürme motoru yüklenemedi. Lütfen sayfayı yenileyip tekrar deneyin.',
+    'tools.stepConverter.error.OUT_OF_MEMORY':
+      'Dönüştürme sırasında bellek tükendi. Daha küçük bir model deneyin.',
+    'tools.stepConverter.error.CONVERSION_FAILED':
+      'Dönüştürme başarısız. Lütfen tekrar deneyin.',
+    'tools.stepConverter.error.METADATA_FAILED':
+      'Bu dosya için metadata üretimi başarısız oldu.',
+    'tools.stepConverter.error.GLB_PATCH_FAILED':
+      'Metadata, GLB çıktısına gömülemedi.',
+    'tools.stepConverter.error.ZIP_FAILED':
+      'Çıktılar zip pakete dönüştürülemedi.',
     'tools.stepConverter.output.label': 'İndirme',
-    'tools.stepConverter.output.cta': 'Dosyayı indir',
+    'tools.stepConverter.output.cta': 'Paketi indir',
     'tools.stepConverter.output.metadataLabel': 'Metadata çıktıları',
     'tools.stepConverter.output.bomCta': 'BOM JSON indir',
     'tools.stepConverter.output.nodeMapCta': 'Düğüm haritası JSON indir',

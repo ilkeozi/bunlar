@@ -69,7 +69,7 @@ export function useStepConverter(t: TranslateFn): StepConverterController {
     }
   };
 
-  const withTimeout = async <T,>(
+  const withTimeout = async <T>(
     promise: Promise<T>,
     timeoutMs: number,
     onTimeout?: () => void
@@ -161,17 +161,11 @@ export function useStepConverter(t: TranslateFn): StepConverterController {
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!file) {
-      setStatus({
-        state: 'error',
-        message: t('tools.stepConverter.status.missingFile'),
-      });
+      setStatus(toErrorStatus(t('tools.stepConverter.status.missingFile')));
       return;
     }
     if (isAdvanced && hasInvalidNumbers) {
-      setStatus({
-        state: 'error',
-        message: t('tools.stepConverter.status.invalidNumbers'),
-      });
+      setStatus(toErrorStatus(t('tools.stepConverter.status.invalidNumbers')));
       return;
     }
 
@@ -189,10 +183,7 @@ export function useStepConverter(t: TranslateFn): StepConverterController {
       return;
     }
     if (!apiOk) {
-      setStatus({
-        state: 'error',
-        message: t('tools.stepConverter.status.apiUnavailable'),
-      });
+      setStatus(toErrorStatus(t('tools.stepConverter.status.apiUnavailable')));
       return;
     }
 
@@ -205,7 +196,10 @@ export function useStepConverter(t: TranslateFn): StepConverterController {
       abortRef.current = null;
       setStatus({
         state: 'error',
-        message: t('tools.stepConverter.status.timeout'),
+        error: {
+          code: 'CONVERSION_FAILED',
+          message: t('tools.stepConverter.status.timeout'),
+        },
       });
     }, REQUEST_TIMEOUT_MS);
 
@@ -260,17 +254,14 @@ export function useStepConverter(t: TranslateFn): StepConverterController {
       }
       if (!response.ok) {
         const errorText = await response.text();
-        setStatus({
-          state: 'error',
-          message: errorText || t('tools.stepConverter.status.error'),
-        });
+        setStatus(
+          toErrorStatus(errorText || t('tools.stepConverter.status.error'))
+        );
         return;
       }
 
-      const blob = await withTimeout(
-        response.blob(),
-        REQUEST_TIMEOUT_MS,
-        () => controller.abort()
+      const blob = await withTimeout(response.blob(), REQUEST_TIMEOUT_MS, () =>
+        controller.abort()
       );
       if (requestIdRef.current !== requestId) {
         return;
@@ -296,11 +287,11 @@ export function useStepConverter(t: TranslateFn): StepConverterController {
           return;
         }
         if (!metadata.ok) {
-          setMetadataStatus({
-            state: 'error',
-            message:
-              metadata.error ?? t('tools.stepConverter.status.metadataError'),
-          });
+          setMetadataStatus(
+            toErrorStatus(
+              metadata.error ?? t('tools.stepConverter.status.metadataError')
+            )
+          );
           return;
         }
         if (metadata.bom) {
@@ -329,19 +320,16 @@ export function useStepConverter(t: TranslateFn): StepConverterController {
         (error instanceof DOMException && error.name === 'AbortError') ||
         (error instanceof Error && error.name === 'TimeoutError')
       ) {
-        setStatus({
-          state: 'error',
-          message: t('tools.stepConverter.status.timeout'),
-        });
+        setStatus(toErrorStatus(t('tools.stepConverter.status.timeout')));
         return;
       }
-      setStatus({
-        state: 'error',
-        message:
+      setStatus(
+        toErrorStatus(
           error instanceof Error
             ? error.message
-            : t('tools.stepConverter.status.error'),
-      });
+            : t('tools.stepConverter.status.error')
+        )
+      );
     } finally {
       window.clearTimeout(guardTimeoutId);
     }
@@ -381,3 +369,10 @@ export function useStepConverter(t: TranslateFn): StepConverterController {
     onCancel,
   };
 }
+const toErrorStatus = (message: string): RequestStatus => ({
+  state: 'error',
+  error: {
+    code: 'CONVERSION_FAILED',
+    message,
+  },
+});

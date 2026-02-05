@@ -1,5 +1,12 @@
 import type { OutputFormat } from './types';
 
+export const MAX_BROWSER_STEP_BYTES = 15 * 1024 * 1024;
+
+export function isStepFilename(filename: string) {
+  const ext = filename.split('.').pop()?.toLowerCase();
+  return ext === 'step' || ext === 'stp';
+}
+
 export function resolveApiBase() {
   const raw = import.meta.env.VITE_OCCT_API_URL as string | undefined;
   const base = raw && raw.trim().length > 0 ? raw : 'http://localhost:3001';

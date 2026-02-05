@@ -4,11 +4,38 @@ import type { TranslationKey } from '../../../i18n/translations';
 export type OutputFormat = 'gltf' | 'glb' | 'obj';
 export type ConversionMode = 'basic' | 'advanced';
 
-export type RequestState = 'idle' | 'loading' | 'success' | 'error';
-export type RequestStatus = {
-  state: RequestState;
-  message?: string;
+export type StepConverterWorkerStage =
+  | 'parsing'
+  | 'meshing'
+  | 'writing'
+  | 'metadata'
+  | 'packaging';
+
+export type StepConverterErrorCode =
+  | 'FILE_TOO_LARGE'
+  | 'UNSUPPORTED_EXTENSION'
+  | 'INVALID_STEP'
+  | 'UNSUPPORTED_STEP_CONTENT'
+  | 'UNITS_SCALE_MISMATCH'
+  | 'WASM_LOAD_FAILED'
+  | 'CONVERSION_FAILED'
+  | 'METADATA_FAILED'
+  | 'GLB_PATCH_FAILED'
+  | 'ZIP_FAILED'
+  | 'OUT_OF_MEMORY';
+
+export type StepConverterError = {
+  code: StepConverterErrorCode;
+  message: string;
+  detail?: Record<string, unknown>;
 };
+
+export type RequestState = 'idle' | 'loading' | 'success' | 'error';
+export type RequestStatus =
+  | { state: 'idle' }
+  | { state: 'loading'; stage?: StepConverterWorkerStage }
+  | { state: 'success' }
+  | { state: 'error'; error: StepConverterError };
 
 export type DownloadLink = {
   url: string;
