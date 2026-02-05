@@ -7,8 +7,13 @@ export {
 } from './converter';
 
 export { getOpenCascade, loadOpenCascade } from './occt/loader';
+export { injectAssetExtrasIntoGlb } from './occt/glb-metadata';
 export { resolveInputFormat, resolveOutputFormat } from './core/formats';
-export { DEFAULT_NAME_FORMAT, NAME_FORMAT_KEYS, resolveNameFormatKey } from './core/name-format';
+export {
+  DEFAULT_NAME_FORMAT,
+  NAME_FORMAT_KEYS,
+  resolveNameFormatKey,
+} from './core/name-format';
 export { ConversionError, ValidationError } from './core/errors';
 
 export type {
