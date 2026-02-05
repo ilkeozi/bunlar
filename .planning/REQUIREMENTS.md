@@ -22,7 +22,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Output & Metadata
 
-- [ ] **OUT-01**: User can download GLB output from the browser
+- [ ] **OUT-01**: User can download GLB output from the browser (direct `.glb` or a single bundle that contains the `.glb`)
 - [ ] **OUT-02**: Output includes metadata: assembly tree, node map, BOM
 
 ### Explorer UX

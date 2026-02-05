@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 1. User can load a STEP file up to 15 MB in the browser and start conversion.
 2. User sees conversion run off the main thread with progress and can cancel it.
 3. Converted output preserves assembly structure, part names, and correct units/scale.
-4. User can download a GLB output that includes assembly tree, node map, and BOM metadata.
+4. User can download an output bundle that includes a GLB plus assembly metadata (assembly tree, node map, BOM).
 5. User receives actionable errors for invalid STEP files, size cap violations, or unsupported data.
    **Plans**: 3 plans
 
