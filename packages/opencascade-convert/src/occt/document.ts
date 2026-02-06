@@ -19,24 +19,63 @@ export function readCadBuffer(
 ): OcctDocumentHandle {
   const fileName = format === 'step' ? 'file.stp' : 'file.igs';
   const reader =
-    format === 'step' ? new oc.STEPCAFControl_Reader_1() : new oc.IGESCAFControl_Reader_1();
+    format === 'step'
+      ? new oc.STEPCAFControl_Reader_1()
+      : new oc.IGESCAFControl_Reader_1();
   applyReaderSettings(reader, { ...DEFAULT_READ_OPTIONS, ...options });
   return transferDocument(oc, reader, payload, fileName);
 }
 
-function applyReaderSettings(reader: any, options: ReadOptions) {
-  if (options.preserveNames && typeof reader.SetNameMode === 'function') {
-    reader.SetNameMode(true);
+export function applyReaderSettings(reader: any, options: ReadOptions) {
+  // OpenCascade.js sometimes binds overloaded methods with suffixes (e.g. `SetNameMode_1`).
+  // Prefer the canonical name, but fall back to suffixed variants.
+  if (options.preserveNames) {
+    callReaderSetter(
+      reader,
+      ['SetNameMode', 'SetNameMode_1', 'SetNameMode_2'],
+      true
+    );
   }
-  if (options.preserveColors && typeof reader.SetColorMode === 'function') {
-    reader.SetColorMode(true);
+  if (options.preserveColors) {
+    callReaderSetter(
+      reader,
+      ['SetColorMode', 'SetColorMode_1', 'SetColorMode_2'],
+      true
+    );
   }
-  if (options.preserveLayers && typeof reader.SetLayerMode === 'function') {
-    reader.SetLayerMode(true);
+  if (options.preserveLayers) {
+    callReaderSetter(
+      reader,
+      ['SetLayerMode', 'SetLayerMode_1', 'SetLayerMode_2'],
+      true
+    );
   }
-  if (options.preserveMaterials && typeof reader.SetMatMode === 'function') {
-    reader.SetMatMode(true);
+  if (options.preserveMaterials) {
+    callReaderSetter(
+      reader,
+      ['SetMatMode', 'SetMatMode_1', 'SetMatMode_2'],
+      true
+    );
   }
+}
+
+function callReaderSetter(reader: any, candidates: string[], value: boolean) {
+  if (!reader) {
+    return false;
+  }
+  for (const key of candidates) {
+    const fn = reader[key];
+    if (typeof fn !== 'function') {
+      continue;
+    }
+    try {
+      fn.call(reader, value);
+      return true;
+    } catch {
+      // Try next overload.
+    }
+  }
+  return false;
 }
 
 function transferDocument(
@@ -60,6 +99,8 @@ function transferDocument(
   const doc = new oc.TDocStd_Document(format);
   const docHandle = new oc.Handle_TDocStd_Document_2(doc);
   const progress = new oc.Message_ProgressRange_1();
-  reader.Transfer_1 ? reader.Transfer_1(docHandle, progress) : reader.Transfer(docHandle, progress);
+  reader.Transfer_1
+    ? reader.Transfer_1(docHandle, progress)
+    : reader.Transfer(docHandle, progress);
   return docHandle;
 }
