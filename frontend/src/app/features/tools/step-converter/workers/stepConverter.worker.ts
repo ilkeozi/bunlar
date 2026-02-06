@@ -519,6 +519,12 @@ function isProbablyWasmLoadFailure(error: unknown) {
   return /wasm|webassembly|instantiate|compile|fetch/i.test(message);
 }
 
+function isProbablyUnsupportedStepContentMessage(message: string) {
+  return /no shapes|no supported|no solids|no geometry|empty model|empty shape/i.test(
+    message
+  );
+}
+
 function normalizeWorkerError(error: unknown): StepConverterError {
   if (isProbablyOutOfMemory(error)) {
     return {
@@ -535,12 +541,24 @@ function normalizeWorkerError(error: unknown): StepConverterError {
   }
 
   if (error instanceof ValidationError) {
+    if (isProbablyUnsupportedStepContentMessage(error.message)) {
+      return {
+        code: 'UNSUPPORTED_STEP_CONTENT',
+        message: 'This STEP file contains no supported solids/assemblies.',
+      };
+    }
     return { code: 'CONVERSION_FAILED', message: error.message };
   }
 
   if (error instanceof ConversionError) {
     if (/could not read/i.test(error.message)) {
       return { code: 'INVALID_STEP', message: 'Invalid or corrupt STEP file.' };
+    }
+    if (isProbablyUnsupportedStepContentMessage(error.message)) {
+      return {
+        code: 'UNSUPPORTED_STEP_CONTENT',
+        message: 'This STEP file contains no supported solids/assemblies.',
+      };
     }
     return { code: 'CONVERSION_FAILED', message: error.message };
   }
@@ -554,28 +572,53 @@ function normalizeWorkerError(error: unknown): StepConverterError {
   if (/could not read/i.test(message)) {
     return { code: 'INVALID_STEP', message: 'Invalid or corrupt STEP file.' };
   }
+  if (isProbablyUnsupportedStepContentMessage(message)) {
+    return {
+      code: 'UNSUPPORTED_STEP_CONTENT',
+      message: 'This STEP file contains no supported solids/assemblies.',
+    };
+  }
   return { code: 'CONVERSION_FAILED', message };
 }
 
-async function convertStepToGlb(params: {
-  fileBytes: ArrayBuffer;
-  inputFormat: InputFormat;
+function summarizeGlbGeometry(glb: Uint8Array) {
+  const gltf = parseGlbJson(glb) as any;
+  const meshes = Array.isArray(gltf?.meshes) ? (gltf.meshes as any[]) : [];
+  const nodes = Array.isArray(gltf?.nodes) ? (gltf.nodes as any[]) : [];
+
+  let primitiveCount = 0;
+  let primitivesWithPositionCount = 0;
+  meshes.forEach((mesh) => {
+    (mesh?.primitives ?? []).forEach((prim: any) => {
+      primitiveCount += 1;
+      const pos = prim?.attributes?.POSITION;
+      if (typeof pos === 'number') {
+        primitivesWithPositionCount += 1;
+      }
+    });
+  });
+
+  const nodesWithMeshCount = nodes.filter(
+    (node) => typeof node?.mesh === 'number'
+  ).length;
+
+  return {
+    meshCount: meshes.length,
+    primitiveCount,
+    primitivesWithPositionCount,
+    nodesWithMeshCount,
+  };
+}
+
+async function convertStepDocToGlb(params: {
+  converter: any;
+  docHandle: any;
   triangulate: TriangulatePayload;
   nameFormat?: 'productOrInstance' | 'productAndInstanceAndOcaf';
 }) {
-  const converter = await converterPromise;
+  const converter = params.converter;
+  const docHandle = params.docHandle;
   const oc = (converter as any).oc;
-
-  const docHandle = converter.readBuffer(
-    new Uint8Array(params.fileBytes),
-    params.inputFormat,
-    {
-      preserveNames: true,
-      preserveColors: true,
-      preserveLayers: true,
-      preserveMaterials: true,
-    }
-  );
 
   converter.triangulate(docHandle.get(), params.triangulate);
 
@@ -625,25 +668,63 @@ async function handleStartMessage(message: WorkerStartRequest) {
     const inputFormat: InputFormat = 'step';
 
     postProgress('parsing');
+    const converter = await converterPromise;
+    const docHandle = converter.readBuffer(
+      new Uint8Array(message.fileBytes),
+      inputFormat,
+      {
+        preserveNames: true,
+        preserveColors: true,
+        preserveLayers: true,
+        preserveMaterials: true,
+      }
+    );
+
+    // Detect supported container but no supported solids/assemblies.
+    const nodeMapRaw = converter.createNodeMap(docHandle) as any;
+    const rootCount = Array.isArray(nodeMapRaw?.roots)
+      ? nodeMapRaw.roots.length
+      : 0;
+    const nodeCount = nodeMapRaw?.nodes
+      ? Object.keys(nodeMapRaw.nodes as Record<string, unknown>).length
+      : 0;
+    if (rootCount === 0 || nodeCount === 0) {
+      throw Object.assign(
+        new Error('This STEP file contains no supported solids/assemblies.'),
+        {
+          __code: 'UNSUPPORTED_STEP_CONTENT',
+          detail: { rootCount, nodeCount },
+        }
+      );
+    }
+
     postProgress('meshing');
     postProgress('writing');
-    const glb = await convertStepToGlb({
-      fileBytes: message.fileBytes,
-      inputFormat,
+    const glb = await convertStepDocToGlb({
+      converter,
+      docHandle,
       triangulate: message.triangulate,
       nameFormat: 'productAndInstanceAndOcaf',
     });
 
+    const geometry = summarizeGlbGeometry(glb);
+    if (
+      geometry.meshCount === 0 ||
+      geometry.primitivesWithPositionCount === 0
+    ) {
+      throw Object.assign(
+        new Error('This STEP file contains no supported solids/assemblies.'),
+        {
+          __code: 'UNSUPPORTED_STEP_CONTENT',
+          detail: geometry,
+        }
+      );
+    }
+
     const base = baseNameFromFilename(message.filename);
 
     postProgress('metadata');
-    const converter = await converterPromise;
     const oc = (converter as any).oc;
-    const docHandle = converter.readBuffer(
-      new Uint8Array(message.fileBytes),
-      inputFormat
-    );
-    const nodeMapRaw = converter.createNodeMap(docHandle);
     const bomRaw = converter.createBom(docHandle);
     const gltfNodeIndexByEntry = buildGltfNodeIndexByOcafEntry(glb);
     const prettyNamesByEntry = buildPrettyNameOverridesFromGlb(glb);
@@ -835,10 +916,15 @@ async function handleStartMessage(message: WorkerStartRequest) {
       typeof asAny?.__code === 'string'
         ? (asAny.__code as StepConverterErrorCode)
         : null;
+    const forcedDetail =
+      asAny?.detail && typeof asAny.detail === 'object'
+        ? (asAny.detail as Record<string, unknown>)
+        : undefined;
     const err = forcedCode
       ? ({
           code: forcedCode,
           message: asAny?.message ?? 'Conversion failed.',
+          ...(forcedDetail ? { detail: forcedDetail } : {}),
         } satisfies StepConverterError)
       : normalizeWorkerError(error);
     const response: WorkerError = {
