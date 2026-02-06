@@ -215,6 +215,10 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
           </div>
 
           <div
+            data-testid="step-converter-status"
+            data-error-code={
+              status.state === 'error' ? status.error.code : undefined
+            }
             className={`rounded-xl border px-4 py-3 text-sm ${
               status.state === 'error'
                 ? 'border-destructive/50 bg-destructive/10 text-destructive'

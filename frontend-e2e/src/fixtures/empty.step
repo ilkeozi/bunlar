@@ -1,0 +1,16 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('STEP AP203'),'1');
+FILE_NAME('empty.step','2026-02-06T00:00:00',('bunlar'),(''),'', '', '');
+FILE_SCHEMA(('CONFIG_CONTROL_DESIGN'));
+ENDSEC;
+
+DATA;
+#1=APPLICATION_CONTEXT('configuration controlled 3d designs of mechanical parts and assemblies');
+#2=PRODUCT_CONTEXT('',#1,'mechanical');
+#3=PRODUCT('EMPTY','EMPTY','',(#2));
+#4=PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE('','',#3,.NOT_KNOWN.);
+#5=PRODUCT_DEFINITION_CONTEXT('part definition',#1,'design');
+#6=PRODUCT_DEFINITION('','',#4,#5);
+ENDSEC;
+END-ISO-10303-21;
