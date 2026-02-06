@@ -13,7 +13,7 @@ This roadmap delivers a browser-first STEP to GLB conversion pipeline that prese
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Browser Conversion + Outputs** - Users can convert STEP in-browser and download GLB with assembly metadata.
+- [x] **Phase 1: Browser Conversion + Outputs** - Users can convert STEP in-browser and download GLB with assembly metadata.
 - [ ] **Phase 2: Mesh Quality Baseline** - Converted meshes are performant and avoid triangle explosions.
 - [ ] **Phase 3: Explorer Selection Workflow** - Users can select, highlight, and manage parts in the explorer.
 
@@ -38,7 +38,7 @@ Plans:
 - [x] 01-01-PLAN.md — Add GLB metadata embedding helper (TDD)
 - [x] 01-02-PLAN.md — Browser conversion: STEP-only + size cap + progress/cancel + bundle download
 - [x] 01-03-PLAN.md — Human verify: end-to-end conversion + bundle contents
-- [ ] 01-04-PLAN.md — Gap closure: emit UNSUPPORTED_STEP_CONTENT for empty/unsupported STEP content
+- [x] 01-04-PLAN.md — Gap closure: emit UNSUPPORTED_STEP_CONTENT for empty/unsupported STEP content
 
 ### Phase 2: Mesh Quality Baseline
 
@@ -76,8 +76,8 @@ Plans:
 **Execution Order:**
 Phases execute in numeric order: 2 -> 2.1 -> 2.2 -> 3 -> 3.1 -> 4
 
-| Phase                           | Plans Complete | Status      | Completed |
-| ------------------------------- | -------------- | ----------- | --------- |
-| 1. Browser Conversion + Outputs | 3/4            | Gaps found  | -         |
-| 2. Mesh Quality Baseline        | 0/TBD          | Not started | -         |
-| 3. Explorer Selection Workflow  | 0/TBD          | Not started | -         |
+| Phase                           | Plans Complete | Status      | Completed  |
+| ------------------------------- | -------------- | ----------- | ---------- |
+| 1. Browser Conversion + Outputs | 4/4            | Complete    | 2026-02-06 |
+| 2. Mesh Quality Baseline        | 0/TBD          | Not started | -          |
+| 3. Explorer Selection Workflow  | 0/TBD          | Not started | -          |

@@ -9,11 +9,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Conversion
 
-- [ ] **CONV-01**: User can load a STEP file (≤ 15 MB) in the browser for conversion
-- [ ] **CONV-02**: Conversion preserves assembly structure and part names from STEP
-- [ ] **CONV-03**: Conversion preserves units/scale so the model renders at correct size
-- [ ] **CONV-04**: Conversion runs off the main thread with progress and cancel
-- [ ] **CONV-05**: Conversion reports actionable errors (invalid STEP, size cap, unsupported data)
+- [x] **CONV-01**: User can load a STEP file (≤ 15 MB) in the browser for conversion
+- [x] **CONV-02**: Conversion preserves assembly structure and part names from STEP
+- [x] **CONV-03**: Conversion preserves units/scale so the model renders at correct size
+- [x] **CONV-04**: Conversion runs off the main thread with progress and cancel
+- [x] **CONV-05**: Conversion reports actionable errors (invalid STEP, size cap, unsupported data)
 
 ### Mesh Quality
 
@@ -22,8 +22,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Output & Metadata
 
-- [ ] **OUT-01**: User can download GLB output from the browser (direct `.glb` or a single bundle that contains the `.glb`)
-- [ ] **OUT-02**: Output includes metadata: assembly tree, node map, BOM
+- [x] **OUT-01**: User can download GLB output from the browser (direct `.glb` or a single bundle that contains the `.glb`)
+- [x] **OUT-02**: Output includes metadata: assembly tree, node map, BOM
 
 ### Explorer UX
 
@@ -63,20 +63,20 @@ Explicitly excluded. Documented to prevent scope creep.
 
 Which phases cover which requirements. Updated during roadmap creation.
 
-| Requirement | Phase   | Status  |
-| ----------- | ------- | ------- |
-| CONV-01     | Phase 1 | Pending |
-| CONV-02     | Phase 1 | Pending |
-| CONV-03     | Phase 1 | Pending |
-| CONV-04     | Phase 1 | Pending |
-| CONV-05     | Phase 1 | Pending |
-| MESH-01     | Phase 2 | Pending |
-| MESH-02     | Phase 2 | Pending |
-| OUT-01      | Phase 1 | Pending |
-| OUT-02      | Phase 1 | Pending |
-| EXPL-01     | Phase 3 | Pending |
-| EXPL-02     | Phase 3 | Pending |
-| EXPL-03     | Phase 3 | Pending |
+| Requirement | Phase   | Status   |
+| ----------- | ------- | -------- |
+| CONV-01     | Phase 1 | Complete |
+| CONV-02     | Phase 1 | Complete |
+| CONV-03     | Phase 1 | Complete |
+| CONV-04     | Phase 1 | Complete |
+| CONV-05     | Phase 1 | Complete |
+| MESH-01     | Phase 2 | Pending  |
+| MESH-02     | Phase 2 | Pending  |
+| OUT-01      | Phase 1 | Complete |
+| OUT-02      | Phase 1 | Complete |
+| EXPL-01     | Phase 3 | Pending  |
+| EXPL-02     | Phase 3 | Pending  |
+| EXPL-03     | Phase 3 | Pending  |
 
 **Coverage:**
 
@@ -87,4 +87,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-01-30 after roadmap creation_
+_Last updated: 2026-02-06 after Phase 1 verification_
