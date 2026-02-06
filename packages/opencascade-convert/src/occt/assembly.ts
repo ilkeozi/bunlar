@@ -1,4 +1,10 @@
-import type { AssemblyNodeKind, BomExport, BomItem, BomOccurrence, NodeMap } from '../core/types';
+import type {
+  AssemblyNodeKind,
+  BomExport,
+  BomItem,
+  BomOccurrence,
+  NodeMap,
+} from '../core/types';
 import type { OcctDocumentHandle } from './document';
 import type { OpenCascadeInstance } from './types';
 
@@ -24,7 +30,11 @@ export function buildBom(
   docHandle: OcctDocumentHandle,
   nameOverrides?: NameOverrideMap
 ): BomExport {
-  const { roots, nodes, occurrences } = buildAssemblyGraph(oc, docHandle, nameOverrides);
+  const { roots, nodes, occurrences } = buildAssemblyGraph(
+    oc,
+    docHandle,
+    nameOverrides
+  );
   const itemsByProduct = new Map<string, BomItem>();
 
   occurrences.forEach((occurrence) => {
@@ -66,7 +76,14 @@ function buildAssemblyGraph(
 
   for (let index = roots.Lower(); index <= roots.Upper(); index += 1) {
     const label = roots.Value(index);
-    const nodeId = traverseLabel(oc, label, [], nodes, occurrences, nameOverrides);
+    const nodeId = traverseLabel(
+      oc,
+      label,
+      [],
+      nodes,
+      occurrences,
+      nameOverrides
+    );
     if (nodeId) {
       rootIds.push(nodeId);
     }
@@ -85,7 +102,10 @@ function traverseLabel(
 ): string | null {
   const labelEntry = getLabelEntry(oc, label);
   const instanceName = resolveLabelName(oc, label);
-  const { productLabel, productEntry, productName, kind } = resolveProduct(oc, label);
+  const { productLabel, productEntry, productName, kind } = resolveProduct(
+    oc,
+    label
+  );
   const instanceEntry = labelEntry || productEntry;
   const path = [...parentPath, instanceEntry].filter(Boolean);
   const nodeId = path.join('/');
@@ -96,16 +116,28 @@ function traverseLabel(
   }
 
   const instanceOverride = nameOverrides?.[instanceEntry];
-  const productOverride = productEntry ? nameOverrides?.[productEntry] : undefined;
+  const productOverride = productEntry
+    ? nameOverrides?.[productEntry]
+    : undefined;
 
   if (!nodes[nodeId]) {
     nodes[nodeId] = {
       id: nodeId,
       labelEntry: instanceEntry,
-      name: instanceOverride || instanceName || productOverride || productName || instanceEntry,
+      name:
+        instanceOverride ||
+        instanceName ||
+        productOverride ||
+        productName ||
+        instanceEntry,
       kind,
       productId: productEntry || instanceEntry,
-      productName: productOverride || productName || instanceOverride || instanceName || instanceEntry,
+      productName:
+        productOverride ||
+        productName ||
+        instanceOverride ||
+        instanceName ||
+        instanceEntry,
       parentId: parentNodeId,
       children: [],
       path,
@@ -126,7 +158,11 @@ function traverseLabel(
   if (kind === 'assembly') {
     const components = new oc.TDF_LabelSequence_1();
     oc.XCAFDoc_ShapeTool.GetComponents(productLabel, components, false);
-    for (let index = components.Lower(); index <= components.Upper(); index += 1) {
+    for (
+      let index = components.Lower();
+      index <= components.Upper();
+      index += 1
+    ) {
       const component = components.Value(index);
       traverseLabel(oc, component, path, nodes, occurrences, nameOverrides);
     }
@@ -137,7 +173,10 @@ function traverseLabel(
 
 function resolveProduct(oc: OpenCascadeInstance, label: any) {
   let productLabel = label;
-  if (oc.XCAFDoc_ShapeTool.IsComponent(label) || oc.XCAFDoc_ShapeTool.IsReference(label)) {
+  if (
+    oc.XCAFDoc_ShapeTool.IsComponent(label) ||
+    oc.XCAFDoc_ShapeTool.IsReference(label)
+  ) {
     const referred = new oc.TDF_Label();
     if (oc.XCAFDoc_ShapeTool.GetReferredShape(label, referred)) {
       productLabel = referred;
@@ -154,17 +193,84 @@ function resolveProduct(oc: OpenCascadeInstance, label: any) {
 }
 
 function resolveLabelName(oc: OpenCascadeInstance, label: any) {
-  const attrHandle = new oc.Handle_TDF_Attribute_1();
-  const found = label.FindAttribute_1(oc.TDataStd_Name.GetID(), attrHandle);
-  if (!found || attrHandle.IsNull()) {
+  if (!label || !oc?.TDataStd_Name) {
     return '';
   }
-  const attribute = attrHandle.get();
-  const value = attribute && typeof attribute.Get === 'function' ? attribute.Get() : null;
-  if (!value) {
+
+  const readFromAttribute = () => {
+    const handle = oc.Handle_TDataStd_Name_1
+      ? new oc.Handle_TDataStd_Name_1()
+      : new oc.Handle_TDF_Attribute_1();
+
+    const guid = oc.TDataStd_Name.GetID();
+    const findFns = [
+      label.FindAttribute_1,
+      label.FindAttribute,
+      label.FindAttribute_2,
+    ].filter((fn) => typeof fn === 'function') as Array<
+      (guid: unknown, out: unknown) => boolean
+    >;
+
+    for (const fn of findFns) {
+      try {
+        const found = fn.call(label, guid, handle);
+        if (!found) {
+          continue;
+        }
+        if (typeof handle?.IsNull === 'function' && handle.IsNull()) {
+          continue;
+        }
+        const attribute =
+          typeof handle?.get === 'function' ? handle.get() : null;
+        if (!attribute) {
+          continue;
+        }
+
+        const getters = [
+          attribute.Get,
+          attribute.Get_1,
+          attribute.Get_2,
+        ].filter((g) => typeof g === 'function') as Array<() => unknown>;
+        for (const getter of getters) {
+          try {
+            const value = getter.call(attribute);
+            const text = extendedStringToString(value);
+            if (text) {
+              return text;
+            }
+          } catch {
+            // try next getter
+          }
+        }
+      } catch {
+        // try next FindAttribute overload
+      }
+    }
     return '';
-  }
-  return extendedStringToString(value);
+  };
+
+  const readFromLabel = () => {
+    const getters = [
+      label.GetLabelName,
+      label.GetLabelName_1,
+      label.GetName,
+      label.Name,
+    ].filter((g) => typeof g === 'function') as Array<() => unknown>;
+    for (const getter of getters) {
+      try {
+        const value = getter.call(label);
+        const text = extendedStringToString(value);
+        if (text) {
+          return text;
+        }
+      } catch {
+        // try next getter
+      }
+    }
+    return '';
+  };
+
+  return readFromAttribute() || readFromLabel();
 }
 
 function getLabelEntry(oc: OpenCascadeInstance, label: any) {
@@ -175,7 +281,11 @@ function getLabelEntry(oc: OpenCascadeInstance, label: any) {
 }
 
 function extendedStringToString(value: any) {
-  if (!value || typeof value.Length !== 'function' || typeof value.Value !== 'function') {
+  if (
+    !value ||
+    typeof value.Length !== 'function' ||
+    typeof value.Value !== 'function'
+  ) {
     if (typeof value === 'string') {
       return value;
     }
