@@ -487,7 +487,7 @@ function buildAssemblyTree(nodeMap: {
     return {
       id: node.id,
       name: node.name,
-      children: (node.children ?? [])
+      children: (node.childrenIds ?? node.children ?? [])
         .map((childId: string) => visit(childId))
         .filter(Boolean),
     };
@@ -691,12 +691,27 @@ async function handleStartMessage(message: WorkerStartRequest) {
           (typeof node.labelEntry === 'string'
             ? prettyNamesByEntry.get(node.labelEntry)
             : undefined) || node.name,
+        productId: node.productId,
         parentId: node.parentId ?? undefined,
         childrenIds: Array.isArray(node.children) ? node.children : [],
         gltfNodeIndex: mapping.gltfNodeIndex,
         gltfMeshIndex: mapping.gltfMeshIndex,
       };
     }
+
+    const prettyNameByProductId = new Map<string, string>();
+    Object.values(nodes).forEach((node: any) => {
+      if (
+        node &&
+        typeof node.productId === 'string' &&
+        node.productId.length > 0 &&
+        typeof node.name === 'string' &&
+        node.name.length > 0 &&
+        !prettyNameByProductId.has(node.productId)
+      ) {
+        prettyNameByProductId.set(node.productId, node.name);
+      }
+    });
 
     const { scaleToMeters, source: inputUnitSource } =
       readInputUnitScaleToMeters(oc, docHandle);
@@ -731,7 +746,7 @@ async function handleStartMessage(message: WorkerStartRequest) {
 
     const metadata = {
       schemaVersion: 'bunlar-step-converter@1',
-      assemblyTree: buildAssemblyTree(nodeMapRaw as any),
+      assemblyTree: buildAssemblyTree({ roots: nodeMapRaw.roots, nodes }),
       nodeMap: {
         roots: nodeMapRaw.roots,
         nodes,
@@ -740,7 +755,7 @@ async function handleStartMessage(message: WorkerStartRequest) {
         ? (bomRaw as any).items.map((item: any) => ({
             name:
               (typeof item.productId === 'string'
-                ? prettyNamesByEntry.get(item.productId)
+                ? prettyNameByProductId.get(item.productId)
                 : undefined) ||
               item.productName ||
               item.productId ||
