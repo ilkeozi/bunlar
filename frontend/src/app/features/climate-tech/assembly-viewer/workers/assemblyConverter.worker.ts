@@ -1,23 +1,15 @@
-/// <reference lib="webworker" />
-import {
-  createConverter,
-  type ConvertBufferResult,
-  type InputFormat,
-} from 'opencascade-convert/browser';
-import type { BomExport, NodeMap } from 'opencascade-convert/browser';
-
-type TriangulatePayload = {
-  linearDeflection?: number;
-  angularDeflection?: number;
-  relative?: boolean;
-  parallel?: boolean;
-};
+import { createConverter, type InputFormat } from 'opencascade-convert/browser';
 
 type WorkerRequest = {
   id: number;
   input: ArrayBuffer;
   inputFormat: InputFormat;
-  triangulate: TriangulatePayload;
+  triangulate: {
+    linearDeflection?: number;
+    angularDeflection?: number;
+    relative?: boolean;
+    parallel?: boolean;
+  };
 };
 
 type WorkerModelSuccess = {
@@ -31,8 +23,8 @@ type WorkerMetadataSuccess = {
   id: number;
   ok: true;
   phase: 'metadata';
-  bom: BomExport;
-  nodeMap: NodeMap;
+  bom: unknown;
+  nodeMap: unknown;
 };
 
 type WorkerFailure = {
@@ -43,23 +35,16 @@ type WorkerFailure = {
 
 const converterPromise = createConverter();
 
-function toTransferBuffer(data: Uint8Array): ArrayBuffer {
-  const copy = new Uint8Array(data);
-  return copy.buffer;
-}
-
-function mapResult(
-  result: ConvertBufferResult
-): [WorkerModelSuccess, ArrayBuffer[]] {
-  if (result.outputFormat === 'glb') {
-    const data = toTransferBuffer(result.glb);
-    return [{ id: 0, ok: true, phase: 'model', data }, [data]];
-  }
-  throw new Error('Unexpected output format.');
+function toTransferBuffer(data: Uint8Array) {
+  // Ensure we always transfer an ArrayBuffer (not a SharedArrayBuffer).
+  const out = new Uint8Array(data.byteLength);
+  out.set(data);
+  return out.buffer;
 }
 
 self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
   const { id, input, inputFormat, triangulate } = event.data;
+  const ctx = self as any;
   try {
     const converter = await converterPromise;
     const docHandle = converter.readBuffer(new Uint8Array(input), inputFormat, {
@@ -68,31 +53,50 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
       preserveLayers: true,
       preserveMaterials: true,
     });
+
     converter.triangulate(docHandle.get(), triangulate);
     const result = converter.writeBuffer(docHandle, 'glb', {
       nameFormat: 'productAndInstanceAndOcaf',
     });
-    const [modelResponse, transfer] = mapResult(result);
-    modelResponse.id = id;
-    self.postMessage(modelResponse, transfer);
 
-    const metadata = converter.createMetadataFromGlb(docHandle, {
-      nameFormat: 'productAndInstanceAndOcaf',
-    });
-    const metadataResponse: WorkerMetadataSuccess = {
+    if (result.outputFormat !== 'glb') {
+      throw new Error('Failed to generate GLB output.');
+    }
+
+    const model = toTransferBuffer(result.glb);
+    const modelMsg: WorkerModelSuccess = {
+      id,
+      ok: true,
+      phase: 'model',
+      data: model,
+    };
+    ctx.postMessage(modelMsg, [model]);
+
+    let bom: unknown;
+    let nodeMap: unknown;
+    if (typeof (converter as any).createMetadataFromGlb === 'function') {
+      const metadata = (converter as any).createMetadataFromGlb(docHandle);
+      bom = metadata?.bom;
+      nodeMap = metadata?.nodeMap;
+    } else {
+      bom = (converter as any).createBom(docHandle);
+      nodeMap = (converter as any).createNodeMap(docHandle);
+    }
+
+    const metadataMsg: WorkerMetadataSuccess = {
       id,
       ok: true,
       phase: 'metadata',
-      bom: metadata.bom,
-      nodeMap: metadata.nodeMap,
+      bom,
+      nodeMap,
     };
-    self.postMessage(metadataResponse);
+    ctx.postMessage(metadataMsg);
   } catch (error) {
-    const response: WorkerFailure = {
+    const errMsg: WorkerFailure = {
       id,
       ok: false,
       error: error instanceof Error ? error.message : 'Conversion failed.',
     };
-    self.postMessage(response);
+    ctx.postMessage(errMsg);
   }
 };

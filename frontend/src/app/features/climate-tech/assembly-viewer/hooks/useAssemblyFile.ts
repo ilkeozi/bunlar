@@ -15,6 +15,20 @@ const BASIC_TRIANGULATION = {
   parallel: true,
 };
 
+type ConversionWarning = {
+  code: string;
+  message: string;
+  detail?: Record<string, unknown>;
+};
+
+type MeshStats = {
+  triangles: number;
+  primitiveCount: number;
+  meshCount: number;
+  nodeCount: number;
+  nodesWithMeshCount: number;
+};
+
 type WorkerModelSuccess = {
   ok: true;
   phase: 'model';
@@ -26,6 +40,8 @@ type WorkerMetadataSuccess = {
   phase: 'metadata';
   bom: AssemblyBom;
   nodeMap: AssemblyNodeMap;
+  meshStats: MeshStats;
+  conversionWarnings: ConversionWarning[];
 };
 
 type WorkerFailure = {
@@ -107,62 +123,74 @@ export function useAssemblyFile(
       const id = workerRequestIdRef.current + 1;
       workerRequestIdRef.current = id;
 
-      return new Promise<{ bom: AssemblyBom; nodeMap: AssemblyNodeMap }>(
-        (resolve, reject) => {
-          let hasModel = false;
-          let metadata: { bom: AssemblyBom; nodeMap: AssemblyNodeMap } | null =
-            null;
+      return new Promise<{
+        bom: AssemblyBom;
+        nodeMap: AssemblyNodeMap;
+        meshStats: MeshStats;
+        conversionWarnings: ConversionWarning[];
+      }>((resolve, reject) => {
+        let hasModel = false;
+        let metadata: {
+          bom: AssemblyBom;
+          nodeMap: AssemblyNodeMap;
+          meshStats: MeshStats;
+          conversionWarnings: ConversionWarning[];
+        } | null = null;
 
-          const handleMessage = (event: MessageEvent<WorkerResponse>) => {
-            if (event.data.id !== id) return;
-            if (!event.data.ok) {
-              cleanup();
-              reject(new Error(event.data.error));
-              return;
-            }
-            if (event.data.phase === 'model') {
-              hasModel = true;
-              onModel(event.data.data);
-              if (metadata) {
-                cleanup();
-                resolve(metadata);
-              }
-              return;
-            }
-            if (event.data.phase === 'metadata') {
-              metadata = { bom: event.data.bom, nodeMap: event.data.nodeMap };
-              if (hasModel) {
-                cleanup();
-                resolve(metadata);
-              }
-            }
-          };
-          const handleError = (event: ErrorEvent) => {
+        const handleMessage = (event: MessageEvent<WorkerResponse>) => {
+          if (event.data.id !== id) return;
+          if (!event.data.ok) {
             cleanup();
-            reject(
-              event.error instanceof Error
-                ? event.error
-                : new Error(event.message)
-            );
-          };
-          const cleanup = () => {
-            worker.removeEventListener('message', handleMessage);
-            worker.removeEventListener('error', handleError);
-          };
-
-          worker.addEventListener('message', handleMessage);
-          worker.addEventListener('error', handleError);
-          worker.postMessage(
-            {
-              id,
-              input: payload.input,
-              inputFormat: payload.inputFormat,
-              triangulate: BASIC_TRIANGULATION,
-            },
-            [payload.input]
+            reject(new Error(event.data.error));
+            return;
+          }
+          if (event.data.phase === 'model') {
+            hasModel = true;
+            onModel(event.data.data);
+            if (metadata) {
+              cleanup();
+              resolve(metadata);
+            }
+            return;
+          }
+          if (event.data.phase === 'metadata') {
+            metadata = {
+              bom: event.data.bom,
+              nodeMap: event.data.nodeMap,
+              meshStats: event.data.meshStats,
+              conversionWarnings: event.data.conversionWarnings,
+            };
+            if (hasModel) {
+              cleanup();
+              resolve(metadata);
+            }
+          }
+        };
+        const handleError = (event: ErrorEvent) => {
+          cleanup();
+          reject(
+            event.error instanceof Error
+              ? event.error
+              : new Error(event.message)
           );
-        }
-      );
+        };
+        const cleanup = () => {
+          worker.removeEventListener('message', handleMessage);
+          worker.removeEventListener('error', handleError);
+        };
+
+        worker.addEventListener('message', handleMessage);
+        worker.addEventListener('error', handleError);
+        worker.postMessage(
+          {
+            id,
+            input: payload.input,
+            inputFormat: payload.inputFormat,
+            triangulate: BASIC_TRIANGULATION,
+          },
+          [payload.input]
+        );
+      });
     },
     [ensureWorker]
   );
@@ -242,6 +270,21 @@ export function useAssemblyFile(
           throw new Error(t('assemblyViewer.status.metadataMismatch'));
         }
         setMetadata({ bom: result.bom, nodeMap: result.nodeMap });
+
+        if (import.meta.env.DEV && result.conversionWarnings.length > 0) {
+          const uniqueCodes = Array.from(
+            new Set(result.conversionWarnings.map((warning) => warning.code))
+          );
+          console.warn(
+            `[assembly-viewer] conversionWarnings (${
+              result.conversionWarnings.length
+            }): ${uniqueCodes.join(', ')}`,
+            {
+              meshStats: result.meshStats,
+              conversionWarnings: result.conversionWarnings,
+            }
+          );
+        }
       } catch (conversionError) {
         if (requestIdRef.current !== currentRequest) {
           return;
