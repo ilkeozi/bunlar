@@ -3,7 +3,10 @@ import type { WriteOptions } from '../core/types';
 import type { OpenCascadeInstance } from './types';
 import type { OcctDocumentHandle } from './document';
 
-export function createMetadataMap(oc: OpenCascadeInstance, metadata?: Record<string, string>) {
+export function createMetadataMap(
+  oc: OpenCascadeInstance,
+  metadata?: Record<string, string>
+) {
   const map = new oc.TColStd_IndexedDataMapOfStringString_1();
   if (!metadata) {
     return map;
@@ -16,7 +19,11 @@ export function createMetadataMap(oc: OpenCascadeInstance, metadata?: Record<str
   return map;
 }
 
-export function applyGltfNameFormat(oc: OpenCascadeInstance, writer: any, options: WriteOptions) {
+export function applyGltfNameFormat(
+  oc: OpenCascadeInstance,
+  writer: any,
+  options: WriteOptions
+) {
   if (!writer || typeof writer.SetNodeNameFormat !== 'function') {
     return;
   }
@@ -39,8 +46,16 @@ export function writeGlbInternal(
   const file = new oc.TCollection_AsciiString_2(pathInternal);
   const writer = new oc.RWGltf_CafWriter(file, true);
   applyGltfNameFormat(oc, writer, options);
+  if (writer && typeof writer.SetMergeFaces === 'function') {
+    try {
+      writer.SetMergeFaces(true);
+    } catch {
+      // Best-effort: bindings may expose the method but not support it.
+    }
+  }
   writer.Perform_2(docHandle, map, progress);
-  const data = oc.FS.analyzePath(pathInternal).exists && oc.FS.readFile(pathInternal);
+  const data =
+    oc.FS.analyzePath(pathInternal).exists && oc.FS.readFile(pathInternal);
   if (data) {
     oc.FS.unlink(pathInternal);
   }
@@ -59,8 +74,16 @@ export function writeGltfInternal(
   const file = new oc.TCollection_AsciiString_2(gltfPath);
   const writer = new oc.RWGltf_CafWriter(file, false);
   applyGltfNameFormat(oc, writer, options);
+  if (writer && typeof writer.SetMergeFaces === 'function') {
+    try {
+      writer.SetMergeFaces(true);
+    } catch {
+      // Best-effort: bindings may expose the method but not support it.
+    }
+  }
   writer.Perform_2(docHandle, map, progress);
-  const gltfData = oc.FS.analyzePath(gltfPath).exists && oc.FS.readFile(gltfPath);
+  const gltfData =
+    oc.FS.analyzePath(gltfPath).exists && oc.FS.readFile(gltfPath);
   const binData = oc.FS.analyzePath(binPath).exists && oc.FS.readFile(binPath);
   if (gltfData) {
     oc.FS.unlink(gltfPath);
@@ -82,7 +105,8 @@ export function writeObjInternal(
   const file = new oc.TCollection_AsciiString_2(pathInternal);
   const writer = new oc.RWObj_CafWriter(file);
   writer.Perform_2(docHandle, map, progress);
-  const data = oc.FS.analyzePath(pathInternal).exists && oc.FS.readFile(pathInternal);
+  const data =
+    oc.FS.analyzePath(pathInternal).exists && oc.FS.readFile(pathInternal);
   if (data) {
     oc.FS.unlink(pathInternal);
   }
