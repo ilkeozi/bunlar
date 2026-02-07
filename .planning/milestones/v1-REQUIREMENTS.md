@@ -1,3 +1,13 @@
+# Requirements Archive: v1 Explorer-Ready Browser Conversion
+
+**Archived:** 2026-02-07
+**Status:** ✅ SHIPPED
+
+This is the archived requirements specification for v1.
+For current requirements, start a new milestone (fresh `.planning/REQUIREMENTS.md`).
+
+---
+
 # Requirements: opencascade-convert optimization
 
 **Defined:** 2026-01-30
@@ -86,5 +96,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 
-_Requirements defined: 2026-01-30_
-_Last updated: 2026-02-07 after Phase 3 verification_
+## Milestone Summary
+
+**Shipped:** 12 of 12 v1 requirements
+**Adjusted:** None
+**Dropped:** None
+
+---
+
+_Archived: 2026-02-07 as part of v1 milestone completion_

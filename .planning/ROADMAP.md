@@ -4,6 +4,12 @@
 
 This roadmap delivers a browser-first STEP to GLB conversion pipeline that preserves assembly metadata and produces meshes that render smoothly in the Assembly Hierarchy Explorer. Work proceeds from reliable conversion and outputs, through mesh quality tuning, to a usable explorer workflow with selection and visibility controls.
 
+## Milestones
+
+- ✅ **v1** — Explorer-ready browser conversion (Phases 1-3) — shipped 2026-02-07
+  - Roadmap archive: `.planning/milestones/v1-ROADMAP.md`
+  - Requirements archive: `.planning/milestones/v1-REQUIREMENTS.md`
+
 ## Phases
 
 **Phase Numbering:**
@@ -18,6 +24,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Explorer Selection Workflow** - Users can select, highlight, and manage parts in the explorer.
 
 ## Phase Details
+
+<details>
+<summary>✅ v1 (Phases 1-3) — SHIPPED 2026-02-07</summary>
 
 ### Phase 1: Browser Conversion + Outputs
 
@@ -93,3 +102,5 @@ Phases execute in numeric order: 2 -> 2.1 -> 2.2 -> 3 -> 3.1 -> 4
 | 1. Browser Conversion + Outputs | 4/4            | Complete | 2026-02-06 |
 | 2. Mesh Quality Baseline        | 5/5            | Complete | 2026-02-07 |
 | 3. Explorer Selection Workflow  | 4/4            | Complete | 2026-02-07 |
+
+</details>
