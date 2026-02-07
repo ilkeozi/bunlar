@@ -10,6 +10,7 @@ import {
 } from '@react-three/drei';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { AssemblyModel } from './AssemblyModel';
+import { DevPerfOverlay } from '../components/DevPerfOverlay';
 
 interface AssemblyCanvasProps {
   modelUrl: string;
@@ -18,7 +19,11 @@ interface AssemblyCanvasProps {
   onReady?: () => void;
 }
 
-function CameraRig({ controlsRef }: { controlsRef: RefObject<OrbitControlsImpl | null> }) {
+function CameraRig({
+  controlsRef,
+}: {
+  controlsRef: RefObject<OrbitControlsImpl | null>;
+}) {
   const { camera } = useThree();
 
   useEffect(() => {
@@ -59,6 +64,8 @@ export function AssemblyCanvas({
         gl={{ antialias: false, powerPreference: 'high-performance' }}
       >
         <Environment preset="warehouse" />
+
+        {import.meta.env.DEV ? <DevPerfOverlay /> : null}
 
         <Suspense fallback={null}>
           <AssemblyModel key={modelUrl} url={modelUrl} onReady={onReady} />
