@@ -74,11 +74,14 @@ Verification:
 1. User can select a tree node and see the corresponding geometry highlighted in 3D.
 2. User can select geometry in 3D and see the corresponding tree node highlighted.
 3. User can hide or isolate parts and fit the camera to the current selection.
-   **Plans**: TBD
+   **Plans**: 4 plans
 
 Plans:
 
-- [ ] 03-01: TBD during planning
+- [ ] 03-01-PLAN.md — Store + NodeMap utilities for selection/visibility semantics
+- [ ] 03-02-PLAN.md — 3D canvas: picking, outline highlight, visibility enforcement, fit controller
+- [ ] 03-03-PLAN.md — Explorer UI: tree + toolbar wired to store (tree<->3D sync)
+- [ ] 03-04-PLAN.md — Human verify: end-to-end selection/visibility/fit workflow
 
 ## Progress
 
