@@ -57,7 +57,7 @@ Plans:
 - [x] 02-02-PLAN.md — Retry-on-triangle-explosion + persisted warnings + Step Converter warning UI
 - [x] 02-03-PLAN.md — Dev-only FPS/debug overlay for Explorer canvas
 - [x] 02-04-PLAN.md — Human verify: FPS baseline + warning persistence
-- [ ] 02-05-PLAN.md — Gap closure: Explorer worker bounded retry-on-explosion + structured conversionWarnings
+- [x] 02-05-PLAN.md — Gap closure: Explorer worker bounded retry-on-explosion + structured conversionWarnings
 
 Verification:
 
@@ -85,8 +85,8 @@ Plans:
 **Execution Order:**
 Phases execute in numeric order: 2 -> 2.1 -> 2.2 -> 3 -> 3.1 -> 4
 
-| Phase                           | Plans Complete | Status      | Completed  |
-| ------------------------------- | -------------- | ----------- | ---------- |
-| 1. Browser Conversion + Outputs | 4/4            | Complete    | 2026-02-06 |
-| 2. Mesh Quality Baseline        | 4/5            | Gaps found  | -          |
-| 3. Explorer Selection Workflow  | 0/TBD          | Not started | -          |
+| Phase                           | Plans Complete | Status             | Completed  |
+| ------------------------------- | -------------- | ------------------ | ---------- |
+| 1. Browser Conversion + Outputs | 4/4            | Complete           | 2026-02-06 |
+| 2. Mesh Quality Baseline        | 5/5            | Ready to re-verify | -          |
+| 3. Explorer Selection Workflow  | 0/TBD          | Not started        | -          |
