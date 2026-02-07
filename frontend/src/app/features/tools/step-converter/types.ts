@@ -30,6 +30,21 @@ export type StepConverterError = {
   detail?: Record<string, unknown>;
 };
 
+export type StepConverterConversionWarning = {
+  code: string;
+  message: string;
+  detail?: Record<string, unknown>;
+};
+
+export type StepConverterMeshStats = {
+  triangles: number;
+  meshCount: number;
+  nodeCount: number;
+  primitiveCount: number;
+  nodesWithMeshCount: number;
+  primitivesWithPositionCount: number;
+};
+
 export type RequestState = 'idle' | 'loading' | 'success' | 'error';
 export type RequestStatus =
   | { state: 'idle' }
@@ -57,6 +72,8 @@ export type StepConverterController = {
   status: RequestStatus;
   metadataStatus: RequestStatus;
   download: DownloadLink | null;
+  meshStats: StepConverterMeshStats | null;
+  conversionWarnings: StepConverterConversionWarning[];
   bom: DownloadLink | null;
   nodeMap: DownloadLink | null;
   hasInvalidNumbers: boolean;

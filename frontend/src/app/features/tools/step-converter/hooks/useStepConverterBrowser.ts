@@ -4,9 +4,11 @@ import type {
   DownloadLink,
   OutputFormat,
   RequestStatus,
+  StepConverterConversionWarning,
   StepConverterController,
   StepConverterError,
   StepConverterErrorCode,
+  StepConverterMeshStats,
   StepConverterWorkerStage,
   TranslateFn,
 } from '../types';
@@ -46,6 +48,8 @@ type WorkerDone = {
   id: number;
   bundleName: string;
   bundleBytes: ArrayBuffer;
+  meshStats?: StepConverterMeshStats;
+  conversionWarnings?: StepConverterConversionWarning[];
 };
 
 type WorkerFailure = {
@@ -115,6 +119,12 @@ export function useStepConverterBrowser(
     state: 'idle',
   });
   const [download, setDownload] = useState<DownloadLink | null>(null);
+  const [meshStats, setMeshStats] = useState<StepConverterMeshStats | null>(
+    null
+  );
+  const [conversionWarnings, setConversionWarnings] = useState<
+    StepConverterConversionWarning[]
+  >([]);
   const [bom, setBom] = useState<DownloadLink | null>(null);
   const [nodeMap, setNodeMap] = useState<DownloadLink | null>(null);
 
@@ -223,6 +233,8 @@ export function useStepConverterBrowser(
     requestIdRef.current += 1;
     clearDownloads();
     terminateWorker();
+    setMeshStats(null);
+    setConversionWarnings([]);
     setMetadataStatus({ state: 'idle' });
     setBom(null);
     setNodeMap(null);
@@ -252,6 +264,8 @@ export function useStepConverterBrowser(
     setParallel(false);
     setStatus({ state: 'idle' });
     setMetadataStatus({ state: 'idle' });
+    setMeshStats(null);
+    setConversionWarnings([]);
     clearDownloads();
     terminateWorker();
   };
@@ -260,6 +274,8 @@ export function useStepConverterBrowser(
     requestIdRef.current += 1;
     setStatus({ state: 'idle' });
     setMetadataStatus({ state: 'idle' });
+    setMeshStats(null);
+    setConversionWarnings([]);
     clearDownloads();
     terminateWorker();
   };
@@ -293,6 +309,8 @@ export function useStepConverterBrowser(
 
     setStatus({ state: 'loading', stage: 'parsing' });
     setMetadataStatus({ state: 'idle' });
+    setMeshStats(null);
+    setConversionWarnings([]);
     clearDownloads();
 
     const requestId = requestIdRef.current + 1;
@@ -319,6 +337,8 @@ export function useStepConverterBrowser(
       if (requestIdRef.current !== requestId) return;
 
       setDownload(createZipDownload(result));
+      setMeshStats(result.meshStats ?? null);
+      setConversionWarnings(result.conversionWarnings ?? []);
       setStatus({ state: 'success' });
     } catch (error) {
       if (requestIdRef.current !== requestId) return;
@@ -351,6 +371,8 @@ export function useStepConverterBrowser(
     status,
     metadataStatus,
     download,
+    meshStats,
+    conversionWarnings,
     bom,
     nodeMap,
     hasInvalidNumbers,
