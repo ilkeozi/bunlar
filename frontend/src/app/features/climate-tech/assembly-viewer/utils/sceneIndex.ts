@@ -4,6 +4,10 @@ import { extractOcafEntry } from './ocaf';
 function extractOcafEntryFromObject(obj: THREE.Object3D | null): string | null {
   let cursor: THREE.Object3D | null = obj;
   while (cursor) {
+    const fromUserData = (cursor.userData as any)?.__ocafEntry;
+    if (typeof fromUserData === 'string' && fromUserData.length > 0)
+      return fromUserData;
+
     const entry = extractOcafEntry(cursor.name ?? '');
     if (entry) return entry;
     cursor = cursor.parent;

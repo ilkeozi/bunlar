@@ -46,11 +46,11 @@ type GltfJson = {
   nodes?: GltfNodeDef[];
 };
 
-export function buildOcafEntryByGltfNodeIndex(
-  glb: Uint8Array
+export function buildOcafEntryByGltfNodeIndexFromGltfJson(
+  gltf: unknown
 ): Map<number, string> {
-  const gltf = parseGlbJson(glb) as GltfJson;
-  const nodes = Array.isArray(gltf?.nodes) ? gltf.nodes : [];
+  const json = gltf as GltfJson;
+  const nodes = Array.isArray(json?.nodes) ? json.nodes : [];
 
   const map = new Map<number, string>();
   for (let i = 0; i < nodes.length; i += 1) {
@@ -61,4 +61,10 @@ export function buildOcafEntryByGltfNodeIndex(
     map.set(i, matches[matches.length - 1]);
   }
   return map;
+}
+
+export function buildOcafEntryByGltfNodeIndex(
+  glb: Uint8Array
+): Map<number, string> {
+  return buildOcafEntryByGltfNodeIndexFromGltfJson(parseGlbJson(glb));
 }

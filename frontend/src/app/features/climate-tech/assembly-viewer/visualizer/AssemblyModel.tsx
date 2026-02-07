@@ -7,7 +7,7 @@ import { extractOcafEntry } from '../utils/ocaf';
 import { indexMeshesByOcafEntry } from '../utils/sceneIndex';
 import type { ThreeEvent } from '@react-three/fiber';
 import { getEffectiveHiddenLeafPartOcafEntries } from '../utils/nodeMapIndex';
-import { buildOcafEntryByGltfNodeIndex } from '../utils/glb';
+import { buildOcafEntryByGltfNodeIndexFromGltfJson } from '../utils/glb';
 
 const isLight = (object: THREE.Object3D): object is THREE.Light =>
   object instanceof THREE.Light;
@@ -29,7 +29,9 @@ export function AssemblyModel({ url, onReady }: AssemblyModelProps) {
   const ocafEntryByGltfNodeIndexRef = useRef<Map<number, string>>(new Map());
 
   const model = useMemo(() => {
-    const cloned = scene.clone(true);
+    // Keep the original objects so GLTFLoader parser associations (object -> nodeIndex)
+    // remain valid for selection mapping.
+    const cloned = scene;
     const lights: THREE.Light[] = [];
     cloned.traverse((child) => {
       if (isLight(child)) {
@@ -76,53 +78,35 @@ export function AssemblyModel({ url, onReady }: AssemblyModelProps) {
   );
 
   useEffect(() => {
-    let cancelled = false;
+    ocafEntryByGltfNodeIndexRef.current =
+      parser?.json && typeof parser.json === 'object'
+        ? buildOcafEntryByGltfNodeIndexFromGltfJson(parser.json)
+        : new Map();
 
-    async function loadMappingAndIndex() {
-      try {
-        const res = await fetch(url);
-        const buf = await res.arrayBuffer();
-        if (cancelled) return;
-
-        ocafEntryByGltfNodeIndexRef.current = buildOcafEntryByGltfNodeIndex(
-          new Uint8Array(buf)
-        );
-
-        if (
-          import.meta.env.DEV &&
-          ocafEntryByGltfNodeIndexRef.current.size === 0
-        ) {
-          console.warn(
-            '[assembly-viewer] No OCAF entries found in GLB node names; 3D selection sync may not work.'
-          );
-        }
-
-        const meshesByOcafEntry = indexMeshesByOcafEntry(
-          model,
-          resolveOcafEntryForObject
-        );
-        meshesByOcafEntryRef.current = meshesByOcafEntry;
-        useAssemblyExplorerStore
-          .getState()
-          .setMeshesByOcafEntry(meshesByOcafEntry);
-      } catch (err) {
-        if (import.meta.env.DEV) {
-          console.warn('[assembly-viewer] failed to build OCAF mapping', err);
-        }
-        meshesByOcafEntryRef.current = new Map();
-        useAssemblyExplorerStore.getState().setMeshesByOcafEntry(new Map());
-      }
+    if (ocafEntryByGltfNodeIndexRef.current.size > 0 && parser?.associations) {
+      model.traverse((obj) => {
+        const assoc = parser.associations.get(obj);
+        const nodeIndex = assoc?.nodes;
+        if (typeof nodeIndex !== 'number') return;
+        const entry = ocafEntryByGltfNodeIndexRef.current.get(nodeIndex);
+        if (!entry) return;
+        (obj.userData as any).__ocafEntry = entry;
+      });
     }
 
-    loadMappingAndIndex();
+    const meshesByOcafEntry = indexMeshesByOcafEntry(
+      model,
+      resolveOcafEntryForObject
+    );
+    meshesByOcafEntryRef.current = meshesByOcafEntry;
+    useAssemblyExplorerStore.getState().setMeshesByOcafEntry(meshesByOcafEntry);
 
     return () => {
-      cancelled = true;
       meshesByOcafEntryRef.current = null;
       ocafEntryByGltfNodeIndexRef.current = new Map();
       useAssemblyExplorerStore.getState().setMeshesByOcafEntry(null);
     };
-  }, [model, resolveOcafEntryForObject, url]);
+  }, [model, parser, resolveOcafEntryForObject]);
 
   useEffect(() => {
     const meshesByOcafEntry = meshesByOcafEntryRef.current;
