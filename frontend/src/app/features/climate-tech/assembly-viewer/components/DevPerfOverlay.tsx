@@ -1,6 +1,7 @@
 import { Html } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useRef, useState } from 'react';
+import { useAssemblyExplorerStore } from '../state/useAssemblyExplorerStore';
 
 type PerfStats = {
   fps: number;
@@ -10,6 +11,25 @@ type PerfStats = {
 
 export function DevPerfOverlay() {
   const { gl } = useThree();
+
+  const selectedNodeId = useAssemblyExplorerStore(
+    (state) => state.selectedNodeId
+  );
+  const selectedOcafEntry = useAssemblyExplorerStore(
+    (state) => state.selectedOcafEntry
+  );
+  const selectionSource = useAssemblyExplorerStore(
+    (state) => state.selectionSource
+  );
+  const explicitHiddenCount = useAssemblyExplorerStore(
+    (state) => state.explicitHiddenNodeIds.size
+  );
+  const isolateActive = useAssemblyExplorerStore(
+    (state) => state.isolateActive
+  );
+  const meshesByOcafEntrySize = useAssemblyExplorerStore(
+    (state) => state.meshesByOcafEntry?.size ?? 0
+  );
 
   const [stats, setStats] = useState<PerfStats>({
     fps: 0,
@@ -73,6 +93,28 @@ export function DevPerfOverlay() {
           <div>
             <span style={{ opacity: 0.7 }}>Calls</span>{' '}
             {stats.calls.toLocaleString()}
+          </div>
+        </div>
+
+        <div style={{ marginTop: 8, opacity: 0.9 }}>
+          <div>
+            <span style={{ opacity: 0.7 }}>Sel</span> {selectedNodeId ?? 'null'}
+          </div>
+          <div>
+            <span style={{ opacity: 0.7 }}>OCAF</span>{' '}
+            {selectedOcafEntry ?? 'null'}
+          </div>
+          <div>
+            <span style={{ opacity: 0.7 }}>Src</span> {selectionSource}
+          </div>
+          <div>
+            <span style={{ opacity: 0.7 }}>Hidden</span> {explicitHiddenCount}{' '}
+            <span style={{ opacity: 0.7 }}>Isolate</span>{' '}
+            {String(isolateActive)}
+          </div>
+          <div>
+            <span style={{ opacity: 0.7 }}>MeshIndex</span>{' '}
+            {meshesByOcafEntrySize}
           </div>
         </div>
       </div>
