@@ -86,7 +86,15 @@ export function AssemblyModel({ url, onReady }: AssemblyModelProps) {
     const mesh = event.object as THREE.Mesh;
     if (mesh?.isMesh !== true) return;
 
-    const entry = extractOcafEntry(mesh.name ?? '');
+    // Prefer the hit mesh name, but fall back to named ancestors (some GLBs name the node).
+    let entry = extractOcafEntry(mesh.name ?? '');
+    if (!entry) {
+      let cursor: THREE.Object3D | null = mesh.parent;
+      while (cursor && !entry) {
+        entry = extractOcafEntry(cursor.name ?? '');
+        cursor = cursor.parent;
+      }
+    }
     if (!entry) return;
 
     useAssemblyExplorerStore.getState().selectOcafEntry(entry, '3d');

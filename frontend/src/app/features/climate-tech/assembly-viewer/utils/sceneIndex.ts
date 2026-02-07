@@ -1,6 +1,16 @@
 import type * as THREE from 'three';
 import { extractOcafEntry } from './ocaf';
 
+function extractOcafEntryFromObject(obj: THREE.Object3D | null): string | null {
+  let cursor: THREE.Object3D | null = obj;
+  while (cursor) {
+    const entry = extractOcafEntry(cursor.name ?? '');
+    if (entry) return entry;
+    cursor = cursor.parent;
+  }
+  return null;
+}
+
 export function indexMeshesByOcafEntry(
   model: THREE.Object3D
 ): Map<string, THREE.Mesh[]> {
@@ -10,7 +20,9 @@ export function indexMeshesByOcafEntry(
     const mesh = obj as THREE.Mesh;
     if (mesh?.isMesh !== true) return;
 
-    const entry = extractOcafEntry(mesh.name ?? '');
+    // Some GLB loaders attach the OCAF-bearing name on an ancestor node rather than
+    // the Mesh object itself. Index by the closest ancestor that carries the entry.
+    const entry = extractOcafEntryFromObject(mesh);
     if (!entry) return;
 
     const list = map.get(entry);
