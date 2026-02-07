@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Browser Conversion + Outputs** - Users can convert STEP in-browser and download GLB with assembly metadata.
 - [x] **Phase 2: Mesh Quality Baseline** - Converted meshes are performant and avoid triangle explosions.
-- [ ] **Phase 3: Explorer Selection Workflow** - Users can select, highlight, and manage parts in the explorer.
+- [x] **Phase 3: Explorer Selection Workflow** - Users can select, highlight, and manage parts in the explorer.
 
 ## Phase Details
 
@@ -78,18 +78,18 @@ Verification:
 
 Plans:
 
-- [ ] 03-01-PLAN.md — Store + NodeMap utilities for selection/visibility semantics
-- [ ] 03-02-PLAN.md — 3D canvas: picking, outline highlight, visibility enforcement, fit controller
-- [ ] 03-03-PLAN.md — Explorer UI: tree + toolbar wired to store (tree<->3D sync)
-- [ ] 03-04-PLAN.md — Human verify: end-to-end selection/visibility/fit workflow
+- [x] 03-01-PLAN.md — Store + NodeMap utilities for selection/visibility semantics
+- [x] 03-02-PLAN.md — 3D canvas: picking, outline highlight, visibility enforcement, fit controller
+- [x] 03-03-PLAN.md — Explorer UI: tree + toolbar wired to store (tree<->3D sync)
+- [x] 03-04-PLAN.md — Human verify: end-to-end selection/visibility/fit workflow
 
 ## Progress
 
 **Execution Order:**
 Phases execute in numeric order: 2 -> 2.1 -> 2.2 -> 3 -> 3.1 -> 4
 
-| Phase                           | Plans Complete | Status      | Completed  |
-| ------------------------------- | -------------- | ----------- | ---------- |
-| 1. Browser Conversion + Outputs | 4/4            | Complete    | 2026-02-06 |
-| 2. Mesh Quality Baseline        | 5/5            | Complete    | 2026-02-07 |
-| 3. Explorer Selection Workflow  | 0/TBD          | Not started | -          |
+| Phase                           | Plans Complete | Status   | Completed  |
+| ------------------------------- | -------------- | -------- | ---------- |
+| 1. Browser Conversion + Outputs | 4/4            | Complete | 2026-02-06 |
+| 2. Mesh Quality Baseline        | 5/5            | Complete | 2026-02-07 |
+| 3. Explorer Selection Workflow  | 4/4            | Complete | 2026-02-07 |

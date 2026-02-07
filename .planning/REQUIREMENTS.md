@@ -27,9 +27,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Explorer UX
 
-- [ ] **EXPL-01**: Selecting a tree node highlights the corresponding geometry in 3D
-- [ ] **EXPL-02**: Selecting geometry in 3D highlights the corresponding tree node
-- [ ] **EXPL-03**: User can hide/isolate parts and fit camera to selection
+- [x] **EXPL-01**: Selecting a tree node highlights the corresponding geometry in 3D
+- [x] **EXPL-02**: Selecting geometry in 3D highlights the corresponding tree node
+- [x] **EXPL-03**: User can hide/isolate parts and fit camera to selection
 
 ## v2 Requirements
 
