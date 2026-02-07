@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense, useCallback, useEffect } from 'react';
 import type { RefObject } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import {
@@ -10,7 +10,10 @@ import {
 } from '@react-three/drei';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { AssemblyModel } from './AssemblyModel';
+import { SelectionOutline } from './SelectionOutline';
+import { FitController } from './FitController';
 import { DevPerfOverlay } from '../components/DevPerfOverlay';
+import { useAssemblyExplorerStore } from '../state/useAssemblyExplorerStore';
 
 interface AssemblyCanvasProps {
   modelUrl: string;
@@ -46,6 +49,10 @@ export function AssemblyCanvas({
   controlsRef,
   onReady,
 }: AssemblyCanvasProps) {
+  const handlePointerMissed = useCallback(() => {
+    useAssemblyExplorerStore.getState().selectOcafEntry(null, '3d');
+  }, []);
+
   useEffect(() => {
     if (!controlsRef.current) {
       return;
@@ -62,6 +69,7 @@ export function AssemblyCanvas({
         camera={{ position: [2.1, 2.1, 2.1], fov: 40, near: 0.1, far: 500 }}
         dpr={[1, 1]}
         gl={{ antialias: false, powerPreference: 'high-performance' }}
+        onPointerMissed={handlePointerMissed}
       >
         <Environment preset="warehouse" />
 
@@ -69,7 +77,10 @@ export function AssemblyCanvas({
 
         <Suspense fallback={null}>
           <AssemblyModel key={modelUrl} url={modelUrl} onReady={onReady} />
+          <SelectionOutline />
         </Suspense>
+
+        <FitController controlsRef={controlsRef} />
 
         <CameraRig controlsRef={controlsRef} />
 
