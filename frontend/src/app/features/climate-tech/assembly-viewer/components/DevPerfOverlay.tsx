@@ -9,8 +9,17 @@ type PerfStats = {
   calls: number;
 };
 
+type SceneDebug = {
+  meshCount: number;
+  namedCount: number;
+  ocafNamedCount: number;
+  sampleOcafName: string | null;
+};
+
+const OCAF_RE = /\d+(?::\d+)+/;
+
 export function DevPerfOverlay() {
-  const { gl } = useThree();
+  const { gl, scene } = useThree();
 
   const selectedNodeId = useAssemblyExplorerStore(
     (state) => state.selectedNodeId
@@ -36,9 +45,17 @@ export function DevPerfOverlay() {
     triangles: 0,
     calls: 0,
   });
+
+  const [sceneDebug, setSceneDebug] = useState<SceneDebug>({
+    meshCount: 0,
+    namedCount: 0,
+    ocafNamedCount: 0,
+    sampleOcafName: null,
+  });
   const framesRef = useRef(0);
   const secondsRef = useRef(0);
   const sinceUpdateRef = useRef(0);
+  const sinceSceneUpdateRef = useRef(0);
 
   useFrame((_, delta) => {
     framesRef.current += 1;
@@ -58,6 +75,40 @@ export function DevPerfOverlay() {
     framesRef.current = 0;
     secondsRef.current = 0;
     sinceUpdateRef.current = 0;
+  });
+
+  useFrame((_, delta) => {
+    sinceSceneUpdateRef.current += delta;
+    if (sinceSceneUpdateRef.current < 0.5) return;
+    sinceSceneUpdateRef.current = 0;
+
+    let meshCount = 0;
+    let namedCount = 0;
+    let ocafNamedCount = 0;
+    let sampleOcafName: string | null = null;
+
+    scene.traverse((obj) => {
+      const anyObj = obj as any;
+      if (anyObj?.isMesh === true) meshCount += 1;
+
+      const name = typeof obj.name === 'string' ? obj.name : '';
+      if (!name) return;
+      namedCount += 1;
+
+      if (OCAF_RE.test(name)) {
+        ocafNamedCount += 1;
+        if (!sampleOcafName) sampleOcafName = name;
+      }
+    });
+
+    setSceneDebug((prev) =>
+      prev.meshCount === meshCount &&
+      prev.namedCount === namedCount &&
+      prev.ocafNamedCount === ocafNamedCount &&
+      prev.sampleOcafName === sampleOcafName
+        ? prev
+        : { meshCount, namedCount, ocafNamedCount, sampleOcafName }
+    );
   });
 
   return (
@@ -115,6 +166,20 @@ export function DevPerfOverlay() {
           <div>
             <span style={{ opacity: 0.7 }}>MeshIndex</span>{' '}
             {meshesByOcafEntrySize}
+          </div>
+
+          <div style={{ marginTop: 6 }}>
+            <span style={{ opacity: 0.7 }}>SceneMeshes</span>{' '}
+            {sceneDebug.meshCount} <span style={{ opacity: 0.7 }}>Named</span>{' '}
+            {sceneDebug.namedCount}{' '}
+            <span style={{ opacity: 0.7 }}>NamedOCAF</span>{' '}
+            {sceneDebug.ocafNamedCount}
+          </div>
+          <div style={{ opacity: 0.8 }}>
+            <span style={{ opacity: 0.7 }}>Sample</span>{' '}
+            {sceneDebug.sampleOcafName
+              ? sceneDebug.sampleOcafName.slice(0, 70)
+              : 'null'}
           </div>
         </div>
       </div>
