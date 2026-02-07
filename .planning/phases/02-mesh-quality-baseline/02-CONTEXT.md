@@ -36,13 +36,44 @@ Out of scope: new explorer features (selection workflow details are Phase 3).
 
 ### Interaction Quality (locked)
 
-- Avoid both FPS drops and input lag; neither is acceptable.
+- Input lag is not acceptable.
+- FPS drops are not acceptable in the common case, but if a tradeoff is required to preserve mechanical fidelity, prefer preserving fidelity even if FPS dips below the targets.
 
 ### Claude's Discretion
 
 - How to measure/track FPS and interaction latency (instrumentation approach).
 - Which representative test models to use to approximate the 200-part workload.
-- Exact knobs and heuristics to tune mesh output, as long as targets above are met.
+- Exact knobs and heuristics to tune mesh output (triangle counts, mesh settings, runtime simplifications), while honoring the tradeoffs below.
+
+### Quality vs Speed (locked)
+
+- Preserve mechanical fidelity over everything.
+- Unacceptable artifacts: holes/cracks, bad normals (wobbly shading), and jagged curves (obvious faceting).
+- If targets cannot be met on the baseline device with default settings, prefer keeping quality and allowing FPS to drop (do not silently destroy fidelity).
+- Prefer slower conversion if it results in smoother runtime interaction.
+
+### Triangle Explosion Policy (locked)
+
+- Claude chooses the triangle explosion threshold(s) for Phase 2.
+- Default behavior when threshold exceeded: auto-adjust to reduce triangles and continue.
+- User-facing warning: show only after conversion completes (summary), not mid-conversion.
+- Persist warnings in outputs: include machine-readable warnings in metadata (e.g., `metadata.conversionWarnings[]`).
+
+### Mesh Appearance Baseline (locked)
+
+- Default shading: preserve "as-converted" (do not force smooth or faceted globally).
+- Sharp edges: mixed policy; preserve only major sharp edges.
+- Normals: mixed policy; recompute only if clearly broken.
+- Prefer consistent appearance across parts, but allow exceptions for performance.
+
+### Measurement and Pass Criteria (locked)
+
+- Add an on-screen FPS/debug overlay in dev builds.
+- Measure both:
+  - continuous orbit for ~10s
+  - orbit while actively selecting/highlighting parts
+- Pass criteria for the ~200-part baseline: meets targets most of the time; occasional dips are acceptable.
+- If preview and Explorer disagree, Explorer wins (prioritize tree + 3D together).
 
 </decisions>
 
