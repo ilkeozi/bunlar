@@ -1,12 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { InputFormat } from 'opencascade-convert/browser';
-import type { AssemblyMetadata, AssemblyBom, AssemblyNodeMap, TranslateFn } from '../types';
+import type {
+  AssemblyMetadata,
+  AssemblyBom,
+  AssemblyNodeMap,
+  TranslateFn,
+} from '../types';
 import { isBomLinkedToNodeMap } from '../types';
 
 const BASIC_TRIANGULATION = {
-  linearDeflection: 8,
-  angularDeflection: 1.5,
-  relative: true,
+  linearDeflection: 1,
+  angularDeflection: 0.5,
+  relative: false,
   parallel: true,
 };
 
@@ -28,7 +33,11 @@ type WorkerFailure = {
   error: string;
 };
 
-type WorkerResponse = (WorkerModelSuccess | WorkerMetadataSuccess | WorkerFailure) & {
+type WorkerResponse = (
+  | WorkerModelSuccess
+  | WorkerMetadataSuccess
+  | WorkerFailure
+) & {
   id: number;
 };
 
@@ -101,7 +110,8 @@ export function useAssemblyFile(
       return new Promise<{ bom: AssemblyBom; nodeMap: AssemblyNodeMap }>(
         (resolve, reject) => {
           let hasModel = false;
-          let metadata: { bom: AssemblyBom; nodeMap: AssemblyNodeMap } | null = null;
+          let metadata: { bom: AssemblyBom; nodeMap: AssemblyNodeMap } | null =
+            null;
 
           const handleMessage = (event: MessageEvent<WorkerResponse>) => {
             if (event.data.id !== id) return;
@@ -129,7 +139,11 @@ export function useAssemblyFile(
           };
           const handleError = (event: ErrorEvent) => {
             cleanup();
-            reject(event.error instanceof Error ? event.error : new Error(event.message));
+            reject(
+              event.error instanceof Error
+                ? event.error
+                : new Error(event.message)
+            );
           };
           const cleanup = () => {
             worker.removeEventListener('message', handleMessage);
@@ -162,7 +176,6 @@ export function useAssemblyFile(
     },
     [revokeObjectUrl]
   );
-
 
   const resetToSample = useCallback(() => {
     requestIdRef.current += 1;

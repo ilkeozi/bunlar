@@ -48,7 +48,9 @@ function toTransferBuffer(data: Uint8Array): ArrayBuffer {
   return copy.buffer;
 }
 
-function mapResult(result: ConvertBufferResult): [WorkerModelSuccess, ArrayBuffer[]] {
+function mapResult(
+  result: ConvertBufferResult
+): [WorkerModelSuccess, ArrayBuffer[]] {
   if (result.outputFormat === 'glb') {
     const data = toTransferBuffer(result.glb);
     return [{ id: 0, ok: true, phase: 'model', data }, [data]];
@@ -68,14 +70,14 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
     });
     converter.triangulate(docHandle.get(), triangulate);
     const result = converter.writeBuffer(docHandle, 'glb', {
-      nameFormat: 'productOrInstance',
+      nameFormat: 'productAndInstanceAndOcaf',
     });
     const [modelResponse, transfer] = mapResult(result);
     modelResponse.id = id;
     self.postMessage(modelResponse, transfer);
 
     const metadata = converter.createMetadataFromGlb(docHandle, {
-      nameFormat: 'productOrInstance',
+      nameFormat: 'productAndInstanceAndOcaf',
     });
     const metadataResponse: WorkerMetadataSuccess = {
       id,
