@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { useAssemblyExplorerStore } from '../state/useAssemblyExplorerStore';
 import { isLeafPartNode } from '../utils/nodeMapIndex';
+import { useTranslation } from '../../../../i18n/useTranslation';
 
 export function AssemblyExplorerToolbar() {
+  const { t } = useTranslation();
   const nodeMap = useAssemblyExplorerStore((state) => state.nodeMap);
   const selectedNodeId = useAssemblyExplorerStore(
     (state) => state.selectedNodeId
@@ -41,7 +43,7 @@ export function AssemblyExplorerToolbar() {
         disabled={!canActOnSelection}
         onClick={hideSelected}
       >
-        Hide
+        {t('assemblyViewer.explorer.toolbar.hide')}
       </Button>
       <Button
         type="button"
@@ -50,7 +52,7 @@ export function AssemblyExplorerToolbar() {
         disabled={!canActOnSelection}
         onClick={showSelected}
       >
-        Show
+        {t('assemblyViewer.explorer.toolbar.show')}
       </Button>
       <Button
         type="button"
@@ -59,7 +61,7 @@ export function AssemblyExplorerToolbar() {
         disabled={!canIsolate}
         onClick={toggleIsolate}
       >
-        Isolate
+        {t('assemblyViewer.explorer.toolbar.isolate')}
       </Button>
       <Button
         type="button"
@@ -68,7 +70,7 @@ export function AssemblyExplorerToolbar() {
         disabled={!canShowAll}
         onClick={showAll}
       >
-        Show all
+        {t('assemblyViewer.explorer.toolbar.showAll')}
       </Button>
       <Button
         type="button"
@@ -77,7 +79,7 @@ export function AssemblyExplorerToolbar() {
         disabled={!canFit}
         onClick={() => requestFit(selectedNodeId ? 'selection' : 'visible')}
       >
-        Fit
+        {t('assemblyViewer.explorer.toolbar.fit')}
       </Button>
     </div>
   );

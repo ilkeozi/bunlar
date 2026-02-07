@@ -5,6 +5,7 @@ import { ChevronDown, ChevronRight, Eye, EyeOff } from 'lucide-react';
 import { useAssemblyExplorerStore } from '../state/useAssemblyExplorerStore';
 import { cn } from '@/lib/utils';
 import { isLeafPartNode } from '../utils/nodeMapIndex';
+import { useTranslation } from '../../../../i18n/useTranslation';
 
 type NodeId = string;
 
@@ -22,6 +23,7 @@ function isNodeEffectivelyHidden(
 }
 
 export function AssemblyExplorerTree() {
+  const { t } = useTranslation();
   const nodeMap = useAssemblyExplorerStore((state) => state.nodeMap);
   const selectedNodeId = useAssemblyExplorerStore(
     (state) => state.selectedNodeId
@@ -141,7 +143,11 @@ export function AssemblyExplorerTree() {
               event.stopPropagation();
               toggleHidden(nodeId);
             }}
-            aria-label={isExplicitHidden ? 'Show node' : 'Hide node'}
+            aria-label={
+              isExplicitHidden
+                ? t('assemblyViewer.explorer.toolbar.show')
+                : t('assemblyViewer.explorer.toolbar.hide')
+            }
           >
             {isExplicitHidden ? (
               <EyeOff className="h-4 w-4" />
