@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { Button } from '@/components/ui/button';
@@ -6,8 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { AssemblyControlsToggle } from '../../../features/climate-tech/assembly-viewer/components/AssemblyControlsToggle';
+import { AssemblyExplorerPanel } from '../../../features/climate-tech/assembly-viewer/components/AssemblyExplorerPanel';
 import { AssemblyFileCard } from '../../../features/climate-tech/assembly-viewer/components/AssemblyFileCard';
 import { useAssemblyFile } from '../../../features/climate-tech/assembly-viewer/hooks/useAssemblyFile';
+import { useAssemblyExplorerStore } from '../../../features/climate-tech/assembly-viewer/state/useAssemblyExplorerStore';
 import { AssemblyCanvas } from '../../../features/climate-tech/assembly-viewer/visualizer/AssemblyCanvas';
 import { useTranslation } from '../../../i18n/useTranslation';
 
@@ -24,10 +26,15 @@ export function AssemblyViewerPage() {
     status,
     error,
     isSample,
+    metadata,
     setFile,
     resetToSample,
     markReady,
   } = useAssemblyFile(t, '', defaultModelName);
+
+  useEffect(() => {
+    useAssemblyExplorerStore.getState().setNodeMap(metadata?.nodeMap ?? null);
+  }, [metadata]);
 
   const handleResetView = () => {
     controlsRef.current?.reset();
@@ -104,6 +111,7 @@ export function AssemblyViewerPage() {
             </CardContent>
           </Card>
 
+          <AssemblyExplorerPanel />
         </aside>
 
         <section className="relative flex flex-1 min-h-[720px] overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-slate-900/70 via-slate-950/80 to-slate-950/95 shadow-[inset_0_12px_35px_rgba(5,8,15,0.45)]">
