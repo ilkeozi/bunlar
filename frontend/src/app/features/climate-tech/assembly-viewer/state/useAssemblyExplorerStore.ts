@@ -1,6 +1,12 @@
 import { create } from 'zustand';
 import type * as THREE from 'three';
 import type { AssemblyNodeMap } from '../types';
+import {
+  buildNodeIdByOcafEntry,
+  getAncestorNodeIds,
+  getLeafPartNodeIdsInSubtree,
+  isLeafPartNode,
+} from '../utils/nodeMapIndex';
 
 export type AssemblyExplorerSelectionSource = 'tree' | '3d' | 'program';
 export type AssemblyExplorerFitRequestMode = 'selection' | 'visible';
@@ -39,26 +45,6 @@ type AssemblyExplorerState = {
   setMeshesByOcafEntry: (meshesByOcafEntry: MeshIndex | null) => void;
 };
 
-function isLeafPartNode(
-  node: { kind: string; children: string[] } | null | undefined
-): boolean {
-  return node?.kind === 'part' && (node.children?.length ?? 0) === 0;
-}
-
-function getAncestorNodeIdsRootFirst(
-  nodeMap: AssemblyNodeMap,
-  nodeId: string
-): string[] {
-  const ancestors: string[] = [];
-  let cursor = nodeMap.nodes[nodeId];
-  while (cursor?.parentId) {
-    ancestors.push(cursor.parentId);
-    cursor = nodeMap.nodes[cursor.parentId];
-  }
-  ancestors.reverse();
-  return ancestors;
-}
-
 export const useAssemblyExplorerStore = create<AssemblyExplorerState>(
   (set, get) => {
     let nodeIdByOcafEntry = new Map<string, string>();
@@ -77,7 +63,9 @@ export const useAssemblyExplorerStore = create<AssemblyExplorerState>(
       meshesByOcafEntry: null,
 
       setNodeMap: (nodeMap) => {
-        nodeIdByOcafEntry = new Map();
+        nodeIdByOcafEntry = nodeMap
+          ? buildNodeIdByOcafEntry(nodeMap)
+          : new Map();
 
         if (!nodeMap) {
           set(() => ({
@@ -91,13 +79,6 @@ export const useAssemblyExplorerStore = create<AssemblyExplorerState>(
             isolateSnapshot: null,
           }));
           return;
-        }
-
-        for (const [nodeId, node] of Object.entries(nodeMap.nodes)) {
-          if (!isLeafPartNode(node)) continue;
-          if (!node.labelEntry) continue;
-          if (!nodeIdByOcafEntry.has(node.labelEntry))
-            nodeIdByOcafEntry.set(node.labelEntry, nodeId);
         }
 
         set((state) => {
@@ -200,10 +181,7 @@ export const useAssemblyExplorerStore = create<AssemblyExplorerState>(
           const nextExpanded =
             source === '3d' && nodeMap && resolvedNodeId
               ? (() => {
-                  const ancestors = getAncestorNodeIdsRootFirst(
-                    nodeMap,
-                    resolvedNodeId
-                  );
+                  const ancestors = getAncestorNodeIds(nodeMap, resolvedNodeId);
                   if (ancestors.length === 0) return state.expandedNodeIds;
                   const merged = new Set(state.expandedNodeIds);
                   for (const id of ancestors) merged.add(id);
@@ -295,9 +273,10 @@ export const useAssemblyExplorerStore = create<AssemblyExplorerState>(
 
           const snapshot = new Set(state.explicitHiddenNodeIds);
           const hidden = new Set<string>();
-          for (const [nodeId, node] of Object.entries(nodeMap.nodes)) {
-            if (!isLeafPartNode(node)) continue;
-            if (nodeId !== selectedNodeId) hidden.add(nodeId);
+          for (const rootId of nodeMap.roots ?? []) {
+            for (const leafId of getLeafPartNodeIdsInSubtree(nodeMap, rootId)) {
+              if (leafId !== selectedNodeId) hidden.add(leafId);
+            }
           }
 
           return {
