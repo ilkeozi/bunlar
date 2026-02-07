@@ -1,5 +1,19 @@
 import { createConverter, type InputFormat } from 'opencascade-convert/browser';
 
+type ConversionWarning = {
+  code: string;
+  message: string;
+  detail?: Record<string, unknown>;
+};
+
+type MeshStats = {
+  triangles: number;
+  primitiveCount: number;
+  meshCount: number;
+  nodeCount: number;
+  nodesWithMeshCount: number;
+};
+
 type WorkerRequest = {
   id: number;
   input: ArrayBuffer;
@@ -25,6 +39,8 @@ type WorkerMetadataSuccess = {
   phase: 'metadata';
   bom: unknown;
   nodeMap: unknown;
+  meshStats: MeshStats;
+  conversionWarnings: ConversionWarning[];
 };
 
 type WorkerFailure = {
@@ -40,6 +56,92 @@ function toTransferBuffer(data: Uint8Array) {
   const out = new Uint8Array(data.byteLength);
   out.set(data);
   return out.buffer;
+}
+
+function parseGlbJson(glb: Uint8Array) {
+  const GLB_HEADER_LENGTH = 12;
+  const GLB_CHUNK_HEADER_LENGTH = 8;
+  const GLB_JSON_CHUNK = 0x4e4f534a;
+  if (glb.byteLength < GLB_HEADER_LENGTH + GLB_CHUNK_HEADER_LENGTH) {
+    throw new Error('Invalid GLB: truncated header');
+  }
+  if (
+    !(glb[0] === 0x67 && glb[1] === 0x6c && glb[2] === 0x54 && glb[3] === 0x46)
+  ) {
+    throw new Error('Invalid GLB: invalid magic');
+  }
+  const view = new DataView(glb.buffer, glb.byteOffset, glb.byteLength);
+  let offset = GLB_HEADER_LENGTH;
+  while (offset + GLB_CHUNK_HEADER_LENGTH <= glb.byteLength) {
+    const chunkLength = view.getUint32(offset, true);
+    const chunkType = view.getUint32(offset + 4, true);
+    const chunkStart = offset + GLB_CHUNK_HEADER_LENGTH;
+    const chunkEnd = chunkStart + chunkLength;
+    if (chunkEnd > glb.byteLength) {
+      throw new Error('Invalid GLB: truncated chunk');
+    }
+    if (chunkType === GLB_JSON_CHUNK) {
+      const jsonText = new TextDecoder('utf-8').decode(
+        glb.subarray(chunkStart, chunkEnd)
+      );
+      return JSON.parse(jsonText);
+    }
+    offset = chunkEnd;
+  }
+  throw new Error('Invalid GLB: missing JSON chunk');
+}
+
+function summarizeGlbGeometry(glb: Uint8Array): MeshStats {
+  const gltf = parseGlbJson(glb) as any;
+  const accessors = Array.isArray(gltf?.accessors)
+    ? (gltf.accessors as any[])
+    : [];
+  const meshes = Array.isArray(gltf?.meshes) ? (gltf.meshes as any[]) : [];
+  const nodes = Array.isArray(gltf?.nodes) ? (gltf.nodes as any[]) : [];
+
+  let triangles = 0;
+  let primitiveCount = 0;
+  meshes.forEach((mesh) => {
+    (mesh?.primitives ?? []).forEach((prim: any) => {
+      primitiveCount += 1;
+
+      // glTF default is TRIANGLES (4) when mode is omitted.
+      const mode = typeof prim?.mode === 'number' ? prim.mode : 4;
+      if (mode !== 4) {
+        return;
+      }
+
+      if (typeof prim?.indices === 'number') {
+        const accessor = accessors[prim.indices];
+        const count = Number(accessor?.count);
+        if (Number.isFinite(count) && count > 0) {
+          triangles += Math.floor(count / 3);
+        }
+        return;
+      }
+
+      const posAccessorIndex = prim?.attributes?.POSITION;
+      if (typeof posAccessorIndex === 'number') {
+        const accessor = accessors[posAccessorIndex];
+        const count = Number(accessor?.count);
+        if (Number.isFinite(count) && count > 0) {
+          triangles += Math.floor(count / 3);
+        }
+      }
+    });
+  });
+
+  const nodesWithMeshCount = nodes.filter(
+    (node) => typeof node?.mesh === 'number'
+  ).length;
+
+  return {
+    triangles,
+    primitiveCount,
+    meshCount: meshes.length,
+    nodeCount: nodes.length,
+    nodesWithMeshCount,
+  };
 }
 
 self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
@@ -62,6 +164,9 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
     if (result.outputFormat !== 'glb') {
       throw new Error('Failed to generate GLB output.');
     }
+
+    const meshStats = summarizeGlbGeometry(result.glb);
+    const conversionWarnings: ConversionWarning[] = [];
 
     const model = toTransferBuffer(result.glb);
     const modelMsg: WorkerModelSuccess = {
@@ -89,6 +194,8 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
       phase: 'metadata',
       bom,
       nodeMap,
+      meshStats,
+      conversionWarnings,
     };
     ctx.postMessage(metadataMsg);
   } catch (error) {

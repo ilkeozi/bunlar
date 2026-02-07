@@ -38,6 +38,33 @@ export type StepConverterError = {
   detail?: Record<string, unknown>;
 };
 
+type ConversionWarning = {
+  code: string;
+  message: string;
+  detail?: Record<string, unknown>;
+};
+
+type MeshStats = {
+  triangles: number;
+  meshCount: number;
+  nodeCount: number;
+  primitiveCount: number;
+  nodesWithMeshCount: number;
+  primitivesWithPositionCount: number;
+};
+
+const TRIANGLE_EXPLOSION_THRESHOLDS = {
+  MAX_TRIANGLES: 5_000_000,
+  MAX_PRIMITIVES: 50_000,
+} as const;
+
+function isTriangleExplosion(stats: MeshStats) {
+  return (
+    stats.triangles > TRIANGLE_EXPLOSION_THRESHOLDS.MAX_TRIANGLES ||
+    stats.primitiveCount > TRIANGLE_EXPLOSION_THRESHOLDS.MAX_PRIMITIVES
+  );
+}
+
 type WorkerStartRequest = {
   type: 'START';
   id: number;
@@ -58,6 +85,8 @@ type WorkerDone = {
   id: number;
   bundleName: string;
   bundleBytes: ArrayBuffer;
+  meshStats?: MeshStats;
+  conversionWarnings?: ConversionWarning[];
 };
 
 type WorkerError = {
@@ -583,17 +612,46 @@ function normalizeWorkerError(error: unknown): StepConverterError {
 
 function summarizeGlbGeometry(glb: Uint8Array) {
   const gltf = parseGlbJson(glb) as any;
+  const accessors = Array.isArray(gltf?.accessors)
+    ? (gltf.accessors as any[])
+    : [];
   const meshes = Array.isArray(gltf?.meshes) ? (gltf.meshes as any[]) : [];
   const nodes = Array.isArray(gltf?.nodes) ? (gltf.nodes as any[]) : [];
 
+  let triangles = 0;
   let primitiveCount = 0;
   let primitivesWithPositionCount = 0;
+
   meshes.forEach((mesh) => {
     (mesh?.primitives ?? []).forEach((prim: any) => {
       primitiveCount += 1;
-      const pos = prim?.attributes?.POSITION;
-      if (typeof pos === 'number') {
+
+      const posAccessorIndex = prim?.attributes?.POSITION;
+      if (typeof posAccessorIndex === 'number') {
         primitivesWithPositionCount += 1;
+      }
+
+      // glTF default is TRIANGLES (4) when mode is omitted.
+      const mode = typeof prim?.mode === 'number' ? prim.mode : 4;
+      if (mode !== 4) {
+        return;
+      }
+
+      if (typeof prim?.indices === 'number') {
+        const accessor = accessors[prim.indices];
+        const count = Number(accessor?.count);
+        if (Number.isFinite(count) && count > 0) {
+          triangles += Math.floor(count / 3);
+        }
+        return;
+      }
+
+      if (typeof posAccessorIndex === 'number') {
+        const accessor = accessors[posAccessorIndex];
+        const count = Number(accessor?.count);
+        if (Number.isFinite(count) && count > 0) {
+          triangles += Math.floor(count / 3);
+        }
       }
     });
   });
@@ -602,12 +660,15 @@ function summarizeGlbGeometry(glb: Uint8Array) {
     (node) => typeof node?.mesh === 'number'
   ).length;
 
-  return {
+  const stats: MeshStats = {
+    triangles,
     meshCount: meshes.length,
+    nodeCount: nodes.length,
     primitiveCount,
-    primitivesWithPositionCount,
     nodesWithMeshCount,
+    primitivesWithPositionCount,
   };
+  return stats;
 }
 
 async function convertStepDocToGlb(params: {
@@ -627,6 +688,9 @@ async function convertStepDocToGlb(params: {
   const progress = new oc.Message_ProgressRange_1();
   const file = new oc.TCollection_AsciiString_2(pathInternal);
   const writer = new oc.RWGltf_CafWriter(file, true);
+  if (typeof writer.SetMergeFaces === 'function') {
+    writer.SetMergeFaces(true);
+  }
   const formatKey =
     params.nameFormat === 'productAndInstanceAndOcaf'
       ? 'RWMesh_NameFormat_ProductAndInstanceAndOcaf'
@@ -700,23 +764,115 @@ async function handleStartMessage(message: WorkerStartRequest) {
 
     postProgress('meshing');
     postProgress('writing');
-    const glb = await convertStepDocToGlb({
-      converter,
-      docHandle,
-      triangulate: message.triangulate,
-      nameFormat: 'productAndInstanceAndOcaf',
-    });
+    const conversionWarnings: ConversionWarning[] = [];
+    const triangulateOriginal = message.triangulate ?? {};
+    const linearDeflection0 = triangulateOriginal.linearDeflection ?? 1;
+    const angularDeflection0 = triangulateOriginal.angularDeflection ?? 0.5;
 
-    const geometry = summarizeGlbGeometry(glb);
+    if (triangulateOriginal.relative === true) {
+      conversionWarnings.push({
+        code: 'mesh/relative-forced-false',
+        message:
+          'Relative deflection was disabled to ensure absolute tessellation.',
+        detail: {
+          triangulateOriginal,
+          triangulateForced: {
+            ...triangulateOriginal,
+            relative: false,
+          },
+        },
+      });
+    }
+
+    const triangulateForAttempt = (attempt: number): TriangulatePayload => {
+      if (attempt === 0) {
+        return {
+          linearDeflection: linearDeflection0,
+          angularDeflection: angularDeflection0,
+          relative: false,
+          parallel: triangulateOriginal.parallel,
+        };
+      }
+
+      if (attempt === 1) {
+        return {
+          linearDeflection: linearDeflection0 * 2,
+          angularDeflection: Math.min(1.0, angularDeflection0 * 1.4),
+          relative: false,
+          parallel: triangulateOriginal.parallel,
+        };
+      }
+
+      return {
+        linearDeflection: linearDeflection0 * 4,
+        angularDeflection: Math.min(1.2, angularDeflection0 * 1.8),
+        relative: false,
+        parallel: triangulateOriginal.parallel,
+      };
+    };
+
+    let glb: Uint8Array | null = null;
+    let meshStats: MeshStats | null = null;
+    let triangulateUsed: TriangulatePayload | null = null;
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      triangulateUsed = triangulateForAttempt(attempt);
+      const candidate = await convertStepDocToGlb({
+        converter,
+        docHandle,
+        triangulate: triangulateUsed,
+        nameFormat: 'productAndInstanceAndOcaf',
+      });
+
+      const stats = summarizeGlbGeometry(candidate);
+      glb = candidate;
+      meshStats = stats;
+
+      if (!isTriangleExplosion(stats)) {
+        break;
+      }
+
+      if (attempt < 2) {
+        conversionWarnings.push({
+          code: 'mesh/triangle-explosion-retry',
+          message: `Triangle explosion detected on attempt ${attempt}; meshing was coarsened and retried.`,
+          detail: {
+            attempt,
+            thresholds: TRIANGLE_EXPLOSION_THRESHOLDS,
+            meshStats: stats,
+            triangulateUsed,
+          },
+        });
+        continue;
+      }
+
+      conversionWarnings.push({
+        code: 'mesh/triangle-explosion-unresolved',
+        message:
+          'Triangle explosion thresholds were exceeded after the final attempt.',
+        detail: {
+          attempt,
+          thresholds: TRIANGLE_EXPLOSION_THRESHOLDS,
+          meshStats: stats,
+          triangulateUsed,
+        },
+      });
+      break;
+    }
+
+    if (!glb || !meshStats) {
+      throw new ConversionError('Failed to generate GLB output.');
+    }
+
     if (
-      geometry.meshCount === 0 ||
-      geometry.primitivesWithPositionCount === 0
+      meshStats.meshCount === 0 ||
+      meshStats.primitivesWithPositionCount === 0
     ) {
       throw Object.assign(
         new Error('This STEP file contains no supported solids/assemblies.'),
         {
           __code: 'UNSUPPORTED_STEP_CONTENT',
-          detail: geometry,
+          detail: meshStats,
         }
       );
     }
@@ -827,6 +983,8 @@ async function handleStartMessage(message: WorkerStartRequest) {
 
     const metadata = {
       schemaVersion: 'bunlar-step-converter@1',
+      meshStats,
+      conversionWarnings,
       assemblyTree: buildAssemblyTree({ roots: nodeMapRaw.roots, nodes }),
       nodeMap: {
         roots: nodeMapRaw.roots,
@@ -908,6 +1066,8 @@ async function handleStartMessage(message: WorkerStartRequest) {
       id: message.id,
       bundleName: `${base}.zip`,
       bundleBytes,
+      meshStats,
+      conversionWarnings,
     };
     (self as DedicatedWorkerGlobalScope).postMessage(done, [bundleBytes]);
   } catch (error) {
