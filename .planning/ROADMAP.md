@@ -49,14 +49,15 @@ Plans:
 
 1. User can orbit and interact with converted assemblies at smooth frame rates in the explorer.
 2. User observes meshes that maintain visual fidelity without runaway triangle counts.
-   **Plans**: 4 plans
+   **Plans**: 5 plans
 
 Plans:
 
-- [ ] 02-01-PLAN.md — Enable face merging + switch Explorer meshing defaults to absolute deflection
-- [ ] 02-02-PLAN.md — Retry-on-triangle-explosion + persisted warnings + Step Converter warning UI
-- [ ] 02-03-PLAN.md — Dev-only FPS/debug overlay for Explorer canvas
-- [ ] 02-04-PLAN.md — Human verify: FPS baseline + warning persistence
+- [x] 02-01-PLAN.md — Enable face merging + switch Explorer meshing defaults to absolute deflection
+- [x] 02-02-PLAN.md — Retry-on-triangle-explosion + persisted warnings + Step Converter warning UI
+- [x] 02-03-PLAN.md — Dev-only FPS/debug overlay for Explorer canvas
+- [x] 02-04-PLAN.md — Human verify: FPS baseline + warning persistence
+- [ ] 02-05-PLAN.md — Gap closure: Explorer worker bounded retry-on-explosion + structured conversionWarnings
 
 Verification:
 
