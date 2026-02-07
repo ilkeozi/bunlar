@@ -61,7 +61,7 @@ Plans:
 
 Verification:
 
-- Status: gaps_found
+- Status: human_needed
 - Report: .planning/phases/02-mesh-quality-baseline/02-VERIFICATION.md
 
 ### Phase 3: Explorer Selection Workflow
@@ -85,8 +85,8 @@ Plans:
 **Execution Order:**
 Phases execute in numeric order: 2 -> 2.1 -> 2.2 -> 3 -> 3.1 -> 4
 
-| Phase                           | Plans Complete | Status             | Completed  |
-| ------------------------------- | -------------- | ------------------ | ---------- |
-| 1. Browser Conversion + Outputs | 4/4            | Complete           | 2026-02-06 |
-| 2. Mesh Quality Baseline        | 5/5            | Ready to re-verify | -          |
-| 3. Explorer Selection Workflow  | 0/TBD          | Not started        | -          |
+| Phase                           | Plans Complete | Status       | Completed  |
+| ------------------------------- | -------------- | ------------ | ---------- |
+| 1. Browser Conversion + Outputs | 4/4            | Complete     | 2026-02-06 |
+| 2. Mesh Quality Baseline        | 5/5            | Human needed | -          |
+| 3. Explorer Selection Workflow  | 0/TBD          | Not started  | -          |
