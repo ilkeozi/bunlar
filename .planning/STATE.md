@@ -10,32 +10,31 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 2 of 3 (Mesh Quality Baseline)
-Plan: 1 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-02-07 — Completed 02-03-PLAN.md
+Last activity: 2026-02-07 — Completed 02-01-PLAN.md
 
-Progress: [██████░░░░] 63%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 3
-- Total plans completed: 5
-- Average duration: 3h 35m
-- Total execution time: 17h 58m
+- Total plans completed: 6
+- Average duration: 3h 1m
+- Total execution time: 18h 5m
 
 **By Phase:**
 
 | Phase | Plans | Total   | Avg/Plan |
 | ----- | ----- | ------- | -------- |
 | 1     | 4     | 17h 56m | 4h 29m   |
-| 2     | 1     | 2 min   | 2 min    |
+| 2     | 2     | 9 min   | 4.5 min  |
 
 **Recent Trend:**
 
-- Last 5 plans: 02-03 (2 min), 01-04 (5 min), 01-03 (17h 25m), 01-02 (17 min), 01-01 (9 min)
-- Trend: Phase 2 instrumentation started (dev overlay) to make orbit/select performance measurable while tuning mesh output
+- Last 5 plans: 02-01 (7 min), 02-03 (2 min), 01-04 (5 min), 01-03 (17h 25m), 01-02 (17 min)
+- Trend: Phase 2 baseline safeguards landed (face merging + absolute tessellation + bounded retry-on-explosion)
 
 ## Accumulated Context
 
@@ -51,6 +50,7 @@ Recent decisions affecting current work:
 - Phase 1: Prefer STEP labels for names and fall back to glTF node names; normalize names across metadata outputs.
 - Phase 1: Emit `UNSUPPORTED_STEP_CONTENT` for empty node maps / meshless GLBs and preserve error `detail` for diagnostics.
 - Phase 2: Add a dev-only FPS/renderer overlay in the Assembly Explorer canvas (throttled updates) to baseline interaction performance.
+- Phase 2: Default Explorer conversions to absolute tessellation and apply a bounded retry policy when post-write meshStats exceed thresholds.
 
 ### Pending Todos
 
@@ -62,6 +62,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-07 10:01Z
-Stopped at: Completed 02-03-PLAN.md
+Last session: 2026-02-07 10:06Z
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None
