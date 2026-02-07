@@ -17,8 +17,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Mesh Quality
 
-- [ ] **MESH-01**: Conversion produces meshes suitable for real-time rendering on mid-range desktop Chrome
-- [ ] **MESH-02**: Conversion avoids triangle/mesh explosions while maintaining visual fidelity
+- [x] **MESH-01**: Conversion produces meshes suitable for real-time rendering on mid-range desktop Chrome
+- [x] **MESH-02**: Conversion avoids triangle/mesh explosions while maintaining visual fidelity
 
 ### Output & Metadata
 
@@ -70,8 +70,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CONV-03     | Phase 1 | Complete |
 | CONV-04     | Phase 1 | Complete |
 | CONV-05     | Phase 1 | Complete |
-| MESH-01     | Phase 2 | Pending  |
-| MESH-02     | Phase 2 | Pending  |
+| MESH-01     | Phase 2 | Complete |
+| MESH-02     | Phase 2 | Complete |
 | OUT-01      | Phase 1 | Complete |
 | OUT-02      | Phase 1 | Complete |
 | EXPL-01     | Phase 3 | Pending  |
@@ -87,4 +87,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-02-06 after Phase 1 verification_
+_Last updated: 2026-02-07 after Phase 2 verification_
