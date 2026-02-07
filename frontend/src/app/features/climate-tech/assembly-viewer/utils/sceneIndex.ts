@@ -11,8 +11,11 @@ function extractOcafEntryFromObject(obj: THREE.Object3D | null): string | null {
   return null;
 }
 
+export type OcafEntryResolver = (obj: THREE.Object3D | null) => string | null;
+
 export function indexMeshesByOcafEntry(
-  model: THREE.Object3D
+  model: THREE.Object3D,
+  resolveOcafEntry: OcafEntryResolver = extractOcafEntryFromObject
 ): Map<string, THREE.Mesh[]> {
   const map = new Map<string, THREE.Mesh[]>();
 
@@ -22,7 +25,7 @@ export function indexMeshesByOcafEntry(
 
     // Some GLB loaders attach the OCAF-bearing name on an ancestor node rather than
     // the Mesh object itself. Index by the closest ancestor that carries the entry.
-    const entry = extractOcafEntryFromObject(mesh);
+    const entry = resolveOcafEntry(mesh);
     if (!entry) return;
 
     const list = map.get(entry);
