@@ -1,5 +1,11 @@
 import { createConverter, type InputFormat } from 'opencascade-convert/browser';
 
+import {
+  TRIANGLE_EXPLOSION_THRESHOLDS,
+  getTriangulationForAttempt,
+  isTriangleExplosion,
+} from './explosionPolicy';
+
 type ConversionWarning = {
   code: string;
   message: string;
@@ -13,18 +19,6 @@ type MeshStats = {
   nodeCount: number;
   nodesWithMeshCount: number;
 };
-
-const TRIANGLE_EXPLOSION_THRESHOLDS = {
-  MAX_TRIANGLES: 5_000_000,
-  MAX_PRIMITIVES: 50_000,
-} as const;
-
-function isTriangleExplosion(meshStats: MeshStats) {
-  return (
-    meshStats.triangles > TRIANGLE_EXPLOSION_THRESHOLDS.MAX_TRIANGLES ||
-    meshStats.primitiveCount > TRIANGLE_EXPLOSION_THRESHOLDS.MAX_PRIMITIVES
-  );
-}
 
 type WorkerRequest = {
   id: number;
@@ -170,6 +164,8 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
 
     const conversionWarnings: ConversionWarning[] = [];
     const triangulateOriginal = triangulate ?? {};
+    const { MAX_TRIANGLES, MAX_PRIMITIVES } = TRIANGLE_EXPLOSION_THRESHOLDS;
+    const thresholds = { MAX_TRIANGLES, MAX_PRIMITIVES } as const;
 
     if (triangulateOriginal.relative === true) {
       conversionWarnings.push({
@@ -189,38 +185,18 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
     const linearDeflection0 = triangulateOriginal.linearDeflection ?? 1;
     const angularDeflection0 = triangulateOriginal.angularDeflection ?? 0.5;
 
-    const triangulateForAttempt = (attempt: number) => {
-      if (attempt === 0) {
-        return {
-          linearDeflection: linearDeflection0,
-          angularDeflection: angularDeflection0,
-          relative: false,
-          parallel: triangulateOriginal.parallel,
-        };
-      }
-
-      if (attempt === 1) {
-        return {
-          linearDeflection: linearDeflection0 * 2,
-          angularDeflection: Math.min(1.0, angularDeflection0 * 1.4),
-          relative: false,
-          parallel: triangulateOriginal.parallel,
-        };
-      }
-
-      return {
-        linearDeflection: linearDeflection0 * 4,
-        angularDeflection: Math.min(1.2, angularDeflection0 * 1.8),
-        relative: false,
-        parallel: triangulateOriginal.parallel,
-      };
-    };
-
     let glb: Uint8Array | null = null;
     let meshStats: MeshStats | null = null;
 
     for (let attempt = 0; attempt < 3; attempt += 1) {
-      const triangulateUsed = triangulateForAttempt(attempt);
+      const triangulateUsed = getTriangulationForAttempt(
+        {
+          linearDeflection0,
+          angularDeflection0,
+          parallel: triangulateOriginal.parallel,
+        },
+        attempt
+      );
       converter.triangulate(docHandle.get(), triangulateUsed);
       const result = converter.writeBuffer(docHandle, 'glb', {
         nameFormat: 'productAndInstanceAndOcaf',
@@ -240,7 +216,7 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
 
       const detail = {
         attempt,
-        thresholds: TRIANGLE_EXPLOSION_THRESHOLDS,
+        thresholds,
         meshStats: stats,
         triangulateUsed,
       };
