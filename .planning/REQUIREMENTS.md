@@ -74,9 +74,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MESH-02     | Phase 2 | Complete |
 | OUT-01      | Phase 1 | Complete |
 | OUT-02      | Phase 1 | Complete |
-| EXPL-01     | Phase 3 | Pending  |
-| EXPL-02     | Phase 3 | Pending  |
-| EXPL-03     | Phase 3 | Pending  |
+| EXPL-01     | Phase 3 | Complete |
+| EXPL-02     | Phase 3 | Complete |
+| EXPL-03     | Phase 3 | Complete |
 
 **Coverage:**
 
@@ -87,4 +87,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-02-07 after Phase 2 verification_
+_Last updated: 2026-02-07 after Phase 3 verification_
