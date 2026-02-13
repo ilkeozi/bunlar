@@ -1,8 +1,0 @@
-{
-  "name": "@bunlar/occt-api",
-  "version": "0.0.0",
-  "private": true,
-  "dependencies": {
-    "opencascade-convert": "file:../opencascade-convert"
-  }
-}
