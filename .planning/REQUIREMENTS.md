@@ -11,8 +11,8 @@ Requirements for v1.1. Each maps to roadmap phases.
 
 ### Nx Workspace Cleanup
 
-- [ ] **NX-01**: Nx no longer includes `cad-converter` as a project (no targets, no graph node)
-- [ ] **NX-02**: Nx no longer includes `occt-api` as a project (no targets, no graph node)
+- [x] **NX-01**: Nx no longer includes `cad-converter` as a project (no targets, no graph node)
+- [x] **NX-02**: Nx no longer includes `occt-api` as a project (no targets, no graph node)
 - [ ] **NX-03**: Repository contains no scripts/docs/CI references that assume `cad-converter` or `occt-api` exist in Nx
 - [ ] **NX-04**: Remaining Nx projects run cleanly after removal (serve/build/test/e2e as applicable)
 
@@ -42,12 +42,12 @@ Explicitly excluded for v1.1.
 
 Which phases cover which requirements. Updated during roadmap creation.
 
-| Requirement | Phase   | Status  |
-| ----------- | ------- | ------- |
-| NX-01       | Phase 4 | Pending |
-| NX-02       | Phase 4 | Pending |
-| NX-03       | Phase 6 | Pending |
-| NX-04       | Phase 6 | Pending |
+| Requirement | Phase   | Status   |
+| ----------- | ------- | -------- |
+| NX-01       | Phase 4 | Complete |
+| NX-02       | Phase 4 | Complete |
+| NX-03       | Phase 6 | Pending  |
+| NX-04       | Phase 6 | Pending  |
 
 **Coverage:**
 

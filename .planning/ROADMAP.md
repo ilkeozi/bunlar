@@ -26,7 +26,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Mesh Quality Baseline** - Converted meshes are performant and avoid triangle explosions.
 - [x] **Phase 3: Explorer Selection Workflow** - Users can select, highlight, and manage parts in the explorer.
 
-- [ ] **Phase 4: Decommission Nx Projects** - Remove `cad-converter` and `occt-api` from Nx.
+- [x] **Phase 4: Decommission Nx Projects** - Remove `cad-converter` and `occt-api` from Nx.
 - [ ] **Phase 5: Remove Unused Artifacts** - Delete remaining artifacts and fix references/imports.
 - [ ] **Phase 6: Workspace Verification** - Confirm remaining Nx tasks run cleanly after removal.
 
@@ -128,8 +128,13 @@ Phases execute in numeric order: 1 -> 2 -> 3
 
 Plans:
 
-- [ ] 04-01-PLAN.md — Remove `cad-converter` Nx project config + targets
-- [ ] 04-02-PLAN.md — Remove `occt-api` Nx project config + targets
+- [x] 04-01-PLAN.md — Remove `cad-converter` Nx project config + targets
+- [x] 04-02-PLAN.md — Remove `occt-api` Nx project config + targets
+
+Verification:
+
+- Status: passed
+- Report: .planning/phases/04-decommission-nx-projects/04-VERIFICATION.md
 
 ### Phase 5: Remove Unused Artifacts
 
@@ -165,8 +170,8 @@ Plans:
 
 ## Progress (v1.1)
 
-| Phase                       | Plans Complete | Status  | Completed |
-| --------------------------- | -------------- | ------- | --------- |
-| 4. Decommission Nx Projects | 0/2            | Pending | -         |
-| 5. Remove Unused Artifacts  | 0/1            | Pending | -         |
-| 6. Workspace Verification   | 0/2            | Pending | -         |
+| Phase                       | Plans Complete | Status   | Completed  |
+| --------------------------- | -------------- | -------- | ---------- |
+| 4. Decommission Nx Projects | 2/2            | Complete | 2026-02-13 |
+| 5. Remove Unused Artifacts  | 0/1            | Pending  | -          |
+| 6. Workspace Verification   | 0/2            | Pending  | -          |
