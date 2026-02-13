@@ -26,11 +26,9 @@ STEP assemblies load smoothly in the Assembly Hierarchy Explorer because convers
 
 ### Active
 
-- [ ] Explorer can open a Step Converter bundle (zip/glb+metadata) without re-conversion
-- [ ] Add Playwright E2E coverage for Assembly Hierarchy Explorer selection/visibility/fit
-- [ ] Add Step Converter success-path E2E asserting a non-empty downloadable bundle
-- [ ] Reduce GLB JSON parsing duplication across worker + viewer utilities
-- [ ] Dual entry points (browser + Node/CLI) with redesigned API surface
+- [ ] Remove `cad-converter` from Nx workspace and repository
+- [ ] Remove `occt-api` from Nx workspace and repository
+- [ ] Remove docs/scripts/CI references to removed projects; ensure remaining Nx tasks run cleanly
 
 ### Out of Scope
 
@@ -77,6 +75,17 @@ Shipped v1 with:
 
 Known tech debt (tracked in `.planning/milestones/v1-MILESTONE-AUDIT.md`): Explorer does not yet open Step Converter bundles directly; E2E coverage for Explorer is missing.
 
+## Current Milestone: v1.1 Nx Cleanup
+
+**Goal:** Remove `cad-converter` and `occt-api` from the Nx workspace and repository so the monorepo focuses on the browser conversion + explorer workflow.
+
+**Target outcomes:**
+
+- Remove Nx project configuration for `cad-converter`
+- Remove Nx project configuration for `occt-api`
+- Remove scripts/docs/CI references so `nx graph`, `nx affected`, and standard tasks run cleanly
+- Confirm the remaining workspace (frontend + e2e + conversion-in-browser path) still builds and runs
+
 ---
 
-_Last updated: 2026-02-07 after v1 milestone completion_
+_Last updated: 2026-02-13 after starting v1.1 milestone_

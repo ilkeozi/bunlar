@@ -2,19 +2,19 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-01-30)
+See: .planning/PROJECT.md (updated 2026-02-13)
 
 **Core value:** STEP assemblies load smoothly in the Assembly Hierarchy Explorer because conversion produces efficient, high-quality meshes.
-**Current focus:** Planning next milestone (post v1)
+**Current focus:** v1.1 Nx Cleanup (defining requirements)
 
 ## Current Position
 
-Phase: -
-Plan: Not started
-Status: Milestone complete
-Last activity: 2026-02-07 — v1 milestone archived
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-02-13 — Started v1.1 milestone
 
-Progress: [██████████] 100%
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
