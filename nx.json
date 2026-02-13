@@ -17,6 +17,7 @@
   "plugins": [
     {
       "plugin": "@nx/js/typescript",
+      "exclude": ["packages/occt-api/**"],
       "options": {
         "typecheck": {
           "targetName": "typecheck"
