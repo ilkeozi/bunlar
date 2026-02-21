@@ -18,7 +18,6 @@ import { Switch } from '@/components/ui/switch';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import type {
   ConversionMode,
-  OutputFormat,
   StepConverterController,
   TranslateFn,
 } from '../types';
@@ -28,40 +27,33 @@ type StepConverterFormProps = {
   converter: StepConverterController;
 };
 
-const FORMAT_OPTIONS: Array<{ value: OutputFormat; label: string }> = [
-  { value: 'gltf', label: 'glTF' },
-  { value: 'glb', label: 'GLB' },
-  { value: 'obj', label: 'OBJ' },
-];
-
 export function StepConverterForm({ t, converter }: StepConverterFormProps) {
   const {
     file,
     mode,
-    format,
     linDeflection,
     angDeflection,
     relative,
     parallel,
-    includeBom,
-    includeNodeMap,
     status,
     hasInvalidNumbers,
     isAdvanced,
     onFileChange,
     onModeChange,
-    onFormatChange,
     onLinDeflectionChange,
     onAngDeflectionChange,
     onRelativeChange,
     onParallelChange,
-    onIncludeBomChange,
-    onIncludeNodeMapChange,
     onSubmit,
     onReset,
     onCancel,
   } = converter;
   const isBusy = status.state === 'loading';
+
+  const stageLabel =
+    status.state === 'loading' && status.stage
+      ? t(`tools.stepConverter.status.stage.${status.stage}` as const)
+      : t('tools.stepConverter.status.loading');
 
   return (
     <Card className="border-border/60 bg-background/90">
@@ -78,16 +70,16 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
               {t('tools.stepConverter.form.fileLabel')}
             </Label>
             <div className="rounded-xl border border-border/60 bg-background/80 px-4 py-3">
-                <input
-                  id="step-file"
-                  type="file"
-                  accept=".step,.stp,.iges,.igs"
-                  disabled={isBusy}
-                  className="block w-full text-sm text-muted-foreground file:mr-4 file:rounded-full file:border-0 file:bg-primary/10 file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-wide file:text-primary"
-                  onChange={(event) =>
-                    onFileChange(event.target.files?.[0] ?? null)
-                  }
-                />
+              <input
+                id="step-file"
+                type="file"
+                accept=".step,.stp"
+                disabled={isBusy}
+                className="block w-full text-sm text-muted-foreground file:mr-4 file:rounded-full file:border-0 file:bg-primary/10 file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-wide file:text-primary"
+                onChange={(event) =>
+                  onFileChange(event.target.files?.[0] ?? null)
+                }
+              />
             </div>
             <p className="text-xs text-muted-foreground">
               {t('tools.stepConverter.form.fileHint')}
@@ -123,25 +115,10 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="format-select">
-                {t('tools.stepConverter.form.formatLabel')}
-              </Label>
-              <Select
-                value={format}
-                onValueChange={(value) => onFormatChange(value as OutputFormat)}
-                disabled={isBusy}
-              >
-                <SelectTrigger id="format-select">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {FORMAT_OPTIONS.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Label>{t('tools.stepConverter.form.outputLabel')}</Label>
+              <div className="rounded-xl border border-border/60 bg-background/80 px-4 py-3 text-sm text-muted-foreground">
+                {t('tools.stepConverter.form.outputBundle')}
+              </div>
             </div>
           </div>
 
@@ -217,44 +194,9 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
             </div>
           )}
 
-          {isAdvanced && (
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-background/80 px-4 py-3">
-                <Label
-                  htmlFor="bom-toggle"
-                  className="text-sm text-muted-foreground"
-                >
-                  {t('tools.stepConverter.form.includeBom')}
-                </Label>
-                <Switch
-                  id="bom-toggle"
-                  checked={includeBom}
-                  disabled={isBusy}
-                  onCheckedChange={onIncludeBomChange}
-                />
-              </div>
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-background/80 px-4 py-3">
-                <Label
-                  htmlFor="node-map-toggle"
-                  className="text-sm text-muted-foreground"
-                >
-                  {t('tools.stepConverter.form.includeNodeMap')}
-                </Label>
-                <Switch
-                  id="node-map-toggle"
-                  checked={includeNodeMap}
-                  disabled={isBusy}
-                  onCheckedChange={onIncludeNodeMapChange}
-                />
-              </div>
-            </div>
-          )}
-
           <div className="flex flex-wrap items-center gap-3">
             <Button type="submit" disabled={!file || isBusy}>
-              {isBusy
-                ? t('tools.stepConverter.status.loading')
-                : t('tools.stepConverter.form.submit')}
+              {isBusy ? stageLabel : t('tools.stepConverter.form.submit')}
             </Button>
             <Button
               type="button"
@@ -273,6 +215,10 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
           </div>
 
           <div
+            data-testid="step-converter-status"
+            data-error-code={
+              status.state === 'error' ? status.error.code : undefined
+            }
             className={`rounded-xl border px-4 py-3 text-sm ${
               status.state === 'error'
                 ? 'border-destructive/50 bg-destructive/10 text-destructive'
@@ -286,16 +232,15 @@ export function StepConverterForm({ t, converter }: StepConverterFormProps) {
                 <LoadingSpinner size="xs" className="text-primary" />
               )}
               {status.state === 'idle' && t('tools.stepConverter.status.idle')}
-              {status.state === 'loading' &&
-                t('tools.stepConverter.status.loading')}
+              {status.state === 'loading' && stageLabel}
               {status.state === 'success' &&
                 t('tools.stepConverter.status.success')}
               {status.state === 'error' &&
                 t('tools.stepConverter.status.error')}
             </span>
-            {status.message && status.state === 'error' && (
+            {status.state === 'error' && (
               <span className="ml-2 text-xs text-destructive/80">
-                {status.message}
+                {status.error.message}
               </span>
             )}
           </div>

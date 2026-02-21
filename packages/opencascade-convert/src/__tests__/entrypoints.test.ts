@@ -8,12 +8,14 @@ describe('entry points', () => {
     expect(typeof nodeEntry.convertFile).toBe('function');
     expect(typeof nodeEntry.convertBuffer).toBe('function');
     expect(typeof nodeEntry.getOpenCascade).toBe('function');
+    expect(typeof nodeEntry.injectAssetExtrasIntoGlb).toBe('function');
   });
 
   it('exposes browser entry exports', () => {
     expect(typeof browserEntry.createConverter).toBe('function');
     expect(typeof browserEntry.convertBuffer).toBe('function');
     expect(typeof browserEntry.getOpenCascade).toBe('function');
+    expect(typeof browserEntry.injectAssetExtrasIntoGlb).toBe('function');
   });
 
   it('browser entry does not allow file conversion', async () => {

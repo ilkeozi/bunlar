@@ -10,9 +10,6 @@
       "path": "./frontend"
     },
     {
-      "path": "./packages/occt-api"
-    },
-    {
       "path": "./packages/opencascade-convert"
     }
   ]

@@ -14,6 +14,7 @@ import { MathematicsPage } from './pages/MathematicsPage';
 // import { AboutPage } from './pages/AboutPage';
 // import { ArticlesPage } from './pages/ArticlesPage';
 import { CarbonAwareMotorAssemblyPage } from './pages/subjects/climate-tech/CarbonAwareMotorAssemblyPage';
+import { AssemblyViewerPage } from './pages/subjects/climate-tech/AssemblyViewerPage';
 import { ToolsPage } from './pages/ToolsPage';
 import { StepConverterBrowserPage } from './pages/tools/StepConverterBrowserPage';
 
@@ -34,6 +35,10 @@ export function App() {
           <Route
             path="/subjects/climate-tech/planetary-gearbox-assembly"
             element={<CarbonAwareMotorAssemblyPage />}
+          />
+          <Route
+            path="/subjects/climate-tech/assembly-hierarchy-explorer"
+            element={<AssemblyViewerPage />}
           />
           <Route path="/subjects/biology" element={<BiologyPage />} />
           <Route path="/subjects/physics" element={<PhysicsPage />} />

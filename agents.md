@@ -83,6 +83,11 @@ Keep this guide handy when orienting new contributors or wiring up automation ag
 - Prefer the `openaiDeveloperDocs` MCP server for documentation lookups whenever possible, and mention when a source could not be reached.
 - When MCP servers exist for a task (for example `shadcn` or `nx-mcp`), use them as the primary source of truth before falling back to manual lookups.
 
+### Available skills (repo-local)
+
+- `vercel-react-best-practices` (path: `.codex/skills/vercel-react-best-practices` → `.agents/skills/vercel-react-best-practices/SKILL.md`)
+- `web-design-guidelines` (path: `.codex/skills/web-design-guidelines` → `.agents/skills/web-design-guidelines/SKILL.md`)
+
 ## Codex verification
 
 - Run `codex mcp list` to confirm MCP servers are registered.

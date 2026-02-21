@@ -54,6 +54,14 @@ const VISUALIZATIONS: Array<VisualizationItem & { subject: VisualizationSubject 
     image: gearboxThumb,
   },
   {
+    subject: 'climateTech',
+    to: '/subjects/climate-tech/assembly-hierarchy-explorer',
+    titleKey: 'climateTech.modules.assemblyViewer.title',
+    descriptionKey: 'climateTech.modules.assemblyViewer.description',
+    ctaKey: 'climateTech.modules.assemblyViewer.cta',
+    image: gearboxThumb,
+  },
+  {
     subject: 'chemistry',
     to: '/subjects/chemistry/bohr-atom-model',
     titleKey: 'chemistry.modules.bohrModel.title',

@@ -30,6 +30,21 @@ export function ClimateTechPage() {
             </CardContent>
           </Card>
         </Link>
+        <Link to="/subjects/climate-tech/assembly-hierarchy-explorer" className="group">
+          <Card className="h-full transition group-hover:-translate-y-1 group-hover:border-primary/50 group-hover:shadow-2xl">
+            <CardHeader>
+              <CardTitle>{t('climateTech.modules.assemblyViewer.title')}</CardTitle>
+              <CardDescription>
+                {t('climateTech.modules.assemblyViewer.description')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <span className="text-xs font-semibold uppercase tracking-wide text-primary/80">
+                {t('climateTech.modules.assemblyViewer.cta')}
+              </span>
+            </CardContent>
+          </Card>
+        </Link>
         <Card className="border-dashed border-border/60 bg-background/60">
           <CardHeader>
             <CardTitle>{t('modules.more.title')}</CardTitle>

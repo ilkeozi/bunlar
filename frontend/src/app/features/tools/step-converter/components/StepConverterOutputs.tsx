@@ -5,7 +5,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import type { StepConverterController, TranslateFn } from '../types';
 
 type StepConverterOutputsProps = {
@@ -17,10 +16,11 @@ export function StepConverterOutputs({
   t,
   converter,
 }: StepConverterOutputsProps) {
-  const { download, bom, nodeMap, metadataStatus } = converter;
-  const showMetadata = Boolean(
-    bom || nodeMap || metadataStatus.state !== 'idle'
-  );
+  const { download, status, conversionWarnings, meshStats } = converter;
+  const showWarnings =
+    Boolean(download) &&
+    status.state === 'success' &&
+    conversionWarnings.length > 0;
 
   return (
     <div className="space-y-6">
@@ -42,52 +42,32 @@ export function StepConverterOutputs({
         </Card>
       )}
 
-      {showMetadata && (
-        <Card className="border-border/60 bg-background/90">
+      {showWarnings && (
+        <Card className="border-amber-500/30 bg-amber-500/5">
           <CardHeader>
             <CardTitle>
-              {t('tools.stepConverter.output.metadataLabel')}
+              {t('tools.stepConverter.output.warnings.title')}
             </CardTitle>
-            {metadataStatus.state !== 'idle' && (
-              <CardDescription className="flex items-center gap-2">
-                {metadataStatus.state === 'loading' && (
-                  <LoadingSpinner size="xs" className="text-primary" />
-                )}
-                <span>
-                  {metadataStatus.state === 'loading' &&
-                    t('tools.stepConverter.status.metadataLoading')}
-                  {metadataStatus.state === 'success' &&
-                    t('tools.stepConverter.status.metadataSuccess')}
-                  {metadataStatus.state === 'error' &&
-                    t('tools.stepConverter.status.metadataError')}
-                </span>
-              </CardDescription>
-            )}
+            <CardDescription>
+              {t('tools.stepConverter.output.warnings.description')}
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            {bom && (
-              <a
-                href={bom.url}
-                download={bom.name}
-                className="block text-xs font-semibold uppercase tracking-wide text-emerald-200"
-              >
-                {t('tools.stepConverter.output.bomCta')}
-              </a>
+            {meshStats && (
+              <div className="text-xs text-amber-100/80">
+                {t('tools.stepConverter.output.meshStats.triangles')}:{' '}
+                {meshStats.triangles.toLocaleString()} |{' '}
+                {t('tools.stepConverter.output.meshStats.primitives')}:{' '}
+                {meshStats.primitiveCount.toLocaleString()} |{' '}
+                {t('tools.stepConverter.output.meshStats.nodes')}:{' '}
+                {meshStats.nodeCount.toLocaleString()}
+              </div>
             )}
-            {nodeMap && (
-              <a
-                href={nodeMap.url}
-                download={nodeMap.name}
-                className="block text-xs font-semibold uppercase tracking-wide text-emerald-200"
-              >
-                {t('tools.stepConverter.output.nodeMapCta')}
-              </a>
-            )}
-            {metadataStatus.state === 'error' && metadataStatus.message && (
-              <p className="text-xs text-destructive">
-                {metadataStatus.message}
-              </p>
-            )}
+            <ul className="list-disc space-y-1 pl-4 text-sm text-amber-50">
+              {conversionWarnings.map((warning, index) => (
+                <li key={`${warning.code}-${index}`}>{warning.message}</li>
+              ))}
+            </ul>
           </CardContent>
         </Card>
       )}
