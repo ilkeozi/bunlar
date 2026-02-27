@@ -4,9 +4,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 const workspaceRoot = fileURLToPath(new URL('..', import.meta.url));
-const ocBrowserEntry = fileURLToPath(
-  new URL('../packages/opencascade-convert/src/browser/index.ts', import.meta.url)
-);
 
 export default defineConfig({
   root: __dirname,
@@ -30,7 +27,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      'opencascade-convert/browser': ocBrowserEntry,
     },
   },
   // Uncomment this if you are using workers.
