@@ -37,8 +37,8 @@
     "vitest": "4.0.9"
   },
   "workspaces": [
-    "frontend",
-    "frontend-e2e"
+    "apps/*",
+    "packages/*"
   ],
   "dependencies": {
     "@nestjs/common": "^10.4.7",

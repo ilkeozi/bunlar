@@ -4,14 +4,14 @@ This workspace is an Nx monorepo centered on interactive science visualizations 
 
 ## Top-Level Layout
 
-- `frontend/` – Vite/React application that renders the chemistry + climate-tech visualizations.
+- `apps/frontend/` – Vite/React application that renders the chemistry + climate-tech visualizations.
 - `cad-converter/` – Dockerized FreeCAD-based STEP/IGES → glTF/GLB converter.
-- `frontend-e2e/` – Playwright configuration and specs that exercise `frontend` end-to-end.
+- `apps/frontend-e2e/` – Playwright configuration and specs that exercise `frontend` end-to-end.
 - `docs/` – Markdown references for the product (e.g. `atoms-visualizer.md`).
 - `packages/` – Reserved for shareable Nx libraries (currently empty).
 - `node_modules/`, `package.json`, `nx.json`, `tsconfig*.json` – Workspace tooling and dependency management.
 
-## Frontend App (`frontend/`)
+## Frontend App (`apps/frontend/`)
 
 The app is a Vite project configured via `vite.config.mts` and TypeScript `tsconfig.*.json` files. The main entry point is `src/main.tsx`, which mounts the React tree and imports the Tailwind-based global stylesheet (`src/styles.css`). Nx treats this package as a standalone workspace, so any generators or task runs should target the `frontend` project name.
 
@@ -46,12 +46,12 @@ The app is a Vite project configured via `vite.config.mts` and TypeScript `tscon
 
 ### Code generation & conventions
 
-- Generate new UI primitives with `npx shadcn@latest add <component>` from the `frontend/` directory; output lands in `src/components/ui` and respects the alias config.
+- Generate new UI primitives with `npx shadcn@latest add <component>` from the `apps/frontend/` directory; output lands in `src/components/ui` and respects the alias config.
 - Prefer colocating feature-specific components under `src/app/features/<domain>/<module>/components` so that shared primitives stay focused.
 - Zustand stores in `src/app/state` should expose selectors for components to avoid unnecessary rerenders; follow the pattern used by `useAtomStore` and `useLearningStore`.
 - Three.js systems live under each feature's `visualizer/` folder (e.g., `features/chemistry/*/visualizer`, `features/climate-tech/*/visualizer`). Keep React Three Fiber hooks out of generic UI directories to preserve tree shaking.
 
-## End-to-End Tests (`frontend-e2e/`)
+## End-to-End Tests (`apps/frontend-e2e/`)
 
 - `playwright.config.ts` configures browsers, timeouts, and project options.
 - `src/example.spec.ts` demonstrates navigating the app and asserting UI behavior.
@@ -77,7 +77,7 @@ Keep this guide handy when orienting new contributors or wiring up automation ag
 - Codex discovers this file as `AGENTS.md` at the repo root; add `AGENTS.override.md` in subdirectories for scoped overrides.
 - Codex uses the global config by default; set `CODEX_HOME` only when you need a repo-specific profile.
 - Update `AGENTS.md` or scoped overrides when changes affect workflows, project layout, or automation expectations.
-- MCP servers: `openaiDeveloperDocs` for OpenAI/Codex docs; `nx-mcp` for Nx graph/tasks; `shadcn` for UI primitives under `frontend/src/components/ui`.
+- MCP servers: `openaiDeveloperDocs` for OpenAI/Codex docs; `nx-mcp` for Nx graph/tasks; `shadcn` for UI primitives under `apps/frontend/src/components/ui`.
 - If a Codex skill is available, open its `SKILL.md` and follow the prescribed workflow or scripts.
 - Always use the OpenAI developer documentation MCP server if you need to work with the OpenAI API, ChatGPT Apps SDK, Codex, or related docs without me having to explicitly ask.
 - Prefer the `openaiDeveloperDocs` MCP server for documentation lookups whenever possible, and mention when a source could not be reached.
