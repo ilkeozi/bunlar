@@ -1,0 +1,28 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/jest",
+    "types": ["jest", "node"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "useUnknownInCatchVariables": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false
+  },
+  "include": [
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
+}

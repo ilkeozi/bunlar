@@ -1,0 +1,81 @@
+name: bunlar
+
+services:
+  redis:
+    image: redis:7-alpine
+    command: ['redis-server', '--appendonly', 'yes']
+    ports:
+      - '${REDIS_PORT:-6379}:6379'
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 3s
+      retries: 8
+      start_period: 10s
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-bunlar}
+      POSTGRES_USER: ${POSTGRES_USER:-bunlar}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bunlar_dev_password}
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-bunlar} -d ${POSTGRES_DB:-bunlar}']
+      interval: 10s
+      timeout: 3s
+      retries: 8
+      start_period: 10s
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    env_file:
+      - apps/backend/.env.local
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      CORS_ORIGIN: http://localhost:${FRONTEND_PORT:-4100}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-bunlar}:${POSTGRES_PASSWORD:-bunlar_dev_password}@postgres:5432/${POSTGRES_DB:-bunlar}
+      REDIS_ENABLED: true
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: ${REDIS_DB:-0}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+    ports:
+      - '${BACKEND_PORT:-3100}:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://localhost:3000/api/v1/health/live >/dev/null || exit 1']
+      interval: 15s
+      timeout: 3s
+      retries: 5
+      start_period: 20s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    ports:
+      - '${FRONTEND_PORT:-4100}:80'
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:

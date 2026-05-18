@@ -1,0 +1,14 @@
+.git
+.github
+.nx
+node_modules
+tmp
+dist
+coverage
+test-output
+**/node_modules
+**/dist
+**/coverage
+**/test-output
+.DS_Store
+.vscode
