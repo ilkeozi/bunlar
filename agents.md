@@ -92,3 +92,8 @@ Keep this guide handy when orienting new contributors or wiring up automation ag
 
 - Run `codex mcp list` to confirm MCP servers are registered.
 - Run `codex exec "Summarize the current instructions."` from the repo root to verify instruction discovery order.
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan
+<!-- SPECKIT END -->
