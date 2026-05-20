@@ -1,0 +1,83 @@
+openapi: 3.1.0
+info:
+  title: Material Ingestion Orchestration API
+  version: 0.1.0
+  description: Transport contract for starting and monitoring ingestion runs with parity to CLI orchestration.
+paths:
+  /ingestion/runs:
+    post:
+      summary: Start an ingestion run
+      operationId: startIngestionRun
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [contextKey]
+              properties:
+                contextKey:
+                  type: string
+                resumeFromLastSuccessful:
+                  type: boolean
+                  default: false
+      responses:
+        '202':
+          description: Run accepted (queued or started)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineRun'
+  /ingestion/runs/{runId}:
+    get:
+      summary: Get run status
+      operationId: getIngestionRun
+      parameters:
+        - in: path
+          name: runId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Run status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineRun'
+components:
+  schemas:
+    PipelineRun:
+      type: object
+      required: [runId, contextKey, invocationChannel, status, requestedAt]
+      properties:
+        runId:
+          type: string
+        contextKey:
+          type: string
+        invocationChannel:
+          type: string
+          enum: [cli, http_api]
+        status:
+          type: string
+          enum: [queued, running, failed, succeeded]
+        requestedAt:
+          type: string
+          format: date-time
+        startedAt:
+          type: string
+          format: date-time
+          nullable: true
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+        lastSuccessfulStage:
+          type: string
+          nullable: true
+        failureStage:
+          type: string
+          nullable: true
+        failureReason:
+          type: string
+          nullable: true
