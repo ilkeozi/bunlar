@@ -8,84 +8,84 @@
     "install": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "python3 -m pip install -e .",
+        "command": ".venv/bin/python -m pip install -e .",
         "cwd": "apps/material-ingestion"
       }
     },
     "install-dev": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "python3 -m pip install -e '.[dev]'",
+        "command": ".venv/bin/python -m pip install -e '.[dev]'",
         "cwd": "apps/material-ingestion"
       }
     },
     "run": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "PYTHONPATH=src python3 cli.py",
+        "command": "PYTHONPATH=src .venv/bin/python -m material_ingestion.cli material",
         "cwd": "apps/material-ingestion"
       }
     },
     "extract-aws-crossref": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "PYTHONPATH=src python3 -m material_ingestion.cli_aws_cross_reference --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf --start-page 3 --end-page 7 --output data/working/normalized/uns_aws_cross_reference_pages_3_7.json",
+        "command": "PYTHONPATH=src .venv/bin/python -m material_ingestion.cli extract aws-crossref --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf --start-page 3 --end-page 7 --output data/working/normalized/uns_aws_cross_reference_pages_3_7.json",
         "cwd": "apps/material-ingestion"
       }
     },
     "extract-series-page-index": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "PYTHONPATH=src python3 -m material_ingestion.cli_series_page_index --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf --toc-page 12 --output data/working/normalized/uns_series_page_index_toc_page_12.json",
+        "command": "PYTHONPATH=src .venv/bin/python -m material_ingestion.cli extract series-page-index --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf --toc-page 12 --output data/working/normalized/uns_series_page_index_toc_page_12.json",
         "cwd": "apps/material-ingestion"
       }
     },
     "extract-common-documents-index": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "PYTHONPATH=src python3 -m material_ingestion.cli_common_documents_index --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf --toc-page 12 --output data/working/normalized/uns_common_documents_index_toc_page_12.json",
+        "command": "PYTHONPATH=src .venv/bin/python -m material_ingestion.cli extract common-documents-index --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf --toc-page 12 --output data/working/normalized/uns_common_documents_index_toc_page_12.json",
         "cwd": "apps/material-ingestion"
       }
     },
     "extract-base-elements-index": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "PYTHONPATH=src python3 -m material_ingestion.cli_base_elements_index --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf --index-page 14 --output data/working/normalized/uns_base_elements_index_page_14.json",
+        "command": "PYTHONPATH=src .venv/bin/python -m material_ingestion.cli extract base-elements-index --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf --index-page 14 --output data/working/normalized/uns_base_elements_index_page_14.json",
         "cwd": "apps/material-ingestion"
       }
     },
     "extract-series-data": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "PYTHONPATH=src python3 -m material_ingestion.cli_series_data --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf --series-index data/working/normalized/uns_series_page_index_toc_page_12.json --output data/working/normalized/uns_series_entries_from_toc.json",
+        "command": "PYTHONPATH=src .venv/bin/python -m material_ingestion.cli extract series-data --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf --series-index data/working/normalized/uns_series_page_index_toc_page_12.json --output data/working/normalized/uns_series_entries_from_toc.json",
         "cwd": "apps/material-ingestion"
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "PYTHONPATH=src python3 -m compileall src",
+        "command": "PYTHONPATH=src .venv/bin/python -m compileall src",
         "cwd": "apps/material-ingestion"
       }
     },
     "test-unit": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "PYTHONPATH=src python3 -m unittest discover -s tests/unit -p 'test_*.py'",
+        "command": "PYTHONPATH=src .venv/bin/python -m unittest discover -s tests/unit -p 'test_*.py'",
         "cwd": "apps/material-ingestion"
       }
     },
     "test-integration": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "PYTHONPATH=src python3 -m unittest discover -s tests/integration -p 'test_*.py'",
+        "command": "PYTHONPATH=src .venv/bin/python -m unittest discover -s tests/integration -p 'test_*.py'",
         "cwd": "apps/material-ingestion"
       }
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "PYTHONPATH=src python3 -m unittest discover -s tests/unit -p 'test_*.py' && PYTHONPATH=src python3 -m unittest discover -s tests/integration -p 'test_*.py'",
+        "command": "PYTHONPATH=src .venv/bin/python -m unittest discover -s tests/unit -p 'test_*.py' && PYTHONPATH=src .venv/bin/python -m unittest discover -s tests/integration -p 'test_*.py'",
         "cwd": "apps/material-ingestion"
       }
     }

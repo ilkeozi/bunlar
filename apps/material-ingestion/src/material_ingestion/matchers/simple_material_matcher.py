@@ -4,9 +4,8 @@ from material_ingestion.matchers.base import Matcher
 from material_ingestion.types import MaterialRecord
 
 
-class SimpleMaterialMatcher(Matcher):
+class SimpleMaterialMatcher(Matcher[MaterialRecord]):
     def match(self, record: MaterialRecord) -> MaterialRecord:
         # Initial key for future cross-source matching.
         record.metadata["match_key"] = f"{record.source}:{record.material_id}"
         return record
-

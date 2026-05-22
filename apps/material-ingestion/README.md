@@ -86,7 +86,7 @@ Direct command with custom range/output:
 
 ```bash
 cd apps/material-ingestion
-PYTHONPATH=src python3 -m material_ingestion.cli_aws_cross_reference \
+PYTHONPATH=src .venv/bin/python -m material_ingestion.cli extract aws-crossref \
   --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf \
   --start-page 3 \
   --end-page 7 \
@@ -103,7 +103,7 @@ Direct command:
 
 ```bash
 cd apps/material-ingestion
-PYTHONPATH=src python3 -m material_ingestion.cli_series_page_index \
+PYTHONPATH=src .venv/bin/python -m material_ingestion.cli extract series-page-index \
   --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf \
   --toc-page 12 \
   --output data/working/normalized/uns_series_page_index_toc_page_12.json
@@ -119,7 +119,7 @@ Direct command:
 
 ```bash
 cd apps/material-ingestion
-PYTHONPATH=src python3 -m material_ingestion.cli_common_documents_index \
+PYTHONPATH=src .venv/bin/python -m material_ingestion.cli extract common-documents-index \
   --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf \
   --toc-page 12 \
   --output data/working/normalized/uns_common_documents_index_toc_page_12.json
@@ -135,7 +135,7 @@ Direct command:
 
 ```bash
 cd apps/material-ingestion
-PYTHONPATH=src python3 -m material_ingestion.cli_base_elements_index \
+PYTHONPATH=src .venv/bin/python -m material_ingestion.cli extract base-elements-index \
   --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf \
   --index-page 14 \
   --output data/working/normalized/uns_base_elements_index_page_14.json
@@ -151,7 +151,7 @@ Direct command:
 
 ```bash
 cd apps/material-ingestion
-PYTHONPATH=src python3 -m material_ingestion.cli_series_data \
+PYTHONPATH=src .venv/bin/python -m material_ingestion.cli extract series-data \
   --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf \
   --series-index data/working/normalized/uns_series_page_index_toc_page_12.json \
   --output data/working/normalized/uns_series_entries_from_toc.json

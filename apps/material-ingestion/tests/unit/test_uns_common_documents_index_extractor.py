@@ -1,6 +1,6 @@
 import unittest
 
-from material_ingestion.extractors.uns_common_documents_index_extractor import (
+from material_ingestion.extractors.uns.uns_common_documents_index_extractor import (
     UnsCommonDocumentsIndexExtractor,
 )
 

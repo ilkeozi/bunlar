@@ -1,6 +1,6 @@
 import unittest
 
-from material_ingestion.extractors.uns_aws_cross_reference_extractor import (
+from material_ingestion.extractors.uns.uns_aws_cross_reference_extractor import (
     UnsAwsCrossReferenceExtractor,
 )
 

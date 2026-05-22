@@ -1,6 +1,6 @@
 import unittest
 
-from material_ingestion.normalizers.uns_series_data_normalizer import UnsSeriesDataNormalizer
+from material_ingestion.normalizers.uns.uns_series_data_normalizer import UnsSeriesDataNormalizer
 
 
 class UnsSeriesDataNormalizerTest(unittest.TestCase):
@@ -12,7 +12,7 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)
+        out = UnsSeriesDataNormalizer().normalize(rows)
         self.assertTrue(out[0]["is_replaced"])
         self.assertEqual(["A03360", "A12011"], out[0]["replaced_by_codes"])
 
@@ -24,7 +24,7 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": True,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)
+        out = UnsSeriesDataNormalizer().normalize(rows)
         self.assertTrue(out[0]["inactive_boxed"])
 
     def test_builds_structured_chemical_composition(self) -> None:
@@ -41,7 +41,7 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         structured = out["chemical_composition_structured"]
         self.assertGreaterEqual(len(structured), 8)
         self.assertTrue(out["chemical_composition_symbol_check"]["all_symbols_valid"])
@@ -84,7 +84,7 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         check = out["chemical_composition_symbol_check"]
         self.assertFalse(check["all_symbols_valid"])
         self.assertEqual(["Xx"], check["unknown_symbols"])
@@ -101,7 +101,7 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         refs = out["cross_reference_specifications_structured"]
         self.assertEqual(
             [
@@ -126,7 +126,7 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         check = out["cross_reference_specifications_check"]
         self.assertFalse(check["all_document_codes_known"])
         self.assertEqual(["ZZZ"], check["unknown_document_codes"])
@@ -143,7 +143,7 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         flags = out["cross_reference_specifications_flags"]
         self.assertTrue(flags["has_boxed_marker"])
 

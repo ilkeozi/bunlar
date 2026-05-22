@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Generic, TypeVar
 
-from material_ingestion.types import MaterialRecord
+T = TypeVar("T")
 
 
-class Matcher(ABC):
+class Matcher(ABC, Generic[T]):
     @abstractmethod
-    def match(self, record: MaterialRecord) -> MaterialRecord:
-        """Attach matching metadata (dedupe/cross-source identity)."""
-
+    def match(self, value: T) -> T:
+        """Apply matching logic and return transformed value."""

@@ -11,7 +11,7 @@ class UnsSourceAdapterTest(unittest.TestCase):
 
         expected = [{"uns": "G10200", "name": "Carbon Steel 1020"}]
         with patch(
-            "material_ingestion.extractors.uns_pdf_extractor.UnsPdfExtractor.extract_raw_records",
+            "material_ingestion.extractors.uns.uns_pdf_extractor.UnsPdfExtractor.extract_raw_records",
             return_value=expected,
         ) as mocked:
             result = list(adapter.fetch())
