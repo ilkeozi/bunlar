@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Iterable
 
-from material_ingestion.extractors.uns_pdf_extractor import UnsPdfExtractor
+from material_ingestion.extractors.uns.uns_pdf_extractor import UnsPdfExtractor
 from material_ingestion.sources.base import RawRecord, SourceAdapter
 
 

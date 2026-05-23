@@ -1,6 +1,6 @@
 import unittest
 
-from material_ingestion.extractors.uns_common_documents_index_extractor import (
+from material_ingestion.extractors.uns.uns_common_documents_index_extractor import (
     UnsCommonDocumentsIndexExtractor,
 )
 
@@ -33,6 +33,7 @@ class UnsCommonDocumentsIndexExtractorTest(unittest.TestCase):
         self.assertEqual(1, len(rows))
         self.assertEqual("AWS", rows[0]["document_code"])
         self.assertEqual(413, rows[0]["target_page"])
+        self.assertTrue(str(rows[0]["raw_line"]).startswith("AWS "))
 
     def test_extracts_non_acronym_entry(self) -> None:
         text = """
@@ -50,4 +51,3 @@ class UnsCommonDocumentsIndexExtractorTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

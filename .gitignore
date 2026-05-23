@@ -65,3 +65,21 @@ apps/**/.env
 apps/**/.env.*
 !apps/**/.env.example
 !apps/**/.env.*.example
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+
+# Local scratch/download artifacts
+=*

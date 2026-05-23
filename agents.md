@@ -94,6 +94,7 @@ Keep this guide handy when orienting new contributors or wiring up automation ag
 - Run `codex exec "Summarize the current instructions."` from the repo root to verify instruction discovery order.
 
 <!-- SPECKIT START -->
-For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
+For additional context about technologies, project structure, shell commands,
+and implementation decisions for this feature, read:
+`specs/001-material-ingestion-refactor/plan.md`
 <!-- SPECKIT END -->

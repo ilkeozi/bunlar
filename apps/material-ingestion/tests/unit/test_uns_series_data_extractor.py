@@ -1,6 +1,6 @@
 import unittest
 
-from material_ingestion.extractors.uns_series_data_extractor import UnsSeriesDataExtractor
+from material_ingestion.extractors.uns.uns_series_data_extractor import UnsSeriesDataExtractor
 
 
 class UnsSeriesDataExtractorTest(unittest.TestCase):

@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Generic, TypeVar
 
-from material_ingestion.types import MaterialRecord
+TIn = TypeVar("TIn")
+TOut = TypeVar("TOut")
 
 
-class Exporter(ABC):
+class Exporter(ABC, Generic[TIn, TOut]):
     @abstractmethod
-    def export(self, records: list[MaterialRecord]) -> str:
-        """Serialize records into an output string."""
-
+    def export(self, value: TIn) -> TOut:
+        """Export input value to target output."""

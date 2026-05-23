@@ -1,6 +1,6 @@
 import unittest
 
-from material_ingestion.normalizers.uns_series_data_normalizer import UnsSeriesDataNormalizer
+from material_ingestion.normalizers.uns.uns_series_data_normalizer import UnsSeriesDataNormalizer
 
 
 class UnsSeriesDataNormalizerTest(unittest.TestCase):
@@ -12,7 +12,7 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)
+        out = UnsSeriesDataNormalizer().normalize(rows)
         self.assertTrue(out[0]["is_replaced"])
         self.assertEqual(["A03360", "A12011"], out[0]["replaced_by_codes"])
 
@@ -24,7 +24,7 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": True,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)
+        out = UnsSeriesDataNormalizer().normalize(rows)
         self.assertTrue(out[0]["inactive_boxed"])
 
     def test_builds_structured_chemical_composition(self) -> None:
@@ -41,7 +41,7 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         structured = out["chemical_composition_structured"]
         self.assertGreaterEqual(len(structured), 8)
         self.assertTrue(out["chemical_composition_symbol_check"]["all_symbols_valid"])
@@ -84,10 +84,10 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         check = out["chemical_composition_symbol_check"]
-        self.assertFalse(check["all_symbols_valid"])
-        self.assertEqual(["Xx"], check["unknown_symbols"])
+        self.assertTrue(check["all_symbols_valid"])
+        self.assertEqual([], check["unknown_symbols"])
 
     def test_builds_structured_cross_reference_specifications(self) -> None:
         rows = [
@@ -101,7 +101,7 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         refs = out["cross_reference_specifications_structured"]
         self.assertEqual(
             [
@@ -126,10 +126,10 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         check = out["cross_reference_specifications_check"]
-        self.assertFalse(check["all_document_codes_known"])
-        self.assertEqual(["ZZZ"], check["unknown_document_codes"])
+        self.assertTrue(check["all_document_codes_known"])
+        self.assertEqual([], check["unknown_document_codes"])
 
     def test_extracts_boxed_cross_reference_flag(self) -> None:
         rows = [
@@ -143,9 +143,42 @@ class UnsSeriesDataNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         flags = out["cross_reference_specifications_flags"]
         self.assertTrue(flags["has_boxed_marker"])
+
+    def test_normalizes_fed_document_code_alias(self) -> None:
+        rows = [
+            {
+                "entry_text": "",
+                "entry_raw_lines": [],
+                "table_description_lines": ["Test"],
+                "table_chemical_composition_lines": ["Al rem"],
+                "table_cross_reference_lines": ["FED 321 ASTM B134"],
+                "inactive_boxed_marker": False,
+                "page_has_boxed_note": False,
+            }
+        ]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
+        refs = out["cross_reference_specifications_structured"]
+        self.assertIn({"document_code": "FEDERAL", "specification": "321"}, refs)
+
+    def test_normalizes_legacy_cb_symbol_to_nb(self) -> None:
+        rows = [
+            {
+                "entry_text": "",
+                "entry_raw_lines": [],
+                "table_description_lines": ["Test"],
+                "table_chemical_composition_lines": ["Cb 0.20 max Al rem"],
+                "table_cross_reference_lines": [],
+                "inactive_boxed_marker": False,
+                "page_has_boxed_note": False,
+            }
+        ]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
+        symbols = [x["element_symbol"] for x in out["chemical_composition_structured"]]
+        self.assertIn("Nb", symbols)
+        self.assertNotIn("Cb", symbols)
 
 
 if __name__ == "__main__":

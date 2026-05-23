@@ -1,6 +1,6 @@
 import unittest
 
-from material_ingestion.extractors.uns_pdf_extractor import UnsPdfExtractor
+from material_ingestion.extractors.uns.uns_pdf_extractor import UnsPdfExtractor
 
 
 class UnsPdfExtractorTest(unittest.TestCase):

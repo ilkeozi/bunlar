@@ -1,6 +1,6 @@
 import unittest
 
-from material_ingestion.extractors.uns_series_page_index_extractor import (
+from material_ingestion.extractors.uns.uns_series_page_index_extractor import (
     UnsSeriesPageIndexExtractor,
 )
 

@@ -1,6 +1,6 @@
 import unittest
 
-from material_ingestion.normalizers.uns_series_data_normalizer import UnsSeriesDataNormalizer
+from material_ingestion.normalizers.uns.uns_series_data_normalizer import UnsSeriesDataNormalizer
 
 
 class UnsSeriesSectionsNormalizerTest(unittest.TestCase):
@@ -17,7 +17,7 @@ class UnsSeriesSectionsNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         self.assertIn("Aluminum Foundry Alloy", out["description"])
         self.assertIn("AI rem Cu", out["chemical_composition"])
         self.assertIn("AA 201.0", out["cross_reference_specifications"])
@@ -37,7 +37,7 @@ class UnsSeriesSectionsNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         self.assertIn("Aluminum Foundry Alloy", out["description"])
         self.assertIn("Ingot", out["description"])
         self.assertIn("AI rem Cu 4.2-5.0 Fe 0.07 max Mg", out["chemical_composition"])
@@ -58,7 +58,7 @@ class UnsSeriesSectionsNormalizerTest(unittest.TestCase):
                 "page_has_boxed_note": False,
             }
         ]
-        out = UnsSeriesDataNormalizer().normalize_rows(rows)[0]
+        out = UnsSeriesDataNormalizer().normalize(rows)[0]
         self.assertEqual("Aluminum Foundry Alloy, Ingot", out["description"])
         self.assertIn("AI rem Cu 4.2-5.0", out["chemical_composition"])
         self.assertEqual("AA A2062", out["cross_reference_specifications"])

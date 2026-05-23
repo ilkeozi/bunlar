@@ -1,7 +1,7 @@
 from pathlib import Path
 import unittest
 
-from material_ingestion.normalizers.uns_series_boundary_normalizer import (
+from material_ingestion.normalizers.uns.uns_series_boundary_normalizer import (
     UnsSeriesBoundaryNormalizer,
 )
 
@@ -28,7 +28,7 @@ class UnsSeriesBoundaryNormalizerTest(unittest.TestCase):
             },
         ]
 
-        normalized = UnsSeriesBoundaryNormalizer(pdf_path=pdf_path).normalize_rows(rows)
+        normalized = UnsSeriesBoundaryNormalizer(pdf_path=pdf_path).normalize(rows)
 
         self.assertEqual(15, normalized[0]["section_start_pdf_page"])
         self.assertEqual(67, normalized[0]["section_end_pdf_page"])
