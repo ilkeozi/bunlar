@@ -15,6 +15,95 @@ MERGED_SYMBOL_RANGE_PATTERN = re.compile(r"^([A-Za-z]{1,2})\s+(.+\d.*-.*\d.*)$")
 CODE_ONLY_PATTERN = re.compile(r"^[A-Za-z0-9]{5,7}$")
 RANGE_TAIL_PATTERN = re.compile(r"^-\s*[A-Za-z0-9]{5,7}$")
 
+ELEMENT_SYMBOL_BY_NAME = {
+    "actinium": "Ac",
+    "aluminum": "Al",
+    "antimony": "Sb",
+    "argentum": "Ag",
+    "arsenic": "As",
+    "aurum": "Au",
+    "barium": "Ba",
+    "beryllium": "Be",
+    "bismuth": "Bi",
+    "boron": "B",
+    "cadmium": "Cd",
+    "calcium": "Ca",
+    "cassiopeium": "Lu",
+    "cerium": "Ce",
+    "cesium": "Cs",
+    "chromium": "Cr",
+    "cobalt": "Co",
+    "columbium": "Cb",
+    "copper": "Cu",
+    "cuprum": "Cu",
+    "dysprosium": "Dy",
+    "dysprasium": "Dy",
+    "erbium": "Er",
+    "europium": "Eu",
+    "ferrum": "Fe",
+    "gadolinium": "Gd",
+    "gallium": "Ga",
+    "germanium": "Ge",
+    "glucinum": "Be",
+    "gold": "Au",
+    "hafnium": "Hf",
+    "holmium": "Ho",
+    "hydrargyrum": "Hg",
+    "indium": "In",
+    "iridium": "Ir",
+    "iron": "Fe",
+    "kalium": "K",
+    "lanthanum": "La",
+    "lead": "Pb",
+    "lithium": "Li",
+    "lutetium": "Lu",
+    "magnesium": "Mg",
+    "manganese": "Mn",
+    "mercury": "Hg",
+    "molybdenum": "Mo",
+    "natrium": "Na",
+    "neodymium": "Nd",
+    "niobium": "Nb",
+    "osmium": "Os",
+    "palladium": "Pd",
+    "platinum": "Pt",
+    "plumbum": "Pb",
+    "plutonium": "Pu",
+    "potassium": "K",
+    "praesodymium": "Pr",
+    "praseodymium": "Pr",
+    "promethium": "Pm",
+    "rhenium": "Re",
+    "rhodium": "Rh",
+    "rubidium": "Rb",
+    "ruthenium": "Ru",
+    "samarium": "Sm",
+    "scandium": "Sc",
+    "selenium": "Se",
+    "silicon": "Si",
+    "silver": "Ag",
+    "sodium": "Na",
+    "stannum": "Sn",
+    "stibium": "Sb",
+    "strontium": "Sr",
+    "tantalum": "Ta",
+    "tellurium": "Te",
+    "terbium": "Tb",
+    "thallium": "Tl",
+    "thorium": "Th",
+    "thulium": "Tm",
+    "tin": "Sn",
+    "titanium": "Ti",
+    "tungsten": "W",
+    "uranium": "U",
+    "vanadium": "V",
+    "wolfram": "W",
+    "ytterbium": "Yb",
+    "yttrium": "Y",
+    "zinc": "Zn",
+    "zirconium": "Zr",
+}
+
 
 class UnsBaseElementsIndexExtractor:
     """Extract page-14 'Index to UNS Designations by Base Elements' table."""
@@ -55,17 +144,22 @@ class UnsBaseElementsIndexExtractor:
         for block in blocks:
             elements, symbols, ranges = self._parse_block(block)
             count = max(len(elements), len(ranges), len(symbols))
+            block_rows: list[RawRecord] = []
             for i in range(count):
                 element_name = elements[i] if i < len(elements) else ""
                 symbol = symbols[i] if i < len(symbols) else ""
                 uns_range = ranges[i] if i < len(ranges) else ""
+                element_name = self._normalize_element_name(element_name)
                 symbol = self._normalize_symbol(symbol, element_name, uns_range)
+                inferred_symbol = self._infer_symbol_from_element_name(element_name)
+                if inferred_symbol:
+                    symbol = inferred_symbol
                 uns_range = self._normalize_uns_range(uns_range, symbol)
                 if not element_name and not uns_range:
                     continue
 
                 order += 1
-                rows.append(
+                block_rows.append(
                     {
                         "element_name": element_name,
                         "symbol": symbol,
@@ -78,7 +172,9 @@ class UnsBaseElementsIndexExtractor:
                     }
                 )
                 if fallback_reason:
-                    rows[-1]["fallback_reason"] = fallback_reason
+                    block_rows[-1]["fallback_reason"] = fallback_reason
+            self._apply_tail_corrections(block_rows)
+            rows.extend([r for r in block_rows if not bool(r.get("__drop__"))])
         return rows
 
     def _split_blocks(self, lines: list[str]) -> list[list[str]]:
@@ -266,3 +362,120 @@ class UnsBaseElementsIndexExtractor:
             return f"{head}{tail}"
 
         return cleaned
+
+    @staticmethod
+    def _infer_symbol_from_element_name(element_name: str) -> str | None:
+        lowered = re.sub(r"[^a-z0-9]+", " ", element_name.lower()).strip()
+        for token, symbol in ELEMENT_SYMBOL_BY_NAME.items():
+            if re.search(rf"\b{re.escape(token)}\b", lowered):
+                return symbol
+        return None
+
+    @staticmethod
+    def _normalize_element_name(element_name: str) -> str:
+        name = " ".join(element_name.split()).strip()
+        replacements = {
+            "Dysprasium": "Dysprosium",
+            "Praesodymium": "Praseodymium",
+            "Zirconium and Low Alloy Steels": "Zirconium",
+            "Steels - SAE/AISI Carbon": "Steels - SAE/AISI Carbon and Low Alloy Steels",
+        }
+        return replacements.get(name, name)
+
+    @staticmethod
+    def _apply_tail_corrections(rows: list[RawRecord]) -> None:
+        i = 0
+        while i < len(rows):
+            row = rows[i]
+            name = str(row.get("element_name", ""))
+            if name.startswith("Steels -"):
+                row["symbol"] = ""
+            if name == "Mixed rare earths":
+                row["symbol"] = ""
+
+            if name == "Steels - Valve Steels and High Temperature Alloys":
+                row["symbol"] = ""
+                row["uns_range"] = "S60001-S69999"
+                i += 1
+                continue
+
+            if name.startswith("Weld, Filler - Manganese-"):
+                row["element_name"] = "Weld, Filler - Manganese-Molybdenum Alloys"
+                row["symbol"] = ""
+                row["uns_range"] = "W10000-W19999"
+                if i + 1 < len(rows) and str(rows[i + 1].get("element_name", "")) == "Molybdenum Alloys":
+                    rows[i + 1]["__drop__"] = True
+                i += 1
+                continue
+            if name == "Molybdenum Alloys" and str(row.get("uns_range", "")).startswith("W10000-"):
+                row["__drop__"] = True
+                i += 1
+                continue
+
+            if name.startswith("Weld, Filler - Austenitic"):
+                row["symbol"] = ""
+                row["uns_range"] = "W30000-W39999"
+                i += 1
+                continue
+            if name.startswith("Weld, Filler - Carbon Steels"):
+                row["symbol"] = ""
+                row["uns_range"] = "W00000-W09999"
+                i += 1
+                continue
+            if "Weld, Filler Metal -" in name and "Chromium Low Alloy" in name:
+                row["symbol"] = ""
+                row["uns_range"] = "W50000-W59999"
+                i += 1
+                continue
+            if name.startswith("Weld, Filler - Copper Alloys"):
+                row["symbol"] = ""
+                row["uns_range"] = "W60000-W69999"
+                i += 1
+                continue
+            if "Weld, Filler - Ferritic" in name:
+                row["symbol"] = ""
+                row["uns_range"] = "W40000-W49999"
+                i += 1
+                continue
+            if name.startswith("Weld, Filler - Ni Alloys"):
+                row["symbol"] = ""
+                row["uns_range"] = "W80000-W89999"
+                i += 1
+                continue
+            if name.startswith("Weld, Filler - Ni Steels"):
+                row["symbol"] = ""
+                row["uns_range"] = "W20000-W29999"
+                i += 1
+                continue
+            if name.startswith("Weld, Surfacing Alloys"):
+                row["symbol"] = ""
+                row["uns_range"] = "W70000-W79999"
+                i += 1
+                continue
+            if "Wolfram" in name:
+                row["symbol"] = "W"
+                row["uns_range"] = "R07001-R07999"
+                i += 1
+                continue
+            if "Ytterbium" in name:
+                row["symbol"] = "Yb"
+                row["uns_range"] = "E88000-E89999"
+                i += 1
+                continue
+            if name.startswith("Yttrium"):
+                row["symbol"] = "Y"
+                row["uns_range"] = "E90000-E99999"
+                i += 1
+                continue
+            if name.startswith("Zinc"):
+                row["symbol"] = "Zn"
+                row["uns_range"] = "Z00001-Z99999"
+                i += 1
+                continue
+            if name.startswith("Zirconium"):
+                row["element_name"] = "Zirconium"
+                row["symbol"] = "Zr"
+                row["uns_range"] = "R60001-R69999"
+                i += 1
+                continue
+            i += 1

@@ -27,6 +27,7 @@ class UnsSeriesDataExtractor:
             page_text = str(rec.get("text", ""))
             page_number = int(rec.get("pdf_page", 0))
             page_has_boxed_note = "boxed entries are no longer active" in page_text.lower()
+            expected_prefix = series_token[:1].upper()
 
             table_rows = rec.get("table_rows")
             if isinstance(table_rows, list) and table_rows:
@@ -43,6 +44,9 @@ class UnsSeriesDataExtractor:
                 if found_table_entries:
                     continue
 
+            if not self._looks_like_series_entry_page(page_text):
+                continue
+
             lines = [line.rstrip() for line in page_text.splitlines() if line.strip()]
             for raw_line in lines:
                 normalized = " ".join(raw_line.split())
@@ -51,11 +55,17 @@ class UnsSeriesDataExtractor:
 
                 code_match = UNS_CODE_LINE_PATTERN.match(raw_line)
                 if code_match:
+                    code = self._normalize_code(code_match.group(1), code_match.group(2))
+                    if expected_prefix and code[:1] != expected_prefix:
+                        continue
+
+                    desc_part = code_match.group(3).strip()
+                    if self._looks_like_noise_description(desc_part):
+                        continue
+
                     if current:
                         rows.append(self._finalize(current))
 
-                    code = self._normalize_code(code_match.group(1), code_match.group(2))
-                    desc_part = code_match.group(3).strip()
                     leading_marker = raw_line.lstrip()[:1]
                     current = {
                         "series_token": series_token,
@@ -243,5 +253,28 @@ class UnsSeriesDataExtractor:
         if lowered.startswith(skip_prefixes):
             return True
         if re.fullmatch(r"\d{1,3}", line):
+            return True
+        return False
+
+    @staticmethod
+    def _looks_like_series_entry_page(page_text: str) -> bool:
+        lowered = page_text.lower()
+        must_have = (
+            "unified number",
+            "chemical composition",
+            "cross reference specifications",
+        )
+        return all(token in lowered for token in must_have)
+
+    @staticmethod
+    def _looks_like_noise_description(desc: str) -> bool:
+        if not desc:
+            return False
+        lowered = desc.lower()
+        if "cross reference" in lowered or "index of common" in lowered:
+            return True
+        if "appendix" in lowered or "table " in lowered:
+            return True
+        if desc.count(".") >= 6:
             return True
         return False

@@ -61,7 +61,8 @@ class UnsAwsCrossReferenceExtractor:
                 continue
 
             aws_spec = self._normalize_aws_spec(match.group(1))
-            aws_designation = match.group(2).strip()
+            aws_designation_raw = match.group(2).strip()
+            aws_designation = self._normalize_aws_designation(aws_designation_raw)
             uns = match.group(3).strip()
             note = (match.group(4) or "").strip()
 
@@ -73,6 +74,7 @@ class UnsAwsCrossReferenceExtractor:
             row: dict[str, str | int] = {
                 "aws_spec": aws_spec,
                 "aws_designation": aws_designation,
+                "aws_designation_raw": aws_designation_raw,
                 "uns": uns,
                 "page": page_number,
                 "raw_line": normalized,
@@ -94,3 +96,25 @@ class UnsAwsCrossReferenceExtractor:
         if re.fullmatch(r"A\d{3}", spec):
             return f"A{spec[1]}.{spec[2:]}"
         return spec
+
+    @staticmethod
+    def _normalize_aws_designation(value: str) -> str:
+        text = value.strip()
+        if not text:
+            return text
+
+        # Common OCR replacements seen in UNS AWS pages.
+        text = text.replace("¡", "I").replace("ü", "u").replace("~", "x")
+        text = text.replace("—", "-").replace("–", "-")
+
+        # Remove accidental spaces inside designation tokens.
+        text = re.sub(r"(?<=\d)\s+(?=[A-Za-z0-9])", "", text)
+        text = re.sub(r"(?<=[A-Za-z])\s+(?=\d)", "", text)
+
+        # Typical confusions in AWS electrode names.
+        text = text.replace("Wl", "W1").replace("PI", "P1").replace("Ml", "M1")
+        text = text.replace("3l0", "310")
+
+        # Normalize multiple spaces and strip punctuation noise around token edges.
+        text = re.sub(r"\s+", " ", text).strip(" ,;:")
+        return text

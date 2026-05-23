@@ -30,6 +30,7 @@ ELEMENT_TOKEN_PATTERN = re.compile(r"^(?:[A-Za-z]{1,2}|Other)$")
 ELEMENT_CORRECTIONS = {
     "AI": ("Al", "Corrected from text extraction artifact 'AI'"),
     "CI": ("Si", "Corrected from text extraction artifact 'Ci'"),
+    "CB": ("Nb", "Normalized legacy niobium symbol 'Cb' to 'Nb'"),
 }
 KNOWN_CROSSREF_DOCUMENT_CODES = {
     "AA",
@@ -51,7 +52,9 @@ KNOWN_CROSSREF_DOCUMENT_CODES = {
 DOCUMENT_CODE_CORRECTIONS = {
     "ACME": "ASME",
     "CAE": "SAE",
+    "FED": "FEDERAL",
 }
+ALLOWED_CROSSREF_DOCUMENT_CODES = KNOWN_CROSSREF_DOCUMENT_CODES | set(DOCUMENT_CODE_CORRECTIONS.keys())
 CROSSREF_DOC_CODE_PATTERN = re.compile(r"^[A-Z]{2,8}[0-9]?$")
 CROSSREF_SPEC_VALUE_PATTERN = re.compile(r"[A-Z]{0,4}\d+(?:\.\d+)?[A-Z]?")
 VALID_ELEMENT_SYMBOLS = {
@@ -201,8 +204,24 @@ class UnsSeriesDataNormalizer(Normalizer[list[RawRecord]]):
             table_cross_reference = self._join_lines(new_row.get("table_cross_reference_lines", []))
 
             if table_description or table_composition or table_cross_reference:
-                new_row["description"] = self._clean_description(table_description)
-                new_row["chemical_composition"] = self._clean_chemistry(table_composition)
+                cleaned_description = self._clean_description(table_description)
+                cleaned_composition = self._clean_chemistry(table_composition)
+                if not cleaned_description and table_composition:
+                    # Some scanned table rows place description text at the start of the
+                    # composition column; recover both fields from that blended text.
+                    derived_desc_lines, derived_chem_lines, _ = self._split_sections([table_composition])
+                    derived_description = self._clean_description(" ".join(derived_desc_lines).strip())
+                    derived_composition = self._clean_chemistry(" ".join(derived_chem_lines).strip())
+                    if self._is_plausible_description(derived_description):
+                        cleaned_description = derived_description
+                    if derived_composition:
+                        cleaned_composition = derived_composition
+                    if not cleaned_description:
+                        suffix_description = self._extract_description_suffix(table_composition)
+                        if self._is_plausible_description(suffix_description):
+                            cleaned_description = suffix_description
+                new_row["description"] = cleaned_description
+                new_row["chemical_composition"] = cleaned_composition
                 new_row["cross_reference_specifications"] = self._clean_specifications(table_cross_reference)
             else:
                 desc_lines, chem_lines, spec_lines = self._split_sections(raw_lines)
@@ -226,8 +245,64 @@ class UnsSeriesDataNormalizer(Normalizer[list[RawRecord]]):
             new_row["chemical_composition_symbol_check"] = self._validate_element_symbols(
                 new_row["chemical_composition_structured"]
             )
+            if self._is_pseudo_entry(new_row):
+                continue
             normalized.append(new_row)
-        return normalized
+        return self._backfill_descriptions(normalized)
+
+    def _backfill_descriptions(self, rows: list[RawRecord]) -> list[RawRecord]:
+        groups: dict[tuple[str, int], list[RawRecord]] = {}
+        for row in rows:
+            token = str(row.get("series_token", ""))
+            page = int(row.get("entry_pdf_page_start", 0))
+            groups.setdefault((token, page), []).append(row)
+
+        for _, group in groups.items():
+            group.sort(key=lambda r: str(r.get("uns_code", "")))
+            for i, row in enumerate(group):
+                desc = str(row.get("description", "")).strip()
+                if desc:
+                    continue
+                prev_desc = self._nearest_nonempty_desc(group, i, -1)
+                next_desc = self._nearest_nonempty_desc(group, i, 1)
+                filled = self._pick_backfill_description(prev_desc, next_desc)
+                if filled:
+                    row["description"] = filled
+        return rows
+
+    @staticmethod
+    def _nearest_nonempty_desc(group: list[RawRecord], index: int, step: int) -> str:
+        j = index + step
+        while 0 <= j < len(group):
+            candidate = str(group[j].get("description", "")).strip()
+            if candidate:
+                return candidate
+            j += step
+        return ""
+
+    @staticmethod
+    def _pick_backfill_description(prev_desc: str, next_desc: str) -> str:
+        if prev_desc and next_desc:
+            prev_head = " ".join(prev_desc.split()[:2]).lower()
+            next_head = " ".join(next_desc.split()[:2]).lower()
+            if prev_head == next_head:
+                return prev_desc
+            return ""
+        if prev_desc and UnsSeriesDataNormalizer._is_conservative_fill(prev_desc):
+            return prev_desc
+        if next_desc and UnsSeriesDataNormalizer._is_conservative_fill(next_desc):
+            return next_desc
+        return ""
+
+    @staticmethod
+    def _is_conservative_fill(text: str) -> bool:
+        lowered = text.lower()
+        if "are no longer active" in lowered:
+            return False
+        words = text.split()
+        if len(words) > 10:
+            return False
+        return True
 
     def _split_sections(self, raw_lines: list[str]) -> tuple[list[str], list[str], list[str]]:
         description: list[str] = []
@@ -334,7 +409,47 @@ class UnsSeriesDataNormalizer(Normalizer[list[RawRecord]]):
 
     @staticmethod
     def _clean_description(value: str) -> str:
-        return re.sub(r"\s+", " ", value).strip(" ,;:")
+        text = re.sub(r"\s+", " ", value).strip(" ,;:")
+        text = text.replace("_", " ").replace("~", " ")
+        text = re.sub(r"\s+", " ", text).strip(" ,;:")
+        return text
+
+    @staticmethod
+    def _is_plausible_description(value: str) -> bool:
+        text = value.strip()
+        if not text:
+            return False
+        if not re.search(r"[A-Za-z]", text):
+            return False
+        if re.search(r"\d", text) and len(text.split()) <= 3:
+            return False
+        lowered = text.lower()
+        if lowered in {"other", "nom", "max", "min"}:
+            return False
+        return True
+
+    @staticmethod
+    def _extract_description_suffix(value: str) -> str:
+        text = " ".join(value.split())
+        m = re.search(
+            r"([A-Za-z][A-Za-z\-\s]{2,}(?:Alloy|Alloys|Solder|Steel|Steels|Bronze|Brass))\s*$",
+            text,
+            flags=re.IGNORECASE,
+        )
+        if not m:
+            return ""
+        return UnsSeriesDataNormalizer._clean_description(m.group(1))
+
+    @staticmethod
+    def _is_pseudo_entry(row: RawRecord) -> bool:
+        desc = str(row.get("description", "")).strip()
+        chem = row.get("chemical_composition_structured", [])
+        specs = row.get("cross_reference_specifications_structured", [])
+        is_replaced = bool(row.get("is_replaced", False))
+        inactive_boxed = bool(row.get("inactive_boxed", False))
+        if desc in {"", "-"} and not chem and not specs and not is_replaced and not inactive_boxed:
+            return True
+        return False
 
     @staticmethod
     def _clean_chemistry(value: str) -> str:
@@ -390,13 +505,21 @@ class UnsSeriesDataNormalizer(Normalizer[list[RawRecord]]):
                 continue
 
             upper = cleaned.strip("()[]{}").upper()
-            if CROSSREF_DOC_CODE_PATTERN.fullmatch(upper) and not any(ch.isdigit() for ch in upper[1:]):
+            if (
+                CROSSREF_DOC_CODE_PATTERN.fullmatch(upper)
+                and upper in ALLOWED_CROSSREF_DOCUMENT_CODES
+                and not any(ch.isdigit() for ch in upper[1:])
+            ):
                 current_code = self._normalize_document_code(upper)
                 i += 1
                 continue
 
             # AC1-like code token should switch current document code.
-            if CROSSREF_DOC_CODE_PATTERN.fullmatch(upper) and any(ch.isdigit() for ch in upper):
+            if (
+                CROSSREF_DOC_CODE_PATTERN.fullmatch(upper)
+                and upper in ALLOWED_CROSSREF_DOCUMENT_CODES
+                and any(ch.isdigit() for ch in upper)
+            ):
                 current_code = self._normalize_document_code(upper)
                 i += 1
                 continue
@@ -647,7 +770,23 @@ class UnsSeriesDataNormalizer(Normalizer[list[RawRecord]]):
             out.append(item)
             i += 1
 
-        return out
+        return self._sanitize_composition_items(out)
+
+    def _sanitize_composition_items(self, items: list[dict[str, object]]) -> list[dict[str, object]]:
+        cleaned: list[dict[str, object]] = []
+        for item in items:
+            symbol = str(item.get("element_symbol", "")).strip()
+            if not symbol or symbol == "Other":
+                cleaned.append(item)
+                continue
+            if symbol in VALID_ELEMENT_SYMBOLS:
+                cleaned.append(item)
+                continue
+            # Drop obvious non-element OCR leakage (e.g. Of/By/To) from chemistry parsing.
+            if re.fullmatch(r"[A-Za-z]{1,2}", symbol):
+                continue
+            cleaned.append(item)
+        return cleaned
 
     @staticmethod
     def _validate_element_symbols(items: list[dict[str, object]]) -> dict[str, object]:

@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import argparse
+from datetime import UTC, datetime
 from pathlib import Path
 
 from material_ingestion.exporters import CsvExporter, JsonExporter
+from material_ingestion.exporters.raw_uns_db_exporter import RawUnsDbExporter
 from material_ingestion.extractors import (
     UnsAwsCrossReferenceExtractor,
     UnsBaseElementsIndexExtractor,
@@ -80,11 +82,40 @@ def _add_extract_subcommands(subparsers: argparse._SubParsersAction[argparse.Arg
     series_data.set_defaults(handler=_run_extract_series_data)
 
 
+def _add_ingest_db_subcommands(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    ingest_db = subparsers.add_parser("ingest-db", help="Ingest normalized UNS datasets directly into raw_ DB tables.")
+    ingest_sub = ingest_db.add_subparsers(dest="ingest_db_command", required=True)
+
+    uns_all = ingest_sub.add_parser("uns-all", help="Run all UNS extract/normalize flows and upsert into raw_ tables.")
+    uns_all.add_argument("--input", required=True, help="Path to UNS PDF file.")
+    uns_all.add_argument("--aws-start-page", type=int, default=3, help="AWS cross-reference start page.")
+    uns_all.add_argument("--aws-end-page", type=int, default=7, help="AWS cross-reference end page.")
+    uns_all.add_argument("--toc-page", type=int, default=12, help="TOC page for indexes.")
+    uns_all.add_argument("--base-elements-page", type=int, default=14, help="Base elements index page.")
+    uns_all.add_argument(
+        "--ingest-source",
+        default="uns_pdf",
+        help="Ingestion source label (for lineage), e.g. uns_pdf.",
+    )
+    uns_all.add_argument(
+        "--ingest-locator",
+        default=None,
+        help="Ingestion locator (file path/object key/topic). Defaults to --input.",
+    )
+    uns_all.add_argument(
+        "--ingest-batch-id",
+        default=None,
+        help="Batch id for idempotent upserts. Defaults to UTC timestamp.",
+    )
+    uns_all.set_defaults(handler=_run_ingest_db_uns_all)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Material ingestion and UNS extraction CLI.")
     subparsers = parser.add_subparsers(dest="command", required=True)
     _add_material_subcommand(subparsers)
     _add_extract_subcommands(subparsers)
+    _add_ingest_db_subcommands(subparsers)
     return parser.parse_args()
 
 
@@ -164,6 +195,27 @@ def _run_raw_pipeline(
         normalizer=normalizer,
         matcher=matcher,
         exporter=exporter,
+    ).run()
+    return rows
+
+
+def _collect_raw_pipeline(
+    *,
+    source,
+    extractor,
+    normalizer,
+    matcher,
+) -> list[dict[str, object]]:
+    class _NoopExporter:
+        def export(self, value):
+            return None
+
+    rows = RawIngestionPipeline(
+        source=source,
+        extractor=extractor,
+        normalizer=normalizer,
+        matcher=matcher,
+        exporter=_NoopExporter(),
     ).run()
     return rows
 
@@ -299,6 +351,73 @@ def _run_extract_series_data(args: argparse.Namespace) -> int:
         ],
     )
     print(f"Extracted {len(rows)} rows to {args.output}")
+    return 0
+
+
+def _run_ingest_db_uns_all(args: argparse.Namespace) -> int:
+    input_path = Path(args.input)
+    locator = args.ingest_locator or args.input
+    batch_id = args.ingest_batch_id or datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+
+    exporter = RawUnsDbExporter(
+        ingest_source=args.ingest_source,
+        ingest_locator=locator,
+        ingest_batch_id=batch_id,
+    )
+
+    aws_rows = _collect_raw_pipeline(
+        source=UnsPdfPageSource(pdf_path=input_path, start_page=args.aws_start_page, end_page=args.aws_end_page),
+        extractor=UnsAwsCrossReferenceExtractor(),
+        normalizer=IdentityRowNormalizer(),
+        matcher=RowDedupeMatcher(key_fields=["aws_spec", "aws_designation", "uns"]),
+    )
+    common_rows = _collect_raw_pipeline(
+        source=UnsPdfPageSource(pdf_path=input_path, pages=[args.toc_page]),
+        extractor=UnsCommonDocumentsIndexExtractor(),
+        normalizer=UnsPageReferenceRowNormalizer(resolver=PageLabelResolver.from_pdf(input_path)),
+        matcher=RowDedupeMatcher(key_fields=["document_code", "target_label"]),
+    )
+    base_rows = _collect_raw_pipeline(
+        source=UnsPdfPageSource(pdf_path=input_path, pages=[args.base_elements_page]),
+        extractor=UnsBaseElementsIndexExtractor(),
+        normalizer=IdentityRowNormalizer(),
+        matcher=RowDedupeMatcher(key_fields=["element_name", "symbol", "uns_range"]),
+    )
+    series_index_rows = _collect_raw_pipeline(
+        source=UnsPdfPageSource(pdf_path=input_path, pages=[args.toc_page]),
+        extractor=UnsSeriesPageIndexExtractor(),
+        normalizer=CompositeRowNormalizer(
+            normalizers=[
+                UnsPageReferenceRowNormalizer(resolver=PageLabelResolver.from_pdf(input_path)),
+                UnsSeriesBoundaryNormalizer(pdf_path=input_path),
+            ]
+        ),
+        matcher=RowDedupeMatcher(key_fields=["series_token", "target_label"]),
+    )
+
+    # Series entries depend on resolved section boundaries from series index.
+    from tempfile import NamedTemporaryFile
+
+    with NamedTemporaryFile(mode="w+", suffix=".json", delete=True) as tmp:
+        tmp.write(JsonExporter(pretty=False).export(series_index_rows))
+        tmp.flush()
+        series_entries_rows = _collect_raw_pipeline(
+            source=UnsSeriesSectionPageSource(pdf_path=input_path, series_index_path=Path(tmp.name)),
+            extractor=UnsSeriesDataExtractor(),
+            normalizer=UnsSeriesDataNormalizer(),
+            matcher=RowDedupeMatcher(key_fields=["series_token", "uns_code"]),
+        )
+
+    inserted = {
+        "raw_uns_aws_cross_reference": exporter.export_aws_cross_reference(aws_rows),
+        "raw_uns_common_document_index": exporter.export_common_documents_index(common_rows),
+        "raw_uns_base_elements_index": exporter.export_base_elements_index(base_rows),
+        "raw_uns_series_page_index": exporter.export_series_page_index(series_index_rows),
+        "raw_uns_series_entry": exporter.export_series_entries(series_entries_rows),
+    }
+    print(f"Ingested batch_id={batch_id}")
+    for table, count in inserted.items():
+        print(f"  {table}: {count} rows")
     return 0
 
 

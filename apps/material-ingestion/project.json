@@ -61,6 +61,13 @@
         "cwd": "apps/material-ingestion"
       }
     },
+    "ingest-db-uns-all": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "set -a && . .env.local && set +a && PYTHONPATH=src .venv/bin/python -m material_ingestion.cli ingest-db uns-all --input data/incoming/uns/epdf.pub_metals-amp-alloys-in-the-unified-numbering-system-8th-ed-1999.pdf",
+        "cwd": "apps/material-ingestion"
+      }
+    },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
@@ -86,6 +93,27 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "PYTHONPATH=src .venv/bin/python -m unittest discover -s tests/unit -p 'test_*.py' && PYTHONPATH=src .venv/bin/python -m unittest discover -s tests/integration -p 'test_*.py'",
+        "cwd": "apps/material-ingestion"
+      }
+    },
+    "db-current": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "set -a && . .env.local && set +a && PYTHONPATH=src .venv/bin/alembic -c alembic.ini current",
+        "cwd": "apps/material-ingestion"
+      }
+    },
+    "db-upgrade": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "set -a && . .env.local && set +a && PYTHONPATH=src .venv/bin/alembic -c alembic.ini upgrade head",
+        "cwd": "apps/material-ingestion"
+      }
+    },
+    "db-revision": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "set -a && . .env.local && set +a && PYTHONPATH=src .venv/bin/alembic -c alembic.ini revision --autogenerate -m \"init\"",
         "cwd": "apps/material-ingestion"
       }
     }

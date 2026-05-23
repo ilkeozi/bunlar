@@ -48,7 +48,13 @@ class UnsAwsCrossReferenceExtractorTest(unittest.TestCase):
         rows = UnsAwsCrossReferenceExtractor().extract_from_text(text, page_number=3)
         self.assertEqual([], rows)
 
+    def test_normalizes_ocr_noisy_aws_designation(self) -> None:
+        text = "A5.5 (E701 8-Wl) ............. W20018"
+        rows = UnsAwsCrossReferenceExtractor().extract_from_text(text, page_number=3)
+        self.assertEqual(1, len(rows))
+        self.assertEqual("E7018-W1", rows[0]["aws_designation"])
+        self.assertEqual("E701 8-Wl", rows[0]["aws_designation_raw"])
+
 
 if __name__ == "__main__":
     unittest.main()
-

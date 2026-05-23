@@ -36,10 +36,28 @@ class UnsBaseElementsIndexExtractorTest(unittest.TestCase):
         rows = UnsBaseElementsIndexExtractor().extract_from_text(text, page_number=14)
         self.assertEqual(1, len(rows))
         self.assertEqual("Steels - AISI H", rows[0]["element_name"])
-        self.assertEqual("H", rows[0]["symbol"])
+        self.assertEqual("", rows[0]["symbol"])
         self.assertEqual("H00001-H99999", rows[0]["uns_range"])
+
+    def test_recovers_symbols_from_element_name_when_ocr_symbols_shift(self) -> None:
+        text = """
+        Element Svmbol UNS Decianation
+        Dysprasium
+        Erbium
+        Europium
+        Er
+        Eu
+        Fe
+        E46000 - E47999
+        E48000 - E49999
+        E50000 - E51999
+        """
+        rows = UnsBaseElementsIndexExtractor().extract_from_text(text, page_number=14)
+        self.assertEqual(3, len(rows))
+        self.assertEqual("Dy", rows[0]["symbol"])
+        self.assertEqual("Er", rows[1]["symbol"])
+        self.assertEqual("Eu", rows[2]["symbol"])
 
 
 if __name__ == "__main__":
     unittest.main()
-

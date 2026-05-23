@@ -102,9 +102,11 @@ class UnsCommonDocumentsIndexExtractor:
 
             title = match.group(1).strip(" .")
             target_page = int(match.group(2))
+            reconstructed_line = pending_line
 
             if pending_prefix and title.startswith("("):
                 title = f"{pending_prefix} {title}"
+                reconstructed_line = f"{pending_prefix} {pending_line}"
                 pending_prefix = ""
 
             code, description = self._split_code_and_description(title)
@@ -115,7 +117,7 @@ class UnsCommonDocumentsIndexExtractor:
                     "target_label": str(target_page),
                     "target_page": target_page,
                     "toc_page": page_number,
-                    "raw_line": pending_line,
+                    "raw_line": reconstructed_line,
                     "extraction_method": extraction_method,
                     "ocr_used": ocr_used,
                 }
