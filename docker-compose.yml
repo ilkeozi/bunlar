@@ -76,6 +76,29 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  material-ingestion:
+    image: python:3.12-slim
+    working_dir: /workspace/apps/material-ingestion
+    env_file:
+      - apps/material-ingestion/.env.local
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      DATABASE_URL: postgresql://bunlar:bunlar_dev_password@postgres:5432/material-ingeston
+    volumes:
+      - ./:/workspace
+      - ./apps/material-ingestion/data:/workspace/apps/material-ingestion/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command:
+      [
+        "bash",
+        "-lc",
+        "python -m pip install --upgrade pip && python -m pip install -e '.[dev]' && sleep infinity",
+      ]
+    restart: unless-stopped
+
 volumes:
   postgres_data:
   redis_data:
