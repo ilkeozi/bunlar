@@ -6,6 +6,7 @@ from material_ingestion.exporters.base import Exporter
 from material_ingestion.matchers.base import Matcher
 from material_ingestion.normalizers.base import Normalizer
 from material_ingestion.sources.base import RawRecord, SourceAdapter
+from material_ingestion.services.web_crawl_retention_service import apply_representation_retention
 
 
 class RawExtractor:
@@ -37,3 +38,8 @@ class RawIngestionPipeline:
         rows = self.matcher.match(rows)
         self.exporter.export(rows)
         return rows
+
+
+def run_crawl_retention_lifecycle() -> int:
+    """Applies crawler-core representation retention transition."""
+    return apply_representation_retention()

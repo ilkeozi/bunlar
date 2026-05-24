@@ -122,11 +122,11 @@
 
 **Purpose**: Final hardening, retention lifecycle, docs, and validation.
 
-- [ ] T039 [P] Implement 10-day full-representation retention transition to metadata-only history in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_retention_service.py
-- [ ] T040 Add scheduled retention lifecycle invocation path in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/raw_ingestion_pipeline.py
-- [ ] T041 [P] Add integration test for retention lifecycle transitions in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_retention_lifecycle.py
-- [ ] T042 Update material-ingestion operational documentation for crawler-core entities and reason codes in /Users/ilker/source/bunlar/apps/material-ingestion/README.md
-- [ ] T043 Run end-to-end quickstart validation and record evidence in /Users/ilker/source/bunlar/specs/003-crawler-core-foundation/quickstart.md
+- [X] T039 [P] Implement 10-day full-representation retention transition to metadata-only history in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_retention_service.py
+- [X] T040 Add scheduled retention lifecycle invocation path in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/raw_ingestion_pipeline.py
+- [X] T041 [P] Add integration test for retention lifecycle transitions in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_retention_lifecycle.py
+- [X] T042 Update material-ingestion operational documentation for crawler-core entities and reason codes in /Users/ilker/source/bunlar/apps/material-ingestion/README.md
+- [X] T043 Run end-to-end quickstart validation and record evidence in /Users/ilker/source/bunlar/specs/003-crawler-core-foundation/quickstart.md
 
 ---
 

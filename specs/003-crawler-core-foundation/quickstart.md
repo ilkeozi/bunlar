@@ -50,3 +50,18 @@ Plan and validate crawler-core foundation delivery without regressing existing c
 - [x] Clarified policies encoded in design artifacts.
 - [x] Constitution checks passed pre/post design.
 - [x] AGENTS.md SPECKIT context updated to this feature plan.
+
+## Validation Evidence (2026-05-24)
+
+- Phase 3 (US1) validation:
+  - `PYTHONPATH=src .venv/bin/python -m pytest tests/unit/test_web_crawl_uri_identity.py tests/integration/test_web_crawler_core_schema.py tests/integration/test_web_crawl_frontier_lifecycle.py tests/integration/test_web_crawl_backward_compatibility.py -q`
+  - Result: `5 passed`
+- Phase 4 (US2) validation:
+  - `PYTHONPATH=src .venv/bin/python -m pytest tests/unit/test_web_crawl_robots_policy.py tests/unit/test_web_crawl_sitemap_discovery.py tests/integration/test_web_crawl_policy_decisions.py tests/integration/test_web_crawl_frontier_lifecycle.py -q`
+  - Result: `5 passed`
+- Phase 5 (US3) validation:
+  - `PYTHONPATH=src .venv/bin/python -m pytest tests/integration/test_web_crawl_parallel_workers.py tests/integration/test_web_crawl_host_throttling.py tests/integration/test_web_crawl_candidate_documents.py -q`
+  - Result: `5 passed`
+- Phase 6 retention validation:
+  - `PYTHONPATH=src .venv/bin/python -m pytest tests/integration/test_web_crawl_retention_lifecycle.py -q`
+  - Result: `1 passed`

@@ -2,6 +2,23 @@
 
 Python Nx application for modular material data ingestion.
 
+## Crawler Core Foundation (index-first)
+
+The crawler core layer now tracks:
+
+- URI identity and aliases
+- Crawl frontier transitions and decision reason codes
+- Robots/sitemap policy records
+- Fetch attempts and stored HTTP representation metadata
+- Extracted links and candidate document records
+
+Operational notes:
+
+- Host scope: discovered hosts are registered; auto-crawl is allowlist-driven via `MATERIAL_INGESTION_CRAWL_ALLOWLIST`.
+- Concurrency: per-host cap uses `MATERIAL_INGESTION_CRAWL_HOST_CONCURRENCY`.
+- Retention: full HTTP representation `storage_ref` is transitioned to metadata-only after expiry; default retention is 10 days via `MATERIAL_INGESTION_CRAWL_REPRESENTATION_RETENTION_DAYS`.
+- `web run` supports `--worker-count` and `--host-allowlist` for orchestration behavior.
+
 ## Pipeline stages
 
 1. `sources`: pull raw source records (UNS first adapter).
