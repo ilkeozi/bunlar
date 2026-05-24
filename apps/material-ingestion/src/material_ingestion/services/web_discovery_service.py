@@ -15,6 +15,10 @@ from material_ingestion.services.web_crawl_identity_service import ensure_uri_id
 from material_ingestion.services.web_crawl_candidate_service import persist_candidate_document
 from material_ingestion.services.web_crawl_orchestrator import register_discovered_uri
 from material_ingestion.services.web_crawl_observation_service import persist_extracted_link
+from material_ingestion.services.web_crawl_structured_data_service import (
+    extract_structured_data_records,
+    persist_structured_data_record,
+)
 from material_ingestion.sources.web import WebPdfDiscovery
 from material_ingestion.services.web_stage_event_service import append_discovery_events
 from material_ingestion.services.web_url_canonicalizer import canonicalize_url
@@ -121,6 +125,23 @@ def run_web_discover_pdfs(args: argparse.Namespace) -> int:
             )
         except Exception:
             # Discovery must remain backward-compatible; do not fail existing flow.
+            pass
+    for page in pages:
+        try:
+            page_url = str(page.get("url", "") or "")
+            raw_html = str(page.get("raw_html", "") or "")
+            if not page_url or not raw_html:
+                continue
+            source_identity = ensure_uri_identity(page_url)
+            structured_records = extract_structured_data_records(raw_html)
+            for record in structured_records:
+                persist_structured_data_record(
+                    uri_identity_id=source_identity.uri_identity_id,
+                    format_name=str(record.get("format", "jsonld")),
+                    payload=record.get("payload", {}),
+                )
+        except Exception:
+            # Structured data persistence is best-effort and must not break discovery.
             pass
     page_class_counts: dict[str, int] = {}
     for p in pages:

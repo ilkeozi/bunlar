@@ -4,6 +4,7 @@ import argparse
 import json
 import logging
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import UTC, datetime
 from datetime import timedelta
 
@@ -277,12 +278,19 @@ def run_web_run(args: argparse.Namespace) -> int:
         output_root=args.output_root,
     )
     worker_count = max(1, int(getattr(args, "worker_count", 1)))
-    rc = 0
-    for _ in range(worker_count):
-        rc = run_web_worker(argparse.Namespace(orchestration_id=orchestration_id, once=False))
-        if rc != 0:
-            return rc
-    return rc
+    if worker_count == 1:
+        return run_web_worker(argparse.Namespace(orchestration_id=orchestration_id, once=False))
+
+    with ThreadPoolExecutor(max_workers=worker_count) as executor:
+        futures = [
+            executor.submit(run_web_worker, argparse.Namespace(orchestration_id=orchestration_id, once=False))
+            for _ in range(worker_count)
+        ]
+        for future in as_completed(futures):
+            rc = int(future.result())
+            if rc != 0:
+                return rc
+    return 0
 
 
 def run_web_status(args: argparse.Namespace) -> int:

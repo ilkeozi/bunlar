@@ -41,8 +41,18 @@ class WebCrawlCandidateDocumentsTest(unittest.TestCase):
             patch("material_ingestion.services.web_discovery_service.register_discovered_uri"),
             patch("material_ingestion.services.web_discovery_service.persist_extracted_link"),
             patch("material_ingestion.services.web_discovery_service.persist_candidate_document") as persist_candidate,
+            patch("material_ingestion.services.web_discovery_service.persist_structured_data_record") as persist_structured_data,
         ):
-            mock_discovery.return_value.discover.return_value = ([{"url": "https://example.com"}], [_Candidate()], [])
+            mock_discovery.return_value.discover.return_value = (
+                [
+                    {
+                        "url": "https://example.com",
+                        "raw_html": '<script type="application/ld+json">{"@type":"Dataset","name":"TDS"}</script>',
+                    }
+                ],
+                [_Candidate()],
+                [],
+            )
             mock_exporter.return_value.export_pages.return_value = 1
             mock_exporter.return_value.export_page_observations.return_value = 1
             mock_exporter.return_value.export_candidates.return_value = 1
@@ -56,3 +66,4 @@ class WebCrawlCandidateDocumentsTest(unittest.TestCase):
 
         self.assertEqual(0, rc)
         persist_candidate.assert_called()
+        persist_structured_data.assert_called()

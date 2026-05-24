@@ -98,7 +98,7 @@
 
 **Goal**: Support parallel crawling with per-host controls and produce auditable candidate document inventory.
 
-**Independent Test**: Run at least 3 concurrent workers across multi-host scope and verify candidate-doc discovery, no duplicate active frontier entries, and host-level constraints.
+**Independent Test**: Run at least 3 concurrent workers across multi-host scope and verify candidate-doc discovery, no duplicate active frontier entries, host-level constraints, and explicit overlap-based concurrency evidence (e.g., measured peak active workers during dispatch).
 
 ### Validation for User Story 3
 
@@ -198,3 +198,15 @@ Task: "T017 [US1] backward compatibility integration test in tests/integration/t
 - Every task maps to explicit file paths for direct execution.
 - No task writes to final material/product tables in this phase.
 - Validate existing crawler behavior after each story phase to prevent regressions.
+
+---
+
+## Post-Analysis Remediation Tasks
+
+- [X] T044 [US1] Add structured data extraction and persistence service for JSON-LD records in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_structured_data_service.py
+- [X] T045 [US1] Wire structured data extraction/persistence into discovery flow without breaking existing crawler behavior in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_discovery_service.py
+- [X] T046 [US3] Replace sequential `web run` worker loop with true concurrent worker execution in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_event_service.py
+- [X] T047 [P] [US1] Add unit tests for structured data extraction behavior in /Users/ilker/source/bunlar/apps/material-ingestion/tests/unit/test_web_crawl_structured_data.py
+- [X] T048 [P] [US1] Extend discovery integration tests to assert structured data persistence calls in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_candidate_documents.py
+- [X] T049 [P] [US3] Add integration test to verify parallel worker dispatch under `--worker-count 3` with overlap-based assertion in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_parallel_workers.py
+- [X] T050 Re-run crawler-core targeted validation suite and record results in implementation notes
