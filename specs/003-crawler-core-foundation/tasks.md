@@ -102,17 +102,17 @@
 
 ### Validation for User Story 3
 
-- [ ] T031 [P] [US3] Add integration test for multi-worker crawl execution and duplicate-frontier prevention in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_parallel_workers.py
-- [ ] T032 [P] [US3] Add integration test for per-host concurrency cap and crawl-delay compliance in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_host_throttling.py
-- [ ] T033 [P] [US3] Add integration test for candidate document discovery and reason-code lifecycle in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_candidate_documents.py
+- [X] T031 [P] [US3] Add integration test for multi-worker crawl execution and duplicate-frontier prevention in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_parallel_workers.py
+- [X] T032 [P] [US3] Add integration test for per-host concurrency cap and crawl-delay compliance in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_host_throttling.py
+- [X] T033 [P] [US3] Add integration test for candidate document discovery and reason-code lifecycle in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_candidate_documents.py
 
 ### Implementation for User Story 3
 
-- [ ] T034 [US3] Implement worker coordination and global queue consumption logic in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_worker_service.py
-- [ ] T035 [US3] Implement per-host concurrency and crawl-delay scheduler controls in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_scheduler_service.py
-- [ ] T036 [US3] Implement conditional request freshness handling (ETag/Last-Modified/Cache-Control + force refresh override) in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_freshness_service.py
-- [ ] T037 [US3] Implement candidate document classification and audit trail persistence in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_candidate_service.py
-- [ ] T038 [US3] Add CLI controls for worker count and host-scope execution in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/cli.py
+- [X] T034 [US3] Implement worker coordination and global queue consumption logic in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_worker_service.py
+- [X] T035 [US3] Implement per-host concurrency and crawl-delay scheduler controls in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_scheduler_service.py
+- [X] T036 [US3] Implement conditional request freshness handling (ETag/Last-Modified/Cache-Control + force refresh override) in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_freshness_service.py
+- [X] T037 [US3] Implement candidate document classification and audit trail persistence in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_candidate_service.py
+- [X] T038 [US3] Add CLI controls for worker count and host-scope execution in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/cli.py
 
 **Checkpoint**: All user stories are independently functional, with scalable discovery behavior.
 

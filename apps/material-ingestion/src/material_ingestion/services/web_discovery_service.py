@@ -12,6 +12,7 @@ from material_ingestion.exporters.raw_web_db_exporter import RawWebDbExporter
 from material_ingestion.logging_schema import log_event
 from material_ingestion.services.web_api_evidence_service import persist_api_evidence
 from material_ingestion.services.web_crawl_identity_service import ensure_uri_identity
+from material_ingestion.services.web_crawl_candidate_service import persist_candidate_document
 from material_ingestion.services.web_crawl_orchestrator import register_discovered_uri
 from material_ingestion.services.web_crawl_observation_service import persist_extracted_link
 from material_ingestion.sources.web import WebPdfDiscovery
@@ -109,6 +110,14 @@ def run_web_discover_pdfs(args: argparse.Namespace) -> int:
                 source_uri_identity_id=source_identity.uri_identity_id,
                 target_uri_identity_id=target_identity.uri_identity_id,
                 anchor_text=c.anchor_text or "",
+            )
+            persist_candidate_document(
+                uri_identity_id=target_identity.uri_identity_id,
+                source_uri_identity_id=source_identity.uri_identity_id,
+                mime_type="application/pdf",
+                classification="datasheet_candidate",
+                decision_state="new",
+                decision_reason_code="discovered_from_page",
             )
         except Exception:
             # Discovery must remain backward-compatible; do not fail existing flow.

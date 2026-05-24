@@ -261,6 +261,12 @@ def _add_web_subcommands(subparsers: argparse._SubParsersAction[argparse.Argumen
     )
     run.add_argument("--ingest-source-discovery", default="web_discovery", help="Discovery ingestion source label.")
     run.add_argument("--ingest-source-download", default="web_download", help="Download ingestion source label.")
+    run.add_argument("--worker-count", type=int, default=1, help="Number of worker passes for orchestration queue.")
+    run.add_argument(
+        "--host-allowlist",
+        default=None,
+        help="Comma-separated host patterns for auto-crawl scope (e.g. *.basf.com,example.com).",
+    )
     run.set_defaults(handler=_run_web_run)
 
     worker = web_sub.add_parser("worker", help="Process queued web ingestion events.")

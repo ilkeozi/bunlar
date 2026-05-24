@@ -239,6 +239,8 @@ def run_web_run(args: argparse.Namespace) -> int:
     download_batch_id = args.download_batch_id or datetime.now(UTC).strftime("batch_%Y%m%d_%H%M%S")
     orchestration_id = discover_batch_id
     qualify_output_path = f"data/working/discovered/qualified_{discover_batch_id}.json"
+    if getattr(args, "host_allowlist", None):
+        os.environ["MATERIAL_INGESTION_CRAWL_ALLOWLIST"] = str(args.host_allowlist)
 
     log_event(logger, logging.INFO, "web_run_orchestration_starting")
     enqueue_web_event(
@@ -274,7 +276,13 @@ def run_web_run(args: argparse.Namespace) -> int:
         limit=args.limit,
         output_root=args.output_root,
     )
-    return run_web_worker(argparse.Namespace(orchestration_id=orchestration_id, once=False))
+    worker_count = max(1, int(getattr(args, "worker_count", 1)))
+    rc = 0
+    for _ in range(worker_count):
+        rc = run_web_worker(argparse.Namespace(orchestration_id=orchestration_id, once=False))
+        if rc != 0:
+            return rc
+    return rc
 
 
 def run_web_status(args: argparse.Namespace) -> int:
