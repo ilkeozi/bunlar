@@ -96,5 +96,5 @@ Keep this guide handy when orienting new contributors or wiring up automation ag
 <!-- SPECKIT START -->
 For additional context about technologies, project structure, shell commands,
 and implementation decisions for this feature, read:
-`specs/002-retire-stale-spec/plan.md`
+`specs/003-crawler-core-foundation/plan.md`
 <!-- SPECKIT END -->

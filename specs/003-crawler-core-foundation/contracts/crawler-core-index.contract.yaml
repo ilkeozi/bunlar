@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  title: Crawler Core Index Contract
+  version: 1.0.0
+  description: |
+    Documentation-level contract for crawler-core index records and event payloads.
+    This contract describes persisted record semantics for crawl orchestration and auditability.
+paths: {}
+components:
+  schemas:
+    CrawlHost:
+      type: object
+      required: [hostname, source_type, allowlist_match, auto_crawl_enabled]
+      properties:
+        hostname:
+          type: string
+        source_type:
+          type: string
+          enum: [seed, discovered]
+        discovery_source:
+          type: string
+          nullable: true
+        allowlist_match:
+          type: boolean
+        auto_crawl_enabled:
+          type: boolean
+
+    UriIdentity:
+      type: object
+      required: [canonical_uri, normalized_hash, host_hostname]
+      properties:
+        canonical_uri:
+          type: string
+        normalized_hash:
+          type: string
+        host_hostname:
+          type: string
+
+    FrontierTransition:
+      type: object
+      required: [uri_identity, from_state, to_state, reason_code, recorded_at]
+      properties:
+        uri_identity:
+          type: string
+        from_state:
+          type: string
+          enum: [queued, in_progress, completed, skipped, deferred, failed]
+        to_state:
+          type: string
+          enum: [queued, in_progress, completed, skipped, deferred, failed]
+        reason_code:
+          type: string
+        recorded_at:
+          type: string
+          format: date-time
+
+    HttpFetchAttempt:
+      type: object
+      required: [uri_identity, status_code, outcome, requested_at, completed_at]
+      properties:
+        uri_identity:
+          type: string
+        status_code:
+          type: integer
+        outcome:
+          type: string
+          enum: [success, retryable_failure, terminal_failure, skipped_not_modified]
+        reason_code:
+          type: string
+        requested_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+
+    HttpRepresentationRetention:
+      type: object
+      required: [uri_identity, full_representation_retention_days, metadata_persisted]
+      properties:
+        uri_identity:
+          type: string
+        full_representation_retention_days:
+          type: integer
+          enum: [10]
+        metadata_persisted:
+          type: boolean
+        metadata_only_since:
+          type: string
+          format: date-time
+          nullable: true
+
+    CrawlDecision:
+      type: object
+      required: [decision_type, reason_code, recorded_at]
+      properties:
+        decision_type:
+          type: string
+          enum: [queue, skip, defer, reject, promote_candidate]
+        reason_code:
+          type: string
+        detail:
+          type: object
+          additionalProperties: true
+        recorded_at:
+          type: string
+          format: date-time
+
+  examples:
+    DiscoveredHostNotAutoCrawled:
+      summary: Discovered host registered but blocked by allowlist policy
+      value:
+        hostname: plastics-rubber.basf.com
+        source_type: discovered
+        discovery_source: sitemap:https://www.basf.com/sitemap.xml
+        allowlist_match: false
+        auto_crawl_enabled: false
+
+    ConditionalFetchNotModified:
+      summary: Validator-based freshness check returning unchanged resource
+      value:
+        uri_identity: https://www.basf.com/products/datasheet.pdf
+        status_code: 304
+        outcome: skipped_not_modified
+        reason_code: http_not_modified
+        requested_at: "2026-05-24T10:30:00Z"
+        completed_at: "2026-05-24T10:30:01Z"
