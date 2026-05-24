@@ -209,4 +209,4 @@ Task: "T017 [US1] backward compatibility integration test in tests/integration/t
 - [X] T047 [P] [US1] Add unit tests for structured data extraction behavior in /Users/ilker/source/bunlar/apps/material-ingestion/tests/unit/test_web_crawl_structured_data.py
 - [X] T048 [P] [US1] Extend discovery integration tests to assert structured data persistence calls in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_candidate_documents.py
 - [X] T049 [P] [US3] Add integration test to verify parallel worker dispatch under `--worker-count 3` with overlap-based assertion in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_parallel_workers.py
-- [X] T050 Re-run crawler-core targeted validation suite and record results in implementation notes
+- [X] T050 Re-run crawler-core targeted validation suite and record results in /Users/ilker/source/bunlar/specs/003-crawler-core-foundation/quickstart.md

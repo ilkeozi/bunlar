@@ -4,7 +4,7 @@
 
 **Created**: 2026-05-24
 
-**Status**: Draft
+**Status**: Implemented
 
 **Input**: User description: "Add a crawler core foundation around existing material-ingestion crawler behavior while preserving current working functionality."
 
