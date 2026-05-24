@@ -96,5 +96,5 @@ Keep this guide handy when orienting new contributors or wiring up automation ag
 <!-- SPECKIT START -->
 For additional context about technologies, project structure, shell commands,
 and implementation decisions for this feature, read:
-`specs/001-material-ingestion-refactor/plan.md`
+`specs/002-retire-stale-spec/plan.md`
 <!-- SPECKIT END -->

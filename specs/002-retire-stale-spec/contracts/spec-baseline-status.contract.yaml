@@ -1,0 +1,44 @@
+openapi: 3.0.3
+info:
+  title: Spec Baseline Status Contract
+  version: 1.0.0
+  description: Documentation-level contract for active vs retired specification baselines.
+paths: {}
+components:
+  schemas:
+    SpecBaseline:
+      type: object
+      required:
+        - feature_directory
+        - status
+        - title
+        - created_on
+      properties:
+        feature_directory:
+          type: string
+          description: Relative path under specs/.
+          pattern: '^specs/.+'
+        status:
+          type: string
+          enum: [active, retired]
+        title:
+          type: string
+        created_on:
+          type: string
+          format: date
+        retired_on:
+          type: string
+          format: date
+        retirement_reason:
+          type: string
+        replacement_feature_directory:
+          type: string
+          pattern: '^specs/.+'
+    SpecPointerMetadata:
+      type: object
+      required:
+        - feature_directory
+      properties:
+        feature_directory:
+          type: string
+          pattern: '^specs/.+'
