@@ -78,17 +78,17 @@
 
 ### Validation for User Story 2
 
-- [ ] T023 [P] [US2] Add unit tests for robots policy evaluation and allow/disallow resolution in /Users/ilker/source/bunlar/apps/material-ingestion/tests/unit/test_web_crawl_robots_policy.py
-- [ ] T024 [P] [US2] Add unit tests for sitemap parsing and lineage tracking in /Users/ilker/source/bunlar/apps/material-ingestion/tests/unit/test_web_crawl_sitemap_discovery.py
-- [ ] T025 [P] [US2] Add integration test for policy-driven queue/skip/defer decisions in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_policy_decisions.py
+- [X] T023 [P] [US2] Add unit tests for robots policy evaluation and allow/disallow resolution in /Users/ilker/source/bunlar/apps/material-ingestion/tests/unit/test_web_crawl_robots_policy.py
+- [X] T024 [P] [US2] Add unit tests for sitemap parsing and lineage tracking in /Users/ilker/source/bunlar/apps/material-ingestion/tests/unit/test_web_crawl_sitemap_discovery.py
+- [X] T025 [P] [US2] Add integration test for policy-driven queue/skip/defer decisions in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_policy_decisions.py
 
 ### Implementation for User Story 2
 
-- [ ] T026 [US2] Implement robots retrieval, parse persistence, and evaluation outcomes in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_robots_service.py
-- [ ] T027 [US2] Implement sitemap discovery and sitemap-entry ingestion with host lineage in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_sitemap_service.py
-- [ ] T028 [US2] Integrate allowlist-based host auto-crawl gate for newly discovered hosts in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_host_scope_service.py
-- [ ] T029 [US2] Persist canonical, robots meta, and hreflang metadata extraction in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_metadata_service.py
-- [ ] T030 [US2] Wire policy services into orchestration decision points in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_orchestrator.py
+- [X] T026 [US2] Implement robots retrieval, parse persistence, and evaluation outcomes in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_robots_service.py
+- [X] T027 [US2] Implement sitemap discovery and sitemap-entry ingestion with host lineage in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_sitemap_service.py
+- [X] T028 [US2] Integrate allowlist-based host auto-crawl gate for newly discovered hosts in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_host_scope_service.py
+- [X] T029 [US2] Persist canonical, robots meta, and hreflang metadata extraction in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_metadata_service.py
+- [X] T030 [US2] Wire policy services into orchestration decision points in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_orchestrator.py
 
 **Checkpoint**: User Stories 1 and 2 both work independently with consistent policy behavior.
 
