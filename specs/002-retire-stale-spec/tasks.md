@@ -18,10 +18,10 @@
 
 **Purpose**: Ensure feature artifact layout is complete and active pointer targets this feature.
 
-- [ ] T001 Verify feature artifact directory exists at `specs/002-retire-stale-spec/` with baseline files (`spec.md`, `plan.md`, `checklists/requirements.md`)
-- [ ] T002 Confirm active feature pointer in `.specify/feature.json` targets `specs/002-retire-stale-spec`
-- [ ] T003 [P] Verify SPECKIT marker points to current plan in `AGENTS.md`
-- [ ] T004 [P] Verify SPECKIT marker points to current plan in `agents.md`
+- [x] T001 Verify feature artifact directory exists at `specs/002-retire-stale-spec/` with baseline files (`spec.md`, `plan.md`, `checklists/requirements.md`)
+- [x] T002 Confirm active feature pointer in `.specify/feature.json` targets `specs/002-retire-stale-spec`
+- [x] T003 [P] Verify SPECKIT marker points to current plan in `AGENTS.md`
+- [x] T004 [P] Verify SPECKIT marker points to current plan in `agents.md`
 
 ---
 
@@ -31,10 +31,10 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T005 Confirm stale-retirement decision rationale is documented in `specs/002-retire-stale-spec/research.md`
-- [ ] T006 Confirm baseline entity/state definitions are complete in `specs/002-retire-stale-spec/data-model.md`
-- [ ] T007 [P] Confirm active/retired status schema is defined in `specs/002-retire-stale-spec/contracts/spec-baseline-status.contract.yaml`
-- [ ] T008 [P] Confirm operator validation flow is documented in `specs/002-retire-stale-spec/quickstart.md`
+- [x] T005 Confirm stale-retirement decision rationale is documented in `specs/002-retire-stale-spec/research.md`
+- [x] T006 Confirm baseline entity/state definitions are complete in `specs/002-retire-stale-spec/data-model.md`
+- [x] T007 [P] Confirm active/retired status schema is defined in `specs/002-retire-stale-spec/contracts/spec-baseline-status.contract.yaml`
+- [x] T008 [P] Confirm operator validation flow is documented in `specs/002-retire-stale-spec/quickstart.md`
 
 **Checkpoint**: Foundation ready; user stories can proceed.
 
@@ -48,14 +48,14 @@
 
 ### Validation for User Story 1
 
-- [ ] T009 [P] [US1] Run `.specify/scripts/bash/setup-plan.sh --json` and capture active resolution evidence in `specs/002-retire-stale-spec/quickstart.md`
-- [ ] T010 [P] [US1] Add explicit stale-vs-active baseline verification checklist section in `specs/002-retire-stale-spec/quickstart.md`
+- [x] T009 [P] [US1] Run `.specify/scripts/bash/setup-plan.sh --json` and capture active resolution evidence in `specs/002-retire-stale-spec/quickstart.md`
+- [x] T010 [P] [US1] Add explicit stale-vs-active baseline verification checklist section in `specs/002-retire-stale-spec/quickstart.md`
 
 ### Implementation for User Story 1
 
-- [ ] T011 [US1] Add retired baseline reference note (pointing to `001-material-ingestion-refactor`) in `specs/002-retire-stale-spec/spec.md`
-- [ ] T012 [US1] Add traceability mapping from retired baseline to replacement baseline in `specs/002-retire-stale-spec/research.md`
-- [ ] T013 [US1] Record active-baseline ownership statement in `specs/002-retire-stale-spec/plan.md`
+- [x] T011 [US1] Add retired baseline reference note (pointing to `001-material-ingestion-refactor`) in `specs/002-retire-stale-spec/spec.md`
+- [x] T012 [US1] Add traceability mapping from retired baseline to replacement baseline in `specs/002-retire-stale-spec/research.md`
+- [x] T013 [US1] Record active-baseline ownership statement in `specs/002-retire-stale-spec/plan.md`
 
 **Checkpoint**: US1 complete and independently testable.
 
@@ -69,14 +69,14 @@
 
 ### Validation for User Story 2
 
-- [ ] T014 [P] [US2] Add explicit allowed-path validation checklist to `specs/002-retire-stale-spec/quickstart.md` (`.specify/`, `specs/`, `AGENTS.md`, `agents.md`)
-- [ ] T015 [P] [US2] Add forbidden-path examples (`apps/`, `packages/`, runtime service files) to `specs/002-retire-stale-spec/quickstart.md`
+- [x] T014 [P] [US2] Add explicit allowed-path validation checklist to `specs/002-retire-stale-spec/quickstart.md` (`.specify/`, `specs/`, `AGENTS.md`, `agents.md`)
+- [x] T015 [P] [US2] Add forbidden-path examples (`apps/`, `packages/`, runtime service files) to `specs/002-retire-stale-spec/quickstart.md`
 
 ### Implementation for User Story 2
 
-- [ ] T016 [US2] Add no-code-change governance constraint section in `specs/002-retire-stale-spec/plan.md`
-- [ ] T017 [US2] Add no-code-change acceptance trace in `specs/002-retire-stale-spec/spec.md`
-- [ ] T018 [US2] Add scope-audit step template (git status/diff review) in `specs/002-retire-stale-spec/quickstart.md`
+- [x] T016 [US2] Add no-code-change governance constraint section in `specs/002-retire-stale-spec/plan.md`
+- [x] T017 [US2] Add no-code-change acceptance trace in `specs/002-retire-stale-spec/spec.md`
+- [x] T018 [US2] Add scope-audit step template (git status/diff review) in `specs/002-retire-stale-spec/quickstart.md`
 
 **Checkpoint**: US2 complete and independently testable.
 
@@ -90,14 +90,14 @@
 
 ### Validation for User Story 3
 
-- [ ] T019 [P] [US3] Add planning continuity checklist for `/speckit-plan` and `/speckit-tasks` outputs in `specs/002-retire-stale-spec/quickstart.md`
-- [ ] T020 [P] [US3] Add stale-assumption exclusion review checklist in `specs/002-retire-stale-spec/checklists/requirements.md`
+- [x] T019 [P] [US3] Add planning continuity checklist for `/speckit-plan` and `/speckit-tasks` outputs in `specs/002-retire-stale-spec/quickstart.md`
+- [x] T020 [P] [US3] Add stale-assumption exclusion review checklist in `specs/002-retire-stale-spec/checklists/requirements.md`
 
 ### Implementation for User Story 3
 
-- [ ] T021 [US3] Add baseline status lifecycle examples (`active`, `retired`) in `specs/002-retire-stale-spec/contracts/spec-baseline-status.contract.yaml`
-- [ ] T022 [US3] Add forward-planning guardrails and expected outputs in `specs/002-retire-stale-spec/plan.md`
-- [ ] T023 [US3] Add explicit operator handoff steps for future planning in `specs/002-retire-stale-spec/quickstart.md`
+- [x] T021 [US3] Add baseline status lifecycle examples (`active`, `retired`) in `specs/002-retire-stale-spec/contracts/spec-baseline-status.contract.yaml`
+- [x] T022 [US3] Add forward-planning guardrails and expected outputs in `specs/002-retire-stale-spec/plan.md`
+- [x] T023 [US3] Add explicit operator handoff steps for future planning in `specs/002-retire-stale-spec/quickstart.md`
 
 **Checkpoint**: US3 complete and independently testable.
 
@@ -107,10 +107,10 @@
 
 **Purpose**: Final consistency pass across all feature artifacts.
 
-- [ ] T024 [P] Cross-check requirement-to-task traceability alignment in `specs/002-retire-stale-spec/spec.md` and `specs/002-retire-stale-spec/tasks.md`
-- [ ] T025 [P] Run full quickstart validation flow and record final confirmation notes in `specs/002-retire-stale-spec/quickstart.md`
-- [ ] T026 Ensure AGENTS context remains aligned with active plan path in `AGENTS.md` and `agents.md`
-- [ ] T027 Prepare final feature summary note for reviewers in `specs/002-retire-stale-spec/plan.md`
+- [x] T024 [P] Cross-check requirement-to-task traceability alignment in `specs/002-retire-stale-spec/spec.md` and `specs/002-retire-stale-spec/tasks.md`
+- [x] T025 [P] Run full quickstart validation flow and record final confirmation notes in `specs/002-retire-stale-spec/quickstart.md`
+- [x] T026 Ensure AGENTS context remains aligned with active plan path in `AGENTS.md` and `agents.md`
+- [x] T027 Prepare final feature summary note for reviewers in `specs/002-retire-stale-spec/plan.md`
 
 ---
 

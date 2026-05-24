@@ -84,6 +84,35 @@ AGENTS.md
 - Quickstart: [/Users/ilker/source/bunlar/specs/002-retire-stale-spec/quickstart.md](/Users/ilker/source/bunlar/specs/002-retire-stale-spec/quickstart.md)
 - Agent context update: `AGENTS.md` SPECKIT marker updated to this plan path.
 
+## No-Code-Change Governance
+
+- Allowed edit scope for this feature:
+  - `.specify/*`
+  - `specs/002-retire-stale-spec/*`
+  - `AGENTS.md` and `agents.md` SPECKIT context markers
+- Explicitly forbidden scope:
+  - Runtime/application implementation paths (for example `apps/`, `packages/`, and service/runtime source files)
+- Validation mechanism:
+  - `git status --short` and `git diff --name-only` path review before completion
+
+## Active Baseline Ownership
+
+- This feature owns the active planning baseline designation through `.specify/feature.json`.
+- Previous baseline `specs/001-material-ingestion-refactor/` remains historical and non-active.
+
+## Forward Planning Guardrails
+
+- `/speckit-plan` and `/speckit-tasks` executions must resolve `FEATURE_SPEC` under `specs/002-retire-stale-spec/`.
+- Outputs must avoid carrying stale-only assumptions from `specs/001-material-ingestion-refactor/`.
+- Any future baseline switch must include:
+  - explicit retired/active mapping update,
+  - pointer metadata update,
+  - quickstart validation evidence update.
+
+## Reviewer Summary
+
+This implementation intentionally delivers documentation/process corrections only. It retires stale planning influence, preserves traceability, and protects runtime code from accidental edits while establishing a clean baseline for future ingestion-planning work.
+
 ## Post-Design Constitution Re-Check
 
 - [x] Spec-first check remains satisfied after design artifact generation.

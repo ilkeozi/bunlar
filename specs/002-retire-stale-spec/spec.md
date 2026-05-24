@@ -90,6 +90,12 @@ As a maintainer, I need a clean specification baseline aligned to current intent
 - Future planning commands will be run after this spec baseline replacement is complete.
 - Contributors rely on spec pointer metadata and feature directory naming to determine active scope.
 
+## Baseline Status Notes
+
+- **Retired baseline reference**: `specs/001-material-ingestion-refactor/` is retained as historical context and is not the active planning baseline.
+- **Active baseline reference**: `specs/002-retire-stale-spec/` is the active planning source for subsequent Spec Kit planning and task generation.
+- **No-code-change acceptance trace**: This feature is complete only when repository diffs are limited to `.specify/`, `specs/002-retire-stale-spec/`, and context docs (`AGENTS.md`/`agents.md`) with zero edits under runtime code paths.
+
 ## Constitution Alignment *(mandatory)*
 
 - **CA-001 Spec Quality**: This specification defines the problem (stale spec drift), expected behavior (retire and replace baseline), acceptance criteria, and scope boundaries (no code edits).
@@ -98,3 +104,9 @@ As a maintainer, I need a clean specification baseline aligned to current intent
 - **CA-004 User-Centered Quality**: Contributor confusion is reduced by making active/retired spec status explicit and easy to find.
 - **CA-005 Performance and Reliability**: Reliability improves by removing stale planning inputs that cause incorrect execution decisions.
 - **CA-006 Documentation Fidelity**: The workflow’s source-of-truth pointer and spec status are updated so future automation uses the correct artifact.
+
+## Requirement-to-Task Traceability
+
+- FR-001, FR-004, FR-005: Covered by tasks `T002`, `T009`, `T010`, `T013`, `T019`, `T022`
+- FR-002, FR-006: Covered by tasks `T011`, `T012`, `T021`, `T027`
+- FR-003: Covered by tasks `T014`, `T015`, `T016`, `T017`, `T018`, `T025`

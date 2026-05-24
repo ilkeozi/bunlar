@@ -32,3 +32,9 @@
 ## Notes
 
 - Validation passed on first iteration.
+
+## Stale-Assumption Exclusion Review
+
+- [x] Active planning artifacts do not rely on stale-only requirements from `specs/001-material-ingestion-refactor/`.
+- [x] Active pointer metadata references `specs/002-retire-stale-spec`.
+- [x] Forward planning guidance explicitly enforces new-baseline-only assumptions.

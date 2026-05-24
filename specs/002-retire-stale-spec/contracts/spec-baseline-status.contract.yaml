@@ -42,3 +42,21 @@ components:
         feature_directory:
           type: string
           pattern: '^specs/.+'
+  examples:
+    ActiveBaseline:
+      summary: Active baseline example
+      value:
+        feature_directory: specs/002-retire-stale-spec
+        status: active
+        title: Retire Stale Material-Ingestion Spec
+        created_on: "2026-05-24"
+    RetiredBaseline:
+      summary: Retired baseline example
+      value:
+        feature_directory: specs/001-material-ingestion-refactor
+        status: retired
+        title: Material Ingestion Domain Refactor
+        created_on: "2026-05-20"
+        retired_on: "2026-05-24"
+        retirement_reason: Superseded by new active baseline aligned with current implementation intent.
+        replacement_feature_directory: specs/002-retire-stale-spec

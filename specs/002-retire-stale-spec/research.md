@@ -31,3 +31,10 @@
 - Alternatives considered:
   - No contract and narrative-only documentation: rejected because status interpretation can drift.
   - Full registry subsystem: rejected as unnecessary complexity for documentation-only scope.
+
+## Traceability Mapping
+
+- Retired baseline: `specs/001-material-ingestion-refactor/`
+- Replacement baseline: `specs/002-retire-stale-spec/`
+- Active pointer control: `.specify/feature.json`
+- Evidence path for operator validation: `specs/002-retire-stale-spec/quickstart.md`
