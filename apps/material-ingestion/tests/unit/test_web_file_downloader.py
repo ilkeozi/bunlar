@@ -94,6 +94,22 @@ class WebFileDownloaderTest(unittest.TestCase):
         self.assertEqual(1, mock_sleep.call_count)
         self.assertGreaterEqual(mock_sleep.call_args[0][0], 3.0)
 
+    @patch("material_ingestion.sources.web.web_file_downloader.urlopen")
+    def test_download_pdf_encodes_spaces_in_url(self, mock_urlopen) -> None:
+        body = b"%PDF-1.4 fake pdf body"
+        mock_urlopen.return_value = _FakeResponse(body)
+
+        downloader = WebFileDownloader()
+        with tempfile.TemporaryDirectory() as tmp:
+            result = downloader.download_pdf(
+                source_url="https://example.com/files/My File.pdf",
+                output_root=Path(tmp),
+            )
+
+        request_arg = mock_urlopen.call_args[0][0]
+        self.assertIn("My%20File.pdf", request_arg.full_url)
+        self.assertIn("My%20File.pdf", result.source_url)
+
 
 if __name__ == "__main__":
     unittest.main()

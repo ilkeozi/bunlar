@@ -17,6 +17,7 @@ class RawWebDownloadedFile(Base):
     ingest_batch_id: Mapped[str] = mapped_column(String(64), nullable=False)
 
     source_url: Mapped[str] = mapped_column(Text, nullable=False)
+    canonical_source_url: Mapped[str] = mapped_column(Text, nullable=False, default="")
     stored_path: Mapped[str] = mapped_column(Text, nullable=False)
     sha256: Mapped[str] = mapped_column(String(64), nullable=False)
     size_bytes: Mapped[int] = mapped_column(BigInteger, nullable=False)
@@ -29,7 +30,7 @@ class RawWebDownloadedFile(Base):
         UniqueConstraint(
             "ingest_source",
             "ingest_batch_id",
-            "source_url",
+            "canonical_source_url",
             name="uq_raw_web_downloaded_file_natural",
         ),
         Index("ix_raw_web_downloaded_file_sha256", "sha256"),

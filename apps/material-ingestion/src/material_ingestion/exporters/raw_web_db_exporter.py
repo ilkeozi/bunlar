@@ -9,8 +9,10 @@ from material_ingestion.db.models import (
     RawWebDownloadedFile,
     RawWebFetchXhrObservation,
     RawWebPageCrawl,
+    RawWebPageObservation,
     RawWebPdfCandidate,
 )
+from material_ingestion.services.web_url_canonicalizer import canonicalize_url
 
 
 class RawWebDbExporter:
@@ -37,6 +39,7 @@ class RawWebDbExporter:
             model=RawWebPageCrawl,
             payload=payload,
             conflict_cols=["ingest_source", "ingest_batch_id", "page_url"],
+            replace_existing=True,
         )
 
     def export_candidates(self, rows: list[dict[str, object]]) -> int:
@@ -47,6 +50,7 @@ class RawWebDbExporter:
                 "ingest_batch_id": self.ingest_batch_id,
                 "source_page_url": str(r.get("source_page_url", "")),
                 "pdf_url": str(r.get("pdf_url", "")),
+                "canonical_pdf_url": str(r.get("canonical_pdf_url", "")) or canonicalize_url(str(r.get("pdf_url", ""))),
                 "anchor_text": str(r.get("anchor_text", "")),
                 "score": int(r.get("score", 0)),
                 "reason": str(r.get("reason", "")),
@@ -56,7 +60,37 @@ class RawWebDbExporter:
         return self._upsert(
             model=RawWebPdfCandidate,
             payload=payload,
-            conflict_cols=["ingest_source", "ingest_batch_id", "pdf_url"],
+            conflict_cols=["ingest_source", "ingest_batch_id", "canonical_pdf_url"],
+            replace_existing=True,
+        )
+
+    def export_page_observations(self, rows: list[dict[str, object]]) -> int:
+        payload = [
+            {
+                "ingest_source": self.ingest_source,
+                "ingest_locator": self.ingest_locator,
+                "ingest_batch_id": self.ingest_batch_id,
+                "page_url": str(r.get("page_url", "")),
+                "page_title": str(r.get("page_title", "")),
+                "text_excerpt": str(r.get("text_excerpt", "")),
+                "raw_html": str(r.get("raw_html", "")),
+                "raw_html_sha256": str(r.get("raw_html_sha256", "")),
+                "raw_html_bytes": int(r.get("raw_html_bytes", 0)),
+                "raw_html_truncated": bool(r.get("raw_html_truncated", False)),
+                "anchor_count": int(r.get("anchor_count", 0)),
+                "input_count": int(r.get("input_count", 0)),
+                "button_count": int(r.get("button_count", 0)),
+                "form_count": int(r.get("form_count", 0)),
+                "has_download_keywords": bool(r.get("has_download_keywords", False)),
+                "payload_json": str(r.get("payload_json", "{}")),
+            }
+            for r in rows
+        ]
+        return self._upsert(
+            model=RawWebPageObservation,
+            payload=payload,
+            conflict_cols=["ingest_source", "ingest_batch_id", "page_url"],
+            replace_existing=True,
         )
 
 
@@ -100,15 +134,17 @@ class RawWebDbExporter:
             model=RawWebFetchXhrObservation,
             payload=payload,
             conflict_cols=["ingest_source", "ingest_batch_id", "source_page_url", "response_url"],
+            replace_existing=True,
         )
 
-    def export_downloaded_files(self, rows: list[dict[str, object]]) -> int:
+    def export_downloaded_files(self, rows: list[dict[str, object]], *, replace_existing: bool = False) -> int:
         payload = [
             {
                 "ingest_source": self.ingest_source,
                 "ingest_locator": self.ingest_locator,
                 "ingest_batch_id": self.ingest_batch_id,
                 "source_url": str(r.get("source_url", "")),
+                "canonical_source_url": str(r.get("canonical_source_url", "")) or canonicalize_url(str(r.get("source_url", ""))),
                 "stored_path": str(r.get("stored_path", "")),
                 "sha256": str(r.get("sha256", "")),
                 "size_bytes": int(r.get("size_bytes", 0)),
@@ -120,20 +156,29 @@ class RawWebDbExporter:
         return self._upsert(
             model=RawWebDownloadedFile,
             payload=payload,
-            conflict_cols=["ingest_source", "ingest_batch_id", "source_url"],
+            conflict_cols=["ingest_source", "ingest_batch_id", "canonical_source_url"],
+            replace_existing=replace_existing,
         )
 
-    def _upsert(self, *, model: Any, payload: list[dict[str, object]], conflict_cols: list[str]) -> int:
+    def _upsert(
+        self,
+        *,
+        model: Any,
+        payload: list[dict[str, object]],
+        conflict_cols: list[str],
+        replace_existing: bool,
+    ) -> int:
         if not payload:
             return 0
 
         chunk_size = 500
         total = 0
         with self._session_factory() as session:
-            session.query(model).filter(
-                model.ingest_source == self.ingest_source,
-                model.ingest_batch_id == self.ingest_batch_id,
-            ).delete(synchronize_session=False)
+            if replace_existing:
+                session.query(model).filter(
+                    model.ingest_source == self.ingest_source,
+                    model.ingest_batch_id == self.ingest_batch_id,
+                ).delete(synchronize_session=False)
 
             for i in range(0, len(payload), chunk_size):
                 chunk = payload[i : i + chunk_size]

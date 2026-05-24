@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections import deque
 from dataclasses import dataclass
 from html.parser import HTMLParser
+import hashlib
 import json
 import re
 from html import escape
@@ -32,6 +33,7 @@ class FetchXhrObservation:
     content_type: str
     is_json: bool
     extracted_urls: list[str]
+    extracted_documents: list[dict[str, object]]
 
 
 class _LinkParser(HTMLParser):
@@ -90,20 +92,43 @@ class WebPdfDiscovery:
                 fetcher=self._fetch_html,
                 progress=log,
             )
-            if candidates:
-                log(f"discovery: html phase found {len(candidates)} candidates; js fallback skipped")
-                return pages, candidates, observations
+            # Always run js-rendered discovery on the seed page as well, so
+            # network/API-origin candidates are still captured in auto mode.
             try:
-                log("discovery: html phase found 0 candidates; falling back to js-rendered crawl")
-                return self._discover_with_fetcher(
+                log(
+                    "discovery: auto mode running js-rendered seed-page discovery "
+                    f"(html_candidates={len(candidates)})"
+                )
+                js_pages, js_candidates, js_observations = self._discover_with_fetcher(
                     seed_url=seed_url,
                     same_domain_only=same_domain_only,
-                    max_pages=max_pages,
+                    max_pages=1,
                     fetcher=lambda url: self._fetch_html_rendered(url, progress=log),
                     progress=log,
                 )
-            except Exception:
-                log("discovery: js fallback unavailable/failed; returning html phase result")
+                merged_pages = list(pages)
+                page_urls = {str(p.get("url", "")) for p in merged_pages}
+                for p in js_pages:
+                    url = str(p.get("url", ""))
+                    if url in page_urls:
+                        continue
+                    merged_pages.append(p)
+                    page_urls.add(url)
+
+                candidate_by_url: dict[str, PdfCandidate] = {c.pdf_url: c for c in candidates}
+                for c in js_candidates:
+                    existing = candidate_by_url.get(c.pdf_url)
+                    if existing is None or c.score > existing.score:
+                        candidate_by_url[c.pdf_url] = c
+
+                merged_observations = observations + js_observations
+                merged_candidates = sorted(candidate_by_url.values(), key=lambda c: (-c.score, c.pdf_url))
+                return merged_pages, merged_candidates, merged_observations
+            except Exception as exc:
+                log(
+                    "discovery: js discovery unavailable/failed; returning html phase result "
+                    f"error={exc.__class__.__name__}: {exc}"
+                )
                 return pages, candidates, observations
         if strategy == "js":
             log("discovery: strategy=js")
@@ -158,20 +183,27 @@ class WebPdfDiscovery:
             else:
                 html, status_code, content_type, page_fetch_observations = fetched
             fetch_observations.extend(page_fetch_observations)
-            pages.append(
-                {
-                    "url": current,
-                    "status_code": status_code,
-                    "content_type": content_type,
-                    "crawl_ok": bool(html),
-                }
-            )
+            page_row = {
+                "url": current,
+                "status_code": status_code,
+                "content_type": content_type,
+                "crawl_ok": bool(html),
+            }
             if not html:
+                pages.append(page_row)
                 progress(f"discovery: no html body (status={status_code}, content_type={content_type})")
                 continue
 
             parser = _LinkParser()
             parser.feed(html)
+            page_row.update(
+                self._extract_page_observation(
+                    page_url=current,
+                    html=html,
+                    links=parser.links,
+                )
+            )
+            pages.append(page_row)
             page_new_candidates = 0
             for href, anchor_text in parser.links:
                 absolute = self._normalize_url(urljoin(current, href))
@@ -212,6 +244,118 @@ class WebPdfDiscovery:
 
         return pages, sorted(candidates.values(), key=lambda c: (-c.score, c.pdf_url)), fetch_observations
 
+    @staticmethod
+    def _extract_page_observation(*, page_url: str, html: str, links: list[tuple[str, str]]) -> dict[str, object]:
+        lower = html.lower()
+        title = ""
+        m = re.search(r"<title[^>]*>(.*?)</title>", html, flags=re.IGNORECASE | re.DOTALL)
+        if m:
+            title = re.sub(r"\s+", " ", m.group(1)).strip()
+        text = re.sub(r"<[^>]+>", " ", html)
+        text = re.sub(r"\s+", " ", text).strip()
+        excerpt = text[:500]
+        input_count = len(re.findall(r"<input\b", lower))
+        button_count = len(re.findall(r"<button\b", lower))
+        form_count = len(re.findall(r"<form\b", lower))
+        has_download_keywords = any(
+            token in lower for token in ("download", "datasheet", "technical data sheet", "pdf", "brochure", "sds", "tds")
+        )
+        page_class = WebPdfDiscovery._classify_page(
+            page_url=page_url,
+            has_download_keywords=has_download_keywords,
+            input_count=input_count,
+            form_count=form_count,
+            anchor_count=len(links),
+            title=title,
+            lower_html=lower,
+        )
+        html_profile, max_html_bytes = WebPdfDiscovery._snapshot_policy(page_class=page_class)
+        html_bytes = html.encode("utf-8", errors="ignore")
+        raw_html_sha256 = hashlib.sha256(html_bytes).hexdigest()
+        raw_html_truncated = len(html_bytes) > max_html_bytes if max_html_bytes > 0 else False
+        raw_html = html_bytes[:max_html_bytes].decode("utf-8", errors="ignore") if max_html_bytes > 0 else ""
+        extracted_links = [
+            {"url": href, "text": text[:160]}
+            for href, text in links[:100]
+        ]
+        return {
+            "page_title": title,
+            "text_excerpt": excerpt,
+            "raw_html": raw_html,
+            "raw_html_sha256": raw_html_sha256,
+            "raw_html_bytes": len(html_bytes),
+            "raw_html_truncated": raw_html_truncated,
+            "anchor_count": len(links),
+            "input_count": input_count,
+            "button_count": button_count,
+            "form_count": form_count,
+            "has_download_keywords": has_download_keywords,
+            "page_class": page_class,
+            "snapshot_profile": html_profile,
+            "snapshot_html_max_bytes": max_html_bytes,
+            "links_sample": extracted_links,
+            "links_sample_truncated": len(links) > len(extracted_links),
+        }
+
+    @staticmethod
+    def _snapshot_policy(*, page_class: str) -> tuple[str, int]:
+        mode = (os.getenv("MATERIAL_INGESTION_PAGE_SNAPSHOT_MODE", "auto") or "auto").strip().lower()
+        legacy_default = (os.getenv("MATERIAL_INGESTION_PAGE_HTML_MAX_BYTES", "250000") or "250000").strip()
+
+        def _env_int(name: str, default: str) -> int:
+            try:
+                value = int((os.getenv(name, default) or default).strip())
+            except ValueError:
+                value = int(default)
+            return max(value, 0)
+
+        if mode == "none":
+            return ("none", 0)
+        if mode == "full":
+            return ("full", _env_int("MATERIAL_INGESTION_PAGE_HTML_MAX_BYTES", legacy_default))
+
+        # auto mode by class
+        if page_class in {"interactive_search", "document_hub"}:
+            return (
+                "rich",
+                _env_int("MATERIAL_INGESTION_PAGE_HTML_MAX_BYTES_RICH", "75000"),
+            )
+        if page_class == "indexable":
+            return (
+                "standard",
+                _env_int("MATERIAL_INGESTION_PAGE_HTML_MAX_BYTES_STANDARD", "0"),
+            )
+        return (
+            "minimal",
+            _env_int("MATERIAL_INGESTION_PAGE_HTML_MAX_BYTES_LOW_VALUE", "0"),
+        )
+
+    @staticmethod
+    def _classify_page(
+        *,
+        page_url: str,
+        has_download_keywords: bool,
+        input_count: int,
+        form_count: int,
+        anchor_count: int,
+        title: str,
+        lower_html: str,
+    ) -> str:
+        url = page_url.lower()
+        title_l = title.lower()
+        if any(token in url for token in ("/legal", "/privacy", "terms", "/contact", "/imprint")):
+            if not has_download_keywords and form_count == 0:
+                return "low_value"
+        if any(token in url for token in ("download", "datasheet", "documents", "library", "catalog")):
+            if has_download_keywords or anchor_count >= 20:
+                return "document_hub"
+        if input_count > 0 or form_count > 0:
+            if any(token in lower_html for token in ("search", "filter", "facet", "results", "document type", "language")):
+                return "interactive_search"
+        if any(token in title_l for token in ("download", "results", "catalog", "document")) and has_download_keywords:
+            return "document_hub"
+        return "indexable"
+
     def _fetch_html_rendered(
         self,
         url: str,
@@ -225,6 +369,8 @@ class WebPdfDiscovery:
 
         log = progress or (lambda _msg: None)
         page_host = urlparse(url).netloc.lower()
+        render_timeout_seconds = int(os.getenv("MATERIAL_INGESTION_RENDER_TIMEOUT_SECONDS", "45"))
+        render_timeout_ms = max(self.timeout_seconds, render_timeout_seconds) * 1000
 
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
@@ -257,40 +403,17 @@ class WebPdfDiscovery:
                             f"{resource_type} status={status_code} ct={content_type or '-'} url={response_url}"
                         )
                         extracted_urls: list[str] = []
+                        extracted_documents: list[dict[str, object]] = []
                         is_json = "json" in content_type
+                        if self._looks_like_paginated_api_url(response_url):
+                            paginated_result_urls.append(response_url)
                         if is_json:
                             json_payload_count += 1
                             body_source = "response.text"
-                            body = resp.text()
-                            if not body:
-                                try:
-                                    body = resp.body().decode("utf-8", errors="ignore")
-                                    body_source = "response.body"
-                                except Exception:
-                                    body = ""
-                            if not body and str(resp.request.method).upper() == "GET":
-                                # Try browser-context API request first (shares browser context/session).
-                                try:
-                                    api_resp = context.request.get(
-                                        response_url,
-                                        timeout=self.timeout_seconds * 1000,
-                                        headers={"Accept": "application/json"},
-                                    )
-                                    if api_resp.ok:
-                                        body = api_resp.text()
-                                        body_source = "context.request.get"
-                                except Exception:
-                                    body = ""
-                            if not body and str(resp.request.method).upper() == "GET":
-                                # Some sites return empty playwright response text/body for fetch responses.
-                                # Fallback to direct GET to recover JSON payload for generic extraction.
-                                try:
-                                    req = Request(response_url, headers={"User-Agent": self.user_agent})
-                                    with urlopen(req, timeout=self.timeout_seconds) as direct_resp:  # noqa: S310
-                                        body = direct_resp.read().decode("utf-8", errors="ignore")
-                                        body_source = "urlopen"
-                                except Exception:
-                                    body = ""
+                            try:
+                                body = resp.text()
+                            except Exception:
+                                body = ""
                             if body:
                                 log(
                                     f"discovery: json body acquired url={response_url} source={body_source} bytes={len(body)}"
@@ -307,14 +430,15 @@ class WebPdfDiscovery:
                                         candidates=doc_candidates,
                                         response_url=response_url,
                                     )
-                                    if "/dss-proxy/v1/results" in response_url:
+                                    if self._looks_like_paginated_api_url(response_url):
                                         log(
-                                            "discovery: results payload parsed "
+                                            "discovery: paginated payload parsed "
                                             f"url={response_url} candidates={len(doc_candidates)} relevance={relevance}"
                                         )
                                     if relevance >= 3:
                                         relevant_json_payload_count += 1
-                                        extracted_urls = [c["url"] for c in doc_candidates]
+                                        extracted_documents = doc_candidates
+                                        extracted_urls = [str(c["url"]) for c in doc_candidates]
                                         for candidate in doc_candidates:
                                             candidate_url = str(candidate["url"])
                                             api_discovered_urls.add(candidate_url)
@@ -322,8 +446,6 @@ class WebPdfDiscovery:
                                             new_reason = str(candidate["reason"])
                                             if not existing_reason or new_reason.startswith("api_payload_pdf"):
                                                 api_discovered_reasons[candidate_url] = new_reason
-                                    if "/dss-proxy/v1/results" in response_url:
-                                        paginated_result_urls.append(response_url)
                             else:
                                 log(f"discovery: empty json body url={response_url}")
                         observations.append(
@@ -335,13 +457,14 @@ class WebPdfDiscovery:
                                 content_type=content_type,
                                 is_json=is_json,
                                 extracted_urls=extracted_urls,
+                                extracted_documents=extracted_documents,
                             )
                         )
                     except Exception:
                         return
 
                 page.on("response", on_response)
-                resp = page.goto(url, wait_until="domcontentloaded", timeout=self.timeout_seconds * 1000)
+                resp = page.goto(url, wait_until="domcontentloaded", timeout=render_timeout_ms)
                 # Trigger lazy client-side fetches that often appear only after user-like movement.
                 page.wait_for_timeout(600)
                 try:
@@ -352,7 +475,7 @@ class WebPdfDiscovery:
                 except Exception:
                     pass
                 try:
-                    page.wait_for_load_state("networkidle", timeout=self.timeout_seconds * 1000)
+                    page.wait_for_load_state("networkidle", timeout=render_timeout_ms)
                 except Exception:
                     pass
                 page.wait_for_timeout(500)
@@ -389,6 +512,9 @@ class WebPdfDiscovery:
                 if content_type and "text/html" not in content_type.lower():
                     return "", status_code, content_type, observations
                 return html, status_code, content_type or "text/html", observations
+            except Exception as exc:
+                log(f"discovery: js rendered fetch failed url={url} error={exc.__class__.__name__}: {exc}")
+                raise
             finally:
                 browser.close()
 
@@ -400,8 +526,10 @@ class WebPdfDiscovery:
     ) -> list[dict[str, str]]:
         parsed = urlparse(results_url)
         query = parse_qs(parsed.query, keep_blank_values=True)
-        page_values = query.get("page", ["0"])
-        limit_values = query.get("limit", ["30"])
+        page_key = self._first_present_key(query, ("page", "p", "pageindex", "page_index", "offset", "start"))
+        limit_key = self._first_present_key(query, ("limit", "pagesize", "page_size", "size", "per_page", "count"))
+        page_values = query.get(page_key, ["0"]) if page_key else ["0"]
+        limit_values = query.get(limit_key, ["30"]) if limit_key else ["30"]
         try:
             start_page = max(0, int(page_values[0]))
         except Exception:
@@ -419,7 +547,10 @@ class WebPdfDiscovery:
         pages_seen = 0
         while pages_seen < max_pages and len(all_candidates) < max_docs:
             page_query = dict(query)
-            page_query["page"] = [str(page)]
+            if page_key:
+                page_query[page_key] = [str(page)]
+            else:
+                page_query["page"] = [str(page)]
             new_query = urlencode(page_query, doseq=True)
             page_url = urlunparse(parsed._replace(query=new_query))
             req = Request(page_url, headers={"User-Agent": self.user_agent, "Accept": "application/json"})
@@ -443,7 +574,7 @@ class WebPdfDiscovery:
                 f"total_candidates={len(all_candidates)}"
             )
             pages_seen += 1
-            if len(results) < limit:
+            if len(results) < limit or len(results) == 0:
                 break
             page += 1
 
@@ -461,6 +592,26 @@ class WebPdfDiscovery:
                 return body, status_code, content_type
         except Exception:
             return "", 0, ""
+
+    @staticmethod
+    def _first_present_key(query: dict[str, list[str]], candidates: tuple[str, ...]) -> str | None:
+        lowered = {str(k).lower(): k for k in query}
+        for key in candidates:
+            matched = lowered.get(key)
+            if matched:
+                return matched
+        return None
+
+    @staticmethod
+    def _looks_like_paginated_api_url(url: str) -> bool:
+        parsed = urlparse(url)
+        query = parse_qs(parsed.query, keep_blank_values=True)
+        if not query:
+            return False
+        keys = {str(k).lower() for k in query}
+        has_page = any(k in keys for k in {"page", "p", "pageindex", "page_index", "offset", "start"})
+        has_size = any(k in keys for k in {"limit", "pagesize", "page_size", "size", "per_page", "count"})
+        return has_page and has_size
 
     @staticmethod
     def _normalize_url(url: str, *, keep_fragment: bool = False) -> str:
@@ -567,16 +718,29 @@ class WebPdfDiscovery:
 
         candidates: dict[str, dict[str, object]] = {}
 
-        def add_candidate(url: str, score: int, reason: str) -> None:
+        def add_candidate(url: str, score: int, reason: str, metadata: dict[str, object] | None = None) -> None:
             normalized = WebPdfDiscovery._normalize_url(url)
             if not normalized:
                 return
             existing = candidates.get(normalized)
+            row = {"url": normalized, "score": score, "reason": reason, "metadata": metadata or {}}
             if existing is None or score > int(existing["score"]):
-                candidates[normalized] = {"url": normalized, "score": score, "reason": reason}
+                candidates[normalized] = row
 
-        def walk(node: object) -> None:
+        def metadata_from_node(node: dict[str, object], inherited: dict[str, object]) -> dict[str, object]:
+            lowered = {str(k).lower(): v for k, v in node.items()}
+            out = dict(inherited)
+            for key in ("id", "title", "originaltitle", "type", "filename", "fileid", "format", "mimetype", "contenttype", "size"):
+                if key in lowered:
+                    out[key] = lowered[key]
+            for key in ("languages", "locations", "legalareas"):
+                if key in lowered and isinstance(lowered[key], list):
+                    out[key] = lowered[key]
+            return out
+
+        def walk(node: object, inherited_meta: dict[str, object]) -> None:
             if isinstance(node, dict):
+                current_meta = metadata_from_node(node, inherited_meta)
                 lowered = {str(k).lower(): v for k, v in node.items()}
                 mime_values = []
                 for mk in mime_keys:
@@ -606,17 +770,17 @@ class WebPdfDiscovery:
                         elif any(tok in doc_type_text for tok in doc_hint_tokens):
                             score += 3
                             reason = "api_payload_document_type"
-                        add_candidate(url=url, score=score, reason=reason)
+                        add_candidate(url=url, score=score, reason=reason, metadata=current_meta)
 
                 for value in node.values():
-                    walk(value)
+                    walk(value, current_meta)
                 return
             if isinstance(node, list):
                 for item in node:
-                    walk(item)
+                    walk(item, inherited_meta)
                 return
 
-        walk(payload)
+        walk(payload, {})
         return sorted(candidates.values(), key=lambda c: (-(int(c["score"])), str(c["url"])))
 
     @staticmethod
@@ -634,8 +798,7 @@ class WebPdfDiscovery:
                 score += 2
             if "variants" in keys:
                 score += 2
-            # Generic fast-path for common result APIs.
-            if "results" in keys and "/results" in lower_response_url:
+            if ("results" in keys or "items" in keys or "documents" in keys) and WebPdfDiscovery._looks_like_paginated_api_url(response_url):
                 score += 4
         if candidates:
             score += 2

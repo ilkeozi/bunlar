@@ -18,6 +18,7 @@ class RawWebPdfCandidate(Base):
 
     source_page_url: Mapped[str] = mapped_column(Text, nullable=False)
     pdf_url: Mapped[str] = mapped_column(Text, nullable=False)
+    canonical_pdf_url: Mapped[str] = mapped_column(Text, nullable=False, default="")
     anchor_text: Mapped[str] = mapped_column(Text, nullable=False)
     score: Mapped[int] = mapped_column(Integer, nullable=False)
     reason: Mapped[str] = mapped_column(Text, nullable=False)
@@ -28,7 +29,7 @@ class RawWebPdfCandidate(Base):
         UniqueConstraint(
             "ingest_source",
             "ingest_batch_id",
-            "pdf_url",
+            "canonical_pdf_url",
             name="uq_raw_web_pdf_candidate_natural",
         ),
         Index("ix_raw_web_pdf_candidate_pdf_url", "pdf_url"),

@@ -5,15 +5,15 @@ import json
 import logging
 import os
 import re
-import time
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
-from urllib.parse import unquote, urlparse
 
-from material_ingestion.db import create_session_factory
-from material_ingestion.db.models import RawWebDownloadedFile, RawWebPdfCandidate
+from material_ingestion.db.models import (
+    RawWebIngestionEvent,
+    RawWebPdfCandidate,
+)
 from material_ingestion.exporters import CsvExporter, JsonExporter
-from material_ingestion.exporters.raw_web_db_exporter import RawWebDbExporter
 from material_ingestion.exporters.raw_uns_db_exporter import RawUnsDbExporter
 from material_ingestion.extractors import (
     UnsAwsCrossReferenceExtractor,
@@ -35,8 +35,7 @@ from material_ingestion.normalizers import (
     UnsSimpleMaterialNormalizer,
 )
 from material_ingestion.raw_ingestion_pipeline import RawIngestionPipeline
-from material_ingestion.ai import DeepseekPdfClassifier
-from material_ingestion.sources.web import WebFileDownloader, WebPdfDiscovery
+from material_ingestion.services import web_pipeline
 from material_ingestion.sources.uns import (
     UnsPdfPageSource,
     UnsSeriesSectionPageSource,
@@ -46,13 +45,73 @@ from material_ingestion.sources.uns import (
 logger = logging.getLogger("material_ingestion.web")
 
 
+class _ColorFormatter(logging.Formatter):
+    RESET = "\x1b[0m"
+    DIM = "\x1b[2m"
+    BOLD = "\x1b[1m"
+    COLORS = {
+        logging.DEBUG: "\x1b[36m",     # cyan
+        logging.INFO: "\x1b[32m",      # green
+        logging.WARNING: "\x1b[33m",   # yellow
+        logging.ERROR: "\x1b[31m",     # red
+        logging.CRITICAL: "\x1b[35m",  # magenta
+    }
+
+    def format(self, record: logging.LogRecord) -> str:
+        color = self.COLORS.get(record.levelno, "")
+        original_levelname = record.levelname
+        original_name = record.name
+        original_message = record.getMessage()
+        original_msg = record.msg
+        original_args = record.args
+        try:
+            if color:
+                record.levelname = f"{self.BOLD}{color}{record.levelname}{self.RESET}"
+                record.name = f"{self.DIM}{record.name}{self.RESET}"
+                msg = original_message
+                # Highlight generic key=value prefixes (e.g. url=, bytes=, event=).
+                msg = re.sub(
+                    r"\b([a-zA-Z_][a-zA-Z0-9_]*)=",
+                    lambda m: f"{self.BOLD}{color}{m.group(1)}={self.RESET}",
+                    msg,
+                )
+                # Keep message normal brightness; only timestamp/logger are dimmed.
+                record.msg = msg
+                record.args = ()
+            formatted = super().format(record)
+            # Dim timestamp chunk at line start.
+            if " " in formatted:
+                first, rest = formatted.split(" ", 1)
+                second_split = rest.split(" ", 1)
+                if len(second_split) == 2:
+                    second, tail = second_split
+                    formatted = f"{self.DIM}{first} {second}{self.RESET} {tail}"
+            return formatted
+        finally:
+            record.levelname = original_levelname
+            record.name = original_name
+            record.msg = original_msg
+            record.args = original_args
+
+
 def _configure_logging() -> None:
     level_name = os.getenv("MATERIAL_INGESTION_LOG_LEVEL") or os.getenv("LOG_LEVEL") or "INFO"
     level = getattr(logging, level_name.upper(), logging.INFO)
-    logging.basicConfig(
-        level=level,
-        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-    )
+    color_mode = (os.getenv("MATERIAL_INGESTION_LOG_COLOR", "auto") or "auto").strip().lower()
+    stream = sys.stderr
+    use_color = stream.isatty() if color_mode == "auto" else color_mode in {"1", "true", "yes", "on", "always"}
+
+    handler = logging.StreamHandler(stream=stream)
+    fmt = "%(asctime)s %(levelname)s %(name)s: %(message)s"
+    if use_color:
+        handler.setFormatter(_ColorFormatter(fmt))
+    else:
+        handler.setFormatter(logging.Formatter(fmt))
+
+    root = logging.getLogger()
+    root.handlers.clear()
+    root.setLevel(level)
+    root.addHandler(handler)
 
 
 def _add_material_subcommand(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
@@ -153,7 +212,6 @@ def _add_web_subcommands(subparsers: argparse._SubParsersAction[argparse.Argumen
         help="Batch id for idempotent upserts. Defaults to UTC timestamp.",
     )
     discover.set_defaults(handler=_run_web_discover_pdfs)
-
     fetch = web_sub.add_parser("fetch-pdfs", help="Download discovered PDF candidates from DB.")
     fetch.add_argument("--ingest-batch-id", required=True, help="Discovery batch id to read PDF candidates from.")
     fetch.add_argument("--min-score", type=int, default=5, help="Minimum candidate score to download.")
@@ -201,50 +259,32 @@ def _add_web_subcommands(subparsers: argparse._SubParsersAction[argparse.Argumen
     run.add_argument("--ingest-source-download", default="web_download", help="Download ingestion source label.")
     run.set_defaults(handler=_run_web_run)
 
+    worker = web_sub.add_parser("worker", help="Process queued web ingestion events.")
+    worker.add_argument("--orchestration-id", default=None, help="Optional orchestration id filter.")
+    worker.add_argument("--once", action="store_true", help="Process at most one event.")
+    worker.set_defaults(handler=_run_web_worker)
+
+    status = web_sub.add_parser("status", help="Show orchestration status summary.")
+    status.add_argument("--orchestration-id", default=None, help="Optional orchestration id filter.")
+    status.add_argument("--verbose", action="store_true", help="Include latest stage events.")
+    status.add_argument("--event-limit", type=int, default=20, help="Max recent events per stage in verbose mode.")
+    status.set_defaults(handler=_run_web_status)
+
 
 def _is_probable_pdf_candidate(candidate: RawWebPdfCandidate) -> bool:
-    pdf_url = (getattr(candidate, "pdf_url", "") or "").strip().lower()
-    reason = (getattr(candidate, "reason", "") or "").strip().lower()
-    if pdf_url.endswith(".pdf") or "url_pdf_suffix" in reason:
-        return True
-    return "api_json_url" in reason
+    return web_pipeline.is_probable_pdf_candidate(candidate)
 
 
 def _parse_preferred_languages() -> set[str]:
-    raw = os.getenv("MATERIAL_INGESTION_PREFERRED_LANGUAGES", "en,english")
-    return {part.strip().lower() for part in raw.split(",") if part.strip()}
+    return web_pipeline.parse_preferred_languages()
 
 
 def _candidate_language_hints(candidate: RawWebPdfCandidate) -> set[str]:
-    hints: set[str] = set()
-    url = (getattr(candidate, "pdf_url", "") or "").strip()
-    reason = (getattr(candidate, "reason", "") or "").strip().lower()
-
-    parsed = urlparse(url)
-    for seg in [p for p in parsed.path.split("/") if p]:
-        low = seg.lower()
-        if re.fullmatch(r"[a-z]{2}(-[a-z]{2})?", low):
-            hints.add(low.split("-", 1)[0])
-
-    decoded = unquote(url).lower()
-    if "_english" in decoded or "-english" in decoded or "/english" in decoded:
-        hints.add("english")
-
-    for token in reason.split(","):
-        token = token.strip()
-        if token.startswith("lang_"):
-            hints.add(token.removeprefix("lang_"))
-    return hints
+    return web_pipeline.candidate_language_hints(candidate)
 
 
 def _matches_preferred_language(candidate: RawWebPdfCandidate, preferred_languages: set[str]) -> bool:
-    if not preferred_languages:
-        return True
-    hints = _candidate_language_hints(candidate)
-    if not hints:
-        # Unknown language: keep it to stay generic and avoid false negatives.
-        return True
-    return any(hint in preferred_languages for hint in hints)
+    return web_pipeline.matches_preferred_language(candidate, preferred_languages)
 
 
 def parse_args() -> argparse.Namespace:
@@ -560,260 +600,83 @@ def _run_ingest_db_uns_all(args: argparse.Namespace) -> int:
 
 
 def _run_web_discover_pdfs(args: argparse.Namespace) -> int:
-    ingest_source = args.ingest_source
-    ingest_locator = args.ingest_locator or args.seed_url
-    ingest_batch_id = args.ingest_batch_id or datetime.now(UTC).strftime("batch_%Y%m%d_%H%M%S")
-
-    discovery = WebPdfDiscovery()
-    logger.info(
-        "starting discovery seed_url=%s max_pages=%s same_domain_only=%s",
-        args.seed_url,
-        args.max_pages,
-        not args.cross_domain,
-    )
-    pages, candidates, fetch_observations = discovery.discover(
-        seed_url=args.seed_url,
-        same_domain_only=not args.cross_domain,
-        max_pages=args.max_pages,
-        strategy="auto",
-        progress=lambda msg: logger.debug(msg),
-    )
-
-    candidate_rows = [
-        {
-            "source_page_url": c.source_page_url,
-            "pdf_url": c.pdf_url,
-            "anchor_text": c.anchor_text,
-            "score": c.score,
-            "reason": c.reason,
-        }
-        for c in candidates
-    ]
-    exporter = RawWebDbExporter(
-        ingest_source=ingest_source,
-        ingest_locator=ingest_locator,
-        ingest_batch_id=ingest_batch_id,
-    )
-    page_count = exporter.export_pages(pages)
-    candidate_count = exporter.export_candidates(candidate_rows)
-    fetch_observation_count = exporter.export_fetch_xhr_observations([
-        {
-            "source_page_url": o.source_page_url,
-            "response_url": o.response_url,
-            "resource_type": o.resource_type,
-            "status_code": o.status_code,
-            "content_type": o.content_type,
-            "is_json": o.is_json,
-            "extracted_urls_json": json.dumps(o.extracted_urls, sort_keys=True),
-            "extracted_url_count": len(o.extracted_urls),
-        }
-        for o in fetch_observations
-    ])
-
-    if args.output:
-        out = {
-            "seed_url": args.seed_url,
-            "ingest_batch_id": ingest_batch_id,
-            "pages": pages,
-            "candidates": candidate_rows,
-        }
-        Path(args.output).parent.mkdir(parents=True, exist_ok=True)
-        Path(args.output).write_text(json.dumps(out, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-
-    print(f"Discovered batch_id={ingest_batch_id}")
-    print(f"  crawled_pages: {page_count}")
-    print(f"  pdf_candidates: {candidate_count}")
-    print(f"  fetch_xhr_observations: {fetch_observation_count}")
-    return 0
+    return web_pipeline.run_web_discover_pdfs(args)
 
 
 def _run_web_fetch_pdfs(args: argparse.Namespace) -> int:
-    download_batch_id = args.download_batch_id or datetime.now(UTC).strftime("batch_%Y%m%d_%H%M%S")
-    logger.info(
-        "starting fetch discovery_batch_id=%s min_score=%s limit=%s output_root=%s",
-        args.ingest_batch_id,
-        args.min_score,
-        args.limit,
-        args.output_root,
+    return web_pipeline.run_web_fetch_pdfs(args)
+
+
+def _collect_qualified_candidates(
+    *,
+    ingest_batch_id: str,
+    min_score: int,
+    limit: int | None,
+    ingest_source: str,
+) -> tuple[list[dict[str, object]], dict[str, int]]:
+    return web_pipeline.collect_qualified_candidates(
+        ingest_batch_id=ingest_batch_id,
+        min_score=min_score,
+        limit=limit,
+        ingest_source=ingest_source,
     )
-    session_factory = create_session_factory()
-    with session_factory() as session:
-        query = (
-            session.query(RawWebPdfCandidate)
-            .filter(
-                RawWebPdfCandidate.ingest_batch_id == args.ingest_batch_id,
-                RawWebPdfCandidate.score >= args.min_score,
-            )
-            .order_by(RawWebPdfCandidate.score.desc(), RawWebPdfCandidate.id.asc())
-        )
-        if args.limit is not None:
-            query = query.limit(args.limit)
-        rows = query.all()
-        already_downloaded_urls = {
-            row[0]
-            for row in (
-                session.query(RawWebDownloadedFile.source_url)
-                .filter(
-                    RawWebDownloadedFile.ingest_locator == "raw_web_pdf_candidate",
-                    RawWebDownloadedFile.ingest_source == args.ingest_source,
-                    RawWebDownloadedFile.ingest_batch_id == args.ingest_batch_id,
-                )
-                .all()
-            )
-            if row and row[0]
-        }
-    deepseek_key = os.getenv("DEEPSEEK_API_KEY", "").strip()
-    deepseek_classifier = DeepseekPdfClassifier(api_key=deepseek_key) if deepseek_key else None
-    preferred_languages = _parse_preferred_languages()
-    filtered_rows: list[RawWebPdfCandidate] = []
-    skipped_non_pdf = 0
-    skipped_non_preferred_language = 0
-    deepseek_promoted = 0
-    for row in rows:
-        if not _matches_preferred_language(row, preferred_languages):
-            skipped_non_preferred_language += 1
-            continue
-        if _is_probable_pdf_candidate(row):
-            filtered_rows.append(row)
-            continue
-        if deepseek_classifier is None:
-            skipped_non_pdf += 1
-            continue
-        try:
-            if deepseek_classifier.is_likely_pdf(
-                pdf_url=getattr(row, "pdf_url", "") or "",
-                anchor_text=getattr(row, "anchor_text", "") or "",
-                reason=getattr(row, "reason", "") or "",
-                source_page_url=getattr(row, "source_page_url", "") or "",
-            ):
-                filtered_rows.append(row)
-                deepseek_promoted += 1
-            else:
-                skipped_non_pdf += 1
-        except Exception as exc:
-            logger.warning("deepseek classification failed candidate_id=%s error=%s", getattr(row, "id", "n/a"), exc)
-            skipped_non_pdf += 1
 
-    if skipped_non_pdf:
-        logger.info("fetch skipped_non_pdf_like=%s", skipped_non_pdf)
-    if skipped_non_preferred_language:
-        logger.info("fetch skipped_non_preferred_language=%s", skipped_non_preferred_language)
-    if deepseek_promoted:
-        logger.info("fetch deepseek_promoted=%s", deepseek_promoted)
 
-    deduped_rows: list[RawWebPdfCandidate] = []
-    seen_urls: set[str] = set()
-    skipped_duplicate_url = 0
-    for row in filtered_rows:
-        url = (getattr(row, "pdf_url", "") or "").strip()
-        if not url:
-            continue
-        if url in seen_urls:
-            skipped_duplicate_url += 1
-            continue
-        seen_urls.add(url)
-        deduped_rows.append(row)
-    if skipped_duplicate_url:
-        logger.info("fetch skipped_duplicate_url=%s", skipped_duplicate_url)
-
-    skipped_already_downloaded = 0
-    pending_rows: list[RawWebPdfCandidate] = []
-    for row in deduped_rows:
-        url = (getattr(row, "pdf_url", "") or "").strip()
-        if url in already_downloaded_urls:
-            skipped_already_downloaded += 1
-            continue
-        pending_rows.append(row)
-    if skipped_already_downloaded:
-        logger.info("fetch skipped_already_downloaded=%s", skipped_already_downloaded)
-
-    downloader = WebFileDownloader(
-        max_retries=int(os.getenv("MATERIAL_INGESTION_DOWNLOAD_MAX_RETRIES", "4")),
-        backoff_base_seconds=float(os.getenv("MATERIAL_INGESTION_DOWNLOAD_BACKOFF_BASE_SECONDS", "1.0")),
-        backoff_max_seconds=float(os.getenv("MATERIAL_INGESTION_DOWNLOAD_BACKOFF_MAX_SECONDS", "20.0")),
-        jitter_seconds=float(os.getenv("MATERIAL_INGESTION_DOWNLOAD_JITTER_SECONDS", "0.25")),
+def _download_qualified_candidates(
+    *,
+    qualified_rows: list[dict[str, object]],
+    output_root: Path,
+    ingest_source: str,
+    ingest_locator: str,
+    download_batch_id: str,
+) -> int:
+    return web_pipeline.download_qualified_candidates(
+        qualified_rows=qualified_rows,
+        output_root=output_root,
+        ingest_source=ingest_source,
+        ingest_locator=ingest_locator,
+        download_batch_id=download_batch_id,
     )
-    request_delay_seconds = float(os.getenv("MATERIAL_INGESTION_DOWNLOAD_REQUEST_DELAY_SECONDS", "0.0"))
-    output_root = Path(args.output_root)
-    downloaded_rows: list[dict[str, object]] = []
-    for row in pending_rows:
-        if request_delay_seconds > 0:
-            time.sleep(request_delay_seconds)
-        logger.debug("fetch downloading candidate_id=%s url=%s", getattr(row, "id", "n/a"), row.pdf_url)
-        try:
-            downloaded = downloader.download_pdf(source_url=row.pdf_url, output_root=output_root)
-        except Exception as exc:
-            logger.warning("fetch download_failed url=%s error=%s", row.pdf_url, exc)
-            continue
-        logger.debug(
-            "fetch downloaded bytes=%s status=%s path=%s",
-            downloaded.size_bytes,
-            downloaded.status_code,
-            downloaded.stored_path,
-        )
-        downloaded_rows.append(
-            {
-                "source_url": downloaded.source_url,
-                "stored_path": downloaded.stored_path,
-                "sha256": downloaded.sha256,
-                "size_bytes": downloaded.size_bytes,
-                "content_type": downloaded.content_type,
-                "status_code": downloaded.status_code,
-            }
-        )
 
-    exporter = RawWebDbExporter(
-        ingest_source=args.ingest_source,
-        ingest_locator=args.ingest_locator,
-        ingest_batch_id=download_batch_id,
-    )
-    saved = exporter.export_downloaded_files(downloaded_rows)
-    print(f"Downloaded batch_id={download_batch_id}")
-    print(f"  selected_candidates: {len(rows)}")
-    print(f"  skipped_non_preferred_language: {skipped_non_preferred_language}")
-    print(f"  probable_pdf_candidates: {len(deduped_rows)}")
-    print(f"  skipped_already_downloaded: {skipped_already_downloaded}")
-    print(f"  pending_candidates: {len(pending_rows)}")
-    print(f"  downloaded_files: {saved}")
-    return 0
+
+def _run_web_qualify_job(args: argparse.Namespace) -> int:
+    return web_pipeline.run_web_qualify_job(args)
+
+
+def _run_web_download_job(args: argparse.Namespace) -> int:
+    return web_pipeline.run_web_download_job(args)
+
+
+def _enqueue_web_event(*, orchestration_id: str, event_type: str, payload: dict[str, object]) -> int:
+    return web_pipeline.enqueue_web_event(orchestration_id=orchestration_id, event_type=event_type, payload=payload)
+
+
+def _get_next_queued_web_event(orchestration_id: str) -> RawWebIngestionEvent | None:
+    return web_pipeline.get_next_queued_web_event(orchestration_id)
+
+
+def _mark_web_event_done(event_id: int) -> None:
+    web_pipeline.mark_web_event_done(event_id)
+
+
+def _mark_web_event_failed(event_id: int, error_text: str) -> None:
+    web_pipeline.mark_web_event_failed(event_id, error_text)
+
+
+def _run_web_event(event: RawWebIngestionEvent) -> None:
+    web_pipeline.run_web_event(event)
 
 
 def _run_web_run(args: argparse.Namespace) -> int:
-    discover_batch_id = args.discover_batch_id or datetime.now(UTC).strftime("batch_%Y%m%d_%H%M%S")
-    download_batch_id = args.download_batch_id or datetime.now(UTC).strftime("batch_%Y%m%d_%H%M%S")
+    return web_pipeline.run_web_run(args)
 
-    logger.info("starting web run orchestration")
-    discover_args = argparse.Namespace(
-        seed_url=args.seed_url,
-        max_pages=args.max_pages,
-        cross_domain=args.cross_domain,
-        output=None,
-        ingest_source=args.ingest_source_discovery,
-        ingest_locator=None,
-        ingest_batch_id=discover_batch_id,
-    )
-    _run_web_discover_pdfs(discover_args)
 
-    fetch_args = argparse.Namespace(
-        ingest_batch_id=discover_batch_id,
-        min_score=args.min_score,
-        limit=args.limit,
-        output_root=args.output_root,
-        ingest_source=args.ingest_source_download,
-        ingest_locator="raw_web_pdf_candidate",
-        download_batch_id=download_batch_id,
-    )
-    _run_web_fetch_pdfs(fetch_args)
+def _run_web_worker(args: argparse.Namespace) -> int:
+    return web_pipeline.run_web_worker(args)
 
-    print("Web run summary")
-    print(f"  discover_batch_id: {discover_batch_id}")
-    print(f"  download_batch_id: {download_batch_id}")
-    print(f"  seed_url: {args.seed_url}")
-    print(f"  max_pages: {args.max_pages}")
-    print(f"  min_score: {args.min_score}")
-    print(f"  limit: {args.limit if args.limit is not None else 'none'}")
-    print(f"  output_root: {args.output_root}")
-    return 0
+
+def _run_web_status(args: argparse.Namespace) -> int:
+    return web_pipeline.run_web_status(args)
 
 
 def main() -> int:
