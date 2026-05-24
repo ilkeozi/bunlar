@@ -17,6 +17,9 @@ from material_ingestion.exporters.raw_web_db_exporter import RawWebDbExporter
 from material_ingestion.logging_schema import log_event
 from material_ingestion.sources.web import WebFileDownloader
 from material_ingestion.services.web_stage_event_service import append_download_events
+from material_ingestion.services.web_crawl_identity_service import ensure_uri_identity
+from material_ingestion.services.web_crawl_frontier_service import ensure_crawl_run
+from material_ingestion.services.web_crawl_observation_service import persist_fetch_attempt, persist_http_representation
 from material_ingestion.services.web_url_canonicalizer import canonicalize_url
 
 logger = logging.getLogger("material_ingestion.web")
@@ -33,6 +36,7 @@ def download_qualified_candidates(
     source_batch_id: str,
     heartbeat_callback: Callable[[], None] | None = None,
 ) -> int:
+    crawl_run_id = ensure_crawl_run(run_key=orchestration_id)
     attempt_rows: list[dict[str, object]] = []
 
     def _flush_attempt_rows() -> None:
@@ -181,6 +185,17 @@ def download_qualified_candidates(
             if len(attempt_rows) >= flush_every:
                 _flush_chunks()
             try:
+                identity = ensure_uri_identity(str(row["pdf_url"]))
+                persist_fetch_attempt(
+                    uri_identity_id=identity.uri_identity_id,
+                    crawl_run_id=crawl_run_id,
+                    status_code=0,
+                    outcome="terminal_failure",
+                    reason_code=exc.__class__.__name__,
+                )
+            except Exception:
+                pass
+            try:
                 append_download_events(
                     [
                         {
@@ -215,6 +230,23 @@ def download_qualified_candidates(
                 "status_code": downloaded.status_code,
             }
         )
+        try:
+            identity = ensure_uri_identity(downloaded.source_url)
+            fetch_attempt_id = persist_fetch_attempt(
+                uri_identity_id=identity.uri_identity_id,
+                crawl_run_id=crawl_run_id,
+                status_code=downloaded.status_code,
+                outcome="success",
+                reason_code="downloaded",
+            )
+            persist_http_representation(
+                fetch_attempt_id=fetch_attempt_id,
+                storage_ref=downloaded.stored_path,
+                content_type=downloaded.content_type,
+                retention_days=int(os.getenv("MATERIAL_INGESTION_CRAWL_REPRESENTATION_RETENTION_DAYS", "10")),
+            )
+        except Exception:
+            pass
         attempt_rows.append(
             {
                 "source_url": downloaded.source_url,

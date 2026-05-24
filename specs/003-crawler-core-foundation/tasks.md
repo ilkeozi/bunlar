@@ -18,10 +18,10 @@
 
 **Purpose**: Prepare dependencies, constants, and scaffolding for crawler-core work.
 
-- [ ] T001 Add crawler-core standards libraries and lock dependency versions in /Users/ilker/source/bunlar/apps/material-ingestion/pyproject.toml
-- [ ] T002 Add crawler-core config defaults (allowlist, host concurrency caps, representation retention days) in /Users/ilker/source/bunlar/apps/material-ingestion/.env.example
-- [ ] T003 [P] Add reason-code and frontier-state constant module in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawler_reason_codes.py
-- [ ] T004 [P] Add crawler-core type definitions for host policy, URI identity, and decision payloads in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/types.py
+- [X] T001 Add crawler-core standards libraries and lock dependency versions in /Users/ilker/source/bunlar/apps/material-ingestion/pyproject.toml
+- [X] T002 Add crawler-core config defaults (allowlist, host concurrency caps, representation retention days) in /Users/ilker/source/bunlar/apps/material-ingestion/.env.example
+- [X] T003 [P] Add reason-code and frontier-state constant module in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawler_reason_codes.py
+- [X] T004 [P] Add crawler-core type definitions for host policy, URI identity, and decision payloads in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/types.py
 
 ---
 
@@ -31,16 +31,16 @@
 
 **⚠️ CRITICAL**: No user story work should begin before this phase completes.
 
-- [ ] T005 Create migration for crawler-core tables (host, URI identity, alias, frontier, run, decision, policy, sitemap, fetch, representation, metadata) in /Users/ilker/source/bunlar/apps/material-ingestion/migrations/versions/20260524_08_create_crawler_core_foundation_tables.py
-- [ ] T006 [P] Implement SQLAlchemy models for CrawlHost, UriIdentity, UriAlias in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/db/models/raw_web_crawl_identity.py
-- [ ] T007 [P] Implement SQLAlchemy models for CrawlRun, FrontierItem, CrawlDecision in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/db/models/raw_web_crawl_frontier.py
-- [ ] T008 [P] Implement SQLAlchemy models for RobotsPolicy, SitemapSource, SitemapEntry in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/db/models/raw_web_crawl_policy.py
-- [ ] T009 [P] Implement SQLAlchemy models for HttpFetchAttempt, HttpRepresentation, PageMetadata, StructuredDataRecord, CandidateDocument in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/db/models/raw_web_crawl_observation.py
-- [ ] T010 Register crawler-core models in model exports and metadata wiring in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/db/models/__init__.py
-- [ ] T011 Implement repository/service layer for idempotent URI identity upsert and alias mapping in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_identity_service.py
-- [ ] T012 Implement repository/service layer for frontier state transitions and duplicate-active prevention in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_frontier_service.py
-- [ ] T013 Implement repository/service layer for crawl decision recording and standardized reason codes in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_decision_service.py
-- [ ] T014 Add foundational migration/model integration tests in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawler_core_schema.py
+- [X] T005 Create migration for crawler-core tables (host, URI identity, alias, frontier, run, decision, policy, sitemap, fetch, representation, metadata) in /Users/ilker/source/bunlar/apps/material-ingestion/migrations/versions/20260524_08_create_crawler_core_foundation_tables.py
+- [X] T006 [P] Implement SQLAlchemy models for CrawlHost, UriIdentity, UriAlias in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/db/models/raw_web_crawl_identity.py
+- [X] T007 [P] Implement SQLAlchemy models for CrawlRun, FrontierItem, CrawlDecision in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/db/models/raw_web_crawl_frontier.py
+- [X] T008 [P] Implement SQLAlchemy models for RobotsPolicy, SitemapSource, SitemapEntry in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/db/models/raw_web_crawl_policy.py
+- [X] T009 [P] Implement SQLAlchemy models for HttpFetchAttempt, HttpRepresentation, PageMetadata, StructuredDataRecord, CandidateDocument in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/db/models/raw_web_crawl_observation.py
+- [X] T010 Register crawler-core models in model exports and metadata wiring in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/db/models/__init__.py
+- [X] T011 Implement repository/service layer for idempotent URI identity upsert and alias mapping in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_identity_service.py
+- [X] T012 Implement repository/service layer for frontier state transitions and duplicate-active prevention in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_frontier_service.py
+- [X] T013 Implement repository/service layer for crawl decision recording and standardized reason codes in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_decision_service.py
+- [X] T014 Add foundational migration/model integration tests in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawler_core_schema.py
 
 **Checkpoint**: Foundation ready; user story implementation may proceed.
 
@@ -54,17 +54,17 @@
 
 ### Validation for User Story 1
 
-- [ ] T015 [P] [US1] Add unit tests for RFC-3986-oriented URI normalization and alias mapping in /Users/ilker/source/bunlar/apps/material-ingestion/tests/unit/test_web_crawl_uri_identity.py
-- [ ] T016 [P] [US1] Add integration test for frontier state lifecycle and decision persistence in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_frontier_lifecycle.py
-- [ ] T017 [P] [US1] Add regression integration test ensuring existing Playwright fallback/page-quality/extraction still works in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_backward_compatibility.py
+- [X] T015 [P] [US1] Add unit tests for RFC-3986-oriented URI normalization and alias mapping in /Users/ilker/source/bunlar/apps/material-ingestion/tests/unit/test_web_crawl_uri_identity.py
+- [X] T016 [P] [US1] Add integration test for frontier state lifecycle and decision persistence in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_frontier_lifecycle.py
+- [X] T017 [P] [US1] Add regression integration test ensuring existing Playwright fallback/page-quality/extraction still works in /Users/ilker/source/bunlar/apps/material-ingestion/tests/integration/test_web_crawl_backward_compatibility.py
 
 ### Implementation for User Story 1
 
-- [ ] T018 [US1] Implement crawler-core orchestration wrapper around existing web pipeline in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_orchestrator.py
-- [ ] T019 [US1] Integrate URI identity + frontier + decision services into crawl start flow in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_pipeline.py
-- [ ] T020 [US1] Persist HTTP fetch attempts and representation metadata in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_download_service.py
-- [ ] T021 [US1] Persist extracted links and page-level crawl observations in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_discovery_service.py
-- [ ] T022 [US1] Add crawl-run level entrypoints/options (run key, force refresh) in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/cli.py
+- [X] T018 [US1] Implement crawler-core orchestration wrapper around existing web pipeline in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_crawl_orchestrator.py
+- [X] T019 [US1] Integrate URI identity + frontier + decision services into crawl start flow in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_pipeline.py
+- [X] T020 [US1] Persist HTTP fetch attempts and representation metadata in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_download_service.py
+- [X] T021 [US1] Persist extracted links and page-level crawl observations in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/services/web_discovery_service.py
+- [X] T022 [US1] Add crawl-run level entrypoints/options (run key, force refresh) in /Users/ilker/source/bunlar/apps/material-ingestion/src/material_ingestion/cli.py
 
 **Checkpoint**: User Story 1 is independently functional and testable (MVP).
 

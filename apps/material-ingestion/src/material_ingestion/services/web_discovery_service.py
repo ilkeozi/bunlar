@@ -11,6 +11,9 @@ from pathlib import Path
 from material_ingestion.exporters.raw_web_db_exporter import RawWebDbExporter
 from material_ingestion.logging_schema import log_event
 from material_ingestion.services.web_api_evidence_service import persist_api_evidence
+from material_ingestion.services.web_crawl_identity_service import ensure_uri_identity
+from material_ingestion.services.web_crawl_orchestrator import register_discovered_uri
+from material_ingestion.services.web_crawl_observation_service import persist_extracted_link
 from material_ingestion.sources.web import WebPdfDiscovery
 from material_ingestion.services.web_stage_event_service import append_discovery_events
 from material_ingestion.services.web_url_canonicalizer import canonicalize_url
@@ -67,6 +70,7 @@ def run_web_discover_pdfs(args: argparse.Namespace) -> int:
     ingest_locator = args.ingest_locator or args.seed_url
     ingest_batch_id = args.ingest_batch_id or datetime.now(UTC).strftime("batch_%Y%m%d_%H%M%S")
     orchestration_id = getattr(args, "orchestration_id", None) or ingest_batch_id
+    _ = ensure_uri_identity(args.seed_url)
 
     discovery = WebPdfDiscovery()
     log_event(
@@ -96,6 +100,19 @@ def run_web_discover_pdfs(args: argparse.Namespace) -> int:
         }
         for c in candidates
     ]
+    for c in candidates:
+        try:
+            register_discovered_uri(run_key=orchestration_id, observed_uri=c.pdf_url)
+            source_identity = ensure_uri_identity(c.source_page_url)
+            target_identity = ensure_uri_identity(c.pdf_url)
+            persist_extracted_link(
+                source_uri_identity_id=source_identity.uri_identity_id,
+                target_uri_identity_id=target_identity.uri_identity_id,
+                anchor_text=c.anchor_text or "",
+            )
+        except Exception:
+            # Discovery must remain backward-compatible; do not fail existing flow.
+            pass
     page_class_counts: dict[str, int] = {}
     for p in pages:
         cls = str(p.get("page_class", "indexable"))

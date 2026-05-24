@@ -9,6 +9,7 @@ from material_ingestion.db.models import RawWebIngestionEvent, RawWebPdfCandidat
 from material_ingestion.logging_schema import log_event
 from material_ingestion.services.web_discovery_service import run_web_discover_pdfs
 from material_ingestion.services.web_download_service import download_qualified_candidates, run_web_download_job
+from material_ingestion.services.web_crawl_orchestrator import ensure_orchestration, register_discovered_uri
 from material_ingestion.services.web_event_service import (
     enqueue_web_event,
     get_next_queued_web_event,
@@ -34,6 +35,8 @@ logger = logging.getLogger("material_ingestion.web")
 
 # Backward-compatible thin wrappers for CLI/tests.
 def run_web_fetch_pdfs(args: argparse.Namespace) -> int:
+    run_key = getattr(args, "run_key", None) or args.ingest_batch_id
+    ensure_orchestration(run_key=run_key, force_refresh=bool(getattr(args, "force_refresh", False)))
     download_batch_id = args.download_batch_id or datetime.now(UTC).strftime("batch_%Y%m%d_%H%M%S")
     qualified_rows, summary = collect_qualified_candidates(
         ingest_batch_id=args.ingest_batch_id,
@@ -41,13 +44,19 @@ def run_web_fetch_pdfs(args: argparse.Namespace) -> int:
         limit=args.limit,
         ingest_source=args.ingest_source,
     )
+    for row in qualified_rows:
+        try:
+            register_discovered_uri(run_key=run_key, observed_uri=str(row["pdf_url"]))
+        except Exception:
+            # Preserve previous command behavior if crawler-core tracking fails.
+            pass
     saved = download_qualified_candidates(
         qualified_rows=qualified_rows,
         output_root=Path(args.output_root),
         ingest_source=args.ingest_source,
         ingest_locator=args.ingest_locator,
         download_batch_id=download_batch_id,
-        orchestration_id=args.ingest_batch_id,
+        orchestration_id=run_key,
         source_batch_id=args.ingest_batch_id,
     )
     log_event(

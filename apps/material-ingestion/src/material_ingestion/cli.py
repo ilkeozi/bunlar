@@ -205,6 +205,8 @@ def _add_web_subcommands(subparsers: argparse._SubParsersAction[argparse.Argumen
     )
     discover.add_argument("--output", default=None, help="Optional output JSON path for discovered candidates.")
     discover.add_argument("--ingest-source", default="web_discovery", help="Ingestion source label.")
+    discover.add_argument("--run-key", default=None, help="Optional crawler-core run key. Defaults to ingest batch id.")
+    discover.add_argument("--force-refresh", action="store_true", help="Force refresh even when HTTP validators allow skip.")
     discover.add_argument("--ingest-locator", default=None, help="Ingestion locator. Defaults to --seed-url.")
     discover.add_argument(
         "--ingest-batch-id",
@@ -228,6 +230,8 @@ def _add_web_subcommands(subparsers: argparse._SubParsersAction[argparse.Argumen
         default=None,
         help="Batch id for download table upserts. Defaults to UTC timestamp.",
     )
+    fetch.add_argument("--run-key", default=None, help="Optional crawler-core run key. Defaults to ingest batch id.")
+    fetch.add_argument("--force-refresh", action="store_true", help="Force refresh even when HTTP validators allow skip.")
     fetch.set_defaults(handler=_run_web_fetch_pdfs)
 
     run = web_sub.add_parser("run", help="Run website discovery and PDF download end-to-end.")

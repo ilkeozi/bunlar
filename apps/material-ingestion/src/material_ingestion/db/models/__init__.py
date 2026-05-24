@@ -17,6 +17,17 @@ from .raw_web_page_crawl import RawWebPageCrawl
 from .raw_web_page_observation import RawWebPageObservation
 from .raw_web_pdf_candidate import RawWebPdfCandidate
 from .raw_web_url_blob_map import RawWebUrlBlobMap
+from .raw_web_crawl_identity import RawWebCrawlHost, RawWebUriAlias, RawWebUriIdentity
+from .raw_web_crawl_frontier import RawWebCrawlDecision, RawWebCrawlRun, RawWebFrontierItem
+from .raw_web_crawl_policy import RawWebRobotsPolicy, RawWebSitemapEntry, RawWebSitemapSource
+from .raw_web_crawl_observation import (
+    RawWebCandidateDocument,
+    RawWebExtractedLink,
+    RawWebHttpFetchAttempt,
+    RawWebHttpRepresentation,
+    RawWebPageMetadata,
+    RawWebStructuredDataRecord,
+)
 
 __all__ = [
     "RawUnsAwsCrossReference",
@@ -38,4 +49,19 @@ __all__ = [
     "RawWebPageObservation",
     "RawWebPdfCandidate",
     "RawWebUrlBlobMap",
+    "RawWebCrawlHost",
+    "RawWebUriAlias",
+    "RawWebUriIdentity",
+    "RawWebCrawlDecision",
+    "RawWebCrawlRun",
+    "RawWebFrontierItem",
+    "RawWebRobotsPolicy",
+    "RawWebSitemapEntry",
+    "RawWebSitemapSource",
+    "RawWebCandidateDocument",
+    "RawWebExtractedLink",
+    "RawWebHttpFetchAttempt",
+    "RawWebHttpRepresentation",
+    "RawWebPageMetadata",
+    "RawWebStructuredDataRecord",
 ]
