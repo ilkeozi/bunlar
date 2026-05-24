@@ -43,7 +43,10 @@ class UnsSeriesDataExtractorTest(unittest.TestCase):
                 "section_start_pdf_page": 100,
                 "section_end_pdf_page": 120,
                 "pdf_page": 100,
-                "text": "A12062 Aluminum Foundry Alloy, AI rem Cu 4.2-5.0 Fe 0.07 max Mg AA A2062",
+                "text": (
+                    "UNIFIED NUMBER DESCRIPTION CHEMICAL COMPOSITION CROSS REFERENCE SPECIFICATIONS\n"
+                    "A12062 Aluminum Foundry Alloy, AI rem Cu 4.2-5.0 Fe 0.07 max Mg AA A2062"
+                ),
                 "table_rows": [["UNIFIED NUMBER", "DESCRIPTION", "CHEMICAL COMPOSITION", "CROSS REFERENCE SPECIFICATIONS"]],
                 "page_extraction_method": "text_pypdf_fallback",
                 "fallback_reason": "no_tables_detected",

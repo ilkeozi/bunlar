@@ -8,7 +8,7 @@
     "install": {
       "executor": "nx:run-commands",
       "options": {
-        "command": ".venv/bin/python -m pip install -e .",
+        "command": ".venv/bin/python -m pip install -e . && .venv/bin/python -m pip install playwright && .venv/bin/python -m playwright install chromium",
         "cwd": "apps/material-ingestion"
       }
     },
@@ -23,6 +23,34 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "PYTHONPATH=src .venv/bin/python -m material_ingestion.cli material",
+        "cwd": "apps/material-ingestion"
+      }
+    },
+    "playwright-install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": ".venv/bin/python -m pip install playwright && .venv/bin/python -m playwright install chromium",
+        "cwd": "apps/material-ingestion"
+      }
+    },
+    "web-discover-pdfs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "set -a && . .env.local && set +a && PYTHONPATH=src .venv/bin/python -m material_ingestion.cli web discover-pdfs --seed-url https://example.com --max-pages 20 --ingest-batch-id batch_web_discover_local",
+        "cwd": "apps/material-ingestion"
+      }
+    },
+    "web-fetch-pdfs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "set -a && . .env.local && set +a && PYTHONPATH=src .venv/bin/python -m material_ingestion.cli web fetch-pdfs --ingest-batch-id batch_web_discover_local --min-score 5 --output-root data/incoming/web --download-batch-id batch_web_fetch_local",
+        "cwd": "apps/material-ingestion"
+      }
+    },
+    "web-run": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "set -a && . .env.local && set +a && PYTHONPATH=src .venv/bin/python -m material_ingestion.cli web run --seed-url https://plastics-rubber.basf.com/global/en/performance_polymers/downloads --max-pages 20 --min-score 4 --output-root data/incoming/web --discover-batch-id batch_web_run_discover_local --download-batch-id batch_web_run_fetch_local",
         "cwd": "apps/material-ingestion"
       }
     },
