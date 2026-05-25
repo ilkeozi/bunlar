@@ -20,8 +20,14 @@ class WebCrawlBackwardCompatibilityTest(unittest.TestCase):
             patch("material_ingestion.services.web_discovery_service.WebPdfDiscovery") as mock_discovery,
             patch("material_ingestion.services.web_discovery_service.RawWebDbExporter") as mock_exporter,
             patch("material_ingestion.services.web_discovery_service.ensure_uri_identity"),
+            patch("material_ingestion.services.web_discovery_service.ensure_orchestration"),
+            patch("material_ingestion.services.web_discovery_service.register_discovered_host", return_value=1),
+            patch("material_ingestion.services.web_discovery_service.bootstrap_host_policy") as bootstrap_host_policy,
+            patch("material_ingestion.services.web_discovery_service.discover_and_persist_host_sitemaps", return_value=0),
             patch("material_ingestion.services.web_discovery_service.register_discovered_uri", side_effect=RuntimeError("boom")),
         ):
+            bootstrap_host_policy.return_value.robots_txt = "User-agent: *\nAllow: /"
+            bootstrap_host_policy.return_value.fetch_status = "success"
             mock_discovery.return_value.discover.return_value = ([{"url": "https://example.com"}], [], [])
             mock_exporter.return_value.export_pages.return_value = 1
             mock_exporter.return_value.export_page_observations.return_value = 1

@@ -38,15 +38,23 @@ class WebCrawlCandidateDocumentsTest(unittest.TestCase):
             patch("material_ingestion.services.web_discovery_service.WebPdfDiscovery") as mock_discovery,
             patch("material_ingestion.services.web_discovery_service.RawWebDbExporter") as mock_exporter,
             patch("material_ingestion.services.web_discovery_service.ensure_uri_identity") as ensure_uri_identity,
+            patch("material_ingestion.services.web_discovery_service.ensure_orchestration"),
+            patch("material_ingestion.services.web_discovery_service.register_discovered_host", return_value=1),
+            patch("material_ingestion.services.web_discovery_service.bootstrap_host_policy") as bootstrap_host_policy,
+            patch("material_ingestion.services.web_discovery_service.discover_and_persist_host_sitemaps", return_value=0),
             patch("material_ingestion.services.web_discovery_service.register_discovered_uri"),
             patch("material_ingestion.services.web_discovery_service.persist_extracted_link"),
+            patch("material_ingestion.services.web_discovery_service.persist_page_metadata") as persist_page_metadata,
             patch("material_ingestion.services.web_discovery_service.persist_candidate_document") as persist_candidate,
             patch("material_ingestion.services.web_discovery_service.persist_structured_data_record") as persist_structured_data,
         ):
+            bootstrap_host_policy.return_value.robots_txt = "User-agent: *\nAllow: /"
+            bootstrap_host_policy.return_value.fetch_status = "success"
             mock_discovery.return_value.discover.return_value = (
                 [
                     {
                         "url": "https://example.com",
+                        "links_sample": ["https://example.com/about"],
                         "raw_html": '<script type="application/ld+json">{"@type":"Dataset","name":"TDS"}</script>',
                     }
                 ],
@@ -67,3 +75,39 @@ class WebCrawlCandidateDocumentsTest(unittest.TestCase):
         self.assertEqual(0, rc)
         persist_candidate.assert_called()
         persist_structured_data.assert_called()
+        persist_page_metadata.assert_called()
+
+    def test_core_only_skips_legacy_discovery_execution(self) -> None:
+        class _Args:
+            seed_url = "https://example.com"
+            ingest_source = "web_discovery"
+            ingest_locator = None
+            ingest_batch_id = "batch_test_core_only"
+            orchestration_id = "batch_test_core_only"
+            run_key = "batch_test_core_only"
+            max_pages = 1
+            cross_domain = False
+            output = None
+            force_refresh = False
+            core_only = True
+
+        with (
+            patch("material_ingestion.services.web_discovery_service.WebPdfDiscovery") as mock_discovery,
+            patch("material_ingestion.services.web_discovery_service.ensure_uri_identity") as ensure_uri_identity,
+            patch("material_ingestion.services.web_discovery_service.ensure_orchestration"),
+            patch("material_ingestion.services.web_discovery_service.register_discovered_host", return_value=1),
+            patch("material_ingestion.services.web_discovery_service.bootstrap_host_policy") as bootstrap_host_policy,
+            patch("material_ingestion.services.web_discovery_service.discover_and_persist_host_sitemaps", return_value=0),
+            patch("material_ingestion.services.web_discovery_service.register_discovered_uri") as register_discovered_uri,
+        ):
+            bootstrap_host_policy.return_value.robots_txt = "User-agent: *\nAllow: /"
+            bootstrap_host_policy.return_value.fetch_status = "success"
+            ensure_uri_identity.return_value.uri_identity_id = 1
+            ensure_uri_identity.return_value.canonical_uri = "https://example.com/"
+            from material_ingestion.services.web_discovery_service import run_web_discover_pdfs
+
+            rc = run_web_discover_pdfs(_Args())
+
+        self.assertEqual(0, rc)
+        mock_discovery.assert_not_called()
+        register_discovered_uri.assert_called_once()

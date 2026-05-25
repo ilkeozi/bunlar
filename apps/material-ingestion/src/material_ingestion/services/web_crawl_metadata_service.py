@@ -1,14 +1,37 @@
 from __future__ import annotations
 
 import json
+import re
 
-from bs4 import BeautifulSoup
+try:
+    from bs4 import BeautifulSoup
+except Exception:  # pragma: no cover - optional dependency fallback
+    BeautifulSoup = None
 
 from material_ingestion.db import create_session_factory
 from material_ingestion.db.models import RawWebPageMetadata
 
 
 def extract_page_metadata(html: str) -> dict[str, object]:
+    if BeautifulSoup is None:
+        canonical = ""
+        robots = ""
+        canonical_match = re.search(
+            r'<link[^>]*rel=["\']canonical["\'][^>]*href=["\']([^"\']+)["\']',
+            html or "",
+            flags=re.IGNORECASE,
+        )
+        robots_match = re.search(
+            r'<meta[^>]*name=["\']robots["\'][^>]*content=["\']([^"\']+)["\']',
+            html or "",
+            flags=re.IGNORECASE,
+        )
+        if canonical_match:
+            canonical = canonical_match.group(1).strip()
+        if robots_match:
+            robots = robots_match.group(1).strip()
+        return {"canonical_hint": canonical, "robots_meta": robots, "hreflang_map": {}}
+
     soup = BeautifulSoup(html or "", "html.parser")
     canonical = ""
     robots = ""

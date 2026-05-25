@@ -207,6 +207,11 @@ def _add_web_subcommands(subparsers: argparse._SubParsersAction[argparse.Argumen
     discover.add_argument("--ingest-source", default="web_discovery", help="Ingestion source label.")
     discover.add_argument("--run-key", default=None, help="Optional crawler-core run key. Defaults to ingest batch id.")
     discover.add_argument("--force-refresh", action="store_true", help="Force refresh even when HTTP validators allow skip.")
+    discover.add_argument(
+        "--core-only",
+        action="store_true",
+        help="Run crawler-core indexing only and skip legacy HTML/JS discovery traversal.",
+    )
     discover.add_argument("--ingest-locator", default=None, help="Ingestion locator. Defaults to --seed-url.")
     discover.add_argument(
         "--ingest-batch-id",
@@ -261,6 +266,11 @@ def _add_web_subcommands(subparsers: argparse._SubParsersAction[argparse.Argumen
     )
     run.add_argument("--ingest-source-discovery", default="web_discovery", help="Discovery ingestion source label.")
     run.add_argument("--ingest-source-download", default="web_download", help="Download ingestion source label.")
+    run.add_argument(
+        "--core-only",
+        action="store_true",
+        help="Run crawler-core indexing only and skip qualify/download orchestration stages.",
+    )
     run.add_argument("--worker-count", type=int, default=1, help="Number of worker passes for orchestration queue.")
     run.add_argument(
         "--host-allowlist",

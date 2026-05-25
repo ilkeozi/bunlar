@@ -136,6 +136,14 @@ def run_web_event(event: RawWebIngestionEvent) -> None:
     payload = json.loads(event.payload_json or "{}")
     if event.event_type == "discover_requested":
         run_web_discover_pdfs(argparse.Namespace(**payload))
+        if bool(payload.get("core_only", False)):
+            log_event(
+                logger,
+                logging.INFO,
+                "discover_requested_completed_core_only",
+                orchestration_id=event.orchestration_id,
+            )
+            return
         qualify_output = str(payload.get("qualify_output_path", ""))
         enqueue_web_event(
             orchestration_id=event.orchestration_id,
@@ -262,6 +270,7 @@ def run_web_run(args: argparse.Namespace) -> int:
             "output_root": args.output_root,
             "qualify_output_path": qualify_output_path,
             "orchestration_id": orchestration_id,
+            "core_only": bool(getattr(args, "core_only", False)),
         },
     )
 

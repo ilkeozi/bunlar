@@ -13,8 +13,15 @@ from material_ingestion.logging_schema import log_event
 from material_ingestion.services.web_api_evidence_service import persist_api_evidence
 from material_ingestion.services.web_crawl_identity_service import ensure_uri_identity
 from material_ingestion.services.web_crawl_candidate_service import persist_candidate_document
-from material_ingestion.services.web_crawl_orchestrator import register_discovered_uri
+from material_ingestion.services.web_crawl_host_scope_service import register_discovered_host
+from material_ingestion.services.web_crawl_metadata_service import extract_page_metadata, persist_page_metadata
+from material_ingestion.services.web_crawl_orchestrator import ensure_orchestration, register_discovered_uri
 from material_ingestion.services.web_crawl_observation_service import persist_extracted_link
+from material_ingestion.services.web_crawl_policy_runtime_service import (
+    bootstrap_host_policy,
+    discover_and_persist_host_sitemaps,
+    host_from_url,
+)
 from material_ingestion.services.web_crawl_structured_data_service import (
     extract_structured_data_records,
     persist_structured_data_record,
@@ -24,6 +31,23 @@ from material_ingestion.services.web_stage_event_service import append_discovery
 from material_ingestion.services.web_url_canonicalizer import canonicalize_url
 
 logger = logging.getLogger("material_ingestion.web")
+
+
+def _extract_link_targets(page: dict[str, object]) -> list[str]:
+    raw = page.get("links_sample", [])
+    if not isinstance(raw, list):
+        return []
+    targets: list[str] = []
+    for item in raw:
+        if isinstance(item, str):
+            target = item.strip()
+        elif isinstance(item, dict):
+            target = str(item.get("href", "") or "").strip()
+        else:
+            target = ""
+        if target:
+            targets.append(target)
+    return targets
 
 
 def _should_emit_discovery_debug(msg: str) -> bool:
@@ -75,7 +99,45 @@ def run_web_discover_pdfs(args: argparse.Namespace) -> int:
     ingest_locator = args.ingest_locator or args.seed_url
     ingest_batch_id = args.ingest_batch_id or datetime.now(UTC).strftime("batch_%Y%m%d_%H%M%S")
     orchestration_id = getattr(args, "orchestration_id", None) or ingest_batch_id
+    run_key = getattr(args, "run_key", None) or orchestration_id
+    core_only = bool(getattr(args, "core_only", False))
     _ = ensure_uri_identity(args.seed_url)
+    ensure_orchestration(run_key=run_key, force_refresh=bool(getattr(args, "force_refresh", False)))
+    robots_by_host: dict[str, tuple[str, str]] = {}
+    seed_host = host_from_url(args.seed_url)
+    if seed_host:
+        try:
+            seed_host_id = register_discovered_host(seed_host, discovery_source=f"seed:{run_key}")
+            seed_robots = bootstrap_host_policy(host_id=seed_host_id, host=seed_host, sample_target_url=args.seed_url)
+            robots_by_host[seed_host] = (seed_robots.robots_txt, seed_robots.fetch_status)
+            discover_and_persist_host_sitemaps(host_id=seed_host_id, host=seed_host, robots_txt=seed_robots.robots_txt)
+        except Exception as exc:
+            log_event(
+                logger,
+                logging.WARNING,
+                "policy_bootstrap_failed",
+                host=seed_host,
+                error_class=exc.__class__.__name__,
+                error=str(exc),
+            )
+
+    if core_only:
+        robots_txt, robots_fetch_status = robots_by_host.get(seed_host, ("", "failed"))
+        register_discovered_uri(
+            run_key=run_key,
+            observed_uri=args.seed_url,
+            robots_txt=robots_txt or None,
+            robots_fetch_status=robots_fetch_status,
+        )
+        log_event(
+            logger,
+            logging.INFO,
+            "discover_core_only_completed",
+            seed_url=args.seed_url,
+            orchestration_id=orchestration_id,
+            crawl_run_key=run_key,
+        )
+        return 0
 
     discovery = WebPdfDiscovery()
     log_event(
@@ -107,7 +169,27 @@ def run_web_discover_pdfs(args: argparse.Namespace) -> int:
     ]
     for c in candidates:
         try:
-            register_discovered_uri(run_key=orchestration_id, observed_uri=c.pdf_url)
+            target_host = host_from_url(c.pdf_url)
+            robots_txt, robots_fetch_status = robots_by_host.get(target_host, ("", "failed"))
+            if target_host and target_host not in robots_by_host:
+                try:
+                    target_host_id = register_discovered_host(target_host, discovery_source=f"link:{orchestration_id}")
+                    target_robots = bootstrap_host_policy(host_id=target_host_id, host=target_host, sample_target_url=c.pdf_url)
+                    robots_txt, robots_fetch_status = target_robots.robots_txt, target_robots.fetch_status
+                    robots_by_host[target_host] = (robots_txt, robots_fetch_status)
+                    discover_and_persist_host_sitemaps(
+                        host_id=target_host_id,
+                        host=target_host,
+                        robots_txt=target_robots.robots_txt,
+                    )
+                except Exception:
+                    robots_by_host[target_host] = ("", "failed")
+            register_discovered_uri(
+                run_key=orchestration_id,
+                observed_uri=c.pdf_url,
+                robots_txt=robots_txt or None,
+                robots_fetch_status=robots_fetch_status,
+            )
             source_identity = ensure_uri_identity(c.source_page_url)
             target_identity = ensure_uri_identity(c.pdf_url)
             persist_extracted_link(
@@ -133,6 +215,17 @@ def run_web_discover_pdfs(args: argparse.Namespace) -> int:
             if not page_url or not raw_html:
                 continue
             source_identity = ensure_uri_identity(page_url)
+            metadata = extract_page_metadata(raw_html)
+            persist_page_metadata(uri_identity_id=source_identity.uri_identity_id, metadata=metadata)
+            for target_url in _extract_link_targets(page):
+                try:
+                    target_identity = ensure_uri_identity(target_url)
+                    persist_extracted_link(
+                        source_uri_identity_id=source_identity.uri_identity_id,
+                        target_uri_identity_id=target_identity.uri_identity_id,
+                    )
+                except Exception:
+                    continue
             structured_records = extract_structured_data_records(raw_html)
             for record in structured_records:
                 persist_structured_data_record(

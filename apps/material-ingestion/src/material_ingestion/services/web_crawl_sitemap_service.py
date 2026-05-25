@@ -10,29 +10,52 @@ from material_ingestion.services.web_crawl_host_scope_service import register_di
 from material_ingestion.services.web_crawl_identity_service import ensure_uri_identity
 
 
-def parse_sitemap_urls(xml_text: str) -> list[tuple[str, datetime | None]]:
+def _parse_lastmod(text: str) -> datetime | None:
+    value = (text or "").strip()
+    if not value:
+        return None
+    # Sitemap protocol allows full datetime or date. Normalize UTC "Z" variant.
+    candidates = [value, value.replace("Z", "+00:00")]
+    for candidate in candidates:
+        try:
+            return datetime.fromisoformat(candidate)
+        except ValueError:
+            continue
+    return None
+
+
+def parse_sitemap_document(xml_text: str) -> tuple[list[tuple[str, datetime | None]], list[str]]:
     root = ElementTree.fromstring(xml_text)
     urls: list[tuple[str, datetime | None]] = []
+    nested_sitemaps: list[str] = []
     ns_trim = lambda tag: tag.split("}", 1)[-1]
 
     for node in root.iter():
-        if ns_trim(node.tag) != "url":
-            continue
-        loc = None
-        lastmod = None
-        for child in node:
-            key = ns_trim(child.tag)
-            if key == "loc":
-                loc = (child.text or "").strip()
-            elif key == "lastmod":
-                text = (child.text or "").strip()
-                if text:
-                    try:
-                        lastmod = datetime.fromisoformat(text.replace("Z", "+00:00"))
-                    except ValueError:
-                        lastmod = None
-        if loc:
-            urls.append((loc, lastmod))
+        node_tag = ns_trim(node.tag)
+        if node_tag == "url":
+            loc = None
+            lastmod = None
+            for child in node:
+                key = ns_trim(child.tag)
+                if key == "loc":
+                    loc = (child.text or "").strip()
+                elif key == "lastmod":
+                    lastmod = _parse_lastmod(child.text or "")
+            if loc:
+                urls.append((loc, lastmod))
+        elif node_tag == "sitemap":
+            for child in node:
+                key = ns_trim(child.tag)
+                if key == "loc":
+                    loc = (child.text or "").strip()
+                    if loc:
+                        nested_sitemaps.append(loc)
+                    break
+    return urls, nested_sitemaps
+
+
+def parse_sitemap_urls(xml_text: str) -> list[tuple[str, datetime | None]]:
+    urls, _ = parse_sitemap_document(xml_text)
     return urls
 
 

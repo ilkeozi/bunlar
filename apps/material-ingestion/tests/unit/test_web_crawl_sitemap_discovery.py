@@ -1,6 +1,6 @@
 import unittest
 
-from material_ingestion.services.web_crawl_sitemap_service import parse_sitemap_urls
+from material_ingestion.services.web_crawl_sitemap_service import parse_sitemap_document, parse_sitemap_urls
 
 
 class WebCrawlSitemapDiscoveryTest(unittest.TestCase):
@@ -21,3 +21,21 @@ class WebCrawlSitemapDiscoveryTest(unittest.TestCase):
         self.assertEqual("https://example.com/a", rows[0][0])
         self.assertIsNotNone(rows[0][1])
         self.assertEqual("https://example.com/b", rows[1][0])
+
+    def test_parse_sitemap_document_extracts_nested_sitemaps(self) -> None:
+        xml = """<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">
+  <sitemap>
+    <loc>https://example.com/sitemaps/a.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://example.com/sitemaps/b.xml</loc>
+  </sitemap>
+</sitemapindex>
+"""
+        urls, nested = parse_sitemap_document(xml)
+        self.assertEqual([], urls)
+        self.assertEqual(
+            ["https://example.com/sitemaps/a.xml", "https://example.com/sitemaps/b.xml"],
+            nested,
+        )
