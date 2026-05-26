@@ -10,6 +10,8 @@ class WebCrawlSitemapDiscoveryTest(unittest.TestCase):
   <url>
     <loc>https://example.com/a</loc>
     <lastmod>2026-05-01T10:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://example.com/b</loc>
@@ -20,6 +22,8 @@ class WebCrawlSitemapDiscoveryTest(unittest.TestCase):
         self.assertEqual(2, len(rows))
         self.assertEqual("https://example.com/a", rows[0][0])
         self.assertIsNotNone(rows[0][1])
+        self.assertEqual("weekly", rows[0][2])
+        self.assertEqual(0.8, rows[0][3])
         self.assertEqual("https://example.com/b", rows[1][0])
 
     def test_parse_sitemap_document_extracts_nested_sitemaps(self) -> None:

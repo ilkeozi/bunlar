@@ -17,8 +17,16 @@ class RawWebHttpFetchAttempt(Base):
     status_code: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     outcome: Mapped[str] = mapped_column(String(32), nullable=False, default="success")
     reason_code: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    requested_url: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    final_url: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    redirect_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     requested_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
     completed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+    __table_args__ = (
+        Index("ix_raw_web_http_fetch_attempt_uri_outcome_completed", "uri_identity_id", "outcome", "completed_at"),
+        Index("ix_raw_web_http_fetch_attempt_run_id", "crawl_run_id", "id"),
+    )
 
 
 class RawWebHttpRepresentation(Base):
@@ -31,6 +39,19 @@ class RawWebHttpRepresentation(Base):
     etag: Mapped[str] = mapped_column(String(255), nullable=False, default="")
     last_modified: Mapped[str] = mapped_column(String(255), nullable=False, default="")
     cache_control: Mapped[str] = mapped_column(String(255), nullable=False, default="")
+    content_length: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    content_language: Mapped[str] = mapped_column(String(255), nullable=False, default="")
+    content_encoding: Mapped[str] = mapped_column(String(255), nullable=False, default="")
+    content_disposition: Mapped[str] = mapped_column(String(512), nullable=False, default="")
+    location: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    content_location: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    link: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    vary: Mapped[str] = mapped_column(String(512), nullable=False, default="")
+    allow: Mapped[str] = mapped_column(String(255), nullable=False, default="")
+    accept_ranges: Mapped[str] = mapped_column(String(128), nullable=False, default="")
+    server: Mapped[str] = mapped_column(String(255), nullable=False, default="")
+    x_robots_tag: Mapped[str] = mapped_column(String(512), nullable=False, default="")
+    retry_after: Mapped[str] = mapped_column(String(255), nullable=False, default="")
     expires_full_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
     metadata_only_since: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 

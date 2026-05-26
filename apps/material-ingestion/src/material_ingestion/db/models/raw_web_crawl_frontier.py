@@ -36,6 +36,7 @@ class RawWebFrontierItem(Base):
     __table_args__ = (
         Index("ix_raw_web_frontier_item_uri_identity_id", "uri_identity_id"),
         Index("ix_raw_web_frontier_item_state", "state"),
+        Index("ix_raw_web_frontier_item_run_state_priority_id", "crawl_run_id", "state", "priority", "id"),
     )
 
 

@@ -13,13 +13,16 @@ from .raw_web_api_page_fetch import RawWebApiPageFetch
 from .raw_web_api_document_candidate import RawWebApiDocumentCandidate
 from .raw_web_fetch_xhr_observation import RawWebFetchXhrObservation
 from .raw_web_ingestion_event import RawWebIngestionEvent
+from .raw_web_crawl_allowlist_rule import RawWebCrawlAllowlistRule
+from .raw_web_frontier_score_rule import RawWebFrontierScoreRule
+from .raw_web_runtime_config import RawWebRuntimeConfig
 from .raw_web_page_crawl import RawWebPageCrawl
 from .raw_web_page_observation import RawWebPageObservation
 from .raw_web_pdf_candidate import RawWebPdfCandidate
 from .raw_web_url_blob_map import RawWebUrlBlobMap
 from .raw_web_crawl_identity import RawWebCrawlHost, RawWebUriAlias, RawWebUriIdentity
 from .raw_web_crawl_frontier import RawWebCrawlDecision, RawWebCrawlRun, RawWebFrontierItem
-from .raw_web_crawl_policy import RawWebRobotsPolicy, RawWebSitemapEntry, RawWebSitemapSource
+from .raw_web_crawl_policy import RawWebRobotsPolicy, RawWebSitemapAlternate, RawWebSitemapEntry, RawWebSitemapSource
 from .raw_web_crawl_observation import (
     RawWebCandidateDocument,
     RawWebExtractedLink,
@@ -45,6 +48,9 @@ __all__ = [
     "RawWebApiDocumentCandidate",
     "RawWebFetchXhrObservation",
     "RawWebIngestionEvent",
+    "RawWebCrawlAllowlistRule",
+    "RawWebFrontierScoreRule",
+    "RawWebRuntimeConfig",
     "RawWebPageCrawl",
     "RawWebPageObservation",
     "RawWebPdfCandidate",
@@ -56,6 +62,7 @@ __all__ = [
     "RawWebCrawlRun",
     "RawWebFrontierItem",
     "RawWebRobotsPolicy",
+    "RawWebSitemapAlternate",
     "RawWebSitemapEntry",
     "RawWebSitemapSource",
     "RawWebCandidateDocument",

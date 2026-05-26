@@ -17,7 +17,9 @@ dependencies = [
     "beautifulsoup4>=4.12.0",
     "lxml>=5.2.0",
     "robotexclusionrulesparser>=1.7.1",
-    "sitemap-parser>=0.0.4",
+    "ultimate-sitemap-parser>=1.8.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
 ]
 
 [project.optional-dependencies]

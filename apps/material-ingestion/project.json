@@ -54,6 +54,13 @@
         "cwd": "apps/material-ingestion"
       }
     },
+    "runtime": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "set -a && . .env.local && set +a && PYTHONPATH=src .venv/bin/python -m material_ingestion.runtime_app",
+        "cwd": "apps/material-ingestion"
+      }
+    },
     "extract-aws-crossref": {
       "executor": "nx:run-commands",
       "options": {

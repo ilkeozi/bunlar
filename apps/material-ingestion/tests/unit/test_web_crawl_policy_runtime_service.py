@@ -1,7 +1,9 @@
 import unittest
 from unittest.mock import patch
+import logging
 
 from material_ingestion.services.web_crawl_policy_runtime_service import (
+    _UspInvalidSitemapCollector,
     discover_and_persist_host_sitemaps,
     extract_sitemap_urls,
     fetch_robots_txt,
@@ -22,24 +24,90 @@ class WebCrawlPolicyRuntimeServiceTest(unittest.TestCase):
         self.assertEqual("", out.robots_txt)
 
     def test_discover_and_persist_host_sitemaps_recurses_sitemapindex(self) -> None:
-        sitemap_index = """<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap><loc>https://example.com/child.xml</loc></sitemap>
-</sitemapindex>"""
-        child_urlset = """<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://example.com/a</loc></url>
-</urlset>"""
-        by_url = {
-            "https://example.com/sitemap.xml": sitemap_index,
-            "https://example.com/child.xml": child_urlset,
-        }
+        class _Page:
+            def __init__(self, url: str):
+                self.url = url
+
+        class _Tree:
+            def all_pages(self):
+                return [_Page("https://example.com/a"), _Page("https://example.com/b")]
 
         with (
-            patch("material_ingestion.services.web_crawl_policy_runtime_service.fetch_text_url", side_effect=lambda url: by_url[url]),
-            patch("material_ingestion.services.web_crawl_policy_runtime_service.persist_sitemap_entries", return_value=1) as persist_entries,
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.has_successful_sitemap_source", return_value=False),
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.sitemap_tree_for_homepage", return_value=_Tree()),
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.persist_sitemap_urls", return_value=2) as persist_urls,
         ):
             inserted = discover_and_persist_host_sitemaps(host_id=1, host="example.com", robots_txt="")
 
         self.assertEqual(2, inserted)
-        self.assertEqual(2, persist_entries.call_count)
+        persist_urls.assert_called_once()
+        called = persist_urls.call_args.kwargs
+        self.assertEqual("usp_homepage_discovery", called["discovered_via"])
+
+    def test_discover_and_persist_host_sitemaps_calls_usp_without_known_paths(self) -> None:
+        class _Tree:
+            def all_pages(self):
+                return []
+
+        with (
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.has_successful_sitemap_source", return_value=False),
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.sitemap_tree_for_homepage", return_value=_Tree()) as sitemap_tree,
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.persist_sitemap_urls", return_value=0),
+        ):
+            discover_and_persist_host_sitemaps(host_id=1, host="example.com", robots_txt="", max_depth=2, max_sitemaps=3)
+
+        kwargs = sitemap_tree.call_args.kwargs
+        self.assertFalse(kwargs["use_known_paths"])
+        self.assertTrue(kwargs["use_robots"])
+
+    def test_discover_and_persist_host_sitemaps_excludes_usp_invalid_sitemap_urls(self) -> None:
+        class _Page:
+            def __init__(self, url: str):
+                self.url = url
+
+        class _Tree:
+            def all_pages(self):
+                return [_Page("https://example.com/a"), _Page("https://example.com/tr/en")]
+
+        def _fake_tree(_homepage: str, **_kwargs):
+            logger = logging.getLogger("usp.objects.sitemap")
+            logger.warning(
+                "Invalid sitemap: https://example.com/tr/en, reason: No parsers support sitemap from https://example.com/tr/en"
+            )
+            return _Tree()
+
+        with (
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.has_successful_sitemap_source", return_value=False),
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.sitemap_tree_for_homepage", side_effect=_fake_tree),
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.persist_sitemap_urls", return_value=1) as persist_urls,
+        ):
+            inserted = discover_and_persist_host_sitemaps(host_id=1, host="example.com", robots_txt="")
+
+        self.assertEqual(1, inserted)
+        entries = persist_urls.call_args.kwargs["entries"]
+        self.assertEqual(["https://example.com/a"], [str(e["url"]) for e in entries])
+
+    def test_usp_invalid_sitemap_collector_parses_invalid_message(self) -> None:
+        collector = _UspInvalidSitemapCollector()
+        record = logging.LogRecord(
+            name="usp.objects.sitemap",
+            level=logging.INFO,
+            pathname=__file__,
+            lineno=1,
+            msg="Invalid sitemap: https://example.com/bad, reason: parse error",
+            args=(),
+            exc_info=None,
+        )
+        collector.emit(record)
+        self.assertIn("https://example.com/bad", collector.invalid_urls)
+
+    def test_discover_and_persist_host_sitemaps_skips_when_already_successful(self) -> None:
+        with (
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.has_successful_sitemap_source", return_value=True),
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.sitemap_tree_for_homepage") as sitemap_tree,
+            patch("material_ingestion.services.web_crawl_policy_runtime_service.persist_sitemap_urls") as persist_urls,
+        ):
+            inserted = discover_and_persist_host_sitemaps(host_id=1, host="example.com", robots_txt="")
+        self.assertEqual(0, inserted)
+        sitemap_tree.assert_not_called()
+        persist_urls.assert_not_called()

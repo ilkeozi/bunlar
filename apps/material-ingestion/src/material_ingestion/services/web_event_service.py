@@ -16,12 +16,23 @@ from material_ingestion.db.models import (
     RawWebIngestionEvent,
 )
 from material_ingestion.logging_schema import log_event
+from material_ingestion.services.web_crawl_frontier_builder_service import build_frontier_from_sitemaps
+from material_ingestion.services.web_crawl_frontier_fetch_service import fetch_frontier_batch
+from material_ingestion.services.web_crawl_retention_service import apply_decision_event_retention
 from material_ingestion.services.web_discovery_service import run_web_discover_pdfs
 from material_ingestion.services.web_download_service import run_web_download_job
 from material_ingestion.services.web_qualification_service import run_web_qualify_job
 
 logger = logging.getLogger("material_ingestion.web")
 DEFAULT_STALE_HEARTBEAT_SECONDS = 600
+DEFAULT_DECISION_RETENTION_DAYS = 14
+DEFAULT_EVENT_RETENTION_DAYS = 14
+DEFAULT_RETENTION_SWEEP_SECONDS = 300
+CORE_STAGE_EVENT_TYPES: dict[str, list[str]] = {
+    "discover": ["core_discover_requested"],
+    "build": ["frontier_build_requested"],
+    "fetch": ["frontier_fetch_requested"],
+}
 
 
 def _stale_cutoff(now: datetime | None = None) -> datetime:
@@ -58,6 +69,36 @@ def requeue_stale_running_events(orchestration_id: str | None) -> int:
         return len(stale_events)
 
 
+def _maybe_apply_decision_event_retention(last_sweep_at: datetime | None) -> datetime:
+    now = datetime.now(UTC)
+    sweep_seconds = max(1, int(os.getenv("MATERIAL_INGESTION_RETENTION_SWEEP_SECONDS", str(DEFAULT_RETENTION_SWEEP_SECONDS))))
+    if last_sweep_at is not None and (now - last_sweep_at).total_seconds() < sweep_seconds:
+        return last_sweep_at
+
+    decision_days = max(
+        1, int(os.getenv("MATERIAL_INGESTION_CRAWL_DECISION_RETENTION_DAYS", str(DEFAULT_DECISION_RETENTION_DAYS)))
+    )
+    event_days = max(
+        1, int(os.getenv("MATERIAL_INGESTION_INGESTION_EVENT_RETENTION_DAYS", str(DEFAULT_EVENT_RETENTION_DAYS)))
+    )
+    deleted_decisions, deleted_events = apply_decision_event_retention(
+        decision_retention_days=decision_days,
+        event_retention_days=event_days,
+        now=now,
+    )
+    if deleted_decisions or deleted_events:
+        log_event(
+            logger,
+            logging.INFO,
+            "retention_cleanup_applied",
+            deleted_decisions=deleted_decisions,
+            deleted_events=deleted_events,
+            decision_retention_days=decision_days,
+            event_retention_days=event_days,
+        )
+    return now
+
+
 def enqueue_web_event(*, orchestration_id: str, event_type: str, payload: dict[str, object]) -> int:
     session_factory = create_session_factory()
     with session_factory() as session:
@@ -84,6 +125,49 @@ def get_next_queued_web_event(orchestration_id: str | None) -> RawWebIngestionEv
             (RawWebIngestionEvent.next_retry_at.is_(None)) | (RawWebIngestionEvent.next_retry_at <= datetime.now(UTC))
         )
         event = query.order_by(RawWebIngestionEvent.id.asc()).with_for_update(skip_locked=True).first()
+        if event is None:
+            return None
+        event.status = "running"
+        event.attempt_count = int(event.attempt_count or 0) + 1
+        event.started_at = datetime.now(UTC)
+        event.heartbeat_at = datetime.now(UTC)
+        session.commit()
+        session.refresh(event)
+        session.expunge(event)
+        return event
+
+
+def get_next_queued_core_web_event(
+    orchestration_id: str | None,
+    *,
+    stage: str | None = None,
+    avoid_orchestration_id: str | None = None,
+) -> RawWebIngestionEvent | None:
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        event_types = ["core_discover_requested", "frontier_build_requested", "frontier_fetch_requested"]
+        if stage:
+            normalized_stage = str(stage).strip().lower()
+            if normalized_stage not in CORE_STAGE_EVENT_TYPES:
+                raise ValueError(f"Unsupported core worker stage: {stage}")
+            event_types = CORE_STAGE_EVENT_TYPES[normalized_stage]
+        query = session.query(RawWebIngestionEvent).filter(
+            RawWebIngestionEvent.status == "queued",
+            RawWebIngestionEvent.event_type.in_(event_types),
+        )
+        if orchestration_id:
+            query = query.filter(RawWebIngestionEvent.orchestration_id == orchestration_id)
+        query = query.filter(
+            (RawWebIngestionEvent.next_retry_at.is_(None)) | (RawWebIngestionEvent.next_retry_at <= datetime.now(UTC))
+        )
+        candidates = query.order_by(RawWebIngestionEvent.id.asc()).limit(200).with_for_update(skip_locked=True).all()
+        if not candidates:
+            return None
+        event = None
+        if avoid_orchestration_id:
+            event = next((row for row in candidates if row.orchestration_id != avoid_orchestration_id), None)
+        if event is None:
+            event = candidates[0]
         if event is None:
             return None
         event.status = "running"
@@ -134,6 +218,94 @@ def mark_web_event_failed(event_id: int, error_text: str) -> None:
 
 def run_web_event(event: RawWebIngestionEvent) -> None:
     payload = json.loads(event.payload_json or "{}")
+    if event.event_type == "core_discover_requested":
+        core_payload = dict(payload)
+        core_payload["core_only"] = True
+        core_payload["heartbeat_callback"] = lambda: touch_web_event_heartbeat(event.id)
+        run_web_discover_pdfs(argparse.Namespace(**core_payload))
+        enqueue_web_event(
+            orchestration_id=event.orchestration_id,
+            event_type="frontier_build_requested",
+            payload={
+                "run_key": event.orchestration_id,
+                "orchestration_id": event.orchestration_id,
+                "fetch_max_concurrency": int(payload.get("fetch_max_concurrency") or 25),
+            },
+        )
+        log_event(
+            logger,
+            logging.INFO,
+            "core_discover_requested_completed",
+            orchestration_id=event.orchestration_id,
+        )
+        return
+
+    if event.event_type == "frontier_build_requested":
+        run_key = str(payload.get("run_key") or event.orchestration_id)
+        inserted = build_frontier_from_sitemaps(
+            run_key=run_key,
+            sitemap_source_id=payload.get("sitemap_source_id"),
+            batch_size=int(payload.get("batch_size") or 1000),
+            heartbeat_callback=lambda: touch_web_event_heartbeat(event.id),
+            progress_callback=lambda processed, inserted_count: log_event(
+                logger,
+                logging.INFO,
+                "frontier_build_requested_progress",
+                orchestration_id=event.orchestration_id,
+                run_key=run_key,
+                processed_entries=processed,
+                inserted_frontier=inserted_count,
+            ),
+        )
+        log_event(
+            logger,
+            logging.INFO,
+            "frontier_build_requested_completed",
+            orchestration_id=event.orchestration_id,
+            inserted_frontier=inserted,
+        )
+        enqueue_web_event(
+            orchestration_id=event.orchestration_id,
+            event_type="frontier_fetch_requested",
+            payload={
+                "run_key": run_key,
+                "batch_size": int(payload.get("fetch_batch_size") or 100),
+                "max_concurrency": int(payload.get("fetch_max_concurrency") or 25),
+                "orchestration_id": event.orchestration_id,
+            },
+        )
+        return
+
+    if event.event_type == "frontier_fetch_requested":
+        run_key = str(payload.get("run_key") or event.orchestration_id)
+        processed, succeeded, deferred = fetch_frontier_batch(
+            run_key=run_key,
+            batch_size=int(payload.get("batch_size") or 100),
+            max_concurrency=int(payload.get("max_concurrency") or 25),
+            heartbeat_callback=lambda: touch_web_event_heartbeat(event.id),
+            progress_callback=lambda processed_count, success_count, deferred_count: log_event(
+                logger,
+                logging.INFO,
+                "frontier_fetch_requested_progress",
+                orchestration_id=event.orchestration_id,
+                run_key=run_key,
+                processed=processed_count,
+                succeeded=success_count,
+                deferred=deferred_count,
+            ),
+        )
+        log_event(
+            logger,
+            logging.INFO,
+            "frontier_fetch_requested_completed",
+            orchestration_id=event.orchestration_id,
+            run_key=run_key,
+            processed=processed,
+            succeeded=succeeded,
+            deferred=deferred,
+        )
+        return
+
     if event.event_type == "discover_requested":
         run_web_discover_pdfs(argparse.Namespace(**payload))
         if bool(payload.get("core_only", False)):
@@ -203,12 +375,36 @@ def run_web_event(event: RawWebIngestionEvent) -> None:
     raise ValueError(f"Unsupported web ingestion event_type: {event.event_type}")
 
 
+def enqueue_core_discover_event(
+    *,
+    run_key: str,
+    seed_url: str,
+    max_pages: int = 100,
+    cross_domain: bool = False,
+    ingest_source: str = "web_discovery",
+    fetch_max_concurrency: int = 25,
+) -> int:
+    payload = {
+        "seed_url": seed_url,
+        "max_pages": max_pages,
+        "cross_domain": cross_domain,
+        "ingest_source": ingest_source,
+        "ingest_locator": seed_url,
+        "ingest_batch_id": run_key,
+        "orchestration_id": run_key,
+        "fetch_max_concurrency": fetch_max_concurrency,
+    }
+    return enqueue_web_event(orchestration_id=run_key, event_type="core_discover_requested", payload=payload)
+
+
 def run_web_worker(args: argparse.Namespace) -> int:
     processed = 0
+    retention_last_sweep_at: datetime | None = None
     requeued = requeue_stale_running_events(args.orchestration_id)
     if requeued:
         log_event(logger, logging.WARNING, "worker_requeued_stale_running_events", count=requeued)
     while True:
+        retention_last_sweep_at = _maybe_apply_decision_event_retention(retention_last_sweep_at)
         event = get_next_queued_web_event(args.orchestration_id)
         if event is None:
             break
@@ -243,14 +439,68 @@ def run_web_worker(args: argparse.Namespace) -> int:
     return 0
 
 
+def run_web_core_worker(args: argparse.Namespace) -> int:
+    processed = 0
+    retention_last_sweep_at: datetime | None = None
+    requeued = requeue_stale_running_events(args.orchestration_id)
+    if requeued:
+        log_event(logger, logging.WARNING, "worker_requeued_stale_running_events", count=requeued)
+    while True:
+        retention_last_sweep_at = _maybe_apply_decision_event_retention(retention_last_sweep_at)
+        event = get_next_queued_core_web_event(
+            args.orchestration_id,
+            stage=getattr(args, "stage", None),
+            avoid_orchestration_id=getattr(args, "last_orchestration_id", None),
+        )
+        if event is None:
+            break
+        log_event(
+            logger,
+            logging.INFO,
+            "core_worker_processing_event",
+            event_id=event.id,
+            orchestration_id=event.orchestration_id,
+            event_type=event.event_type,
+        )
+        try:
+            run_web_event(event)
+        except KeyboardInterrupt:
+            mark_web_event_failed(event.id, "interrupted by user")
+            log_event(logger, logging.WARNING, "core_worker_interrupted_event", event_id=event.id, event_type=event.event_type)
+            return 130
+        except Exception as exc:
+            mark_web_event_failed(event.id, str(exc))
+            log_event(
+                logger,
+                logging.ERROR,
+                "core_worker_event_failed",
+                event_id=event.id,
+                event_type=event.event_type,
+                error_class=exc.__class__.__name__,
+                error=str(exc),
+            )
+            logger.debug("event=core_worker_event_failed_trace event_id=%s", event.id, exc_info=True)
+            return 1
+        mark_web_event_done(event.id)
+        args.last_orchestration_id = event.orchestration_id
+        processed += 1
+        if args.once:
+            break
+    log_event(
+        logger,
+        logging.INFO,
+        "core_worker_loop_completed",
+        orchestration_id=args.orchestration_id or "all",
+        processed=processed,
+    )
+    return 0
+
+
 def run_web_run(args: argparse.Namespace) -> int:
     discover_batch_id = args.discover_batch_id or datetime.now(UTC).strftime("batch_%Y%m%d_%H%M%S")
     download_batch_id = args.download_batch_id or datetime.now(UTC).strftime("batch_%Y%m%d_%H%M%S")
     orchestration_id = discover_batch_id
     qualify_output_path = f"data/working/discovered/qualified_{discover_batch_id}.json"
-    if getattr(args, "host_allowlist", None):
-        os.environ["MATERIAL_INGESTION_CRAWL_ALLOWLIST"] = str(args.host_allowlist)
-
     log_event(logger, logging.INFO, "web_run_orchestration_starting")
     enqueue_web_event(
         orchestration_id=orchestration_id,

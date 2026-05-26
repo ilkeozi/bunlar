@@ -1,20 +1,25 @@
 from __future__ import annotations
 
 import fnmatch
-import os
 from urllib.parse import urlsplit
 
 from material_ingestion.db import create_session_factory
-from material_ingestion.db.models import RawWebCrawlHost
-
-
-def _allowlist_patterns() -> list[str]:
-    raw = os.getenv("MATERIAL_INGESTION_CRAWL_ALLOWLIST", "")
-    return [p.strip().lower() for p in raw.split(",") if p.strip()]
+from material_ingestion.db.models import RawWebCrawlAllowlistRule, RawWebCrawlHost
 
 
 def is_host_allowlisted(hostname: str) -> bool:
-    patterns = _allowlist_patterns()
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        rows = (
+            session.query(RawWebCrawlAllowlistRule.pattern)
+            .filter(
+                RawWebCrawlAllowlistRule.enabled.is_(True),
+                RawWebCrawlAllowlistRule.rule_type == "host_glob",
+            )
+            .order_by(RawWebCrawlAllowlistRule.priority.asc(), RawWebCrawlAllowlistRule.id.asc())
+            .all()
+        )
+    patterns = [str(row[0]).strip().lower() for row in rows if row and row[0]]
     if not patterns:
         return True
     target = hostname.lower()
@@ -53,3 +58,86 @@ def register_discovered_host(hostname: str, *, discovery_source: str = "") -> in
 
 def is_url_host_allowlisted(url: str) -> bool:
     return is_host_allowlisted(urlsplit(url).netloc)
+
+
+def list_allowlist_rules() -> list[RawWebCrawlAllowlistRule]:
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        rows = (
+            session.query(RawWebCrawlAllowlistRule)
+            .order_by(RawWebCrawlAllowlistRule.priority.asc(), RawWebCrawlAllowlistRule.id.asc())
+            .all()
+        )
+        for row in rows:
+            session.expunge(row)
+        return rows
+
+
+def create_allowlist_rule(*, pattern: str, enabled: bool = True, priority: int = 100, note: str = "") -> int:
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        row = RawWebCrawlAllowlistRule(
+            pattern=pattern.strip(),
+            rule_type="host_glob",
+            enabled=bool(enabled),
+            priority=int(priority),
+            note=note or "",
+        )
+        session.add(row)
+        session.commit()
+        session.refresh(row)
+        return int(row.id)
+
+
+def update_allowlist_rule(
+    *,
+    rule_id: int,
+    pattern: str | None = None,
+    enabled: bool | None = None,
+    priority: int | None = None,
+    note: str | None = None,
+) -> bool:
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        row = session.query(RawWebCrawlAllowlistRule).filter(RawWebCrawlAllowlistRule.id == int(rule_id)).first()
+        if row is None:
+            return False
+        if pattern is not None:
+            row.pattern = pattern.strip()
+        if enabled is not None:
+            row.enabled = bool(enabled)
+        if priority is not None:
+            row.priority = int(priority)
+        if note is not None:
+            row.note = note
+        session.commit()
+        return True
+
+
+def delete_allowlist_rule(*, rule_id: int) -> bool:
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        row = session.query(RawWebCrawlAllowlistRule).filter(RawWebCrawlAllowlistRule.id == int(rule_id)).first()
+        if row is None:
+            return False
+        session.delete(row)
+        session.commit()
+        return True
+
+
+def replace_allowlist_rules(*, rules: list[dict[str, object]]) -> int:
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        session.query(RawWebCrawlAllowlistRule).delete()
+        for item in rules:
+            session.add(
+                RawWebCrawlAllowlistRule(
+                    pattern=str(item.get("pattern", "")).strip(),
+                    rule_type="host_glob",
+                    enabled=bool(item.get("enabled", True)),
+                    priority=int(item.get("priority", 100)),
+                    note=str(item.get("note", "") or ""),
+                )
+            )
+        session.commit()
+        return len(rules)

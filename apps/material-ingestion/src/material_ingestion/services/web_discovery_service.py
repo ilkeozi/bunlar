@@ -104,13 +104,19 @@ def run_web_discover_pdfs(args: argparse.Namespace) -> int:
     _ = ensure_uri_identity(args.seed_url)
     ensure_orchestration(run_key=run_key, force_refresh=bool(getattr(args, "force_refresh", False)))
     robots_by_host: dict[str, tuple[str, str]] = {}
+    heartbeat_callback = getattr(args, "heartbeat_callback", None)
     seed_host = host_from_url(args.seed_url)
     if seed_host:
         try:
             seed_host_id = register_discovered_host(seed_host, discovery_source=f"seed:{run_key}")
             seed_robots = bootstrap_host_policy(host_id=seed_host_id, host=seed_host, sample_target_url=args.seed_url)
             robots_by_host[seed_host] = (seed_robots.robots_txt, seed_robots.fetch_status)
-            discover_and_persist_host_sitemaps(host_id=seed_host_id, host=seed_host, robots_txt=seed_robots.robots_txt)
+            discover_and_persist_host_sitemaps(
+                host_id=seed_host_id,
+                host=seed_host,
+                robots_txt=seed_robots.robots_txt,
+                heartbeat_callback=heartbeat_callback,
+            )
         except Exception as exc:
             log_event(
                 logger,
@@ -181,6 +187,7 @@ def run_web_discover_pdfs(args: argparse.Namespace) -> int:
                         host_id=target_host_id,
                         host=target_host,
                         robots_txt=target_robots.robots_txt,
+                        heartbeat_callback=heartbeat_callback,
                     )
                 except Exception:
                     robots_by_host[target_host] = ("", "failed")
