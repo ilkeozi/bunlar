@@ -1364,8 +1364,8 @@ def main() -> int:
         )
     )
     get_scheduler_interval = float(os.getenv("MATERIAL_INGESTION_CORE_GET_SCHEDULER_SECONDS", "15"))
-    get_scheduler_batch_size = max(1, int(os.getenv("MATERIAL_INGESTION_CORE_GET_BATCH_SIZE", "100")))
-    get_scheduler_concurrency = max(1, int(os.getenv("MATERIAL_INGESTION_CORE_GET_MAX_CONCURRENCY", "5")))
+    get_scheduler_batch_size = max(1, int(os.getenv("MATERIAL_INGESTION_CORE_GET_BATCH_SIZE", "500")))
+    get_scheduler_concurrency = max(1, int(os.getenv("MATERIAL_INGESTION_CORE_GET_MAX_CONCURRENCY", "20")))
     scheduler_threads: list[threading.Thread] = []
     if evaluate_scheduler_enabled:
         scheduler = threading.Thread(

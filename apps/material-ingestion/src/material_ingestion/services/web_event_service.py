@@ -405,8 +405,8 @@ def run_web_event(event: RawWebIngestionEvent) -> None:
 
     if event.event_type == "frontier_get_requested":
         processed, succeeded, failed, candidates = fetch_promoted_frontier_batch(
-            batch_size=int(payload.get("batch_size") or 100),
-            max_concurrency=int(payload.get("max_concurrency") or 5),
+            batch_size=int(payload.get("batch_size") or 500),
+            max_concurrency=int(payload.get("max_concurrency") or 20),
             heartbeat_callback=lambda: touch_web_event_heartbeat(event.id),
             progress_callback=lambda processed_count, success_count, failed_count, candidate_count: log_event(
                 logger,
@@ -563,8 +563,8 @@ def enqueue_frontier_evaluate_event(
 
 def enqueue_frontier_get_event(
     *,
-    batch_size: int = 100,
-    max_concurrency: int = 5,
+    batch_size: int = 500,
+    max_concurrency: int = 20,
     orchestration_id: str = "global_frontier_get",
 ) -> int | None:
     now = datetime.now(UTC)
@@ -690,8 +690,8 @@ def run_web_core_worker(args: argparse.Namespace) -> int:
         if event.event_type == "frontier_get_requested":
             _get_payload = json.loads(event.payload_json or "{}")
             enqueue_frontier_get_event(
-                batch_size=int(_get_payload.get("batch_size") or 100),
-                max_concurrency=int(_get_payload.get("max_concurrency") or 5),
+                batch_size=int(_get_payload.get("batch_size") or 500),
+                max_concurrency=int(_get_payload.get("max_concurrency") or 20),
             )
         args.last_orchestration_id = event.orchestration_id
         processed += 1

@@ -7,7 +7,7 @@ import re
 from dataclasses import dataclass
 from typing import Callable
 
-from sqlalchemy import and_, exists
+from sqlalchemy import and_, exists, insert, text, update
 
 from material_ingestion.db import create_session_factory
 from material_ingestion.db.models import (
@@ -161,6 +161,12 @@ def evaluate_frontier_batch(
                 if key not in existing_decisions or int(d.id) > int(existing_decisions[key].id):
                     existing_decisions[key] = d
 
+        promote_ids: list[int] = []
+        defer_ids: list[int] = []
+        skip_ids: list[int] = []
+        decisions_to_insert: list[dict] = []
+        decisions_to_update: list[dict] = []
+
         for frontier_item, canonical_uri, content_type, content_language, content_disposition, link in rows:
             processed += 1
             if heartbeat_callback:
@@ -190,14 +196,16 @@ def evaluate_frontier_batch(
                 decision_type = "skip"
                 reason_code = "eval_skip"
                 skipped += 1
+                skip_ids.append(int(frontier_item.id))
             elif "promote" in matched_actions and score >= promote_threshold:
                 decision_type = "promote"
                 reason_code = "eval_promote"
                 promoted += 1
+                promote_ids.append(int(frontier_item.id))
             else:
                 deferred += 1
+                defer_ids.append(int(frontier_item.id))
 
-            frontier_item.state_reason_code = reason_code
             detail_json = json.dumps(
                 {
                     "score": score,
@@ -212,21 +220,43 @@ def evaluate_frontier_batch(
                 (int(frontier_item.crawl_run_id), int(frontier_item.uri_identity_id))
             )
             if existing_eval_decision is not None:
-                existing_eval_decision.decision_type = decision_type
-                existing_eval_decision.reason_code = reason_code
-                existing_eval_decision.detail_json = detail_json
+                decisions_to_update.append({
+                    "id": int(existing_eval_decision.id),
+                    "decision_type": decision_type,
+                    "reason_code": reason_code,
+                    "detail_json": detail_json,
+                })
             else:
-                session.add(
-                    RawWebCrawlDecision(
-                        crawl_run_id=int(frontier_item.crawl_run_id),
-                        uri_identity_id=int(frontier_item.uri_identity_id),
-                        decision_type=decision_type,
-                        reason_code=reason_code,
-                        detail_json=detail_json,
-                    )
-                )
+                decisions_to_insert.append({
+                    "crawl_run_id": int(frontier_item.crawl_run_id),
+                    "uri_identity_id": int(frontier_item.uri_identity_id),
+                    "decision_type": decision_type,
+                    "reason_code": reason_code,
+                    "detail_json": detail_json,
+                })
+
             if progress_callback and (processed % 100 == 0):
                 progress_callback(processed, promoted, deferred, skipped)
+
+        # Bulk frontier item state updates — 3 statements max regardless of batch size.
+        if promote_ids:
+            session.execute(update(RawWebFrontierItem).where(RawWebFrontierItem.id.in_(promote_ids)).values(state_reason_code="eval_promote"))
+        if defer_ids:
+            session.execute(update(RawWebFrontierItem).where(RawWebFrontierItem.id.in_(defer_ids)).values(state_reason_code="eval_defer"))
+        if skip_ids:
+            session.execute(update(RawWebFrontierItem).where(RawWebFrontierItem.id.in_(skip_ids)).values(state_reason_code="eval_skip"))
+
+        # Bulk decision inserts — one statement.
+        if decisions_to_insert:
+            session.execute(insert(RawWebCrawlDecision), decisions_to_insert)
+
+        # Bulk decision updates (force mode) — executemany, one round-trip.
+        if decisions_to_update:
+            session.execute(
+                text("UPDATE raw_web_crawl_decision SET decision_type=:decision_type, reason_code=:reason_code, detail_json=:detail_json WHERE id=:id"),
+                decisions_to_update,
+            )
+
         session.commit()
 
     logger.info(
