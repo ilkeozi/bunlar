@@ -37,6 +37,7 @@ class RawWebFrontierItem(Base):
         Index("ix_raw_web_frontier_item_uri_identity_id", "uri_identity_id"),
         Index("ix_raw_web_frontier_item_state", "state"),
         Index("ix_raw_web_frontier_item_run_state_priority_id", "crawl_run_id", "state", "priority", "id"),
+        Index("ix_raw_web_frontier_item_state_reason_sched_id", "state", "state_reason_code", "scheduled_at", "id"),
     )
 
 

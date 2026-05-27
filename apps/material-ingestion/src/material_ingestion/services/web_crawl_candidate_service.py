@@ -10,6 +10,9 @@ def persist_candidate_document(
     source_uri_identity_id: int,
     mime_type: str,
     classification: str,
+    score: int = 0,
+    distinct_source_count: int = 0,
+    score_reason_json: str = "{}",
     decision_state: str,
     decision_reason_code: str,
 ) -> int:
@@ -29,6 +32,9 @@ def persist_candidate_document(
                 source_uri_identity_id=source_uri_identity_id,
                 mime_type=mime_type,
                 classification=classification,
+                score=max(0, int(score)),
+                distinct_source_count=max(0, int(distinct_source_count)),
+                score_reason_json=str(score_reason_json or "{}"),
                 decision_state=decision_state,
                 decision_reason_code=decision_reason_code,
             )
@@ -39,6 +45,9 @@ def persist_candidate_document(
 
         row.mime_type = mime_type
         row.classification = classification
+        row.score = max(0, int(score))
+        row.distinct_source_count = max(0, int(distinct_source_count))
+        row.score_reason_json = str(score_reason_json or "{}")
         row.decision_state = decision_state
         row.decision_reason_code = decision_reason_code
         session.commit()

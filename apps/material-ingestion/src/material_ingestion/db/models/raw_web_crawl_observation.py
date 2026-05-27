@@ -66,6 +66,11 @@ class RawWebExtractedLink(Base):
     anchor_text: Mapped[str] = mapped_column(Text, nullable=False, default="")
     discovered_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
 
+    __table_args__ = (
+        Index("ix_raw_web_extracted_link_target_uri_identity_id", "target_uri_identity_id"),
+        Index("ix_raw_web_extracted_link_source_target", "source_uri_identity_id", "target_uri_identity_id"),
+    )
+
 
 class RawWebPageMetadata(Base):
     __tablename__ = "raw_web_page_metadata"
@@ -96,6 +101,9 @@ class RawWebCandidateDocument(Base):
     source_uri_identity_id: Mapped[int] = mapped_column(ForeignKey("raw_web_uri_identity.id", ondelete="CASCADE"), nullable=False)
     mime_type: Mapped[str] = mapped_column(String(128), nullable=False, default="")
     classification: Mapped[str] = mapped_column(String(64), nullable=False, default="new")
+    score: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    distinct_source_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    score_reason_json: Mapped[str] = mapped_column(Text, nullable=False, default="{}")
     decision_state: Mapped[str] = mapped_column(String(32), nullable=False, default="new")
     decision_reason_code: Mapped[str] = mapped_column(String(64), nullable=False, default="")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
@@ -104,4 +112,5 @@ class RawWebCandidateDocument(Base):
     __table_args__ = (
         UniqueConstraint("uri_identity_id", "source_uri_identity_id", name="uq_raw_web_candidate_document_unique"),
         Index("ix_raw_web_candidate_document_uri", "uri_identity_id"),
+        Index("ix_raw_web_candidate_document_decision_state", "decision_state"),
     )

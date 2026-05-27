@@ -33,6 +33,13 @@ from material_ingestion.services.web_crawl_frontier_score_rule_service import (
     replace_frontier_score_rules,
     update_frontier_score_rule,
 )
+from material_ingestion.services.web_crawl_evaluation_rule_service import (
+    create_evaluation_rule,
+    delete_evaluation_rule,
+    list_evaluation_rules,
+    replace_evaluation_rules,
+    update_evaluation_rule,
+)
 from material_ingestion.services.web_runtime_config_service import (
     create_runtime_config,
     delete_runtime_config,
@@ -41,7 +48,11 @@ from material_ingestion.services.web_runtime_config_service import (
     replace_runtime_configs,
     update_runtime_config,
 )
-from material_ingestion.services.web_event_service import enqueue_core_discover_event
+from material_ingestion.services.web_event_service import (
+    enqueue_core_discover_event,
+    enqueue_frontier_evaluate_event,
+    enqueue_frontier_get_event,
+)
 from material_ingestion.services.web_event_service import run_web_core_worker
 from sqlalchemy import desc, text
 
@@ -163,6 +174,8 @@ class CoreMetricsResponse(BaseModel):
     events: dict[str, int]
     backlog: dict[str, int]
     volumes: dict[str, int]
+    funnel: dict[str, int]
+    eligibility: dict[str, int]
 
 
 class RunAcceptedResponse(BaseModel):
@@ -170,6 +183,25 @@ class RunAcceptedResponse(BaseModel):
     event_id: int = Field(description="Queued event primary key.")
     run_key: str = Field(description="Resolved run key used for this run.")
     event_type: str = Field(description="Queued event type.", examples=["core_discover_requested"])
+    reason_code: str | None = Field(
+        default=None,
+        description="Optional machine-readable reason when accepted is false.",
+    )
+
+
+class EvaluateRequest(BaseModel):
+    batch_size: int = Field(
+        default=500,
+        ge=1,
+        le=10000,
+        description="Maximum number of eligible frontier items to evaluate in one event.",
+        examples=[500],
+    )
+    force: bool = Field(
+        default=False,
+        description="When true, enqueue evaluate even if normal eligibility check is empty.",
+        examples=[False],
+    )
 
 
 class RunErrorDetail(BaseModel):
@@ -286,6 +318,41 @@ class FrontierScoreReplaceRequest(BaseModel):
     rules: list[FrontierScoreRuleCreate]
 
 
+class EvaluationRule(BaseModel):
+    id: int
+    action: str
+    match_type: str
+    pattern: str
+    weight: int
+    enabled: bool
+    priority: int
+    note: str
+
+
+class EvaluationRuleCreate(BaseModel):
+    action: str = Field(default="defer", description="Rule action: promote|defer|skip")
+    match_type: str = Field(default="contains", description="Rule matcher type: contains|regex|suffix")
+    pattern: str = Field(..., min_length=1)
+    weight: int = 0
+    enabled: bool = True
+    priority: int = 100
+    note: str = ""
+
+
+class EvaluationRulePatch(BaseModel):
+    action: str | None = None
+    match_type: str | None = None
+    pattern: str | None = None
+    weight: int | None = None
+    enabled: bool | None = None
+    priority: int | None = None
+    note: str | None = None
+
+
+class EvaluationRuleReplaceRequest(BaseModel):
+    rules: list[EvaluationRuleCreate]
+
+
 class RuntimeConfigItem(BaseModel):
     id: int
     config_key: str
@@ -337,6 +404,24 @@ def _run_worker_loop(state: RuntimeState, sleep_seconds: float, stage: str | Non
         state.stop_event.wait(sleep_seconds)
 
 
+def _run_evaluate_scheduler_loop(state: RuntimeState, interval_seconds: float, batch_size: int) -> None:
+    while not state.stop_event.is_set():
+        try:
+            enqueue_frontier_evaluate_event(batch_size=batch_size)
+        except Exception:
+            logger.exception("evaluate scheduler loop error")
+        state.stop_event.wait(interval_seconds)
+
+
+def _run_get_scheduler_loop(state: RuntimeState, interval_seconds: float, batch_size: int, max_concurrency: int) -> None:
+    while not state.stop_event.is_set():
+        try:
+            enqueue_frontier_get_event(batch_size=batch_size, max_concurrency=max_concurrency)
+        except Exception:
+            logger.exception("get scheduler loop error")
+        state.stop_event.wait(interval_seconds)
+
+
 def _stale_threshold_seconds() -> int:
     return max(1, int(os.getenv("MATERIAL_INGESTION_EVENT_STALE_SECONDS", "600")))
 
@@ -382,6 +467,7 @@ def build_app(state: RuntimeState) -> FastAPI:
             {"name": "runs", "description": "Create crawler-core run requests."},
             {"name": "allowlist", "description": "Host allowlist CRUD for crawl scope control."},
             {"name": "scoring", "description": "Frontier URL scoring rule CRUD for pre-fetch gating."},
+            {"name": "evaluation", "description": "Frontier evaluation rule CRUD for post-fetch promotion/defer decisions."},
             {"name": "runtime-config", "description": "Runtime scheduling/configuration CRUD."},
         ],
     )
@@ -456,9 +542,13 @@ def build_app(state: RuntimeState) -> FastAPI:
             discover_queued = 0
             build_queued = 0
             fetch_queued = 0
+            evaluate_queued = 0
+            get_queued = 0
             discover_running = 0
             build_running = 0
             fetch_running = 0
+            evaluate_running = 0
+            get_running = 0
             for event_type, status in event_rows:
                 status_s = str(status or "")
                 event_type_s = str(event_type or "")
@@ -470,6 +560,10 @@ def build_app(state: RuntimeState) -> FastAPI:
                         build_running += 1
                     elif event_type_s == "frontier_fetch_requested":
                         fetch_running += 1
+                    elif event_type_s == "frontier_evaluate_requested":
+                        evaluate_running += 1
+                    elif event_type_s == "frontier_get_requested":
+                        get_running += 1
                 elif status_s == "queued":
                     events_queued += 1
                     if event_type_s == "core_discover_requested":
@@ -478,6 +572,10 @@ def build_app(state: RuntimeState) -> FastAPI:
                         build_queued += 1
                     elif event_type_s == "frontier_fetch_requested":
                         fetch_queued += 1
+                    elif event_type_s == "frontier_evaluate_requested":
+                        evaluate_queued += 1
+                    elif event_type_s == "frontier_get_requested":
+                        get_queued += 1
                 elif status_s == "done":
                     events_done += 1
                 elif status_s == "failed":
@@ -496,6 +594,73 @@ def build_app(state: RuntimeState) -> FastAPI:
                       (select count(*) from raw_web_http_fetch_attempt) as fetch_attempts,
                       (select count(*) from raw_web_http_representation) as http_representations,
                       (select count(*) from raw_web_crawl_decision) as decisions
+                    """
+                )
+            ).mappings().first()
+            funnel_row = session.execute(
+                text(
+                    """
+                    select
+                      (select count(*) from raw_web_frontier_item) as frontier_total,
+                      (
+                        select count(*)
+                        from raw_web_frontier_item
+                        where state_reason_code in ('head_metadata_success', 'recent_success_skip')
+                      ) as fetched,
+                      (
+                        select count(*)
+                        from raw_web_frontier_item
+                        where state_reason_code in ('eval_promote', 'eval_defer', 'eval_skip')
+                      ) as evaluated,
+                      (
+                        select count(*)
+                        from raw_web_frontier_item
+                        where state_reason_code = 'eval_promote'
+                      ) as promoted,
+                      (
+                        select count(*)
+                        from raw_web_frontier_item
+                        where state_reason_code = 'get_success'
+                      ) as get_success,
+                      (select count(*) from raw_web_candidate_document) as candidate_count
+                    """
+                )
+            ).mappings().first()
+            eligibility_row = session.execute(
+                text(
+                    """
+                    select
+                      (
+                        select count(*)
+                        from raw_web_frontier_item f
+                        where f.state = 'completed'
+                          and f.state_reason_code in ('head_metadata_success', 'recent_success_skip')
+                          and not exists (
+                            select 1
+                            from raw_web_crawl_decision d
+                            where d.uri_identity_id = f.uri_identity_id
+                              and d.reason_code in ('eval_promote', 'eval_defer', 'eval_skip')
+                          )
+                      ) as eval_eligible_not_evaluated,
+                      (
+                        select count(*)
+                        from raw_web_frontier_item f
+                        where f.state = 'completed'
+                          and f.state_reason_code in ('head_metadata_success', 'recent_success_skip')
+                          and exists (
+                            select 1
+                            from raw_web_crawl_decision d
+                            where d.uri_identity_id = f.uri_identity_id
+                              and d.reason_code in ('eval_promote', 'eval_defer', 'eval_skip')
+                          )
+                      ) as eval_already_evaluated,
+                      (
+                        select count(*)
+                        from raw_web_frontier_item
+                        where state = 'completed'
+                          and state_reason_code in ('eval_promote', 'get_retry_scheduled')
+                          and scheduled_at <= now()
+                      ) as get_eligible_now
                     """
                 )
             ).mappings().first()
@@ -520,8 +685,74 @@ def build_app(state: RuntimeState) -> FastAPI:
                 "build_running": int(build_running),
                 "fetch_queued": int(fetch_queued),
                 "fetch_running": int(fetch_running),
+                "evaluate_queued": int(evaluate_queued),
+                "evaluate_running": int(evaluate_running),
+                "get_queued": int(get_queued),
+                "get_running": int(get_running),
             },
             "volumes": {k: int(v or 0) for k, v in dict(volumes_row or {}).items()},
+            "funnel": {k: int(v or 0) for k, v in dict(funnel_row or {}).items()},
+            "eligibility": {k: int(v or 0) for k, v in dict(eligibility_row or {}).items()},
+        }
+
+    @app.post(
+        "/evaluate",
+        tags=["runs"],
+        status_code=202,
+        summary="Queue a global frontier evaluation event",
+        description=(
+            "Creates a new `frontier_evaluate_requested` event for the background worker.\n\n"
+            "This evaluates globally eligible HEAD-fetched frontier items and does not require run_key."
+        ),
+        response_model=RunAcceptedResponse,
+        responses={
+            503: {"model": RunErrorResponse, "description": "Runtime cannot accept events right now."},
+            500: {"model": RunErrorResponse, "description": "Unexpected server error."},
+        },
+    )
+    def trigger_evaluate(req: EvaluateRequest) -> RunAcceptedResponse:
+        if state.stop_event.is_set():
+            return JSONResponse(
+                status_code=503,
+                content={
+                    "error": {
+                        "code": "runtime_unavailable",
+                        "message": "runtime is shutting down and cannot accept evaluate events.",
+                        "reason_code": "runtime_stopping",
+                    }
+                },
+            )
+        try:
+            force = bool(getattr(req, "force", False))
+            if force:
+                event_id = enqueue_frontier_evaluate_event(batch_size=int(req.batch_size), force=True)
+            else:
+                event_id = enqueue_frontier_evaluate_event(batch_size=int(req.batch_size))
+        except Exception:
+            logger.exception("trigger_evaluate failed")
+            return JSONResponse(
+                status_code=500,
+                content={
+                    "error": {
+                        "code": "internal_error",
+                        "message": "unexpected error while queueing evaluate event.",
+                        "reason_code": "queue_failure",
+                    }
+                },
+            )
+        if event_id is None:
+            return {
+                "accepted": False,
+                "event_id": 0,
+                "run_key": "global_frontier_evaluate",
+                "event_type": "frontier_evaluate_requested",
+                "reason_code": "no_eligible_frontier_items_or_already_queued",
+            }
+        return {
+            "accepted": True,
+            "event_id": int(event_id or 0),
+            "run_key": "global_frontier_evaluate",
+            "event_type": "frontier_evaluate_requested",
         }
 
     @app.post(
@@ -762,6 +993,109 @@ def build_app(state: RuntimeState) -> FastAPI:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         return {"replaced": count}
 
+    @app.get("/evaluation/rules", tags=["evaluation"], response_model=list[EvaluationRule], summary="List evaluation rules")
+    def get_evaluation_rules() -> list[EvaluationRule]:
+        rows = list_evaluation_rules()
+        return [
+            EvaluationRule(
+                id=int(r.id),
+                action=r.action,
+                match_type=r.match_type,
+                pattern=r.pattern,
+                weight=int(r.weight),
+                enabled=bool(r.enabled),
+                priority=int(r.priority),
+                note=r.note or "",
+            )
+            for r in rows
+        ]
+
+    @app.post("/evaluation/rules", tags=["evaluation"], response_model=EvaluationRule, summary="Create evaluation rule")
+    def post_evaluation_rule(req: EvaluationRuleCreate) -> EvaluationRule:
+        try:
+            rule_id = create_evaluation_rule(
+                action=req.action,
+                match_type=req.match_type,
+                pattern=req.pattern,
+                weight=req.weight,
+                enabled=req.enabled,
+                priority=req.priority,
+                note=req.note,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        row = next((r for r in list_evaluation_rules() if int(r.id) == int(rule_id)), None)
+        assert row is not None
+        return EvaluationRule(
+            id=int(row.id),
+            action=row.action,
+            match_type=row.match_type,
+            pattern=row.pattern,
+            weight=int(row.weight),
+            enabled=bool(row.enabled),
+            priority=int(row.priority),
+            note=row.note or "",
+        )
+
+    @app.patch("/evaluation/rules/{rule_id}", tags=["evaluation"], response_model=EvaluationRule, summary="Patch evaluation rule")
+    def patch_evaluation_rule(rule_id: int, req: EvaluationRulePatch) -> EvaluationRule:
+        try:
+            ok = update_evaluation_rule(
+                rule_id=rule_id,
+                action=req.action,
+                match_type=req.match_type,
+                pattern=req.pattern,
+                weight=req.weight,
+                enabled=req.enabled,
+                priority=req.priority,
+                note=req.note,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        if not ok:
+            raise HTTPException(status_code=404, detail="evaluation_rule_not_found")
+        row = next((r for r in list_evaluation_rules() if int(r.id) == int(rule_id)), None)
+        if row is None:
+            raise HTTPException(status_code=404, detail="evaluation_rule_not_found")
+        return EvaluationRule(
+            id=int(row.id),
+            action=row.action,
+            match_type=row.match_type,
+            pattern=row.pattern,
+            weight=int(row.weight),
+            enabled=bool(row.enabled),
+            priority=int(row.priority),
+            note=row.note or "",
+        )
+
+    @app.delete("/evaluation/rules/{rule_id}", tags=["evaluation"], summary="Delete evaluation rule")
+    def remove_evaluation_rule(rule_id: int) -> dict[str, bool]:
+        ok = delete_evaluation_rule(rule_id=rule_id)
+        if not ok:
+            raise HTTPException(status_code=404, detail="evaluation_rule_not_found")
+        return {"deleted": True}
+
+    @app.put("/evaluation/rules", tags=["evaluation"], summary="Replace evaluation rules")
+    def put_evaluation_rules(req: EvaluationRuleReplaceRequest) -> dict[str, int]:
+        try:
+            count = replace_evaluation_rules(
+                rules=[
+                    {
+                        "action": r.action,
+                        "match_type": r.match_type,
+                        "pattern": r.pattern,
+                        "weight": r.weight,
+                        "enabled": r.enabled,
+                        "priority": r.priority,
+                        "note": r.note,
+                    }
+                    for r in req.rules
+                ]
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        return {"replaced": count}
+
     @app.get("/runtime-config", tags=["runtime-config"], response_model=list[RuntimeConfigItem], summary="List runtime config")
     def get_runtime_config() -> list[RuntimeConfigItem]:
         rows = list_runtime_configs()
@@ -956,7 +1290,21 @@ def main() -> int:
             default=int(os.getenv("MATERIAL_INGESTION_CORE_WORKER_FETCH_COUNT", "1")),
         ),
     )
-    if discover_workers + build_workers + fetch_workers == 0:
+    evaluate_workers = max(
+        0,
+        get_runtime_int_config(
+            key="core_worker_evaluate_count",
+            default=int(os.getenv("MATERIAL_INGESTION_CORE_WORKER_EVALUATE_COUNT", "1")),
+        ),
+    )
+    get_workers = max(
+        0,
+        get_runtime_int_config(
+            key="core_worker_get_count",
+            default=int(os.getenv("MATERIAL_INGESTION_CORE_WORKER_GET_COUNT", "0")),
+        ),
+    )
+    if discover_workers + build_workers + fetch_workers + evaluate_workers + get_workers == 0:
         discover_workers = 1
 
     worker_threads: list[threading.Thread] = []
@@ -984,7 +1332,60 @@ def main() -> int:
             name=f"web-worker-fetch-{idx+1}",
         )
         worker_threads.append(thread)
+    for idx in range(evaluate_workers):
+        thread = threading.Thread(
+            target=_run_worker_loop,
+            args=(state, sleep_seconds, "evaluate"),
+            daemon=True,
+            name=f"web-worker-evaluate-{idx+1}",
+        )
+        worker_threads.append(thread)
+    for idx in range(get_workers):
+        thread = threading.Thread(
+            target=_run_worker_loop,
+            args=(state, sleep_seconds, "get"),
+            daemon=True,
+            name=f"web-worker-get-{idx+1}",
+        )
+        worker_threads.append(thread)
+
+    evaluate_scheduler_enabled = bool(
+        get_runtime_int_config(
+            key="core_evaluate_scheduler_enabled",
+            default=int(os.getenv("MATERIAL_INGESTION_CORE_EVALUATE_SCHEDULER_ENABLED", "1")),
+        )
+    )
+    evaluate_scheduler_interval = float(os.getenv("MATERIAL_INGESTION_CORE_EVALUATE_SCHEDULER_SECONDS", "10"))
+    evaluate_scheduler_batch_size = max(1, int(os.getenv("MATERIAL_INGESTION_CORE_EVALUATE_BATCH_SIZE", "500")))
+    get_scheduler_enabled = bool(
+        get_runtime_int_config(
+            key="core_get_scheduler_enabled",
+            default=int(os.getenv("MATERIAL_INGESTION_CORE_GET_SCHEDULER_ENABLED", "0")),
+        )
+    )
+    get_scheduler_interval = float(os.getenv("MATERIAL_INGESTION_CORE_GET_SCHEDULER_SECONDS", "15"))
+    get_scheduler_batch_size = max(1, int(os.getenv("MATERIAL_INGESTION_CORE_GET_BATCH_SIZE", "100")))
+    get_scheduler_concurrency = max(1, int(os.getenv("MATERIAL_INGESTION_CORE_GET_MAX_CONCURRENCY", "5")))
+    scheduler_threads: list[threading.Thread] = []
+    if evaluate_scheduler_enabled:
+        scheduler = threading.Thread(
+            target=_run_evaluate_scheduler_loop,
+            args=(state, evaluate_scheduler_interval, evaluate_scheduler_batch_size),
+            daemon=True,
+            name="web-evaluate-scheduler",
+        )
+        scheduler_threads.append(scheduler)
+    if get_scheduler_enabled:
+        scheduler = threading.Thread(
+            target=_run_get_scheduler_loop,
+            args=(state, get_scheduler_interval, get_scheduler_batch_size, get_scheduler_concurrency),
+            daemon=True,
+            name="web-get-scheduler",
+        )
+        scheduler_threads.append(scheduler)
     for thread in worker_threads:
+        thread.start()
+    for thread in scheduler_threads:
         thread.start()
 
     app = build_app(state)
@@ -997,12 +1398,16 @@ def main() -> int:
     signal.signal(signal.SIGINT, _handle_shutdown_signal)
     signal.signal(signal.SIGTERM, _handle_shutdown_signal)
     logger.info(
-        "runtime started host=%s port=%s scope=global-core-events workers_discover=%s workers_build=%s workers_fetch=%s",
+        "runtime started host=%s port=%s scope=global-core-events workers_discover=%s workers_build=%s workers_fetch=%s workers_evaluate=%s workers_get=%s evaluate_scheduler_enabled=%s get_scheduler_enabled=%s",
         host,
         port,
         discover_workers,
         build_workers,
         fetch_workers,
+        evaluate_workers,
+        get_workers,
+        evaluate_scheduler_enabled,
+        get_scheduler_enabled,
     )
     try:
         uvicorn.run(app, host=host, port=port, log_level="info")
@@ -1010,7 +1415,7 @@ def main() -> int:
         signal.signal(signal.SIGINT, previous_sigint)
         signal.signal(signal.SIGTERM, previous_sigterm)
         state.stop_event.set()
-        for thread in worker_threads:
+        for thread in worker_threads + scheduler_threads:
             thread.join(timeout=5)
     return 0
 

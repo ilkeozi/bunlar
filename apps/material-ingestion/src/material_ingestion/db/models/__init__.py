@@ -15,6 +15,7 @@ from .raw_web_fetch_xhr_observation import RawWebFetchXhrObservation
 from .raw_web_ingestion_event import RawWebIngestionEvent
 from .raw_web_crawl_allowlist_rule import RawWebCrawlAllowlistRule
 from .raw_web_frontier_score_rule import RawWebFrontierScoreRule
+from .raw_web_evaluation_rule import RawWebEvaluationRule
 from .raw_web_runtime_config import RawWebRuntimeConfig
 from .raw_web_page_crawl import RawWebPageCrawl
 from .raw_web_page_observation import RawWebPageObservation
@@ -50,6 +51,7 @@ __all__ = [
     "RawWebIngestionEvent",
     "RawWebCrawlAllowlistRule",
     "RawWebFrontierScoreRule",
+    "RawWebEvaluationRule",
     "RawWebRuntimeConfig",
     "RawWebPageCrawl",
     "RawWebPageObservation",

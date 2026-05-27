@@ -108,3 +108,18 @@ def get_runtime_int_config(*, key: str, default: int) -> int:
     except Exception:
         return int(default)
 
+
+def get_runtime_float_config(*, key: str, default: float) -> float:
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        row = (
+            session.query(RawWebRuntimeConfig)
+            .filter(RawWebRuntimeConfig.config_key == key, RawWebRuntimeConfig.enabled.is_(True))
+            .first()
+        )
+    if row is None:
+        return float(default)
+    try:
+        return float(str(row.config_value).strip())
+    except Exception:
+        return float(default)

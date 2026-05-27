@@ -85,6 +85,15 @@ class RuntimeAppRunsTest(unittest.TestCase):
         body = json.loads(result.body.decode("utf-8"))
         self.assertEqual("host_not_allowlisted", body["error"]["code"])
 
+    def test_trigger_evaluate_uses_default_batch_size(self) -> None:
+        endpoint = _endpoint("/evaluate", method="POST")
+        req = {"batch_size": 500}
+        with patch("material_ingestion.runtime_app.enqueue_frontier_evaluate_event", return_value=123) as enqueue_event:
+            result = endpoint(type("Req", (), req)())
+        self.assertTrue(result["accepted"])
+        self.assertEqual(123, result["event_id"])
+        self.assertEqual("frontier_evaluate_requested", result["event_type"])
+        enqueue_event.assert_called_once_with(batch_size=500)
 
 class RuntimeAppSystemEndpointsTest(unittest.TestCase):
     def test_healthz_endpoint(self) -> None:
@@ -125,7 +134,6 @@ class RuntimeAppSystemEndpointsTest(unittest.TestCase):
 
     def test_metrics_core_endpoint_shape(self) -> None:
         endpoint = _endpoint("/metrics/core")
-        now = datetime.now(UTC)
 
         class _Query:
             def __init__(self, rows):
@@ -135,34 +143,64 @@ class RuntimeAppSystemEndpointsTest(unittest.TestCase):
                 return self._rows
 
         class _ExecResult:
+            def __init__(self, payload):
+                self._payload = payload
+
             def mappings(self):
                 return self
 
             def first(self):
-                return {
-                    "crawl_runs": 1,
-                    "crawl_hosts": 2,
-                    "sitemap_sources": 3,
-                    "sitemap_entries": 4,
-                    "sitemap_alternates": 5,
-                    "frontier_items": 6,
-                    "fetch_attempts": 7,
-                    "http_representations": 8,
-                    "decisions": 9,
-                }
+                return self._payload
 
         class _Session:
+            def __init__(self):
+                self._exec_calls = 0
+
             def query(self, *_args):
                 return _Query(
                     [
                         ("core_discover_requested", "queued"),
                         ("frontier_build_requested", "running"),
                         ("frontier_fetch_requested", "done"),
+                        ("frontier_evaluate_requested", "queued"),
+                        ("frontier_get_requested", "running"),
                     ]
                 )
 
             def execute(self, *_args, **_kwargs):
-                return _ExecResult()
+                self._exec_calls += 1
+                if self._exec_calls == 1:
+                    return _ExecResult(
+                        {
+                            "crawl_runs": 1,
+                            "crawl_hosts": 2,
+                            "sitemap_sources": 3,
+                            "sitemap_entries": 4,
+                            "sitemap_alternates": 5,
+                            "frontier_items": 6,
+                            "fetch_attempts": 7,
+                            "http_representations": 8,
+                            "decisions": 9,
+                        }
+                    )
+                if self._exec_calls == 2:
+                    return _ExecResult(
+                        {
+                            "frontier_total": 50,
+                            "fetched": 30,
+                            "evaluated": 20,
+                            "promoted": 8,
+                            "get_success": 5,
+                            "candidate_count": 3,
+                        }
+                    )
+                return _ExecResult(
+                    {
+                        "eval_eligible_not_evaluated": 12,
+                        "eval_already_evaluated": 18,
+                        "get_eligible_now": 4,
+                    }
+                )
 
             def __enter__(self):
                 return self
@@ -177,9 +215,18 @@ class RuntimeAppSystemEndpointsTest(unittest.TestCase):
         self.assertIn("events", out)
         self.assertIn("backlog", out)
         self.assertIn("volumes", out)
-        self.assertEqual(1, out["events"]["queued"])
+        self.assertIn("funnel", out)
+        self.assertIn("eligibility", out)
+        self.assertEqual(2, out["events"]["queued"])
         self.assertEqual(1, out["backlog"]["build_running"])
+        self.assertEqual(1, out["backlog"]["evaluate_queued"])
+        self.assertEqual(1, out["backlog"]["get_running"])
         self.assertEqual(7, out["volumes"]["fetch_attempts"])
+        self.assertEqual(8, out["funnel"]["promoted"])
+        self.assertEqual(5, out["funnel"]["get_success"])
+        self.assertEqual(12, out["eligibility"]["eval_eligible_not_evaluated"])
+        self.assertEqual(18, out["eligibility"]["eval_already_evaluated"])
+        self.assertEqual(4, out["eligibility"]["get_eligible_now"])
 
 
 class RuntimeAppOpenApiTest(unittest.TestCase):
@@ -191,6 +238,33 @@ class RuntimeAppOpenApiTest(unittest.TestCase):
         self.assertIn("500", responses)
         self.assertIn("503", responses)
         self.assertEqual("Invalid request semantics.", responses["400"]["description"])
+
+    def test_openapi_includes_evaluation_rules_paths(self) -> None:
+        schema = build_app(RuntimeState()).openapi()
+        self.assertIn("/evaluation/rules", schema["paths"])
+        self.assertIn("/evaluation/rules/{rule_id}", schema["paths"])
+
+
+class RuntimeAppEvaluationRulesEndpointsTest(unittest.TestCase):
+    def test_get_evaluation_rules_maps_response(self) -> None:
+        endpoint = _endpoint("/evaluation/rules", method="GET")
+
+        class _Rule:
+            id = 5
+            action = "promote"
+            match_type = "contains"
+            pattern = "/datasheet"
+            weight = 10
+            enabled = True
+            priority = 40
+            note = "promote datasheet urls"
+
+        with patch("material_ingestion.runtime_app.list_evaluation_rules", return_value=[_Rule()]):
+            out = endpoint()
+
+        self.assertEqual(1, len(out))
+        self.assertEqual("promote", out[0].action)
+        self.assertEqual("/datasheet", out[0].pattern)
 
 
 class RuntimeWorkerLoopTest(unittest.TestCase):

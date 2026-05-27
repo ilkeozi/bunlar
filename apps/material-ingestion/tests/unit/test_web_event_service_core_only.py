@@ -57,6 +57,66 @@ class WebEventServiceCoreOnlyTest(unittest.TestCase):
             run_web_event(_Event())
         fetch_batch.assert_called_once()
 
+    def test_frontier_evaluate_requested_enqueues_get_when_promoted(self) -> None:
+        class _Event:
+            id = 13
+            orchestration_id = "batch_core_only"
+            event_type = "frontier_evaluate_requested"
+            payload_json = json.dumps({"batch_size": 100, "force": False})
+
+        with (
+            patch("material_ingestion.services.web_event_service.evaluate_frontier_batch", return_value=(10, 3, 5, 2)) as evaluate_batch,
+            patch("material_ingestion.services.web_event_service.enqueue_frontier_get_event") as enqueue_get,
+        ):
+            run_web_event(_Event())
+        evaluate_batch.assert_called_once()
+        enqueue_get.assert_called_once()
+
+    def test_frontier_evaluate_requested_skips_get_when_no_promotions(self) -> None:
+        class _Event:
+            id = 14
+            orchestration_id = "batch_core_only"
+            event_type = "frontier_evaluate_requested"
+            payload_json = json.dumps({"batch_size": 100, "force": False})
+
+        with (
+            patch("material_ingestion.services.web_event_service.evaluate_frontier_batch", return_value=(10, 0, 7, 3)) as evaluate_batch,
+            patch("material_ingestion.services.web_event_service.enqueue_frontier_get_event") as enqueue_get,
+        ):
+            run_web_event(_Event())
+        evaluate_batch.assert_called_once()
+        enqueue_get.assert_not_called()
+
+    def test_frontier_evaluate_requested_passes_force_true(self) -> None:
+        class _Event:
+            id = 16
+            orchestration_id = "batch_core_only"
+            event_type = "frontier_evaluate_requested"
+            payload_json = json.dumps({"batch_size": 42, "force": True})
+
+        with (
+            patch("material_ingestion.services.web_event_service.evaluate_frontier_batch", return_value=(0, 0, 0, 0)) as evaluate_batch,
+            patch("material_ingestion.services.web_event_service.enqueue_frontier_get_event") as enqueue_get,
+        ):
+            run_web_event(_Event())
+        evaluate_batch.assert_called_once()
+        self.assertTrue(bool(evaluate_batch.call_args.kwargs.get("force")))
+        enqueue_get.assert_not_called()
+
+    def test_frontier_get_requested_runs_get_worker(self) -> None:
+        class _Event:
+            id = 15
+            orchestration_id = "batch_core_only"
+            event_type = "frontier_get_requested"
+            payload_json = json.dumps({"batch_size": 10, "max_concurrency": 2})
+
+        with patch(
+            "material_ingestion.services.web_event_service.fetch_promoted_frontier_batch",
+            return_value=(10, 8, 2, 4),
+        ) as fetch_get_batch:
+            run_web_event(_Event())
+        fetch_get_batch.assert_called_once()
+
     def test_enqueue_core_discover_event_uses_core_event_type(self) -> None:
         with patch("material_ingestion.services.web_event_service.enqueue_web_event", return_value=99) as enqueue_event:
             event_id = enqueue_core_discover_event(run_key="run_1", seed_url="https://example.com")

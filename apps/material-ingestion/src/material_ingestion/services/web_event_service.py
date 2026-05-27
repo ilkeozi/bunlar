@@ -10,6 +10,10 @@ from datetime import timedelta
 
 from material_ingestion.db import create_session_factory
 from material_ingestion.db.models import (
+    RawWebCrawlDecision,
+    RawWebFrontierItem,
+    RawWebHttpFetchAttempt,
+    RawWebHttpRepresentation,
     RawWebCandidateEvent,
     RawWebDiscoveryEvent,
     RawWebDownloadEvent,
@@ -17,7 +21,9 @@ from material_ingestion.db.models import (
 )
 from material_ingestion.logging_schema import log_event
 from material_ingestion.services.web_crawl_frontier_builder_service import build_frontier_from_sitemaps
+from material_ingestion.services.web_crawl_frontier_evaluate_service import evaluate_frontier_batch
 from material_ingestion.services.web_crawl_frontier_fetch_service import fetch_frontier_batch
+from material_ingestion.services.web_crawl_frontier_get_service import fetch_promoted_frontier_batch
 from material_ingestion.services.web_crawl_retention_service import apply_decision_event_retention
 from material_ingestion.services.web_discovery_service import run_web_discover_pdfs
 from material_ingestion.services.web_download_service import run_web_download_job
@@ -32,7 +38,68 @@ CORE_STAGE_EVENT_TYPES: dict[str, list[str]] = {
     "discover": ["core_discover_requested"],
     "build": ["frontier_build_requested"],
     "fetch": ["frontier_fetch_requested"],
+    "evaluate": ["frontier_evaluate_requested"],
+    "get": ["frontier_get_requested"],
 }
+
+
+def _has_pending_or_running_event(*, event_type: str) -> bool:
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        existing = (
+            session.query(RawWebIngestionEvent.id)
+            .filter(
+                RawWebIngestionEvent.event_type == event_type,
+                RawWebIngestionEvent.status.in_(["queued", "running"]),
+            )
+            .first()
+        )
+        return existing is not None
+
+
+def _has_evaluate_eligible_frontier_items() -> bool:
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        latest_attempt_id = (
+            session.query(RawWebHttpFetchAttempt.uri_identity_id, RawWebHttpFetchAttempt.id.label("latest_attempt_id"))
+            .filter(RawWebHttpFetchAttempt.outcome == "success")
+            .order_by(RawWebHttpFetchAttempt.uri_identity_id.asc(), RawWebHttpFetchAttempt.id.desc())
+            .distinct(RawWebHttpFetchAttempt.uri_identity_id)
+            .subquery()
+        )
+        evaluated_exists = exists().where(
+            and_(
+                RawWebCrawlDecision.uri_identity_id == RawWebFrontierItem.uri_identity_id,
+                RawWebCrawlDecision.reason_code.in_(["eval_promote", "eval_defer", "eval_skip"]),
+            )
+        )
+        row = (
+            session.query(RawWebFrontierItem.id)
+            .join(latest_attempt_id, latest_attempt_id.c.uri_identity_id == RawWebFrontierItem.uri_identity_id)
+            .join(RawWebHttpRepresentation, RawWebHttpRepresentation.fetch_attempt_id == latest_attempt_id.c.latest_attempt_id)
+            .filter(RawWebFrontierItem.state == "completed")
+            .filter(RawWebFrontierItem.state_reason_code.in_(["head_metadata_success", "recent_success_skip"]))
+            .filter(~evaluated_exists)
+            .order_by(RawWebFrontierItem.id.asc())
+            .first()
+        )
+        return row is not None
+
+
+def _has_get_eligible_frontier_items() -> bool:
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        row = (
+            session.query(RawWebFrontierItem.id)
+            .filter(
+                RawWebFrontierItem.state == "completed",
+                RawWebFrontierItem.state_reason_code.in_(["eval_promote", "get_retry_scheduled"]),
+                RawWebFrontierItem.scheduled_at <= datetime.now(UTC),
+            )
+            .order_by(RawWebFrontierItem.id.asc())
+            .first()
+        )
+        return row is not None
 
 
 def _stale_cutoff(now: datetime | None = None) -> datetime:
@@ -306,6 +373,64 @@ def run_web_event(event: RawWebIngestionEvent) -> None:
         )
         return
 
+    if event.event_type == "frontier_evaluate_requested":
+        processed, promoted, deferred, skipped = evaluate_frontier_batch(
+            batch_size=int(payload.get("batch_size") or 500),
+            force=bool(payload.get("force", False)),
+            heartbeat_callback=lambda: touch_web_event_heartbeat(event.id),
+            progress_callback=lambda processed_count, promoted_count, deferred_count, skipped_count: log_event(
+                logger,
+                logging.INFO,
+                "frontier_evaluate_requested_progress",
+                orchestration_id=event.orchestration_id,
+                processed=processed_count,
+                promoted=promoted_count,
+                deferred=deferred_count,
+                skipped=skipped_count,
+            ),
+        )
+        log_event(
+            logger,
+            logging.INFO,
+            "frontier_evaluate_requested_completed",
+            orchestration_id=event.orchestration_id,
+            processed=processed,
+            promoted=promoted,
+            deferred=deferred,
+            skipped=skipped,
+        )
+        if promoted > 0:
+            enqueue_frontier_get_event()
+        return
+
+    if event.event_type == "frontier_get_requested":
+        processed, succeeded, failed, candidates = fetch_promoted_frontier_batch(
+            batch_size=int(payload.get("batch_size") or 100),
+            max_concurrency=int(payload.get("max_concurrency") or 5),
+            heartbeat_callback=lambda: touch_web_event_heartbeat(event.id),
+            progress_callback=lambda processed_count, success_count, failed_count, candidate_count: log_event(
+                logger,
+                logging.INFO,
+                "frontier_get_requested_progress",
+                orchestration_id=event.orchestration_id,
+                processed=processed_count,
+                succeeded=success_count,
+                failed=failed_count,
+                candidates=candidate_count,
+            ),
+        )
+        log_event(
+            logger,
+            logging.INFO,
+            "frontier_get_requested_completed",
+            orchestration_id=event.orchestration_id,
+            processed=processed,
+            succeeded=succeeded,
+            failed=failed,
+            candidates=candidates,
+        )
+        return
+
     if event.event_type == "discover_requested":
         run_web_discover_pdfs(argparse.Namespace(**payload))
         if bool(payload.get("core_only", False)):
@@ -397,6 +522,84 @@ def enqueue_core_discover_event(
     return enqueue_web_event(orchestration_id=run_key, event_type="core_discover_requested", payload=payload)
 
 
+def enqueue_frontier_evaluate_event(
+    *,
+    batch_size: int = 500,
+    orchestration_id: str = "global_frontier_evaluate",
+    force: bool = False,
+) -> int | None:
+    now = datetime.now(UTC)
+    cutoff = _stale_cutoff(now)
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        stale_running = (
+            session.query(RawWebIngestionEvent)
+            .filter(
+                RawWebIngestionEvent.event_type == "frontier_evaluate_requested",
+                RawWebIngestionEvent.status == "running",
+                RawWebIngestionEvent.heartbeat_at.is_not(None),
+                RawWebIngestionEvent.heartbeat_at < cutoff,
+            )
+            .all()
+        )
+        for row in stale_running:
+            row.status = "queued"
+            row.next_retry_at = now
+            row.error_text = "stale evaluate event auto-requeued during enqueue"
+            row.finished_at = now
+            row.heartbeat_at = now
+        if stale_running:
+            session.commit()
+        if _has_pending_or_running_event(event_type="frontier_evaluate_requested"):
+            return None
+        if not bool(force) and not _has_evaluate_eligible_frontier_items():
+            return None
+    return enqueue_web_event(
+        orchestration_id=orchestration_id,
+        event_type="frontier_evaluate_requested",
+        payload={"batch_size": int(batch_size), "force": bool(force)},
+    )
+
+
+def enqueue_frontier_get_event(
+    *,
+    batch_size: int = 100,
+    max_concurrency: int = 5,
+    orchestration_id: str = "global_frontier_get",
+) -> int | None:
+    now = datetime.now(UTC)
+    cutoff = _stale_cutoff(now)
+    session_factory = create_session_factory()
+    with session_factory() as session:
+        stale_running = (
+            session.query(RawWebIngestionEvent)
+            .filter(
+                RawWebIngestionEvent.event_type == "frontier_get_requested",
+                RawWebIngestionEvent.status == "running",
+                RawWebIngestionEvent.heartbeat_at.is_not(None),
+                RawWebIngestionEvent.heartbeat_at < cutoff,
+            )
+            .all()
+        )
+        for row in stale_running:
+            row.status = "queued"
+            row.next_retry_at = now
+            row.error_text = "stale get event auto-requeued during enqueue"
+            row.finished_at = now
+            row.heartbeat_at = now
+        if stale_running:
+            session.commit()
+        if _has_pending_or_running_event(event_type="frontier_get_requested"):
+            return None
+        if not _has_get_eligible_frontier_items():
+            return None
+    return enqueue_web_event(
+        orchestration_id=orchestration_id,
+        event_type="frontier_get_requested",
+        payload={"batch_size": int(batch_size), "max_concurrency": int(max_concurrency)},
+    )
+
+
 def run_web_worker(args: argparse.Namespace) -> int:
     processed = 0
     retention_last_sweep_at: datetime | None = None
@@ -486,9 +689,10 @@ def run_web_core_worker(args: argparse.Namespace) -> int:
         processed += 1
         if args.once:
             break
+    log_level = logging.INFO if processed > 0 else logging.DEBUG
     log_event(
         logger,
-        logging.INFO,
+        log_level,
         "core_worker_loop_completed",
         orchestration_id=args.orchestration_id or "all",
         processed=processed,
@@ -620,3 +824,4 @@ def run_web_status(args: argparse.Namespace) -> int:
         for e in reversed(w_events):
             log_event(logger, logging.INFO, "web_status_stage_event", stage="download", id=e.id, orchestration_id=e.orchestration_id, event_type=e.event_type, source_url=e.source_url, status_code=e.status_code)
     return 0
+from sqlalchemy import and_, exists
