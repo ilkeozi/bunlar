@@ -27,6 +27,11 @@ from sqlalchemy.dialects.postgresql import insert as pg_insert
 
 logger = logging.getLogger("material_ingestion.web")
 HREF_RE = re.compile(r"""href\s*=\s*["']([^"'#\s>]+)["']""", re.IGNORECASE)
+_INSERT_EXTRACTED_LINK = (
+    pg_insert(RawWebExtractedLink).on_conflict_do_nothing(
+        index_elements=["source_uri_identity_id", "target_uri_identity_id"]
+    )
+)
 SKIP_LINK_PREFIXES = ("mailto:", "tel:", "javascript:", "data:")
 SKIP_LINK_SUFFIXES = (
     ".css",
@@ -494,16 +499,8 @@ def fetch_promoted_frontier_batch(
 
             if extracted_link_pairs and processed % commit_every == 0:
                 session.execute(
-                    pg_insert(RawWebExtractedLink),
-                    [
-                        {
-                            "source_uri_identity_id": source_id,
-                            "target_uri_identity_id": target_id,
-                            "rel": "",
-                            "anchor_text": "",
-                        }
-                        for source_id, target_id in extracted_link_pairs
-                    ],
+                    _INSERT_EXTRACTED_LINK,
+                    [{"source_uri_identity_id": s, "target_uri_identity_id": t, "rel": "", "anchor_text": ""} for s, t in extracted_link_pairs],
                 )
                 extracted_link_pairs.clear()
 
@@ -513,16 +510,8 @@ def fetch_promoted_frontier_batch(
                 session.commit()
         if extracted_link_pairs:
             session.execute(
-                pg_insert(RawWebExtractedLink),
-                [
-                    {
-                        "source_uri_identity_id": source_id,
-                        "target_uri_identity_id": target_id,
-                        "rel": "",
-                        "anchor_text": "",
-                    }
-                    for source_id, target_id in extracted_link_pairs
-                ],
+                _INSERT_EXTRACTED_LINK,
+                [{"source_uri_identity_id": s, "target_uri_identity_id": t, "rel": "", "anchor_text": ""} for s, t in extracted_link_pairs],
             )
             extracted_link_pairs.clear()
 

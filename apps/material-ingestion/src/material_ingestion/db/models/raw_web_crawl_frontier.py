@@ -52,4 +52,7 @@ class RawWebCrawlDecision(Base):
     detail_json: Mapped[str] = mapped_column(Text, nullable=False, default="{}")
     recorded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
 
-    __table_args__ = (Index("ix_raw_web_crawl_decision_run", "crawl_run_id"),)
+    __table_args__ = (
+        Index("ix_raw_web_crawl_decision_run", "crawl_run_id"),
+        Index("ix_raw_web_crawl_decision_uri_reason", "uri_identity_id", "reason_code"),
+    )

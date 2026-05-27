@@ -68,7 +68,7 @@ class RawWebExtractedLink(Base):
 
     __table_args__ = (
         Index("ix_raw_web_extracted_link_target_uri_identity_id", "target_uri_identity_id"),
-        Index("ix_raw_web_extracted_link_source_target", "source_uri_identity_id", "target_uri_identity_id"),
+        UniqueConstraint("source_uri_identity_id", "target_uri_identity_id", name="uq_raw_web_extracted_link_source_target"),
     )
 
 
