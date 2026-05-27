@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import re
+from dataclasses import dataclass
 from typing import Callable
 
 from sqlalchemy import and_, exists
@@ -17,12 +18,25 @@ from material_ingestion.db.models import (
     RawWebHttpRepresentation,
     RawWebUriIdentity,
 )
+from material_ingestion.services.shared_cache_service import local_cache_get, local_cache_set
 from material_ingestion.services.web_runtime_config_service import get_runtime_int_config
 
 logger = logging.getLogger("material_ingestion.web")
 
+_EVAL_RULES_CACHE_KEY = "eval_rules:snapshot"
+_EVAL_RULES_CACHE_TTL = max(1, int(os.getenv("MATERIAL_INGESTION_EVAL_RULES_CACHE_TTL", "30")))
 
-def _rule_matches(rule: RawWebEvaluationRule, haystack: str) -> bool:
+
+@dataclass(frozen=True)
+class _RuleSnapshot:
+    id: int
+    match_type: str
+    pattern: str
+    weight: int
+    action: str
+
+
+def _rule_matches(rule: _RuleSnapshot, haystack: str) -> bool:
     match_type = str(rule.match_type or "").strip().lower()
     pattern = str(rule.pattern or "")
     if not pattern:
@@ -34,6 +48,31 @@ def _rule_matches(rule: RawWebEvaluationRule, haystack: str) -> bool:
     if match_type == "regex":
         return re.search(pattern, haystack, re.IGNORECASE) is not None
     return False
+
+
+def _load_rules(session_factory: object) -> list[_RuleSnapshot]:
+    cached = local_cache_get(_EVAL_RULES_CACHE_KEY)
+    if cached is not None:
+        return cached  # type: ignore[return-value]
+    with session_factory() as session:  # type: ignore[operator]
+        db_rules = (
+            session.query(RawWebEvaluationRule)
+            .filter(RawWebEvaluationRule.enabled.is_(True))
+            .order_by(RawWebEvaluationRule.priority.asc(), RawWebEvaluationRule.id.asc())
+            .all()
+        )
+        snapshots = [
+            _RuleSnapshot(
+                id=int(r.id),
+                match_type=str(r.match_type or ""),
+                pattern=str(r.pattern or ""),
+                weight=int(r.weight or 0),
+                action=str(r.action or "defer"),
+            )
+            for r in db_rules
+        ]
+    local_cache_set(_EVAL_RULES_CACHE_KEY, snapshots, _EVAL_RULES_CACHE_TTL)
+    return snapshots
 
 
 def evaluate_frontier_batch(
@@ -54,14 +93,9 @@ def evaluate_frontier_batch(
     deferred = 0
     skipped = 0
 
-    with session_factory() as session:
-        rules = (
-            session.query(RawWebEvaluationRule)
-            .filter(RawWebEvaluationRule.enabled.is_(True))
-            .order_by(RawWebEvaluationRule.priority.asc(), RawWebEvaluationRule.id.asc())
-            .all()
-        )
+    rules = _load_rules(session_factory)
 
+    with session_factory() as session:
         latest_attempt_id = (
             session.query(RawWebHttpFetchAttempt.uri_identity_id, RawWebHttpFetchAttempt.id.label("latest_attempt_id"))
             .filter(RawWebHttpFetchAttempt.outcome == "success")

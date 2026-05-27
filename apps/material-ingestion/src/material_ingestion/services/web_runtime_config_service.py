@@ -1,7 +1,17 @@
 from __future__ import annotations
 
+import os
+
 from material_ingestion.db import create_session_factory
 from material_ingestion.db.models import RawWebRuntimeConfig
+from material_ingestion.services.shared_cache_service import (
+    local_cache_get,
+    local_cache_invalidate_prefix,
+    local_cache_set,
+)
+
+_RUNTIME_CONFIG_CACHE_TTL = max(1, int(os.getenv("MATERIAL_INGESTION_RUNTIME_CONFIG_CACHE_TTL", "30")))
+_CACHE_PREFIX = "runtime_config:"
 
 
 def list_runtime_configs(*, enabled_only: bool = False) -> list[RawWebRuntimeConfig]:
@@ -14,6 +24,10 @@ def list_runtime_configs(*, enabled_only: bool = False) -> list[RawWebRuntimeCon
         for row in rows:
             session.expunge(row)
         return rows
+
+
+def _invalidate_config_cache() -> None:
+    local_cache_invalidate_prefix(_CACHE_PREFIX)
 
 
 def create_runtime_config(*, config_key: str, config_value: str, enabled: bool = True, note: str = "") -> int:
@@ -31,6 +45,7 @@ def create_runtime_config(*, config_key: str, config_value: str, enabled: bool =
         session.add(row)
         session.commit()
         session.refresh(row)
+        _invalidate_config_cache()
         return int(row.id)
 
 
@@ -59,6 +74,7 @@ def update_runtime_config(
         if note is not None:
             row.note = str(note)
         session.commit()
+        _invalidate_config_cache()
         return True
 
 
@@ -70,6 +86,7 @@ def delete_runtime_config(*, config_id: int) -> bool:
             return False
         session.delete(row)
         session.commit()
+        _invalidate_config_cache()
         return True
 
 
@@ -90,10 +107,15 @@ def replace_runtime_configs(*, rows: list[dict[str, object]]) -> int:
                 )
             )
         session.commit()
+        _invalidate_config_cache()
         return len(rows)
 
 
 def get_runtime_int_config(*, key: str, default: int) -> int:
+    cache_key = f"{_CACHE_PREFIX}{key}"
+    cached = local_cache_get(cache_key)
+    if cached is not None:
+        return int(cached)  # type: ignore[arg-type]
     session_factory = create_session_factory()
     with session_factory() as session:
         row = (
@@ -101,15 +123,19 @@ def get_runtime_int_config(*, key: str, default: int) -> int:
             .filter(RawWebRuntimeConfig.config_key == key, RawWebRuntimeConfig.enabled.is_(True))
             .first()
         )
-    if row is None:
-        return int(default)
     try:
-        return int(str(row.config_value).strip())
+        value = int(str(row.config_value).strip()) if row is not None else int(default)
     except Exception:
-        return int(default)
+        value = int(default)
+    local_cache_set(cache_key, value, _RUNTIME_CONFIG_CACHE_TTL)
+    return value
 
 
 def get_runtime_float_config(*, key: str, default: float) -> float:
+    cache_key = f"{_CACHE_PREFIX}{key}"
+    cached = local_cache_get(cache_key)
+    if cached is not None:
+        return float(cached)  # type: ignore[arg-type]
     session_factory = create_session_factory()
     with session_factory() as session:
         row = (
@@ -117,9 +143,9 @@ def get_runtime_float_config(*, key: str, default: float) -> float:
             .filter(RawWebRuntimeConfig.config_key == key, RawWebRuntimeConfig.enabled.is_(True))
             .first()
         )
-    if row is None:
-        return float(default)
     try:
-        return float(str(row.config_value).strip())
+        value = float(str(row.config_value).strip()) if row is not None else float(default)
     except Exception:
-        return float(default)
+        value = float(default)
+    local_cache_set(cache_key, value, _RUNTIME_CONFIG_CACHE_TTL)
+    return value
