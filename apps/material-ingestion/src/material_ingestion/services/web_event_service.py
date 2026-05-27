@@ -685,6 +685,14 @@ def run_web_core_worker(args: argparse.Namespace) -> int:
             logger.debug("event=core_worker_event_failed_trace event_id=%s", event.id, exc_info=True)
             return 1
         mark_web_event_done(event.id)
+        # After marking done the event is no longer "running", so the duplicate-guard
+        # in enqueue_frontier_get_event will allow a new event if items remain.
+        if event.event_type == "frontier_get_requested":
+            _get_payload = json.loads(event.payload_json or "{}")
+            enqueue_frontier_get_event(
+                batch_size=int(_get_payload.get("batch_size") or 100),
+                max_concurrency=int(_get_payload.get("max_concurrency") or 5),
+            )
         args.last_orchestration_id = event.orchestration_id
         processed += 1
         if args.once:

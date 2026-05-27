@@ -106,6 +106,27 @@ def evaluate_frontier_batch(
         if not rows:
             return 0, 0, 0, 0
 
+        # Preload existing eval decisions for the whole batch in one query to avoid N+1.
+        # In normal mode the ~evaluated_exists filter guarantees none exist, so we skip this.
+        # In force mode items may already have decisions that need updating rather than inserting.
+        existing_decisions: dict[tuple[int, int], RawWebCrawlDecision] = {}
+        if bool(force):
+            uri_ids_in_batch = [int(fi.uri_identity_id) for fi, *_ in rows]
+            run_ids_in_batch = list({int(fi.crawl_run_id) for fi, *_ in rows})
+            prior = (
+                session.query(RawWebCrawlDecision)
+                .filter(
+                    RawWebCrawlDecision.crawl_run_id.in_(run_ids_in_batch),
+                    RawWebCrawlDecision.uri_identity_id.in_(uri_ids_in_batch),
+                    RawWebCrawlDecision.reason_code.in_(["eval_promote", "eval_defer", "eval_skip"]),
+                )
+                .all()
+            )
+            for d in prior:
+                key = (int(d.crawl_run_id), int(d.uri_identity_id))
+                if key not in existing_decisions or int(d.id) > int(existing_decisions[key].id):
+                    existing_decisions[key] = d
+
         for frontier_item, canonical_uri, content_type, content_language, content_disposition, link in rows:
             processed += 1
             if heartbeat_callback:
@@ -153,15 +174,8 @@ def evaluate_frontier_batch(
                 },
                 sort_keys=True,
             )
-            existing_eval_decision = (
-                session.query(RawWebCrawlDecision)
-                .filter(
-                    RawWebCrawlDecision.crawl_run_id == int(frontier_item.crawl_run_id),
-                    RawWebCrawlDecision.uri_identity_id == int(frontier_item.uri_identity_id),
-                    RawWebCrawlDecision.reason_code.in_(["eval_promote", "eval_defer", "eval_skip"]),
-                )
-                .order_by(RawWebCrawlDecision.id.desc())
-                .first()
+            existing_eval_decision = existing_decisions.get(
+                (int(frontier_item.crawl_run_id), int(frontier_item.uri_identity_id))
             )
             if existing_eval_decision is not None:
                 existing_eval_decision.decision_type = decision_type
