@@ -130,8 +130,10 @@ class WebCrawlFrontierEvaluateServiceTest(unittest.TestCase):
             self.assertEqual(1, len(decisions))
             self.assertEqual("eval_promote", decisions[0].reason_code)
 
-    def test_force_true_re_evaluates_existing_eval_state(self) -> None:
-        frontier_id = self._seed_frontier_fixture(state_reason_code="eval_defer")
+    def test_force_true_re_evaluates_recent_success_skip_with_existing_decision(self) -> None:
+        # Force bypasses cross-run dedup: a recent_success_skip item with an existing
+        # eval decision must be processed; non-force must skip it.
+        frontier_id = self._seed_frontier_fixture(state_reason_code="recent_success_skip")
         with (
             patch(
                 "material_ingestion.services.web_crawl_frontier_evaluate_service.create_session_factory",
@@ -142,7 +144,16 @@ class WebCrawlFrontierEvaluateServiceTest(unittest.TestCase):
                 return_value=6,
             ),
         ):
+            # First force pass creates the decision.
+            evaluate_frontier_batch(batch_size=10, force=True)
+            # Reset back to recent_success_skip to simulate re-appearance in a new run.
+            with self.session_factory() as session:
+                item = session.query(RawWebFrontierItem).filter(RawWebFrontierItem.id == frontier_id).first()
+                item.state_reason_code = "recent_success_skip"
+                session.commit()
+            # Non-force skips it (decision already exists).
             processed_no_force = evaluate_frontier_batch(batch_size=10, force=False)[0]
+            # Force processes it again.
             processed_force = evaluate_frontier_batch(batch_size=10, force=True)[0]
 
         self.assertEqual(0, processed_no_force)
@@ -241,12 +252,13 @@ class WebCrawlFrontierEvaluateServiceTest(unittest.TestCase):
                 )
             session.commit()
 
-    def test_force_batch_preload_no_duplicate_decisions_for_multiple_items(self) -> None:
-        # Seed three items; first normal eval promotes them all; force re-eval must
-        # update in place via batch preload — not create new decision rows.
+    def test_force_batch_processes_recent_success_skip_with_existing_decisions(self) -> None:
+        # Force re-eval bypasses the cross-run dedup check: it must process
+        # recent_success_skip items even when they already have eval decisions,
+        # updating in place via batch preload — not creating new decision rows.
         self._seed_multiple_frontier_items(
             uris=[f"https://multi.example.com/product/{i}" for i in range(3)],
-            state_reason_code="head_metadata_success",
+            state_reason_code="recent_success_skip",
         )
         patches = (
             patch(
@@ -259,13 +271,21 @@ class WebCrawlFrontierEvaluateServiceTest(unittest.TestCase):
             ),
         )
         with patches[0], patches[1]:
-            processed_first, promoted_first, _, _ = evaluate_frontier_batch(batch_size=10, force=False)
-            processed_force, promoted_force, _, _ = evaluate_frontier_batch(batch_size=10, force=True)
+            # First force pass: no existing decisions — items are inserted.
+            processed_first, promoted_first, _, _ = evaluate_frontier_batch(batch_size=10, force=True)
+            # Items are now eval_promote; seed them back to recent_success_skip to
+            # simulate a new crawl run re-adding the same URLs to the frontier.
+            with self.session_factory() as session:
+                for item in session.query(RawWebFrontierItem).all():
+                    item.state_reason_code = "recent_success_skip"
+                session.commit()
+            # Second force pass: decisions already exist — preload must update, not insert.
+            processed_second, promoted_second, _, _ = evaluate_frontier_batch(batch_size=10, force=True)
 
         self.assertEqual(3, processed_first)
         self.assertEqual(3, promoted_first)
-        self.assertEqual(3, processed_force)
-        self.assertEqual(3, promoted_force)
+        self.assertEqual(3, processed_second)
+        self.assertEqual(3, promoted_second)
         with self.session_factory() as session:
             # Exactly one decision row per item — batch preload must not have created extras
             all_decisions = session.query(RawWebCrawlDecision).all()

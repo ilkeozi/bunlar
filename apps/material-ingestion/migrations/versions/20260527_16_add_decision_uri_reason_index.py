@@ -18,7 +18,7 @@ depends_on = None
 def upgrade() -> None:
     op.execute(
         """
-        CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_raw_web_crawl_decision_uri_reason
+        CREATE INDEX IF NOT EXISTS ix_raw_web_crawl_decision_uri_reason
           ON raw_web_crawl_decision (uri_identity_id, reason_code)
         """
     )

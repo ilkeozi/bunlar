@@ -86,6 +86,7 @@ def _has_evaluate_eligible_frontier_items() -> bool:
         return row is not None
 
 
+
 def _has_get_eligible_frontier_items() -> bool:
     session_factory = create_session_factory()
     with session_factory() as session:
@@ -374,32 +375,54 @@ def run_web_event(event: RawWebIngestionEvent) -> None:
         return
 
     if event.event_type == "frontier_evaluate_requested":
-        processed, promoted, deferred, skipped = evaluate_frontier_batch(
-            batch_size=int(payload.get("batch_size") or 500),
-            force=bool(payload.get("force", False)),
-            heartbeat_callback=lambda: touch_web_event_heartbeat(event.id),
-            progress_callback=lambda processed_count, promoted_count, deferred_count, skipped_count: log_event(
+        batch_size = int(payload.get("batch_size") or 500)
+        force = bool(payload.get("force", False))
+        total_processed = total_promoted = total_deferred = total_skipped = 0
+        while True:
+            processed, promoted, deferred, skipped = evaluate_frontier_batch(
+                batch_size=batch_size,
+                force=force,
+                heartbeat_callback=lambda: touch_web_event_heartbeat(event.id),
+                progress_callback=lambda processed_count, promoted_count, deferred_count, skipped_count: log_event(
+                    logger,
+                    logging.INFO,
+                    "frontier_evaluate_requested_progress",
+                    orchestration_id=event.orchestration_id,
+                    processed=processed_count,
+                    promoted=promoted_count,
+                    deferred=deferred_count,
+                    skipped=skipped_count,
+                ),
+            )
+            total_processed += processed
+            total_promoted += promoted
+            total_deferred += deferred
+            total_skipped += skipped
+            if processed == 0:
+                break
+            log_event(
                 logger,
                 logging.INFO,
-                "frontier_evaluate_requested_progress",
+                "frontier_evaluate_chunk_completed",
                 orchestration_id=event.orchestration_id,
-                processed=processed_count,
-                promoted=promoted_count,
-                deferred=deferred_count,
-                skipped=skipped_count,
-            ),
-        )
+                chunk_processed=processed,
+                chunk_promoted=promoted,
+                chunk_deferred=deferred,
+                chunk_skipped=skipped,
+                total_processed=total_processed,
+                total_promoted=total_promoted,
+            )
         log_event(
             logger,
             logging.INFO,
             "frontier_evaluate_requested_completed",
             orchestration_id=event.orchestration_id,
-            processed=processed,
-            promoted=promoted,
-            deferred=deferred,
-            skipped=skipped,
+            processed=total_processed,
+            promoted=total_promoted,
+            deferred=total_deferred,
+            skipped=total_skipped,
         )
-        if promoted > 0:
+        if total_promoted > 0:
             enqueue_frontier_get_event()
         return
 
@@ -564,7 +587,7 @@ def enqueue_frontier_evaluate_event(
 def enqueue_frontier_get_event(
     *,
     batch_size: int = 500,
-    max_concurrency: int = 20,
+    max_concurrency: int = 50,
     orchestration_id: str = "global_frontier_get",
 ) -> int | None:
     now = datetime.now(UTC)
@@ -685,13 +708,12 @@ def run_web_core_worker(args: argparse.Namespace) -> int:
             logger.debug("event=core_worker_event_failed_trace event_id=%s", event.id, exc_info=True)
             return 1
         mark_web_event_done(event.id)
-        # After marking done the event is no longer "running", so the duplicate-guard
-        # in enqueue_frontier_get_event will allow a new event if items remain.
+        # Re-enqueue GET after marking done so the duplicate-guard sees the event as finished.
         if event.event_type == "frontier_get_requested":
             _get_payload = json.loads(event.payload_json or "{}")
             enqueue_frontier_get_event(
                 batch_size=int(_get_payload.get("batch_size") or 500),
-                max_concurrency=int(_get_payload.get("max_concurrency") or 20),
+                max_concurrency=int(_get_payload.get("max_concurrency") or 50),
             )
         args.last_orchestration_id = event.orchestration_id
         processed += 1

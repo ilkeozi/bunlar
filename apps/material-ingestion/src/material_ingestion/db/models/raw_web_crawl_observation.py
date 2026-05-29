@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, Index, Integer, String, Text, UniqueConstraint, func
+from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Index, Integer, String, Text, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from material_ingestion.db.base import Base
@@ -20,6 +20,9 @@ class RawWebHttpFetchAttempt(Base):
     requested_url: Mapped[str] = mapped_column(Text, nullable=False, default="")
     final_url: Mapped[str] = mapped_column(Text, nullable=False, default="")
     redirect_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    ttfb_ms: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    read_ms: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    total_ms: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     requested_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
     completed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
 
@@ -113,4 +116,29 @@ class RawWebCandidateDocument(Base):
         UniqueConstraint("uri_identity_id", "source_uri_identity_id", name="uq_raw_web_candidate_document_unique"),
         Index("ix_raw_web_candidate_document_uri", "uri_identity_id"),
         Index("ix_raw_web_candidate_document_decision_state", "decision_state"),
+    )
+
+
+class RawWebPageText(Base):
+    __tablename__ = "raw_web_page_text"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    fetch_attempt_id: Mapped[int] = mapped_column(
+        ForeignKey("raw_web_http_fetch_attempt.id", ondelete="CASCADE"),
+        nullable=False,
+        unique=True,
+    )
+    title: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    meta_description: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    h1: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    lang: Mapped[str] = mapped_column(String(32), nullable=False, default="")
+    body_text: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    raw_html_length: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    text_length: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    text_ratio: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    render_needed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    extracted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+    __table_args__ = (
+        Index("ix_raw_web_page_text_render_needed", "render_needed"),
     )

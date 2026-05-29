@@ -7,6 +7,7 @@ import hashlib
 import json
 import logging
 import os
+from urllib.error import HTTPError
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
@@ -163,6 +164,11 @@ def _head_scan_url(*, canonical_uri: str, timeout_seconds: float) -> dict[str, o
                 content_length = int(raw_content_length)
         outcome = "success"
         reason_code = "head_metadata_success"
+    except HTTPError as exc:
+        status_code = int(exc.code or 0)
+        error_text = str(exc)
+        if exc.headers:
+            retry_after = str(exc.headers.get("Retry-After", "") or "")
     except Exception as exc:
         error_text = str(exc)
 

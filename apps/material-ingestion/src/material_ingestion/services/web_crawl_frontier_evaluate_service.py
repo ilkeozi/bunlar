@@ -111,11 +111,6 @@ def evaluate_frontier_batch(
             )
         )
 
-        eligible_reason_codes = ["head_metadata_success", "recent_success_skip"]
-        if bool(force):
-            # Forced re-evaluation includes already evaluated rows.
-            eligible_reason_codes.extend(["eval_promote", "eval_defer", "eval_skip"])
-
         query = (
             session.query(
                 RawWebFrontierItem,
@@ -129,7 +124,7 @@ def evaluate_frontier_batch(
             .join(latest_attempt_id, latest_attempt_id.c.uri_identity_id == RawWebFrontierItem.uri_identity_id)
             .join(RawWebHttpRepresentation, RawWebHttpRepresentation.fetch_attempt_id == latest_attempt_id.c.latest_attempt_id)
             .filter(RawWebFrontierItem.state == "completed")
-            .filter(RawWebFrontierItem.state_reason_code.in_(eligible_reason_codes))
+            .filter(RawWebFrontierItem.state_reason_code.in_(["head_metadata_success", "recent_success_skip"]))
         )
         if not bool(force):
             query = query.filter(~evaluated_exists)

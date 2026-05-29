@@ -30,6 +30,7 @@ from .raw_web_crawl_observation import (
     RawWebHttpFetchAttempt,
     RawWebHttpRepresentation,
     RawWebPageMetadata,
+    RawWebPageText,
     RawWebStructuredDataRecord,
 )
 
@@ -72,5 +73,6 @@ __all__ = [
     "RawWebHttpFetchAttempt",
     "RawWebHttpRepresentation",
     "RawWebPageMetadata",
+    "RawWebPageText",
     "RawWebStructuredDataRecord",
 ]

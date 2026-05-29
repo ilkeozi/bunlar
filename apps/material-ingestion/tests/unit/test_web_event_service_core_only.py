@@ -65,11 +65,11 @@ class WebEventServiceCoreOnlyTest(unittest.TestCase):
             payload_json = json.dumps({"batch_size": 100, "force": False})
 
         with (
-            patch("material_ingestion.services.web_event_service.evaluate_frontier_batch", return_value=(10, 3, 5, 2)) as evaluate_batch,
+            patch("material_ingestion.services.web_event_service.evaluate_frontier_batch", side_effect=[(10, 3, 5, 2), (0, 0, 0, 0)]) as evaluate_batch,
             patch("material_ingestion.services.web_event_service.enqueue_frontier_get_event") as enqueue_get,
         ):
             run_web_event(_Event())
-        evaluate_batch.assert_called_once()
+        self.assertEqual(2, evaluate_batch.call_count)
         enqueue_get.assert_called_once()
 
     def test_frontier_evaluate_requested_skips_get_when_no_promotions(self) -> None:
@@ -80,11 +80,11 @@ class WebEventServiceCoreOnlyTest(unittest.TestCase):
             payload_json = json.dumps({"batch_size": 100, "force": False})
 
         with (
-            patch("material_ingestion.services.web_event_service.evaluate_frontier_batch", return_value=(10, 0, 7, 3)) as evaluate_batch,
+            patch("material_ingestion.services.web_event_service.evaluate_frontier_batch", side_effect=[(10, 0, 7, 3), (0, 0, 0, 0)]) as evaluate_batch,
             patch("material_ingestion.services.web_event_service.enqueue_frontier_get_event") as enqueue_get,
         ):
             run_web_event(_Event())
-        evaluate_batch.assert_called_once()
+        self.assertEqual(2, evaluate_batch.call_count)
         enqueue_get.assert_not_called()
 
     def test_frontier_evaluate_requested_passes_force_true(self) -> None:

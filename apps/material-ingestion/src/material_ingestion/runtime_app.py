@@ -54,6 +54,15 @@ from material_ingestion.services.web_event_service import (
     enqueue_frontier_get_event,
 )
 from material_ingestion.services.web_event_service import run_web_core_worker
+from material_ingestion.services.url_intelligence import (
+    CrawlBudget,
+    PatternStats,
+    SourceContext,
+    compare_actual_vs_planned,
+    decide as url_intelligence_decide,
+    load_analysis_dataset_from_db,
+    run_planning_from_db,
+)
 from sqlalchemy import desc, text
 
 logger = logging.getLogger("material_ingestion.runtime")
@@ -202,6 +211,7 @@ class EvaluateRequest(BaseModel):
         description="When true, enqueue evaluate even if normal eligibility check is empty.",
         examples=[False],
     )
+
 
 
 class RunErrorDetail(BaseModel):
@@ -379,6 +389,72 @@ class RuntimeConfigReplaceRequest(BaseModel):
     rows: list[RuntimeConfigCreate]
 
 
+# ---------------------------------------------------------------------------
+# URL intelligence models
+# ---------------------------------------------------------------------------
+
+
+class URLDecideRequest(BaseModel):
+    url: str = Field(..., min_length=1, description="URL to classify.", examples=["https://example.com/tds/ProductA_TDS.pdf"])
+    # Source context (all optional)
+    source_type: str = Field(default="", description="Discovery source: sitemap | extracted_link | manual_seed.", examples=["sitemap"])
+    anchor_text: str = Field(default="", description="Anchor text of the inbound link.", examples=["Technical Data Sheet"])
+    source_page_role: str = Field(default="", description="Role of the linking page, e.g. document_listing.", examples=["document_listing"])
+    has_english_hreflang: bool = Field(default=False, description="Source page has an English hreflang alternate.")
+    came_from_sitemap: bool = Field(default=False, description="URL appeared directly in a sitemap.")
+    source_page_produced_document_candidates: bool = Field(default=False, description="Linking page previously yielded document candidates.")
+    source_is_navigation_heavy: bool = Field(default=False, description="Linking page is a navigation element (footer/header).")
+    # Pattern stats (all optional; omit or set pattern_sample_count=null to skip)
+    pattern_sample_count: int | None = Field(default=None, ge=0, description="Observed fetches for this URL pattern. Omit to skip pattern scoring.")
+    pattern_render_needed_count: int = Field(default=0, ge=0, description="Of the sample, how many required JS rendering.")
+    pattern_candidate_document_count: int = Field(default=0, ge=0, description="Total candidate documents found across the sample.")
+    pattern_technical_document_count: int = Field(default=0, ge=0, description="Technical documents (TDS/SDS) found in the sample.")
+    pattern_noise_count: int = Field(default=0, ge=0, description="Noise/error outcomes in the sample.")
+    pattern_useful_link_count: int = Field(default=0, ge=0, description="Samples that produced useful outbound links.")
+    pattern_avg_total_ms: float = Field(default=0.0, ge=0, description="Average fetch latency for this pattern (ms).")
+
+
+class URLDecideResponse(BaseModel):
+    canonical_url: str = Field(description="Normalised canonical form of the input URL.")
+    next_action: str = Field(description="Recommended crawl action.", examples=["fetch_document"])
+    url_role: str = Field(description="Inferred URL role.", examples=["technical_document"])
+    final_score: int = Field(description="Sum of url_score + source_score + pattern_score.")
+    url_score: int = Field(description="Score derived from URL string signals.")
+    source_score: int = Field(description="Score derived from discovery context.")
+    pattern_score: int = Field(description="Score derived from historical pattern stats.")
+    reason_codes: list[str] = Field(description="All reason codes that influenced the decision.")
+    selected_template: str = Field(description="RFC-6570-style route template inferred for the URL.")
+
+
+class CrawlPlanResponse(BaseModel):
+    crawl_run_key: str | None
+    crawl_run_id: int | None
+    budget_usage: dict[str, int] = Field(description="Consumed budget counters: static_gets, renders, document_fetches.")
+    reason_summary: dict[str, int] = Field(description="Reason code → count across all planned URLs.")
+    host_summary: list[dict] = Field(description="Per-host static_gets / renders / document_fetches, sorted by total descending.")
+    template_summary: list[dict] = Field(description="Per-template static_gets / renders, sorted by total descending.")
+    stopped_static_get_count: int = Field(description="URLs where only static GET is stopped (not globally rejected).")
+    globally_rejected_count: int = Field(description="URLs globally rejected as noise/asset.")
+    top_selected: list[dict] = Field(description="Top-20 selected URLs with action, score, and reason codes.")
+    top_deferred: list[dict] = Field(description="Top-20 deferred URLs.")
+    top_rejected: list[dict] = Field(description="Top-20 globally rejected URLs.")
+    top_stopped_static_templates: list[dict] = Field(description="Top-20 URLs where static GET was stopped.")
+    top_document_fetches: list[dict] = Field(description="Top-20 selected FETCH_DOCUMENT URLs.")
+
+
+class CrawlPlanCompareResponse(BaseModel):
+    actual_static_gets_by_host: dict[str, int]
+    planned_static_gets_by_host: dict[str, int]
+    actual_static_gets_by_template: dict[str, int]
+    planned_static_gets_by_template: dict[str, int]
+    actual_render_needed_by_template: dict[str, int]
+    stopped_static_get_templates: list[str]
+    planned_docs_not_fetched: list[dict]
+    hosts_where_planner_reduces: list[dict]
+    templates_where_planner_reduces: list[dict]
+    promoted_technical_documents: list[dict]
+
+
 def _is_db_ready() -> bool:
     try:
         session_factory = create_session_factory()
@@ -469,6 +545,7 @@ def build_app(state: RuntimeState) -> FastAPI:
             {"name": "scoring", "description": "Frontier URL scoring rule CRUD for pre-fetch gating."},
             {"name": "evaluation", "description": "Frontier evaluation rule CRUD for post-fetch promotion/defer decisions."},
             {"name": "runtime-config", "description": "Runtime scheduling/configuration CRUD."},
+            {"name": "url-intelligence", "description": "URL classification, crawl planning, and actual-vs-planned analysis."},
         ],
     )
 
@@ -1254,6 +1331,163 @@ def build_app(state: RuntimeState) -> FastAPI:
             if len(items) >= bounded_limit:
                 break
         return RunListResponse(runs=items)
+
+    # -----------------------------------------------------------------------
+    # URL intelligence endpoints
+    # -----------------------------------------------------------------------
+
+    @app.post(
+        "/url-intelligence/decide",
+        tags=["url-intelligence"],
+        response_model=URLDecideResponse,
+        summary="Classify a URL",
+        description=(
+            "Classifies a single URL and returns a recommended crawl action, URL role, scores, "
+            "and reason codes.\n\n"
+            "No database access — purely in-memory analysis of the URL string plus optional "
+            "source context and pattern stats you supply in the request body."
+        ),
+        responses={400: {"model": ErrorResponse, "description": "URL could not be parsed."}},
+    )
+    def post_url_decide(req: URLDecideRequest) -> URLDecideResponse:
+        ctx = SourceContext(
+            source_type=req.source_type,
+            anchor_text=req.anchor_text,
+            source_page_role=req.source_page_role,
+            has_english_hreflang=req.has_english_hreflang,
+            came_from_sitemap=req.came_from_sitemap,
+            source_page_produced_document_candidates=req.source_page_produced_document_candidates,
+            source_is_navigation_heavy=req.source_is_navigation_heavy,
+        )
+        stats: PatternStats | None = None
+        if req.pattern_sample_count is not None:
+            stats = PatternStats(
+                sample_count=req.pattern_sample_count,
+                render_needed_count=req.pattern_render_needed_count,
+                candidate_document_count=req.pattern_candidate_document_count,
+                technical_document_count=req.pattern_technical_document_count,
+                noise_count=req.pattern_noise_count,
+                useful_link_count=req.pattern_useful_link_count,
+                avg_total_ms=req.pattern_avg_total_ms,
+            )
+        try:
+            decision = url_intelligence_decide(req.url, context=ctx, stats=stats)
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=f"url_parse_error: {exc}") from exc
+        return URLDecideResponse(
+            canonical_url=decision.canonical_url,
+            next_action=decision.next_action.value,
+            url_role=decision.url_role.value,
+            final_score=decision.scores.final_score,
+            url_score=decision.scores.url_score,
+            source_score=decision.scores.source_score,
+            pattern_score=decision.scores.pattern_score,
+            reason_codes=list(decision.reason_codes),
+            selected_template=decision.selected_template,
+        )
+
+    @app.get(
+        "/url-intelligence/crawl-plans/{run_key}",
+        tags=["url-intelligence"],
+        response_model=CrawlPlanResponse,
+        summary="Run a crawl plan for a crawl run",
+        description=(
+            "Loads DB data for the given crawl run, runs the URL intelligence planner, "
+            "and returns a structured planning report.\n\n"
+            "Read-only — does not mutate the frontier or any database rows."
+        ),
+        responses={404: {"model": ErrorResponse, "description": "Crawl run key not found."}},
+    )
+    def get_crawl_plan(
+        run_key: str,
+        max_static_gets: int = 200,
+        max_renders: int = 20,
+        max_document_fetches: int = 100,
+        max_static_gets_per_host: int = 50,
+        max_renders_per_host: int = 5,
+        max_static_gets_per_template: int = 30,
+        max_renders_per_template: int = 3,
+        min_host_exploration_slots: int = 5,
+    ) -> CrawlPlanResponse:
+        budget = CrawlBudget(
+            max_static_gets=max_static_gets,
+            max_renders=max_renders,
+            max_document_fetches=max_document_fetches,
+            max_static_gets_per_host=max_static_gets_per_host,
+            max_renders_per_host=max_renders_per_host,
+            max_static_gets_per_template=max_static_gets_per_template,
+            max_renders_per_template=max_renders_per_template,
+            min_host_exploration_slots=min_host_exploration_slots,
+        )
+        session_factory = create_session_factory()
+        try:
+            with session_factory() as session:
+                report = run_planning_from_db(session, crawl_run_key=run_key, budget=budget)
+        except ValueError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        summary = report.to_summary_dict()
+        return CrawlPlanResponse(
+            crawl_run_key=report.crawl_run_key,
+            crawl_run_id=report.crawl_run_id,
+            budget_usage=summary["budget_usage"],
+            reason_summary=summary["reason_summary"],
+            host_summary=summary["host_summary"],
+            template_summary=summary["template_summary"],
+            stopped_static_get_count=summary["stopped_static_get_count"],
+            globally_rejected_count=summary["globally_rejected_count"],
+            top_selected=report.top_selected,
+            top_deferred=report.top_deferred,
+            top_rejected=report.top_rejected,
+            top_stopped_static_templates=report.top_stopped_static_templates,
+            top_document_fetches=report.top_document_fetches,
+        )
+
+    @app.get(
+        "/url-intelligence/crawl-plans/{run_key}/compare",
+        tags=["url-intelligence"],
+        response_model=CrawlPlanCompareResponse,
+        summary="Compare actual fetches vs crawl plan",
+        description=(
+            "Loads DB data for the given crawl run, produces a crawl plan, then compares "
+            "what was actually fetched against what the planner would recommend.\n\n"
+            "Returns per-host and per-template reduction opportunities, "
+            "document URLs the planner would prioritise that have not yet been fetched, "
+            "and templates where static GET should be stopped.\n\n"
+            "Read-only — does not mutate the frontier or any database rows."
+        ),
+        responses={404: {"model": ErrorResponse, "description": "Crawl run key not found."}},
+    )
+    def get_crawl_plan_compare(
+        run_key: str,
+        max_static_gets: int = 200,
+        max_renders: int = 20,
+        max_document_fetches: int = 100,
+        max_static_gets_per_host: int = 50,
+        max_renders_per_host: int = 5,
+        max_static_gets_per_template: int = 30,
+        max_renders_per_template: int = 3,
+        min_host_exploration_slots: int = 5,
+    ) -> CrawlPlanCompareResponse:
+        budget = CrawlBudget(
+            max_static_gets=max_static_gets,
+            max_renders=max_renders,
+            max_document_fetches=max_document_fetches,
+            max_static_gets_per_host=max_static_gets_per_host,
+            max_renders_per_host=max_renders_per_host,
+            max_static_gets_per_template=max_static_gets_per_template,
+            max_renders_per_template=max_renders_per_template,
+            min_host_exploration_slots=min_host_exploration_slots,
+        )
+        session_factory = create_session_factory()
+        try:
+            with session_factory() as session:
+                dataset = load_analysis_dataset_from_db(session, crawl_run_key=run_key)
+                report = run_planning_from_db(session, crawl_run_key=run_key, budget=budget)
+        except ValueError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        comparison = compare_actual_vs_planned(dataset, report.plan)
+        d = comparison.to_dict()
+        return CrawlPlanCompareResponse(**d)
 
     @app.on_event("shutdown")
     def _shutdown() -> None:
